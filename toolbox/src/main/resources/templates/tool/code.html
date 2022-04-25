@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${'加密解密-'+title}">加密解密</title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/assets/tool/code/code.css">
+</head>
+<body>
+<div style="margin: 10px">
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">加密/解密</li>
+            <li>散列/哈希</li>
+            <li>Base64</li>
+            <li>URLEncode</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">算法</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="encryptAlgorithm" value="AES" title="AES" checked="checked">
+                            <input type="radio" name="encryptAlgorithm" value="DES" title="DES">
+                            <input type="radio" name="encryptAlgorithm" value="RC4" title="RC4">
+                            <input type="radio" name="encryptAlgorithm" value="Rabbit" title="Rabbit">
+                            <input type="radio" name="encryptAlgorithm" value="TripleDes" title="TripleDes">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输入</label>
+                        <div class="layui-input-block">
+                            <textarea id="encryptInput" placeholder="请输入内容" class="layui-textarea"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="encryptPassword" autocomplete="off" placeholder="请输入密码（非必填）"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="encrypt" class="layui-btn layui-btn-normal">加密</button>
+                            <button id="decrypt" class="layui-btn layui-btn-warm">解密</button>
+                            <button id="encryptClear" class="layui-btn layui-btn-danger">清空</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输出</label>
+                        <div class="layui-input-block">
+                            <textarea id="encryptOutput" placeholder="这里输出处理结果" class="layui-textarea"
+                                      readonly="readonly"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输入</label>
+                        <div class="layui-input-block">
+                            <textarea id="hashInput" placeholder="请输入内容" class="layui-textarea"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">算法</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="hashAlgorithm" value="SHA1" title="SHA1" checked="checked">
+                            <input type="radio" name="hashAlgorithm" value="SHA224" title="SHA224">
+                            <input type="radio" name="hashAlgorithm" value="SHA256" title="SHA256">
+                            <input type="radio" name="hashAlgorithm" value="SHA384" title="SHA384">
+                            <input type="radio" name="hashAlgorithm" value="SHA512" title="SHA512">
+                            <input type="radio" name="hashAlgorithm" value="MD5" title="MD5">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="hashMakeLower" class="layui-btn layui-btn-normal">生成小写</button>
+                            <button id="hashMakeUpper" class="layui-btn layui-btn-normal">生成大写</button>
+                            <button id="hashClear" class="layui-btn layui-btn-danger">清空</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输出</label>
+                        <div class="layui-input-block">
+                            <textarea id="hashOutput" placeholder="这里输出处理结果" class="layui-textarea"
+                                      readonly="readonly"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输入</label>
+                        <div class="layui-input-block">
+                            <textarea id="baseInput" placeholder="请输入内容" class="layui-textarea"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="baseEncode" class="layui-btn layui-btn-normal">编码</button>
+                            <button id="baseDecode" class="layui-btn layui-btn-warm">解码</button>
+                            <button id="baseExchange" class="layui-btn">交换</button>
+                            <button id="baseClear" class="layui-btn layui-btn-danger">清空</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输出</label>
+                        <div class="layui-input-block">
+                            <textarea id="baseOutput" placeholder="这里输出处理结果" class="layui-textarea"
+                                      readonly="readonly"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输入</label>
+                        <div class="layui-input-block">
+                            <textarea id="urlInput" placeholder="请输入内容" class="layui-textarea"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="urlEncode" class="layui-btn layui-btn-normal">编码</button>
+                            <button id="urlDecode" class="layui-btn layui-btn-warm">解码</button>
+                            <button id="urlExchange" class="layui-btn">交换</button>
+                            <button id="urlClear" class="layui-btn layui-btn-danger">清空</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输出</label>
+                        <div class="layui-input-block">
+                            <textarea id="urlOutput" placeholder="这里输出处理结果" class="layui-textarea"
+                                      readonly="readonly"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/tool/code/crypto-js.js"></script>
+<script src="/assets/tool/code/base64.js"></script>
+<script src="/assets/tool/code/code.js"></script>
+</body>
+</html>

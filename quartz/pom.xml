@@ -7,13 +7,10 @@
         <artifactId>xhub</artifactId>
         <version>1.0.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>quartz</artifactId>
-
-    <description>
-        quartz定时任务
-    </description>
+    <description>quartz定时任务</description>
 
     <dependencies>
 

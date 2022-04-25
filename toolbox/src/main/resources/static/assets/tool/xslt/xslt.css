@@ -1,0 +1,29 @@
+#xsltEditor {
+    width: 100%;
+    height: 60vh;
+    border: 1px solid #ebebeb;
+}
+
+#sourceEditor {
+    width: 100%;
+    height: 40vh;
+    border: 1px solid #ebebeb;
+}
+
+#resultEditor {
+    width: 100%;
+    height: 40vh;
+    border: 1px solid #ebebeb;
+}
+
+.ctrl {
+    margin-top: 10px;
+}
+
+.left {
+    padding-right: 10px;
+}
+
+.right {
+    padding-left: 10px;
+}

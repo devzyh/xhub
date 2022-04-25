@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${'实用在线工具-'+title}">实用在线工具</title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/layui/css/layui.css">
+    <style>
+        #editor {
+            width: 100%;
+            height: 92vh;
+            border: 1px solid #ebebeb;
+        }
+    </style>
+</head>
+<body>
+<div style="margin: 10px">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" id="format">格式化XML</button>
+        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="compress">压缩XML</button>
+        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" id="clear">清空输入</button>
+    </div>
+    <div id="editor"></div>
+</div>
+
+<script src="/assets/jquery/jquery.min.js"></script>
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/ace/ace.js"></script>
+<script src="/assets/tool/xml/jquery.format.js"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/sqlserver");
+    editor.session.setMode("ace/mode/xml");
+    editor.setFontSize("14px");
+    editor.setOption("wrap", "free");
+
+    layui.use([], function () {
+
+        $("#format").click(function () {
+            editor.setValue($.format(editor.getValue(), {method: 'xml'}));
+        });
+
+        $("#compress").click(function () {
+            editor.setValue($.format(editor.getValue(), {method: 'xmlmin'}));
+        });
+
+        $("#clear").click(function () {
+            editor.setValue("");
+        });
+    });
+</script>
+</body>
+</html>

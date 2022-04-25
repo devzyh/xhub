@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${'XSLT转换测试-'+title}">XSLT转换测试</title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/assets/tool/xslt/xslt.css">
+</head>
+<body>
+<div style="margin: 10px">
+
+    <div class="layui-row main">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>XSLT代码</legend>
+        </fieldset>
+        <div id="xsltEditor"></div>
+    </div>
+
+    <div class="layui-row ctrl">
+        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="convert">转换XML数据</button>
+        <!--        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" id="format">格式化转换代码</button>-->
+        <!--        <button type="button" class="layui-btn layui-btn-sm" id="compress">压缩转换代码</button>-->
+        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" id="formatSource">格式化XML数据</button>
+        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" id="clear">清空转换结果</button>
+    </div>
+
+    <div class="layui-row">
+        <div class="layui-col-md6 left">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>XML数据</legend>
+            </fieldset>
+            <div id="sourceEditor"></div>
+        </div>
+        <div class="layui-col-md6 right">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>转换结果</legend>
+            </fieldset>
+            <div id="resultEditor"></div>
+        </div>
+    </div>
+
+</div>
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/ace/ace.js"></script>
+<script src="/assets/tool/xslt/xslt.js"></script>
+<script>
+    var xsltEditor = ace.edit("xsltEditor");
+    xsltEditor.setTheme("ace/theme/sqlserver");
+    xsltEditor.session.setMode("ace/mode/xml");
+    xsltEditor.setFontSize("14px");
+    xsltEditor.setOption("wrap", "free");
+
+    var sourceEditor = ace.edit("sourceEditor");
+    sourceEditor.setTheme("ace/theme/sqlserver");
+    sourceEditor.session.setMode("ace/mode/xml");
+    sourceEditor.setFontSize("14px");
+    sourceEditor.setOption("wrap", "free");
+
+    var resultEditor = ace.edit("resultEditor");
+    resultEditor.setFontSize("14px");
+    resultEditor.setOption("wrap", "free");
+    resultEditor.setReadOnly(true);
+
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.$;
+
+        $("#convert").click(function () {
+            try {
+                resultEditor.setValue(convertOriginalData(xsltEditor.getValue(), sourceEditor.getValue()));
+            } catch (err) {
+                resultEditor.setValue("错误信息：" + err.message);
+            }
+        });
+
+        $("#format").click(function () {
+            xsltEditor.setValue(formatXml(xsltEditor.getValue()));
+        });
+
+        $("#compress").click(function () {
+            xsltEditor.setValue(compressXml(xsltEditor.getValue()));
+        });
+
+        $("#formatSource").click(function () {
+            sourceEditor.setValue(formatXml(sourceEditor.getValue()));
+        });
+
+        $("#clear").click(function () {
+            resultEditor.setValue("");
+        });
+    });
+</script>
+</body>
+</html>

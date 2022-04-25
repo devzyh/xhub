@@ -10,7 +10,7 @@
 
     <name>xhub</name>
     <url>https://www.devzyh.cn</url>
-    <description>软件工具箱</description>
+    <description>X-Hub</description>
 
     <properties>
         <project.version>1.0.0</project.version>
@@ -164,6 +164,20 @@
                 <version>${kaptcha.version}</version>
             </dependency>
 
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>cn.devzyh</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 核心模块-->
+            <dependency>
+                <groupId>cn.devzyh</groupId>
+                <artifactId>framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- 定时任务-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
@@ -178,17 +192,10 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 核心模块-->
+            <!-- 软件工具-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
-                <artifactId>framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- 通用工具-->
-            <dependency>
-                <groupId>cn.devzyh</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>toolbox</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -201,6 +208,7 @@
         <module>framework</module>
         <module>quartz</module>
         <module>generator</module>
+        <module>toolbox</module>
     </modules>
     <packaging>pom</packaging>
 

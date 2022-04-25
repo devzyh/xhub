@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${data.pageTitle}+${title}">search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/assets/global/css/global.css">
+</head>
+<body>
+
+<div th:include="header"></div>
+
+<div class="layui-container">
+    <div class="fly-panel" style="margin-bottom: 0;">
+        <div class="fly-panel-title fly-filter" style="margin-top: 20px;">
+            <span class="layui-this">搜索结果如下：</span>
+        </div>
+
+        <ul class="fly-list">
+            <li th:each="result: ${data.resultList}">
+                <a href="#" target="_blank" class="fly-avatar">
+                    <img th:src="${result.avatar}" th:alt="${result.source}">
+                </a>
+                <h2>
+                    <a th:href="${result.url}" target="_blank" th:text="${result.title}"></a>
+                </h2>
+                <div class="fly-list-info">
+                    <span th:text="'首次发布时间：'+${result.postDate}"></span>
+                </div>
+                <div class="fly-list-badge">
+                    <span class="layui-badge layui-bg-green" th:each="tag: ${result.tags}" th:text="${tag}"></span>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div th:include="footer"></div>
+
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/global/js/global.js"></script>
+</body>
+</html>

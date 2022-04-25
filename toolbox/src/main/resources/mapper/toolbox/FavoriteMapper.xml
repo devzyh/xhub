@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.devzyh.toolbox.mapper.FavoriteMapper">
+
+    <select id="findAll" resultType="cn.devzyh.toolbox.domain.Favorite">
+        SELECT id,
+               item,
+               name,
+               href,
+               remark,
+               icon,
+               seq,
+               target
+        FROM favorite
+        ORDER BY item, seq
+    </select>
+
+    <select id="search" parameterType="string" resultType="cn.devzyh.toolbox.domain.Favorite">
+        SELECT id,
+               item,
+               name,
+               href,
+               remark,
+               icon,
+               seq,
+               target
+        FROM favorite
+        WHERE name LIKE CONCAT('%', #{key}, '%')
+        ORDER BY  item, seq
+    </select>
+
+</mapper>

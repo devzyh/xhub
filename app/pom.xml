@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>main</artifactId>
+    <artifactId>app</artifactId>
 
     <description>
         web服务入口
@@ -46,6 +46,12 @@
         <dependency>
             <groupId>cn.devzyh</groupId>
             <artifactId>generator</artifactId>
+        </dependency>
+
+        <!-- 软件工具-->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>toolbox</artifactId>
         </dependency>
 
     </dependencies>

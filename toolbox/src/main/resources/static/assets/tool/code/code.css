@@ -1,0 +1,7 @@
+.layui-input-block textarea {
+    resize: none;
+}
+
+.layui-form-item .layui-input-block button {
+    cursor: pointer;
+}
