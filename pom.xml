@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.devzyh</groupId>
-    <artifactId>toolbox</artifactId>
+    <artifactId>xhub</artifactId>
     <version>1.0.0</version>
 
-    <name>toolbox</name>
+    <name>xhub</name>
     <url>https://www.devzyh.cn</url>
     <description>软件工具箱</description>
 
