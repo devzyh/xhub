@@ -4,7 +4,7 @@ import cn.devzyh.common.constant.ToolConstants;
 
 import java.util.Map;
 
-public interface IConfigService {
+public interface IToolDictDataService {
 
     /**
      * 获取指定分组对照表

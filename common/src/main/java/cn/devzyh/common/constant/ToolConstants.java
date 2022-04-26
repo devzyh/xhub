@@ -8,7 +8,7 @@ public class ToolConstants {
     /**
      * 工具视图
      */
-    public class Index {
+    public class Home {
         public static final String FAVORITES = "favorites"; // 链接信息
     }
 
@@ -23,11 +23,11 @@ public class ToolConstants {
      * 配置大类
      */
     public enum Item {
-        SITE_INFO("SITE_INFO"), // 站点信息
-        ARTICLE_TAG("ARTICLE_TAG"), // 文章标签
-        ARTICLE_SOURCE("ARTICLE_SOURCE"), // 文章来源平台
-        ARTICLE_SOURCE_IMAGE("ARTICLE_SOURCE_IMAGE"), // 文章来源平台图像
-        FAVORITE_ITEM_IMAGE("FAVORITE_ITEM_IMAGE"); // 收藏分组图像
+        SITE_INFO("tool_site_info"), // 站点信息
+        ARTICLE_TAG("tool_article_tag"), // 文章标签
+        ARTICLE_SOURCE("tool_article_source"), // 文章来源平台
+        ARTICLE_SOURCE_IMAGE("tool_article_source_image"), // 文章来源平台图像
+        FAVORITE_ITEM_IMAGE("tool_favorite_item_image"); // 收藏分组图像
 
         private final String item;
 

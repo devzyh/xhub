@@ -1,9 +1,9 @@
 package cn.devzyh.toolbox.service.impl;
 
 import cn.devzyh.common.constant.ToolConstants;
-import cn.devzyh.toolbox.domain.Config;
-import cn.devzyh.toolbox.mapper.ConfigMapper;
-import cn.devzyh.toolbox.service.IConfigService;
+import cn.devzyh.common.core.domain.entity.SysDictData;
+import cn.devzyh.toolbox.mapper.ToolDictDataMapper;
+import cn.devzyh.toolbox.service.IToolDictDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,17 @@ import java.util.Map;
 
 
 @Service
-public class ConfigServiceImpl implements IConfigService {
+public class ToolDictDataServiceImpl implements IToolDictDataService {
 
     @Autowired
-    private ConfigMapper configMapper;
+    private ToolDictDataMapper toolDictDataMapper;
 
     @Override
     public Map<String, String> getConfigMapByItem(ToolConstants.Item item) {
         Map<String, String> map = new HashMap<>();
-        List<Config> details = configMapper.findByItem(item.getValue());
+        List<SysDictData> details = toolDictDataMapper.selectDictDataByType(item.getValue());
         details.forEach(detail -> {
-            map.put(detail.getName(), detail.getValue());
+            map.put(detail.getDictValue(), detail.getDictLabel());
         });
         return map;
     }

@@ -3,6 +3,14 @@
 git config --global credential.helper store
 git pull origin master
 
+# npm
+cd admin
+npm run build:prod
+cd ..
+
+# move
+cp -r admin/dist/ build/admin/
+
 # maven
 mvn clean package
 

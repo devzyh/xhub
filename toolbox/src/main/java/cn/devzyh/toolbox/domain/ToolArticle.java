@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 文章表
  */
-public class Article {
+public class ToolArticle {
 
     private Integer id; // ID
     private String title; // 标题

@@ -1,12 +1,12 @@
 package cn.devzyh.toolbox.service.impl;
 
 import cn.devzyh.common.constant.ToolConstants;
-import cn.devzyh.toolbox.domain.Article;
+import cn.devzyh.toolbox.domain.ToolArticle;
 import cn.devzyh.toolbox.domain.vo.ResultVO;
 import cn.devzyh.toolbox.domain.vo.SearchVO;
-import cn.devzyh.toolbox.mapper.ArticleMapper;
-import cn.devzyh.toolbox.service.IConfigService;
-import cn.devzyh.toolbox.service.ISearchService;
+import cn.devzyh.toolbox.mapper.ToolArticleMapper;
+import cn.devzyh.toolbox.service.IToolDictDataService;
+import cn.devzyh.toolbox.service.IToolSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
  * 文章搜索服务
  */
 @Service
-public class SearchArticleServiceImpl implements ISearchService {
+public class ToolToolSearchArticleServiceImpl implements IToolSearchService {
 
     @Autowired
-    private ArticleMapper articleMapper;
+    private ToolArticleMapper toolArticleMapper;
     @Autowired
-    private IConfigService IConfigService;
+    private IToolDictDataService IConfigService;
 
     @Override
     public SearchVO search(String key) {
@@ -45,16 +45,16 @@ public class SearchArticleServiceImpl implements ISearchService {
 
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
-        List<Article> articleList = articleMapper.search(key);
-        for (Article article : articleList) {
+        List<ToolArticle> toolArticleList = toolArticleMapper.search(key);
+        for (ToolArticle toolArticle : toolArticleList) {
             ResultVO resultVo = new ResultVO();
-            resultVo.setTitle(article.getTitle());
-            resultVo.setUrl(article.getUrl());
-            resultVo.setPostDate(article.getCreated());
-            resultVo.setDigest(article.getDigest());
-            resultVo.setAvatar(imageMap.get(article.getSource()));
-            resultVo.setSource(sourceMap.get(article.getSource()));
-            resultVo.setTags(article.getTags().stream()
+            resultVo.setTitle(toolArticle.getTitle());
+            resultVo.setUrl(toolArticle.getUrl());
+            resultVo.setPostDate(toolArticle.getCreated());
+            resultVo.setDigest(toolArticle.getDigest());
+            resultVo.setAvatar(imageMap.get(toolArticle.getSource()));
+            resultVo.setSource(sourceMap.get(toolArticle.getSource()));
+            resultVo.setTags(toolArticle.getTags().stream()
                     .map(tagMap::get)
                     .collect(Collectors.toList()));
             resultVOList.add(resultVo);

@@ -1,12 +1,12 @@
 package cn.devzyh.toolbox.service.impl;
 
 import cn.devzyh.common.constant.ToolConstants;
-import cn.devzyh.toolbox.domain.Favorite;
+import cn.devzyh.toolbox.domain.ToolFavorite;
 import cn.devzyh.toolbox.domain.vo.ResultVO;
 import cn.devzyh.toolbox.domain.vo.SearchVO;
-import cn.devzyh.toolbox.mapper.FavoriteMapper;
-import cn.devzyh.toolbox.service.IConfigService;
-import cn.devzyh.toolbox.service.ISearchService;
+import cn.devzyh.toolbox.mapper.ToolFavoriteMapper;
+import cn.devzyh.toolbox.service.IToolDictDataService;
+import cn.devzyh.toolbox.service.IToolSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +20,12 @@ import java.util.Map;
  * 文章搜索服务
  */
 @Service
-public class SearchFavoriteServiceImpl implements ISearchService {
+public class ToolToolSearchFavoriteServiceImpl implements IToolSearchService {
 
     @Autowired
-    private FavoriteMapper favoriteMapper;
+    private ToolFavoriteMapper toolFavoriteMapper;
     @Autowired
-    private IConfigService IConfigService;
+    private IToolDictDataService IConfigService;
 
     @Override
     public SearchVO search(String key) {
@@ -44,17 +44,17 @@ public class SearchFavoriteServiceImpl implements ISearchService {
 
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
-        List<Favorite> articleList = favoriteMapper.search(key);
+        List<ToolFavorite> articleList = toolFavoriteMapper.search(key);
         LocalDate now = LocalDate.now();
-        for (Favorite favorite : articleList) {
+        for (ToolFavorite toolFavorite : articleList) {
             ResultVO resultVo = new ResultVO();
-            resultVo.setTitle(favorite.getName());
-            resultVo.setUrl(favorite.getHref());
+            resultVo.setTitle(toolFavorite.getName());
+            resultVo.setUrl(toolFavorite.getHref());
             resultVo.setPostDate(now);
-            resultVo.setDigest(favorite.getRemark());
-            resultVo.setAvatar(imageMap.get(favorite.getItem()));
-            resultVo.setSource(favorite.getItem());
-            resultVo.setTags(Collections.singletonList(favorite.getItem()));
+            resultVo.setDigest(toolFavorite.getRemark());
+            resultVo.setAvatar(imageMap.get(toolFavorite.getItem()));
+            resultVo.setSource(toolFavorite.getItem());
+            resultVo.setTags(Collections.singletonList(toolFavorite.getItem()));
             resultVOList.add(resultVo);
         }
         searchVo.setResultList(resultVOList);

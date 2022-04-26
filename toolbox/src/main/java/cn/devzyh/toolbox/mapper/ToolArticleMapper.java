@@ -1,6 +1,6 @@
 package cn.devzyh.toolbox.mapper;
 
-import cn.devzyh.toolbox.domain.Article;
+import cn.devzyh.toolbox.domain.ToolArticle;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * 文章数据层
  */
-@Mapper
-public interface ArticleMapper {
+public interface ToolArticleMapper {
 
     /**
      * 模糊搜索标题
@@ -18,5 +17,5 @@ public interface ArticleMapper {
      * @param key 关键字
      * @return
      */
-    List<Article> search(@Param("key") String key);
+    List<ToolArticle> search(@Param("key") String key);
 }

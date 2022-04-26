@@ -5,7 +5,7 @@ import cn.devzyh.toolbox.domain.vo.SearchVO;
 /**
  * 搜索服务
  */
-public interface ISearchService {
+public interface IToolSearchService {
 
     /**
      * 搜索内容
@@ -14,4 +14,5 @@ public interface ISearchService {
      * @return
      */
     SearchVO search(String key);
+
 }

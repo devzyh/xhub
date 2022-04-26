@@ -3,7 +3,7 @@ package cn.devzyh.toolbox.domain;
 /**
  * 收藏夹
  */
-public class Favorite {
+public class ToolFavorite {
 
     private Integer id; // ID
     private String item; // 分组

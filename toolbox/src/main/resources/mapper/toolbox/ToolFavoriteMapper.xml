@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.devzyh.toolbox.mapper.FavoriteMapper">
+<mapper namespace="cn.devzyh.toolbox.mapper.ToolFavoriteMapper">
 
-    <select id="findAll" resultType="cn.devzyh.toolbox.domain.Favorite">
+    <select id="findAll" resultType="cn.devzyh.toolbox.domain.ToolFavorite">
         SELECT id,
                item,
                name,
@@ -11,11 +11,11 @@
                icon,
                seq,
                target
-        FROM favorite
+        FROM tool_favorite
         ORDER BY item, seq
     </select>
 
-    <select id="search" parameterType="string" resultType="cn.devzyh.toolbox.domain.Favorite">
+    <select id="search" parameterType="string" resultType="cn.devzyh.toolbox.domain.ToolFavorite">
         SELECT id,
                item,
                name,
@@ -24,7 +24,7 @@
                icon,
                seq,
                target
-        FROM favorite
+        FROM tool_favorite
         WHERE name LIKE CONCAT('%', #{key}, '%')
         ORDER BY  item, seq
     </select>
