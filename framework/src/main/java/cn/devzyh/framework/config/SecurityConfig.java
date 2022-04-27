@@ -98,6 +98,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rest/login", "/rest/register", "/rest/captchaImage").anonymous()
                 // 头像获取接口允许匿名访问
                 .antMatchers("/rest" + Constants.RESOURCE_PREFIX + "/**").anonymous()
+                // 数据源监控运行匿名访问
+                .antMatchers("/rest/druid/**").anonymous()
                 // 后端接口必须鉴权认证才能访问
                 .antMatchers("/rest/**").authenticated()
                 // 其余路径完全开放

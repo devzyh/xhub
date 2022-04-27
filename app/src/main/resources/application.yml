@@ -1,7 +1,7 @@
 # 项目相关配置
 project:
   # 名称
-  name: xhub
+  name: X-Hub
   # 版本
   version: 1.0.0
   # 版权年份
@@ -105,13 +105,6 @@ pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
   params: count=countSql
-
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
-  # 请求前缀
-  pathMapping: /dev-api
 
 # 防止XSS攻击
 xss:
