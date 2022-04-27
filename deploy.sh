@@ -7,9 +7,7 @@ git pull origin master
 cd admin
 npm run build:prod
 cd ..
-
-# move
-cp -r admin/dist/ build/admin/
+echo "Vue Success"
 
 # maven
 mvn clean package
