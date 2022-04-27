@@ -16,7 +16,7 @@ layui.use(['element', 'layer'], function () {
                 layer.msg("请输入搜索内容！");
                 return;
             }
-            window.location.href = "/tool/" + type + "?key=" + key;
+            window.location.href = "/" + type + "?key=" + key;
         }
     });
 
