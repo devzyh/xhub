@@ -15,12 +15,12 @@ import java.util.Map;
 public class ToolFavoriteServiceImpl implements IToolFavoriteService {
 
     @Autowired
-    private ToolFavoriteMapper toolFavoriteMapper;
+    private ToolFavoriteMapper favoriteMapper;
 
     @Override
     public Map<String, List<ToolFavorite>> getFavorites() {
         Map<String, List<ToolFavorite>> result = new HashMap<>();
-        List<ToolFavorite> toolFavorites = toolFavoriteMapper.findAll();
+        List<ToolFavorite> toolFavorites = favoriteMapper.selectAll();
         toolFavorites.forEach(toolFavorite -> {
             List<ToolFavorite> list = result.get(toolFavorite.getItem());
             if (list == null) {

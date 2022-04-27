@@ -13,7 +13,7 @@ import cn.devzyh.framework.web.domain.Server;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/server")
+@RequestMapping("/rest/monitor/server")
 public class ServerController
 {
     @PreAuthorize("@ss.hasPermi('monitor:server:list')")

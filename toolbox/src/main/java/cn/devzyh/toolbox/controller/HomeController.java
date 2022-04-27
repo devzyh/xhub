@@ -1,7 +1,6 @@
 package cn.devzyh.toolbox.controller;
 
 import cn.devzyh.common.constant.ToolConstants;
-import cn.devzyh.toolbox.factory.SearchServiceFactory;
 import cn.devzyh.toolbox.service.IToolDictDataService;
 import cn.devzyh.toolbox.service.IToolFavoriteService;
 import cn.devzyh.toolbox.service.IToolSearchService;
@@ -24,7 +23,9 @@ public class HomeController {
     @Autowired
     private IToolFavoriteService favoriteService;
     @Autowired
-    private SearchServiceFactory searchServiceFactory;
+    private IToolSearchService searchArticleService;
+    @Autowired
+    private IToolSearchService searchFavoriteService;
 
     @GetMapping("/")
     public String index(Model m) {
@@ -33,35 +34,21 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/tool/article")
+    @GetMapping("/article")
     public String article(@RequestParam(required = false) String key, Model model) {
-        if (key == null) {
-            key = "";
-        }
-        IToolSearchService service = searchServiceFactory.getService(ToolConstants.SearchType.ARTICLE.getValue());
-        if (service == null) {
-            return "redirect:/";
-        }
         model.addAllAttributes(dictDataService.getSiteInfo());
-        model.addAttribute(ToolConstants.Search.DATA, service.search(key));
+        model.addAttribute(ToolConstants.Search.DATA, searchArticleService.search(key));
         return "search";
     }
 
-    @GetMapping("/tool/favorite")
+    @GetMapping("/favorite")
     public String favorite(@RequestParam(required = false) String key, Model model) {
-        if (key == null) {
-            key = "";
-        }
-        IToolSearchService service = searchServiceFactory.getService(ToolConstants.SearchType.FAVORITE.getValue());
-        if (service == null) {
-            return "redirect:/";
-        }
         model.addAllAttributes(dictDataService.getSiteInfo());
-        model.addAttribute(ToolConstants.Search.DATA, service.search(key));
+        model.addAttribute(ToolConstants.Search.DATA, searchFavoriteService.search(key));
         return "search";
     }
 
-    @GetMapping("/tool/cm")
+    @GetMapping("/cm")
     public String caom(Model m) {
         m.addAllAttributes(dictDataService.getSiteInfo());
         return "caom";

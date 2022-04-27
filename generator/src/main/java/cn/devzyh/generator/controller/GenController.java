@@ -34,7 +34,7 @@ import cn.devzyh.generator.service.IGenTableService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/tool/gen")
+@RequestMapping("/rest/tool/gen")
 public class GenController extends BaseController
 {
     @Autowired

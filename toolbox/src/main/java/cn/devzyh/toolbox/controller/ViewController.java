@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author devzyh
  */
 @Controller
-@RequestMapping("/tool")
 public class ViewController {
 
     @Autowired

@@ -27,7 +27,7 @@ import cn.devzyh.framework.service.ISysMenuService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/menu")
+@RequestMapping("/rest/system/menu")
 public class SysMenuController extends BaseController
 {
     @Autowired

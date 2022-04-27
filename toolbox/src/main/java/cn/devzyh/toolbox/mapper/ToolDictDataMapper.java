@@ -1,7 +1,6 @@
 package cn.devzyh.toolbox.mapper;
 
 import cn.devzyh.common.core.domain.entity.SysDictData;
-import cn.devzyh.toolbox.domain.Config;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

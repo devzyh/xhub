@@ -34,7 +34,7 @@ import cn.devzyh.quartz.service.ISysJobService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/job")
+@RequestMapping("/rest/monitor/job")
 public class SysJobController extends BaseController
 {
     @Autowired

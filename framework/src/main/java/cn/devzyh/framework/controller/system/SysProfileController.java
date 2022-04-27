@@ -31,7 +31,7 @@ import cn.devzyh.framework.web.service.TokenService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/user/profile")
+@RequestMapping("/rest/system/user/profile")
 public class SysProfileController extends BaseController
 {
     @Autowired

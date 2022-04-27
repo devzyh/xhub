@@ -29,7 +29,7 @@ import cn.devzyh.framework.service.ISysDeptService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/dept")
+@RequestMapping("/rest/system/dept")
 public class SysDeptController extends BaseController
 {
     @Autowired

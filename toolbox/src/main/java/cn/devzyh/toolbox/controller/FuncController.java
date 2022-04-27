@@ -17,7 +17,6 @@ import java.util.List;
  * @author devzyh
  */
 @RestController
-@RequestMapping("/tool")
 public class FuncController {
 
     @PostMapping("/cron/run_time")

@@ -21,7 +21,7 @@ import cn.devzyh.common.utils.StringUtils;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/cache")
+@RequestMapping("/rest/monitor/cache")
 public class CacheController
 {
     @Autowired

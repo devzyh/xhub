@@ -1,6 +1,7 @@
 package cn.devzyh.toolbox.service.impl;
 
 import cn.devzyh.common.constant.ToolConstants;
+import cn.devzyh.common.utils.StringUtils;
 import cn.devzyh.toolbox.domain.ToolFavorite;
 import cn.devzyh.toolbox.domain.vo.ResultVO;
 import cn.devzyh.toolbox.domain.vo.SearchVO;
@@ -19,32 +20,33 @@ import java.util.Map;
 /**
  * 文章搜索服务
  */
-@Service
-public class ToolToolSearchFavoriteServiceImpl implements IToolSearchService {
+@Service("searchFavoriteService")
+public class ToolSearchFavoriteServiceImpl implements IToolSearchService {
 
     @Autowired
-    private ToolFavoriteMapper toolFavoriteMapper;
+    private ToolFavoriteMapper favoriteMapper;
     @Autowired
-    private IToolDictDataService IConfigService;
+    private IToolDictDataService dictDataService;
 
     @Override
     public SearchVO search(String key) {
         // 获取基本信息
         SearchVO searchVo = new SearchVO();
         searchVo.setSearchKey(key);
-        searchVo.setSearchType(ToolConstants.SearchType.ARTICLE.getValue());
-        if (key.equals("")) {
+        searchVo.setSearchType(ToolConstants.SearchType.FAVORITE.getValue());
+        if (StringUtils.isBlank(key)) {
+            key = "";
             searchVo.setPageTitle("收藏 - ");
         } else {
             searchVo.setPageTitle(key + " - 收藏 - ");
         }
 
         // 翻译对照
-        Map<String, String> imageMap = IConfigService.getConfigMapByItem(ToolConstants.Item.FAVORITE_ITEM_IMAGE);
+        Map<String, String> imageMap = dictDataService.getConfigMapByItem(ToolConstants.Item.FAVORITE_ITEM_IMAGE);
 
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
-        List<ToolFavorite> articleList = toolFavoriteMapper.search(key);
+        List<ToolFavorite> articleList = favoriteMapper.search(key);
         LocalDate now = LocalDate.now();
         for (ToolFavorite toolFavorite : articleList) {
             ResultVO resultVo = new ResultVO();

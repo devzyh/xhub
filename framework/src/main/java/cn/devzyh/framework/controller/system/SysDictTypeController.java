@@ -29,7 +29,7 @@ import cn.devzyh.framework.service.ISysDictTypeService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/dict/type")
+@RequestMapping("/rest/system/dict/type")
 public class SysDictTypeController extends BaseController
 {
     @Autowired

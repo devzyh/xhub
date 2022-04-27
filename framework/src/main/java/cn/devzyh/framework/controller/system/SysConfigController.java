@@ -29,7 +29,7 @@ import cn.devzyh.framework.service.ISysConfigService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/config")
+@RequestMapping("/rest/system/config")
 public class SysConfigController extends BaseController
 {
     @Autowired

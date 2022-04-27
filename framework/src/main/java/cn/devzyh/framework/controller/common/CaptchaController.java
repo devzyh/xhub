@@ -10,6 +10,7 @@ import cn.devzyh.common.config.ProjectConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.code.kaptcha.Producer;
 import cn.devzyh.common.constant.Constants;
@@ -25,6 +26,7 @@ import cn.devzyh.framework.service.ISysConfigService;
  * @author ruoyi
  */
 @RestController
+@RequestMapping("/rest")
 public class CaptchaController
 {
     @Resource(name = "captchaProducer")

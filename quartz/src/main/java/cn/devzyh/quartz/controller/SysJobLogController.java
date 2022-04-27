@@ -26,7 +26,7 @@ import cn.devzyh.common.utils.poi.ExcelUtil;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/jobLog")
+@RequestMapping("/rest/monitor/jobLog")
 public class SysJobLogController extends BaseController
 {
     @Autowired

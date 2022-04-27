@@ -30,7 +30,7 @@ import cn.devzyh.framework.service.ISysPostService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/post")
+@RequestMapping("/rest/system/post")
 public class SysPostController extends BaseController
 {
     @Autowired

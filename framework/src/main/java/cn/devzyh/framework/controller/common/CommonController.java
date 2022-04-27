@@ -27,7 +27,7 @@ import cn.devzyh.framework.config.ServerConfig;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/common")
+@RequestMapping("/rest/common")
 public class CommonController
 {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);

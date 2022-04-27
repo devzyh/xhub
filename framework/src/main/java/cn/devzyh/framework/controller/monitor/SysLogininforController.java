@@ -26,7 +26,7 @@ import cn.devzyh.common.utils.poi.ExcelUtil;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/logininfor")
+@RequestMapping("/rest/monitor/logininfor")
 public class SysLogininforController extends BaseController
 {
     @Autowired

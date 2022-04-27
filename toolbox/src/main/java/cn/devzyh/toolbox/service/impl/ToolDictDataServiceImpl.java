@@ -16,12 +16,12 @@ import java.util.Map;
 public class ToolDictDataServiceImpl implements IToolDictDataService {
 
     @Autowired
-    private ToolDictDataMapper toolDictDataMapper;
+    private ToolDictDataMapper dictDataMapper;
 
     @Override
     public Map<String, String> getConfigMapByItem(ToolConstants.Item item) {
         Map<String, String> map = new HashMap<>();
-        List<SysDictData> details = toolDictDataMapper.selectDictDataByType(item.getValue());
+        List<SysDictData> details = dictDataMapper.selectDictDataByType(item.getValue());
         details.forEach(detail -> {
             map.put(detail.getDictValue(), detail.getDictLabel());
         });

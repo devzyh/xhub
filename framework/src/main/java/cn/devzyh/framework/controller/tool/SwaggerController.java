@@ -12,7 +12,7 @@ import cn.devzyh.common.core.controller.BaseController;
  * @author ruoyi
  */
 @Controller
-@RequestMapping("/tool/swagger")
+@RequestMapping("/rest/tool/swagger")
 public class SwaggerController extends BaseController
 {
     @PreAuthorize("@ss.hasPermi('tool:swagger:view')")

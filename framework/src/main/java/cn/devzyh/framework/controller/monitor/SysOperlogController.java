@@ -26,7 +26,7 @@ import cn.devzyh.common.utils.poi.ExcelUtil;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/operlog")
+@RequestMapping("/rest/monitor/operlog")
 public class SysOperlogController extends BaseController
 {
     @Autowired

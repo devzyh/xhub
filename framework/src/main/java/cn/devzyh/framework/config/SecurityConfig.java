@@ -1,5 +1,6 @@
 package cn.devzyh.framework.config;
 
+import cn.devzyh.common.constant.Constants;
 import cn.devzyh.framework.security.filter.JwtAuthenticationTokenFilter;
 import cn.devzyh.framework.security.handle.AuthenticationEntryPointImpl;
 import cn.devzyh.framework.security.handle.LogoutSuccessHandlerImpl;
@@ -94,28 +95,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/register", "/captchaImage").anonymous()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-                        "/*.html",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js",
-                        "/profile/**"
-                ).permitAll()
-                .antMatchers("/assets/**").anonymous()
-                .antMatchers("/tool/**").anonymous()
-                .antMatchers("/swagger-ui.html").anonymous()
-                .antMatchers("/swagger-resources/**").anonymous()
-                .antMatchers("/webjars/**").anonymous()
-                .antMatchers("/*/api-docs").anonymous()
-                .antMatchers("/druid/**").anonymous()
-                // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+                .antMatchers("/rest/login", "/rest/register", "/rest/captchaImage").anonymous()
+                // 头像获取接口允许匿名访问
+                .antMatchers("/rest" + Constants.RESOURCE_PREFIX + "/**").anonymous()
+                // 后端接口必须鉴权认证才能访问
+                .antMatchers("/rest/**").authenticated()
+                // 其余路径完全开放
+                .anyRequest().anonymous()
                 .and()
                 .headers().frameOptions().disable();
-        httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
+        httpSecurity.logout().logoutUrl("/rest/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 添加CORS filter

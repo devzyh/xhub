@@ -4,6 +4,7 @@ import cn.devzyh.framework.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.devzyh.common.core.controller.BaseController;
 import cn.devzyh.common.core.domain.AjaxResult;
@@ -17,6 +18,7 @@ import cn.devzyh.framework.web.service.SysRegisterService;
  * @author ruoyi
  */
 @RestController
+@RequestMapping("/rest")
 public class SysRegisterController extends BaseController
 {
     @Autowired

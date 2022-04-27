@@ -434,7 +434,7 @@ $().ready(function () {
 function view_result() {
     if ($('#cron').val()) {
         $('body').toggleClass('loading');
-        doPost('/tool/cron/run_time', {"cron": $('#cron').val()}, function (data) {
+        doPost('/cron/run_time', {"cron": $('#cron').val()}, function (data) {
             $('#jsonlintResult').html(data.join("<br>"));
             $('body').toggleClass('loading');
         }, function () {

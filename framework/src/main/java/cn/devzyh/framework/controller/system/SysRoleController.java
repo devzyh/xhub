@@ -37,7 +37,7 @@ import cn.devzyh.framework.service.ISysRoleService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/role")
+@RequestMapping("/rest/system/role")
 public class SysRoleController extends BaseController
 {
     @Autowired

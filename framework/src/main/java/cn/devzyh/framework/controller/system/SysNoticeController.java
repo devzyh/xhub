@@ -27,7 +27,7 @@ import cn.devzyh.common.enums.BusinessType;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/system/notice")
+@RequestMapping("/rest/system/notice")
 public class SysNoticeController extends BaseController
 {
     @Autowired

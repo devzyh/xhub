@@ -30,7 +30,7 @@ import cn.devzyh.common.utils.StringUtils;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/monitor/online")
+@RequestMapping("/rest/monitor/online")
 public class SysUserOnlineController extends BaseController
 {
     @Autowired

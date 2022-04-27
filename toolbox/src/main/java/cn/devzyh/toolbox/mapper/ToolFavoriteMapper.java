@@ -12,7 +12,7 @@ public interface ToolFavoriteMapper {
      *
      * @return 收藏列表
      */
-    List<ToolFavorite> findAll();
+    List<ToolFavorite> selectAll();
 
     /**
      * 模糊搜索标题
