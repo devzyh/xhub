@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author devzyh
  */
 @Controller
-public class ViewController {
+public class ToolViewController {
 
     @Autowired
     private IToolDictDataService dictDataService;

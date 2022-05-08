@@ -17,7 +17,7 @@ import java.util.List;
  * @author devzyh
  */
 @RestController
-public class FuncController {
+public class ToolRestController {
 
     @PostMapping("/cron/run_time")
     public List<String> cronRunTime(@RequestParam String cron) {

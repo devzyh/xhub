@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author devzyh
  */
 @Controller
-public class HomeController {
+public class ToolHomeController {
 
     @Autowired
     private IToolDictDataService dictDataService;
