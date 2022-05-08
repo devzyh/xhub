@@ -94,18 +94,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/rest/login", "/rest/register", "/rest/captchaImage").anonymous()
-                // 头像获取接口允许匿名访问
-                .antMatchers("/rest" + Constants.RESOURCE_PREFIX + "/**").anonymous()
-                // 数据源监控运行匿名访问
-                .antMatchers("/rest/druid/**").anonymous()
-                // 后端接口必须鉴权认证才能访问
+                // 对登录 /rest/api/ 下的接口允许匿名访问
+                .antMatchers("/rest/api/**").anonymous()
+                // 其它 /rest/ 下的接口必须鉴权认证才能访问
                 .antMatchers("/rest/**").authenticated()
-                // 其余路径完全开放
+                // 未配置路径完全开放
                 .anyRequest().anonymous()
                 .and()
                 .headers().frameOptions().disable();
+        // 注销登录路径及处理器
         httpSecurity.logout().logoutUrl("/rest/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -9,7 +9,7 @@ export function login(username, password, code, uuid) {
     uuid
   }
   return request({
-    url: '/login',
+    url: '/api/login',
     headers: {
       isToken: false
     },
@@ -21,7 +21,7 @@ export function login(username, password, code, uuid) {
 // 注册方法
 export function register(data) {
   return request({
-    url: '/register',
+    url: '/api/register',
     headers: {
       isToken: false
     },
@@ -49,7 +49,7 @@ export function logout() {
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: '/captchaImage',
+    url: '/api/captchaImage',
     headers: {
       isToken: false
     },

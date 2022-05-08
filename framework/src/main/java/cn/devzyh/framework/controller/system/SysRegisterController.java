@@ -27,7 +27,7 @@ public class SysRegisterController extends BaseController
     @Autowired
     private ISysConfigService configService;
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public AjaxResult register(@RequestBody RegisterBody user)
     {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
