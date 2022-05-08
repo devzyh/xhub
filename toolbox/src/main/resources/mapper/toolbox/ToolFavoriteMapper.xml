@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.toolbox.mapper.ToolFavoriteMapper">
 
-    <select id="selectAll" resultType="ToolFavorite">
+    <select id="selectAll1" resultType="ToolFavorite">
         SELECT id,
                item,
                name,
@@ -15,7 +15,7 @@
         ORDER BY item, seq
     </select>
 
-    <select id="search" parameterType="string" resultType="ToolFavorite">
+    <select id="search1" parameterType="string" resultType="ToolFavorite">
         SELECT id,
                item,
                name,
@@ -62,6 +62,7 @@
             <if test="seq != null ">and seq = #{seq}</if>
             <if test="target != null  and target != ''">and target = #{target}</if>
         </where>
+        order by item, seq
     </select>
 
     <select id="selectToolFavoriteById" parameterType="Long" resultMap="ToolFavoriteResult">

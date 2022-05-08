@@ -2,12 +2,14 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分组" prop="item">
-        <el-input
-          v-model="queryParams.item"
-          placeholder="请输入分组"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.item">
+          <el-option
+            v-for="dict in dict.type.tool_favorite_item_image"
+            :key="dict.value"
+            :label="dict.value"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="名称" prop="name">
         <el-input
@@ -17,37 +19,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="地址" prop="href">
-        <el-input
-          v-model="queryParams.href"
-          placeholder="请输入地址"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="图像" prop="icon">
-        <el-input
-          v-model="queryParams.icon"
-          placeholder="请输入图像"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="顺序" prop="seq">
-        <el-input
-          v-model="queryParams.seq"
-          placeholder="请输入顺序"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="打开方式" prop="target">
-        <el-input
-          v-model="queryParams.target"
-          placeholder="请输入打开方式"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.target">
+          <el-option
+            v-for="dict in dict.type.link_open_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -64,18 +44,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['toolbox:favorite:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['toolbox:favorite:edit']"
-        >修改</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,7 +56,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['toolbox:favorite:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -96,21 +67,25 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['toolbox:favorite:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="favoriteList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="分组" align="center" prop="item" />
-      <el-table-column label="名称" align="center" prop="name" />
-      <el-table-column label="地址" align="center" prop="href" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="图像" align="center" prop="icon" />
-      <el-table-column label="顺序" align="center" prop="seq" />
-      <el-table-column label="打开方式" align="center" prop="target" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="ID" align="center" prop="id"/>
+      <el-table-column label="链接分组" align="center" prop="item"/>
+      <el-table-column label="显示名称" align="center" prop="name"/>
+      <el-table-column label="链接地址" align="center" prop="href"/>
+      <el-table-column label="链接备注" align="center" prop="remark"/>
+      <el-table-column label="显示顺序" align="center" prop="seq"/>
+      <el-table-column label="打开方式" align="center" prop="target">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.link_open_type" :value="scope.row.target"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -119,14 +94,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['toolbox:favorite:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['toolbox:favorite:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -143,25 +120,39 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分组" prop="item">
-          <el-input v-model="form.item" placeholder="请输入分组" />
+          <el-select v-model="form.item">
+            <el-option
+              v-for="dict in dict.type.tool_favorite_item_image"
+              :key="dict.value"
+              :label="dict.value"
+              :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
+        <el-form-item label="显示名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入显示名称"/>
         </el-form-item>
-        <el-form-item label="地址" prop="href">
-          <el-input v-model="form.href" placeholder="请输入地址" />
+        <el-form-item label="链接地址" prop="href">
+          <el-input v-model="form.href" placeholder="请输入链接地址"/>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="链接备注" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入链接备注"/>
         </el-form-item>
-        <el-form-item label="图像" prop="icon">
-          <el-input v-model="form.icon" placeholder="请输入图像" />
+        <el-form-item label="图像地址" prop="icon">
+          <el-input v-model="form.icon" placeholder="请输入图像地址"/>
         </el-form-item>
-        <el-form-item label="顺序" prop="seq">
-          <el-input v-model="form.seq" placeholder="请输入顺序" />
+        <el-form-item label="显示顺序" prop="seq">
+          <el-input-number v-model="form.seq" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="打开方式" prop="target">
-          <el-input v-model="form.target" placeholder="请输入${comment}" />
+          <el-select v-model="form.target">
+            <el-option
+              v-for="dict in dict.type.link_open_type"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -173,10 +164,11 @@
 </template>
 
 <script>
-import { listFavorite, getFavorite, delFavorite, addFavorite, updateFavorite } from "@/api/toolbox/favorite";
+import {listFavorite, getFavorite, delFavorite, addFavorite, updateFavorite} from "@/api/toolbox/favorite";
 
 export default {
   name: "Favorite",
+  dicts: ['tool_favorite_item_image', 'link_open_type'],
   data() {
     return {
       // 遮罩层
@@ -213,19 +205,19 @@ export default {
       // 表单校验
       rules: {
         item: [
-          { required: true, message: "分组不能为空", trigger: "blur" }
+          {required: true, message: "链接分组不能为空", trigger: "blur"}
         ],
         name: [
-          { required: true, message: "名称不能为空", trigger: "blur" }
+          {required: true, message: "链接名称不能为空", trigger: "blur"}
         ],
         href: [
-          { required: true, message: "地址不能为空", trigger: "blur" }
+          {required: true, message: "链接地址不能为空", trigger: "blur"}
         ],
         seq: [
-          { required: true, message: "顺序不能为空", trigger: "blur" }
+          {required: true, message: "显示顺序不能为空", trigger: "blur"}
         ],
         target: [
-          { required: true, message: "打开方式不能为空", trigger: "blur" }
+          {required: true, message: "打开方式不能为空", trigger: "blur"}
         ]
       }
     };
@@ -275,14 +267,14 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加主页链接";
+      this.title = "添加链接信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -291,7 +283,7 @@ export default {
       getFavorite(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改主页链接";
+        this.title = "修改链接信息";
       });
     },
     /** 提交按钮 */
@@ -317,12 +309,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除主页链接编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除主页链接编号为"' + ids + '"的数据项？').then(function () {
         return delFavorite(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

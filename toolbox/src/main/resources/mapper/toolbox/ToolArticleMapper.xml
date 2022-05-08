@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.toolbox.mapper.ToolArticleMapper">
 
-    <resultMap id="ToolArticleTagsResult" type="ToolArticle">
+    <resultMap type="ToolArticle" id="ToolArticleResult">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="url" property="url"/>
@@ -14,42 +14,32 @@
         </collection>
     </resultMap>
 
-    <select id="search" parameterType="string" resultMap="ToolArticleTagsResult">
-        SELECT id, title, url, digest, source, created, tag_code
-        FROM tool_article
-                 LEFT JOIN tool_article_tag a ON tool_article.id = a.article_id
-        WHERE title LIKE CONCAT('%', #{key}, '%')
-        ORDER BY created DESC, id DESC
-    </select>
-
-    <resultMap type="ToolArticle" id="ToolArticleResult">
-        <result property="id" column="id"/>
-        <result property="title" column="title"/>
-        <result property="url" column="url"/>
-        <result property="digest" column="digest"/>
-        <result property="source" column="source"/>
-        <result property="created" column="created"/>
-    </resultMap>
-
     <sql id="selectToolArticleVo">
-        select id, title, url, digest, source, created
+        select id, title, url, digest, source, created, tag_code
         from tool_article
+                 left join tool_article_tag on tool_article.id = tool_article_tag.article_id
     </sql>
 
     <select id="selectToolArticleList" parameterType="ToolArticle" resultMap="ToolArticleResult">
         <include refid="selectToolArticleVo"/>
         <where>
-            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="title != null  and title != ''">and title LIKE CONCAT('%', #{title}, '%')</if>
             <if test="url != null  and url != ''">and url = #{url}</if>
-            <if test="digest != null  and digest != ''">and digest = #{digest}</if>
+            <if test="digest != null  and digest != ''">and digest LIKE CONCAT('%', #{digest}, '%')</if>
             <if test="source != null  and source != ''">and source = #{source}</if>
             <if test="created != null ">and created = #{created}</if>
+            <if test="tags != null ">and tag_code in
+                <foreach item="tag" collection="tags" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+            </if>
         </where>
+        order by created desc, id desc
     </select>
 
     <select id="selectToolArticleById" parameterType="Long" resultMap="ToolArticleResult">
         <include refid="selectToolArticleVo"/>
-        where id = #{id}
+        where tool_article.id = #{id}
     </select>
 
     <insert id="insertToolArticle" parameterType="ToolArticle" useGeneratedKeys="true" keyProperty="id">
@@ -94,5 +84,18 @@
             #{id}
         </foreach>
     </delete>
+
+    <delete id="deleteToolArticleTagsById" parameterType="Long">
+        delete
+        from tool_article_tag
+        where article_id = #{id}
+    </delete>
+
+    <insert id="insertToolArticleTags" parameterType="ToolArticle">
+        insert into tool_article_tag (article_id, tag_code) values
+        <foreach item="tag" collection="tags" separator=",">
+            ( #{id}, #{tag} )
+        </foreach>
+    </insert>
 
 </mapper>

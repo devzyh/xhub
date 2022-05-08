@@ -9,29 +9,25 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="地址" prop="url">
-        <el-input
-          v-model="queryParams.url"
-          placeholder="请输入地址"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="来源平台" prop="source">
-        <el-input
-          v-model="queryParams.source"
-          placeholder="请输入来源平台"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.source">
+          <el-option
+            v-for="dict in dict.type.tool_article_source"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="发布日期" prop="created">
-        <el-date-picker clearable
-          v-model="queryParams.created"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择发布日期">
-        </el-date-picker>
+      <el-form-item label="关联标签" prop="tags">
+        <el-select v-model="queryParams.tags" multiple>
+          <el-option
+            v-for="dict in dict.type.tool_article_tag"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -48,18 +44,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['toolbox:article:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['toolbox:article:edit']"
-        >修改</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -70,7 +56,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['toolbox:article:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -80,18 +67,22 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['toolbox:article:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="地址" align="center" prop="url" />
-      <el-table-column label="内容摘要" align="center" prop="digest" />
-      <el-table-column label="来源平台" align="center" prop="source" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="ID" align="center" prop="id"/>
+      <el-table-column label="文章标题" align="center" prop="title"/>
+      <el-table-column label="文章地址" align="center" prop="url"/>
+      <el-table-column label="来源平台" align="center" prop="source">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.tool_article_source" :value="scope.row.source"/>
+        </template>
+      </el-table-column>
       <el-table-column label="发布日期" align="center" prop="created" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.created, '{y}-{m}-{d}') }}</span>
@@ -105,18 +96,20 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['toolbox:article:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['toolbox:article:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -128,24 +121,41 @@
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入标题" />
+        <el-form-item label="文章标题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入标题"/>
         </el-form-item>
-        <el-form-item label="地址" prop="url">
-          <el-input v-model="form.url" placeholder="请输入地址" />
+        <el-form-item label="文章地址" prop="url">
+          <el-input v-model="form.url" placeholder="请输入地址"/>
+        </el-form-item>
+        <el-form-item label="关联标签">
+          <el-select v-model="form.tags" multiple placeholder="请选择文章标签" style="width: 100%">
+            <el-option
+              v-for="item in dict.type.tool_article_tag"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="内容摘要" prop="digest">
-          <el-input v-model="form.digest" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.digest" type="textarea" placeholder="请输入内容摘要" rows="5" />
         </el-form-item>
         <el-form-item label="来源平台" prop="source">
-          <el-input v-model="form.source" placeholder="请输入来源平台" />
+          <el-select v-model="form.source">
+            <el-option
+              v-for="dict in dict.type.tool_article_source"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="发布日期" prop="created">
           <el-date-picker clearable
-            v-model="form.created"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择发布日期">
+                          v-model="form.created"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择发布日期">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -158,10 +168,11 @@
 </template>
 
 <script>
-import { listArticle, getArticle, delArticle, addArticle, updateArticle } from "@/api/toolbox/article";
+import {listArticle, getArticle, delArticle, addArticle, updateArticle} from "@/api/toolbox/article";
 
 export default {
   name: "Article",
+  dicts: ['tool_article_tag', 'tool_article_source'],
   data() {
     return {
       // 遮罩层
@@ -197,11 +208,17 @@ export default {
       // 表单校验
       rules: {
         title: [
-          { required: true, message: "标题不能为空", trigger: "blur" }
+          {required: true, message: "文章标题不能为空", trigger: "blur"}
         ],
         url: [
-          { required: true, message: "地址不能为空", trigger: "blur" }
+          {required: true, message: "文章地址不能为空", trigger: "blur"}
         ],
+        source: [
+          {required: true, message: "来源平台不能为空", trigger: "blur"}
+        ],
+        created: [
+          {required: true, message: "发布日期不能为空", trigger: "blur"}
+        ]
       }
     };
   },
@@ -248,14 +265,14 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加文章";
+      this.title = "添加文章信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -264,7 +281,7 @@ export default {
       getArticle(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改文章";
+        this.title = "修改文章信息";
       });
     },
     /** 提交按钮 */
@@ -290,12 +307,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function () {
         return delArticle(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

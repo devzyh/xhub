@@ -23,13 +23,13 @@ public class ToolArticle extends BaseEntity {
     /**
      * 标题
      */
-    @Excel(name = "标题")
+    @Excel(name = "文章标题")
     private String title;
 
     /**
      * 地址
      */
-    @Excel(name = "地址")
+    @Excel(name = "文章地址")
     private String url;
 
     /**
@@ -52,7 +52,7 @@ public class ToolArticle extends BaseEntity {
     private LocalDate created;
 
     /**
-     * 所属标签
+     * 关联标签
      */
     private List<String> tags;
 

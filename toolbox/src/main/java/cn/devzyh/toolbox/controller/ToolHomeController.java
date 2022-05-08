@@ -30,7 +30,7 @@ public class ToolHomeController {
     @GetMapping("/")
     public String index(Model m) {
         m.addAllAttributes(dictDataService.getSiteInfo());
-        m.addAttribute(ToolConstants.Home.FAVORITES, favoriteService.getFavorites());
+        m.addAttribute(ToolConstants.Home.FAVORITES, favoriteService.selectFavorites());
         return "index";
     }
 

@@ -1,8 +1,6 @@
 package cn.devzyh.toolbox.mapper;
 
 import cn.devzyh.toolbox.domain.ToolArticle;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,14 +8,6 @@ import java.util.List;
  * 文章数据层
  */
 public interface ToolArticleMapper {
-
-    /**
-     * 模糊搜索标题
-     *
-     * @param key 关键字
-     * @return
-     */
-    List<ToolArticle> search(@Param("key") String key);
 
     /**
      * 查询文章
@@ -66,5 +56,22 @@ public interface ToolArticleMapper {
      * @return 结果
      */
     public int deleteToolArticleByIds(Long[] ids);
+
+
+    /**
+     * 批量删除文章标签
+     *
+     * @param id 文章主键
+     * @return 结果
+     */
+    public int deleteToolArticleTagsById(Long id);
+
+    /**
+     * 新增文章标签
+     *
+     * @param toolArticle 文章
+     * @return 结果
+     */
+    public int insertToolArticleTags(ToolArticle toolArticle);
 
 }

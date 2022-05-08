@@ -10,8 +10,7 @@ import java.util.List;
  *
  * @author devzyh
  */
-public interface ToolDictDataMapper
-{
+public interface ToolDictDataMapper {
     /**
      * 根据字典类型查询字典数据
      *

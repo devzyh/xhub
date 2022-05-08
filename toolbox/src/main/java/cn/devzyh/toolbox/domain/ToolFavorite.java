@@ -22,37 +22,37 @@ public class ToolFavorite extends BaseEntity {
     /**
      * 分组
      */
-    @Excel(name = "分组")
+    @Excel(name = "链接分组")
     private String item;
 
     /**
      * 名称
      */
-    @Excel(name = "名称")
+    @Excel(name = "链接名称")
     private String name;
 
     /**
      * 地址
      */
-    @Excel(name = "地址")
+    @Excel(name = "链接地址")
     private String href;
 
     /**
      * 图像
      */
-    @Excel(name = "图像")
+    @Excel(name = "显示图像")
     private String icon;
 
     /**
      * 顺序
      */
-    @Excel(name = "顺序")
+    @Excel(name = "显示顺序")
     private Long seq;
 
     /**
      * $column.columnComment
      */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "打开方式")
     private String target;
 
     public void setId(Long id) {

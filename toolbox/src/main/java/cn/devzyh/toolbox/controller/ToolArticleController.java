@@ -2,6 +2,7 @@ package cn.devzyh.toolbox.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,7 @@ import cn.devzyh.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/rest/toolbox/article")
-public class ToolArticleController extends BaseController
-{
+public class ToolArticleController extends BaseController {
     @Autowired
     private IToolArticleService toolArticleService;
 
@@ -39,8 +39,7 @@ public class ToolArticleController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:article:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ToolArticle toolArticle)
-    {
+    public TableDataInfo list(ToolArticle toolArticle) {
         startPage();
         List<ToolArticle> list = toolArticleService.selectToolArticleList(toolArticle);
         return getDataTable(list);
@@ -52,8 +51,7 @@ public class ToolArticleController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:article:export')")
     @Log(title = "文章", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ToolArticle toolArticle)
-    {
+    public void export(HttpServletResponse response, ToolArticle toolArticle) {
         List<ToolArticle> list = toolArticleService.selectToolArticleList(toolArticle);
         ExcelUtil<ToolArticle> util = new ExcelUtil<ToolArticle>(ToolArticle.class);
         util.exportExcel(response, list, "文章数据");
@@ -64,8 +62,7 @@ public class ToolArticleController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:article:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(toolArticleService.selectToolArticleById(id));
     }
 
@@ -75,8 +72,7 @@ public class ToolArticleController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:article:add')")
     @Log(title = "文章", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ToolArticle toolArticle)
-    {
+    public AjaxResult add(@RequestBody ToolArticle toolArticle) {
         return toAjax(toolArticleService.insertToolArticle(toolArticle));
     }
 
@@ -86,8 +82,7 @@ public class ToolArticleController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:article:edit')")
     @Log(title = "文章", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ToolArticle toolArticle)
-    {
+    public AjaxResult edit(@RequestBody ToolArticle toolArticle) {
         return toAjax(toolArticleService.updateToolArticle(toolArticle));
     }
 
@@ -96,9 +91,8 @@ public class ToolArticleController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:article:remove')")
     @Log(title = "文章", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(toolArticleService.deleteToolArticleByIds(ids));
     }
 }

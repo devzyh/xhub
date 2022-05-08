@@ -18,9 +18,9 @@ public class ToolFavoriteServiceImpl implements IToolFavoriteService {
     private ToolFavoriteMapper toolFavoriteMapper;
 
     @Override
-    public Map<String, List<ToolFavorite>> getFavorites() {
+    public Map<String, List<ToolFavorite>> selectFavorites() {
         Map<String, List<ToolFavorite>> result = new HashMap<>();
-        List<ToolFavorite> toolFavorites = toolFavoriteMapper.selectAll();
+        List<ToolFavorite> toolFavorites = toolFavoriteMapper.selectToolFavoriteList(new ToolFavorite());
         toolFavorites.forEach(toolFavorite -> {
             List<ToolFavorite> list = result.get(toolFavorite.getItem());
             if (list == null) {

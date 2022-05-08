@@ -8,6 +8,7 @@ import cn.devzyh.toolbox.domain.vo.SearchVO;
 import cn.devzyh.toolbox.mapper.ToolFavoriteMapper;
 import cn.devzyh.toolbox.service.IToolDictDataService;
 import cn.devzyh.toolbox.service.IToolSearchService;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,9 @@ public class ToolSearchFavoriteServiceImpl implements IToolSearchService {
 
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
-        List<ToolFavorite> articleList = favoriteMapper.search(key);
+        ToolFavorite favorite = new ToolFavorite();
+        favorite.setName(key);
+        List<ToolFavorite> articleList = favoriteMapper.selectToolFavoriteList(favorite);
         LocalDate now = LocalDate.now();
         for (ToolFavorite toolFavorite : articleList) {
             ResultVO resultVo = new ResultVO();

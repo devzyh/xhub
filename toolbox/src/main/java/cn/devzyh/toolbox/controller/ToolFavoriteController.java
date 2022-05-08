@@ -2,6 +2,7 @@ package cn.devzyh.toolbox.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,7 @@ import cn.devzyh.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/rest/toolbox/favorite")
-public class ToolFavoriteController extends BaseController
-{
+public class ToolFavoriteController extends BaseController {
     @Autowired
     private IToolFavoriteService toolFavoriteService;
 
@@ -39,8 +39,7 @@ public class ToolFavoriteController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ToolFavorite toolFavorite)
-    {
+    public TableDataInfo list(ToolFavorite toolFavorite) {
         startPage();
         List<ToolFavorite> list = toolFavoriteService.selectToolFavoriteList(toolFavorite);
         return getDataTable(list);
@@ -52,8 +51,7 @@ public class ToolFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:export')")
     @Log(title = "主页链接", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ToolFavorite toolFavorite)
-    {
+    public void export(HttpServletResponse response, ToolFavorite toolFavorite) {
         List<ToolFavorite> list = toolFavoriteService.selectToolFavoriteList(toolFavorite);
         ExcelUtil<ToolFavorite> util = new ExcelUtil<ToolFavorite>(ToolFavorite.class);
         util.exportExcel(response, list, "主页链接数据");
@@ -64,8 +62,7 @@ public class ToolFavoriteController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(toolFavoriteService.selectToolFavoriteById(id));
     }
 
@@ -75,8 +72,7 @@ public class ToolFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:add')")
     @Log(title = "主页链接", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ToolFavorite toolFavorite)
-    {
+    public AjaxResult add(@RequestBody ToolFavorite toolFavorite) {
         return toAjax(toolFavoriteService.insertToolFavorite(toolFavorite));
     }
 
@@ -86,8 +82,7 @@ public class ToolFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:edit')")
     @Log(title = "主页链接", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ToolFavorite toolFavorite)
-    {
+    public AjaxResult edit(@RequestBody ToolFavorite toolFavorite) {
         return toAjax(toolFavoriteService.updateToolFavorite(toolFavorite));
     }
 
@@ -96,9 +91,8 @@ public class ToolFavoriteController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('toolbox:favorite:remove')")
     @Log(title = "主页链接", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(toolFavoriteService.deleteToolFavoriteByIds(ids));
     }
 }

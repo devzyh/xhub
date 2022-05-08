@@ -8,21 +8,6 @@ import java.util.List;
 public interface ToolFavoriteMapper {
 
     /**
-     * 查询所有工具
-     *
-     * @return 收藏列表
-     */
-    List<ToolFavorite> selectAll();
-
-    /**
-     * 模糊搜索标题
-     *
-     * @param key 关键字
-     * @return
-     */
-    List<ToolFavorite> search(@Param("key") String key);
-
-    /**
      * 查询主页链接
      *
      * @param id 主页链接主键

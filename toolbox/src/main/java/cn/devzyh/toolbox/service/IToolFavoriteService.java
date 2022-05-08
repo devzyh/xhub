@@ -15,7 +15,7 @@ public interface IToolFavoriteService {
      *
      * @return
      */
-    Map<String, List<ToolFavorite>> getFavorites();
+    Map<String, List<ToolFavorite>> selectFavorites();
 
     /**
      * 查询主页链接

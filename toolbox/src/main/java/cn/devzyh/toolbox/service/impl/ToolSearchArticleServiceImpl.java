@@ -47,7 +47,9 @@ public class ToolSearchArticleServiceImpl implements IToolSearchService {
 
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
-        List<ToolArticle> toolArticleList = articleMapper.search(key);
+        ToolArticle article = new ToolArticle();
+        article.setTitle(key);
+        List<ToolArticle> toolArticleList = articleMapper.selectToolArticleList(article);
         for (ToolArticle toolArticle : toolArticleList) {
             ResultVO resultVo = new ResultVO();
             resultVo.setTitle(toolArticle.getTitle());
