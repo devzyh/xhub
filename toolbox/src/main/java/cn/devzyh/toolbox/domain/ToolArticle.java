@@ -1,67 +1,107 @@
 package cn.devzyh.toolbox.domain;
 
+import cn.devzyh.common.annotation.Excel;
+import cn.devzyh.common.core.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.time.LocalDate;
 import java.util.List;
 
 /**
  * 文章表
  */
-public class ToolArticle {
+public class ToolArticle extends BaseEntity {
+    private static final long serialVersionUID = 1L;
 
-    private Integer id; // ID
-    private String title; // 标题
-    private String url; // 地址
-    private String digest; // 摘要
-    private String source; // 来源平台
-    private LocalDate created; // 发布时间
-    private List<String> tags; // 所属标签
+    /**
+     * ID
+     */
+    private Long id;
 
-    public Integer getId() {
-        return id;
-    }
+    /**
+     * 标题
+     */
+    @Excel(name = "标题")
+    private String title;
 
-    public void setId(Integer id) {
+    /**
+     * 地址
+     */
+    @Excel(name = "地址")
+    private String url;
+
+    /**
+     * 内容摘要
+     */
+    @Excel(name = "内容摘要")
+    private String digest;
+
+    /**
+     * 来源平台
+     */
+    @Excel(name = "来源平台")
+    private String source;
+
+    /**
+     * 发布日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "发布日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private LocalDate created;
+
+    /**
+     * 所属标签
+     */
+    private List<String> tags;
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Long getId() {
+        return id;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTitle() {
+        return title;
     }
 
     public void setUrl(String url) {
         this.url = url;
     }
 
-    public String getDigest() {
-        return digest;
+    public String getUrl() {
+        return url;
     }
 
     public void setDigest(String digest) {
         this.digest = digest;
     }
 
-    public String getSource() {
-        return source;
+    public String getDigest() {
+        return digest;
     }
 
     public void setSource(String source) {
         this.source = source;
     }
 
-    public LocalDate getCreated() {
-        return created;
+    public String getSource() {
+        return source;
     }
 
     public void setCreated(LocalDate created) {
         this.created = created;
+    }
+
+    public LocalDate getCreated() {
+        return created;
     }
 
     public List<String> getTags() {
@@ -70,5 +110,17 @@ public class ToolArticle {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("title", getTitle())
+                .append("url", getUrl())
+                .append("digest", getDigest())
+                .append("source", getSource())
+                .append("created", getCreated())
+                .toString();
     }
 }
