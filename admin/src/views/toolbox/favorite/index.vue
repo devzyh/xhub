@@ -79,7 +79,6 @@
       <el-table-column label="链接分组" align="center" prop="item"/>
       <el-table-column label="显示名称" align="center" prop="name"/>
       <el-table-column label="链接地址" align="center" prop="href"/>
-      <el-table-column label="链接备注" align="center" prop="remark"/>
       <el-table-column label="显示顺序" align="center" prop="seq"/>
       <el-table-column label="打开方式" align="center" prop="target">
         <template slot-scope="scope">
