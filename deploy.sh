@@ -30,7 +30,7 @@ cp app/target/app*.jar build/app.jar
 # start
 cd build
 echo "Start App"
-nohup java -jar app.jar --spring.profiles.active=prod > run.log &
+nohup java -jar app.jar --spring.profiles.active=prod > run.log 2>&1 &
 echo $! > run.pid
 echo "Start Success"
 cd ..
