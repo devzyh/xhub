@@ -21,7 +21,7 @@
         <ul class="fly-list">
             <li th:each="result: ${data.resultList}">
                 <a href="#" target="_blank" class="fly-avatar">
-                    <img th:src="${result.avatar}" th:alt="${result.source}">
+                    <img th:src="${result.image}" th:alt="${result.source}">
                 </a>
                 <h2>
                     <a th:href="${result.url}" target="_blank" th:text="${result.title}"></a>

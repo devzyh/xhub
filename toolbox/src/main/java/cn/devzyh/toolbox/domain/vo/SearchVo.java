@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * 搜索页面数据类
  */
-public class SearchVO implements Serializable {
+public class SearchVo implements Serializable {
 
     private static final long serialVersionUID = -6925704952000673323L;
     private String pageTitle; // 页面标题
     private String searchType; // 搜索源类型
     private String searchKey; // 搜索关键词
-    private List<ResultVO> resultList; // 搜索结果
+    private List<ResultVo> resultList; // 搜索结果
 
     public String getPageTitle() {
         return pageTitle;
@@ -38,11 +38,11 @@ public class SearchVO implements Serializable {
         this.searchKey = searchKey;
     }
 
-    public List<ResultVO> getResultList() {
+    public List<ResultVo> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<ResultVO> resultList) {
+    public void setResultList(List<ResultVo> resultList) {
         this.resultList = resultList;
     }
 }

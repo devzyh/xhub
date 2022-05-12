@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * 搜索结果数据类
  */
-public class ResultVO implements Serializable {
+public class ResultVo implements Serializable {
 
     private static final long serialVersionUID = -3853080211929027381L;
     private String title; // 标题
     private String url; // 地址
     private LocalDate postDate; // 发布日期
     private String digest; // 摘要
-    private String avatar; // 头像
+    private String image; // 图形
     private String source; // 来源
     private List<String> tags; // 标签列表
 
@@ -50,12 +50,12 @@ public class ResultVO implements Serializable {
         this.digest = digest;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getImage() {
+        return image;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getSource() {
