@@ -1,19 +1,18 @@
 package cn.devzyh.toolbox.service.impl;
 
 import cn.devzyh.common.constant.ToolConstants;
+import cn.devzyh.common.utils.DictUtils;
 import cn.devzyh.common.utils.StringUtils;
 import cn.devzyh.toolbox.domain.ToolArticle;
 import cn.devzyh.toolbox.domain.vo.ResultVO;
 import cn.devzyh.toolbox.domain.vo.SearchVO;
 import cn.devzyh.toolbox.mapper.ToolArticleMapper;
-import cn.devzyh.toolbox.service.IToolDictDataService;
 import cn.devzyh.toolbox.service.IToolSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -24,8 +23,6 @@ public class ToolSearchArticleServiceImpl implements IToolSearchService {
 
     @Autowired
     private ToolArticleMapper articleMapper;
-    @Autowired
-    private IToolDictDataService dictDataService;
 
     @Override
     public SearchVO search(String key) {
@@ -40,11 +37,6 @@ public class ToolSearchArticleServiceImpl implements IToolSearchService {
             searchVo.setPageTitle(key + " - 文章 - ");
         }
 
-        // 翻译对照
-        Map<String, String> tagMap = dictDataService.getConfigMapByItem(ToolConstants.Item.ARTICLE_TAG);
-        Map<String, String> sourceMap = dictDataService.getConfigMapByItem(ToolConstants.Item.ARTICLE_SOURCE);
-        Map<String, String> imageMap = dictDataService.getConfigMapByItem(ToolConstants.Item.ARTICLE_SOURCE_IMAGE);
-
         // 获取文章信息
         List<ResultVO> resultVOList = new LinkedList<>();
         ToolArticle article = new ToolArticle();
@@ -56,10 +48,10 @@ public class ToolSearchArticleServiceImpl implements IToolSearchService {
             resultVo.setUrl(toolArticle.getUrl());
             resultVo.setPostDate(toolArticle.getCreated());
             resultVo.setDigest(toolArticle.getDigest());
-            resultVo.setAvatar(imageMap.get(toolArticle.getSource()));
-            resultVo.setSource(sourceMap.get(toolArticle.getSource()));
+            resultVo.setAvatar(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), toolArticle.getSource()));
+            resultVo.setSource(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE.getValue(), toolArticle.getSource()));
             resultVo.setTags(toolArticle.getTags().stream()
-                    .map(tagMap::get)
+                    .map(val -> DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_TAG.getValue(), val))
                     .collect(Collectors.toList()));
             resultVOList.add(resultVo);
         }
