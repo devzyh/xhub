@@ -3,6 +3,7 @@ package cn.devzyh.notebook.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.devzyh.common.core.domain.entity.SysDept;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,5 +93,14 @@ public class NoteCatalogController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(noteCatalogService.deleteNoteCatalogByIds(ids));
+    }
+
+    /**
+     * 获取部门下拉树列表
+     */
+    @GetMapping("/treeselect")
+    public AjaxResult treeselect(NoteCatalog catalog) {
+        List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);
+        return AjaxResult.success(noteCatalogService.buildCatalogTree(catalogs));
     }
 }

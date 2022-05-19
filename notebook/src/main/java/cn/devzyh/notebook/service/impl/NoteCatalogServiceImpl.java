@@ -1,8 +1,12 @@
 package cn.devzyh.notebook.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import cn.devzyh.common.core.domain.entity.SysDept;
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.devzyh.notebook.mapper.NoteCatalogMapper;
@@ -86,5 +90,67 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
     @Override
     public int deleteNoteCatalogById(Long id) {
         return noteCatalogMapper.deleteNoteCatalogById(id);
+    }
+
+    /**
+     * 构建前端所需要树结构
+     *
+     * @param depts 部门列表
+     * @return 树结构列表
+     */
+    @Override
+    public List<NoteCatalog> buildCatalogTree(List<NoteCatalog> catalogs) {
+        List<NoteCatalog> returnList = new ArrayList<NoteCatalog>();
+        List<Long> tempList = new ArrayList<Long>();
+        for (NoteCatalog catalog : catalogs) {
+            tempList.add(catalog.getId());
+        }
+        for (NoteCatalog catalog : catalogs) {
+            // 如果是顶级节点, 遍历该父节点的所有子节点
+            if (!tempList.contains(catalog.getParentId())) {
+                recursionFn(catalogs, catalog);
+                returnList.add(catalog);
+            }
+        }
+        if (returnList.isEmpty()) {
+            returnList = catalogs;
+        }
+        return returnList;
+    }
+
+    /**
+     * 递归列表
+     */
+    private void recursionFn(List<NoteCatalog> list, NoteCatalog t) {
+        // 得到子节点列表
+        List<NoteCatalog> childList = getChildList(list, t);
+        t.setChildren(childList);
+        for (NoteCatalog tChild : childList) {
+            if (hasChild(list, tChild)) {
+                recursionFn(list, tChild);
+            }
+        }
+    }
+
+    /**
+     * 得到子节点列表
+     */
+    private List<NoteCatalog> getChildList(List<NoteCatalog> list, NoteCatalog t) {
+        List<NoteCatalog> tlist = new ArrayList<NoteCatalog>();
+        Iterator<NoteCatalog> it = list.iterator();
+        while (it.hasNext()) {
+            NoteCatalog n = (NoteCatalog) it.next();
+            if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getId().longValue()) {
+                tlist.add(n);
+            }
+        }
+        return tlist;
+    }
+
+    /**
+     * 判断是否有子节点
+     */
+    private boolean hasChild(List<NoteCatalog> list, NoteCatalog t) {
+        return getChildList(list, t).size() > 0;
     }
 }

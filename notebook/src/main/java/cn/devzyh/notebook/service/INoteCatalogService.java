@@ -2,6 +2,7 @@ package cn.devzyh.notebook.service;
 
 import java.util.List;
 
+import cn.devzyh.common.core.domain.entity.SysDept;
 import cn.devzyh.notebook.domain.NoteCatalog;
 
 /**
@@ -58,4 +59,12 @@ public interface INoteCatalogService {
      * @return 结果
      */
     public int deleteNoteCatalogById(Long id);
+
+    /**
+     * 构建前端所需要树结构
+     *
+     * @param catalogs 目录列表
+     * @return 树结构列表
+     */
+    public List<NoteCatalog> buildCatalogTree(List<NoteCatalog> catalogs);
 }
