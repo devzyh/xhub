@@ -89,6 +89,12 @@
         <el-form-item label="排序" prop="rank">
           <el-input-number v-model="form.rank" controls-position="right" :min="0" />
         </el-form-item>
+        <el-form-item label="创建时间" prop="createTime">
+          <el-input v-model="form.createTime" :readonly="true" :disabled="true" />
+        </el-form-item>
+        <el-form-item label="更新时间" prop="updateTime">
+          <el-input v-model="form.updateTime":readonly="true" :disabled="true" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>

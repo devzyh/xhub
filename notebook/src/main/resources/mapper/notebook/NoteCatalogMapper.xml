@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.notebook.mapper.NoteCatalogMapper">
-    
+
     <resultMap type="NoteCatalog" id="NoteCatalogResult">
         <result property="id"    column="id"    />
         <result property="parentId"    column="parent_id"    />
@@ -23,19 +23,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectNoteCatalogList" parameterType="NoteCatalog" resultMap="NoteCatalogResult">
         <include refid="selectNoteCatalogVo"/>
-        <where>  
+        <where>
             <if test="parentId != null "> and parent_id = #{parentId}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="rank != null "> and rank = #{rank}</if>
             <if test="deleteFlag != null "> and delete_flag = #{deleteFlag}</if>
         </where>
     </select>
-    
+
     <select id="selectNoteCatalogById" parameterType="Long" resultMap="NoteCatalogResult">
         <include refid="selectNoteCatalogVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertNoteCatalog" parameterType="NoteCatalog" useGeneratedKeys="true" keyProperty="id">
         insert into note_catalog
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -83,9 +83,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNoteCatalogByIds" parameterType="String">
-        delete from note_catalog where id in 
+        delete from note_catalog where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+        and delete_flag = 1
     </delete>
 </mapper>
