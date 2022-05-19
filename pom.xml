@@ -185,6 +185,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- 笔记系统-->
+            <dependency>
+                <groupId>cn.devzyh</groupId>
+                <artifactId>notebook</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -195,6 +202,7 @@
         <module>quartz</module>
         <module>generator</module>
         <module>toolbox</module>
+        <module>notebook</module>
     </modules>
     <packaging>pom</packaging>
 

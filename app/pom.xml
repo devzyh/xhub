@@ -54,6 +54,12 @@
             <artifactId>toolbox</artifactId>
         </dependency>
 
+        <!-- 笔记系统-->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>notebook</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
