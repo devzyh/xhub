@@ -36,12 +36,14 @@
     "url": "https://gitee.com/devzyh/xhub.git"
   },
   "dependencies": {
+    "@milkdown/core": "^6.1.1",
+    "@milkdown/preset-commonmark": "^6.1.1",
+    "@milkdown/theme-nord": "^6.1.1",
     "@riophae/vue-treeselect": "0.4.0",
     "axios": "0.24.0",
     "clipboard": "2.0.8",
     "core-js": "3.19.1",
     "echarts": "4.9.0",
-    "editor.md": "^1.5.0",
     "element-ui": "2.15.8",
     "file-saver": "2.0.5",
     "fuse.js": "6.4.3",
