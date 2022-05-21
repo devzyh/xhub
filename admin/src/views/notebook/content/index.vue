@@ -90,7 +90,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit-outline"
-                @click="handleMarkdown(scope.row)"
+                @click="handleEdit(scope.row)"
                 v-hasPermi="['notebook:content:markdown']"
               >编辑
               </el-button>
@@ -98,17 +98,9 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleUpdate(scope.row)"
+                @click="handleSetting(scope.row)"
                 v-hasPermi="['notebook:content:edit']"
-              >修改
-              </el-button>
-              <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-share"
-                @click="handleShare(scope.row)"
-                v-hasPermi="['notebook:content:share']"
-              >分享
+              >设置
               </el-button>
               <el-button
                 size="mini"
@@ -314,8 +306,12 @@ export default {
       this.title = "添加笔记基本信息";
       this.form.catalogId = this.queryParams.catalogId;
     },
+    /** Markdown编辑按钮操作 */
+    handleEdit(row) {
+      this.$router.push({path: "/note/editor/" + row.id});
+    },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleSetting(row) {
       this.reset();
       const id = row.id || this.ids
       getContent(id).then(response => {
@@ -323,14 +319,6 @@ export default {
         this.open = true;
         this.title = "修改笔记基本信息";
       });
-    },
-    /** Markdown编辑按钮操作 */
-    handleMarkdown(row) {
-
-    },
-    /** 分享按钮操作 */
-    handleShare(row) {
-
     },
     /** 提交按钮 */
     submitForm() {

@@ -112,10 +112,13 @@ export default {
         }
       },
       after: () => {
-        getContent(this.form.id).then(response => {
-          this.form = response.data;
-          this.vditor.setValue(this.form.content, true)
-        });
+        const id = this.$route.params.id
+        if (id) {
+          getContent().then(response => {
+            this.form = response.data;
+            this.vditor.setValue(this.form.content, true);
+          });
+        }
       }
     })
   },
