@@ -1,13 +1,13 @@
 package cn.devzyh.notebook.service.impl;
 
-import java.util.List;
-
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.notebook.domain.NoteShare;
+import cn.devzyh.notebook.mapper.NoteShareMapper;
+import cn.devzyh.notebook.service.INoteShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.devzyh.notebook.mapper.NoteShareMapper;
-import cn.devzyh.notebook.domain.NoteShare;
-import cn.devzyh.notebook.service.INoteShareService;
+
+import java.util.List;
 
 /**
  * 笔记分享Service业务层处理
@@ -49,9 +49,15 @@ public class NoteShareServiceImpl implements INoteShareService {
      * @return 结果
      */
     @Override
-    public int insertNoteShare(NoteShare noteShare) {
-        noteShare.setCreateTime(DateUtils.getNowDate());
-        return noteShareMapper.insertNoteShare(noteShare);
+    public int saveNoteShare(NoteShare noteShare) {
+        NoteShare localShare = noteShareMapper.selectNoteShareByContentId(noteShare.getContentId());
+        if (localShare == null) {
+            noteShare.setCreateTime(DateUtils.getNowDate());
+            return noteShareMapper.insertNoteShare(noteShare);
+        } else {
+            noteShare.setUpdateTime(DateUtils.getNowDate());
+            return noteShareMapper.updateNoteShare(noteShare);
+        }
     }
 
     /**

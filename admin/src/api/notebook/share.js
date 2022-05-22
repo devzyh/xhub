@@ -18,7 +18,7 @@ export function getShare(contentId) {
 }
 
 // 新增笔记分享
-export function addShare(data) {
+export function saveShare(data) {
   return request({
     url: '/notebook/share',
     method: 'post',

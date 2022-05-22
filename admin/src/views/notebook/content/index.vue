@@ -18,9 +18,9 @@
             :data="catalogOptions"
             :props="defaultProps"
             :expand-on-click-node="false"
+            :highlight-current="true"
             :filter-node-method="filterNode"
             ref="tree"
-            default-expand-all
             @node-click="handleNodeClick"
           />
         </div>
@@ -71,7 +71,7 @@
         </el-row>
 
         <el-table v-loading="loading" :data="contentList" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="55" align="center"/>
+          <el-table-column label="ID" align="center" prop="id" width="60"/>
           <el-table-column label="标题" align="left" prop="title"/>
           <el-table-column label="排序" align="center" prop="rank" width="60"/>
           <el-table-column label="创建时间" align="center" prop="createTime" width="160">
@@ -89,17 +89,17 @@
               <el-button
                 size="mini"
                 type="text"
-                icon="el-icon-edit-outline"
+                icon="el-icon-edit"
                 @click="handleEdit(scope.row)"
-                v-hasPermi="['notebook:content:markdown']"
+                v-hasPermi="['notebook:content:edit']"
               >编辑
               </el-button>
               <el-button
                 size="mini"
                 type="text"
-                icon="el-icon-edit"
+                icon="el-icon-setting"
                 @click="handleSetting(scope.row)"
-                v-hasPermi="['notebook:content:edit']"
+                v-hasPermi="['notebook:content:setting']"
               >设置
               </el-button>
               <el-button
@@ -137,11 +137,29 @@
         <el-form-item label="排序" prop="rank">
           <el-input-number v-model="form.rank" controls-position="right" :min="0"/>
         </el-form-item>
-        <el-form-item label="创建时间" prop="createTime">
-          <el-input v-model="form.createTime" :readonly="true" :disabled="true" />
+        <el-form-item label="是否分享" v-show="form.id!=null">
+          <el-radio-group v-model="share.isShare">
+            <el-radio
+              v-for="dict in dict.type.sys_yes_no"
+              :key="dict.value"
+              :label="dict.value"
+            >{{ dict.label }}
+            </el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item label="更新时间" prop="updateTime">
-          <el-input v-model="form.updateTime":readonly="true" :disabled="true" />
+        <el-form-item label="分享时长" v-show="share.isShare=='Y'">
+          <el-input-number v-model="share.shareDays" controls-position="right" :min="0"
+                           placeholder="设置'0'或留空代表永久分享"/>
+          （单位：天）
+        </el-form-item>
+        <el-form-item label="分享密码" v-show="share.isShare=='Y'">
+          <el-input v-model="share.shareSecret" placeholder="不设置表示无需密码"/>
+        </el-form-item>
+        <el-form-item label="创建时间" prop="createTime" v-show="form.id!=null">
+          <el-input v-model="form.createTime" :readonly="true" :disabled="true"/>
+        </el-form-item>
+        <el-form-item label="更新时间" prop="updateTime" v-show="form.id!=null">
+          <el-input v-model="form.updateTime" :readonly="true" :disabled="true"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -153,14 +171,15 @@
 </template>
 
 <script>
-import {listContent, getContent, delContent, addContent, updateContent} from "@/api/notebook/content";
+import {addContent, getContent, listContent, updateContent} from "@/api/notebook/content";
+import {delShare, getShare, saveShare} from "@/api/notebook/share";
 import {treeselect} from "@/api/notebook/catalog";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Content",
-  dicts: [],
+  dicts: ["sys_yes_no"],
   components: {Treeselect},
   data() {
     return {
@@ -210,6 +229,12 @@ export default {
         title: [
           {required: true, message: "笔记标题不能为空", trigger: "blur"}
         ]
+      },
+      // 分享内容
+      share: {
+        isShare: 'N',
+        shareDays: 0,
+        shareSecret: null
       }
     };
   },
@@ -254,7 +279,7 @@ export default {
     // 筛选节点
     filterNode(value, data) {
       if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      return data.name.indexOf(value) !== -1;
     },
     // 节点单击事件
     handleNodeClick(data) {
@@ -281,6 +306,11 @@ export default {
         remark: null,
         deleteFlag: 0
       };
+      this.share = {
+        isShare: 'N',
+        shareDays: 0,
+        shareSecret: null
+      }
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -319,6 +349,13 @@ export default {
         this.open = true;
         this.title = "修改笔记基本信息";
       });
+      getShare(id).then(response => {
+        if (response.data) {
+          this.share.isShare = 'Y';
+          this.share.shareDays = response.data.shareDays;
+          this.share.shareSecret = response.data.shareSecret;
+        }
+      });
     },
     /** 提交按钮 */
     submitForm() {
@@ -330,6 +367,15 @@ export default {
               this.open = false;
               this.getList();
             });
+            if (this.share.isShare == 'Y') {
+              saveShare({
+                contentId: this.form.id,
+                shareDays: this.share.shareDays,
+                shareSecret: this.share.shareSecret
+              });
+            } else {
+              delShare(this.form.id)
+            }
           } else {
             addContent(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");

@@ -72,8 +72,8 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:add')")
     @Log(title = "笔记分享" , businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody NoteShare noteShare) {
-        return toAjax(noteShareService.insertNoteShare(noteShare));
+    public AjaxResult save(@RequestBody NoteShare noteShare) {
+        return toAjax(noteShareService.saveNoteShare(noteShare));
     }
 
     /**

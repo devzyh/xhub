@@ -1,6 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small"
+             :inline="true" v-show="showSearch" label-width="68px"
+             @submit.native.prevent>
       <el-form-item label="目录名称" prop="name">
         <el-input
           v-model="queryParams.name"
@@ -10,7 +12,7 @@
         />
       </el-form-item>
       <el-form-item>
-	    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -24,7 +26,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['notebook:catalog:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -33,7 +36,8 @@
           icon="el-icon-sort"
           size="mini"
           @click="toggleExpandAll"
-        >展开/折叠</el-button>
+        >展开/折叠
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -43,13 +47,12 @@
       v-loading="loading"
       :data="catalogList"
       row-key="id"
-      :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column label="目录名称" align="left" prop="name" />
-      <el-table-column label="排序" align="center" prop="rank" />
-      <el-table-column label="创建时间" align="center" prop="createTime" />
-      <el-table-column label="更新时间" align="center" prop="updateTime" />
+      <el-table-column label="目录名称" align="left" prop="name"/>
+      <el-table-column label="排序" align="center" prop="rank"/>
+      <el-table-column label="创建时间" align="center" prop="createTime"/>
+      <el-table-column label="更新时间" align="center" prop="updateTime"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -58,21 +61,24 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['notebook:catalog:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
             v-hasPermi="['notebook:catalog:add']"
-          >新增</el-button>
+          >新增
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['notebook:catalog:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -81,19 +87,19 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="上级目录" prop="parentId">
-          <treeselect v-model="form.parentId" :options="catalogOptions" :normalizer="normalizer" placeholder="上级目录" />
+          <treeselect v-model="form.parentId" :options="catalogOptions" :normalizer="normalizer" placeholder="上级目录"/>
         </el-form-item>
         <el-form-item label="目录名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
+          <el-input v-model="form.name" placeholder="请输入名称"/>
         </el-form-item>
         <el-form-item label="排序" prop="rank">
-          <el-input-number v-model="form.rank" controls-position="right" :min="0" />
+          <el-input-number v-model="form.rank" controls-position="right" :min="0"/>
         </el-form-item>
         <el-form-item label="创建时间" prop="createTime">
-          <el-input v-model="form.createTime" :readonly="true" :disabled="true" />
+          <el-input v-model="form.createTime" :readonly="true" :disabled="true"/>
         </el-form-item>
         <el-form-item label="更新时间" prop="updateTime">
-          <el-input v-model="form.updateTime":readonly="true" :disabled="true" />
+          <el-input v-model="form.updateTime" :readonly="true" :disabled="true"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -105,7 +111,7 @@
 </template>
 
 <script>
-import { listCatalog, getCatalog, delCatalog, addCatalog, updateCatalog } from "@/api/notebook/catalog";
+import {listCatalog, getCatalog, delCatalog, addCatalog, updateCatalog} from "@/api/notebook/catalog";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -145,13 +151,10 @@ export default {
       // 表单校验
       rules: {
         parentId: [
-          { required: true, message: "父级ID不能为空", trigger: "blur" }
+          {required: true, message: "父级ID不能为空", trigger: "blur"}
         ],
         name: [
-          { required: true, message: "名称不能为空", trigger: "blur" }
-        ],
-        deleteFlag: [
-          { required: true, message: "删除标记不能为空", trigger: "blur" }
+          {required: true, message: "名称不能为空", trigger: "blur"}
         ]
       }
     };
@@ -179,11 +182,11 @@ export default {
         children: node.children
       };
     },
-	/** 查询笔记目录下拉树结构 */
+    /** 查询笔记目录下拉树结构 */
     getTreeselect() {
       listCatalog().then(response => {
         this.catalogOptions = [];
-        const data = { id: 0, name: '笔记目录', children: [] };
+        const data = {id: 0, name: '笔记目录', children: []};
         data.children = this.handleTree(response.data, "id", "parentId");
         this.catalogOptions.push(data);
       });
@@ -274,12 +277,13 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$modal.confirm('是否确认删除笔记目录编号为"' + row.id + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除笔记目录编号为"' + row.id + '"的数据项？').then(function () {
         return updateCatalog({id: row.id, deleteFlag: 1});
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     }
   }
 };

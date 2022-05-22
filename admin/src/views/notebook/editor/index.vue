@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="form" ref="queryForm" size="small">
+    <el-form :model="form" :rules="rules" size="small">
       <el-form-item prop="title">
         <el-input v-model="form.title"
                   style="width: calc(100% - 100px)"
@@ -21,16 +21,23 @@
 import Vditor from "vditor"
 import "vditor/dist/index.css"
 import {getContent, updateContent} from "@/api/notebook/content";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: "Editor",
   data() {
     return {
-      vditor: "",
+      vditor: undefined,
       form: {
-        id: 1,//undefined,
-        title: undefined,
-        content: undefined
+        id: 0,
+        title: "",
+        content: ""
+      },
+      // 表单校验
+      rules: {
+        title: [
+          {required: true, message: "笔记标题不能为空", trigger: "blur"}
+        ]
       }
     }
   },
@@ -38,7 +45,7 @@ export default {
     // 参考：https://ld246.com/article/1549638745630
     this.vditor = new Vditor("vditor", {
       cdn: 'https://unpkg.com/vditor@3.8.14/',
-      height: "81vh",
+      height: "75vh",
       lang: "zh_CN",
       mode: "ir",
       theme: "classic",
@@ -111,12 +118,44 @@ export default {
           codeBlockPreview: false,
         }
       },
+      upload: {
+        fieldName: "files",
+        accept: "image/*",
+        max: 10 * 1024 * 1024,
+        multiple: true,
+        url: process.env.VUE_APP_BASE_API + "/common/uploads",
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+        withCredentials: false,
+        format(files, responseText) {
+          let resp = JSON.parse(responseText)
+          let fileMap = {}
+          let fileNames = resp.originalFilenames.split(",");
+          let urls = resp.urls.split(",");
+          for (let i = 0; i < fileNames.length; i++) {
+            fileMap[fileNames[i]] = urls[i];
+          }
+          return JSON.stringify({
+            code: resp.code,
+            msg: resp.msg,
+            data: {
+              errFiles: [],
+              succMap: fileMap
+            }
+          })
+        },
+        error(msg) {
+          this.$modal.msgSuccess("图片上传失败：" + msg);
+        }
+      },
       after: () => {
         const id = this.$route.params.id
         if (id) {
-          getContent().then(response => {
+          getContent(id).then(response => {
             this.form = response.data;
             this.vditor.setValue(this.form.content, true);
+            this.visitedViews[this.visitedViews.length - 1].title = "编辑【" + this.form.id + "】";
           });
         }
       }
@@ -124,6 +163,18 @@ export default {
   },
   methods: {
     handleSave() {
+      if (!this.form.title) {
+        return this.$modal.msgError("请输入笔记标题");
+      }
+      this.form.content = this.vditor.getValue();
+      updateContent(this.form).then(response => {
+        this.$modal.msgSuccess("保存成功");
+      });
+    }
+  },
+  computed: {
+    visitedViews() {
+      return this.$store.state.tagsView.visitedViews
     }
   }
 }

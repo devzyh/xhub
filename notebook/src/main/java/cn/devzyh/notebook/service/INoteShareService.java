@@ -33,7 +33,7 @@ public interface INoteShareService {
      * @param noteShare 笔记分享
      * @return 结果
      */
-    public int insertNoteShare(NoteShare noteShare);
+    public int saveNoteShare(NoteShare noteShare);
 
     /**
      * 修改笔记分享
