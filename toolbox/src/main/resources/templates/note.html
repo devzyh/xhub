@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${data.title}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vditor@3.8.14/dist/index.css"/>
+    <link rel="stylesheet" href="/assets/global/css/global.css">
+</head>
+<body>
+
+<div th:include="header"></div>
+
+<div class="layui-container">
+    <h1 align="center" style="margin-top: 20px;font-weight: 600;">${data.title}</h1>
+    <h3 style="margin-top: 15px;text-align: center;">${data.updateTime}</h3>
+    <div id="preview" style="margin-top: 30px;"></div>
+</div>
+<script id="inputDialog" type="text/html">
+    <div class="layui-form"
+         style="padding: 25px 25px 5px 25px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
+        <div class="layui-form-item">
+            <div class="layui-form-mid">请输入访问密码：</div>
+            <div class="layui-input-inline">
+                <input id="secret" required="required" placeholder="请输入密码" autocomplete="off"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-mid" style="color: red;">密码错误</div>
+        </div>
+    </div>
+</script>
+
+<div th:include="footer"></div>
+
+<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
+<script src="https://unpkg.com/vditor@3.8.14/dist/index.min.js"></script>
+<script src="/assets/global/js/global.js"></script>
+<script>
+    let markdown = "${data.content}";
+    Vditor.preview(document.getElementById('preview'), markdown, {
+        cdn: 'https://unpkg.com/vditor@3.8.14/',
+        anchor: 1
+    });
+
+    layui.use('layer', function () {
+        var $ = layui.jquery, layer = layui.layer;
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.8,
+            id: 'shareSecretInput',
+            btn: ['确认', '清空'],
+            yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                location.herf = "/note/1.html?secret=" + $("secret").val();
+            },
+            btn2: function (index, layero) {
+                $("#secret").val("");
+                return false;
+            },
+            btnAlign: 'c',
+            moveType: 1, //拖拽模式，0或者1
+            content: $("#inputDialog").html()
+        });
+    });
+</script>
+</body>
+</html>
