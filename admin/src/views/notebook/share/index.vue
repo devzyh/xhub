@@ -44,12 +44,20 @@
     </el-row>
 
     <el-table v-loading="loading" :data="shareList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="笔记ID" align="center" prop="contentId"/>
+      <el-table-column type="selection" width="60" align="center"/>
+      <el-table-column label="笔记ID" width="80" align="center" prop="contentId"/>
+      <el-table-column label="笔记标题" align="left" prop="title"/>
       <el-table-column label="访问密码" align="center" prop="shareSecret"/>
       <el-table-column label="分享天数" align="center" prop="shareDays"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-link"
+            @click="handleLink(scope.row)"
+          >访问
+          </el-button>
           <el-button
             size="mini"
             type="text"
@@ -175,6 +183,10 @@ export default {
       this.download('notebook/share/export', {
         ...this.queryParams
       }, `share_${new Date().getTime()}.xlsx`)
+    },
+    /** 访问按钮操作 */
+    handleLink() {
+      
     }
   }
 };

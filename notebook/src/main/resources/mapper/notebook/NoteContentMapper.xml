@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectNoteContentList" parameterType="NoteContent" resultMap="NoteContentResult">
         <include refid="selectNoteContentVo"/>
         <where>
+            <if test="searchValue != null  and searchValue != ''">and (title like concat('%', #{searchValue}, '%') or content like concat('%', #{searchValue}, '%'))</if>
             <if test="catalogId != null "> and catalog_id = #{catalogId}</if>
             <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>

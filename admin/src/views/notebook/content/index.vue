@@ -28,10 +28,10 @@
       <!--笔记数据-->
       <el-col :span="19" :xs="24">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
-                 label-width="68px">
-          <el-form-item label="搜索笔记" prop="searchKey">
+                 label-width="68px" @submit.native.prevent>
+          <el-form-item label="搜索笔记" prop="searchValue">
             <el-input
-              v-model="queryParams.searchKey"
+              v-model="queryParams.searchValue"
               placeholder="请输入搜索关键字"
               clearable
               style="width: 240px"

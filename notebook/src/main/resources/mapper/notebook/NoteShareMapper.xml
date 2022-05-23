@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.notebook.mapper.NoteShareMapper">
-    
+
     <resultMap type="NoteShare" id="NoteShareResult">
         <result property="contentId"    column="content_id"    />
         <result property="shareSecret"    column="share_secret"    />
@@ -16,22 +16,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNoteShareVo">
-        select content_id, share_secret, share_days, create_by, create_time, update_by, update_time, remark from note_share
+        select ns.content_id, nc.title, ns.share_secret, ns.share_days, ns.create_by, ns.create_time, ns.update_by,
+               ns.update_time, ns.remark from note_share  ns left join note_content nc on ns.content_id = nc.id
     </sql>
 
     <select id="selectNoteShareList" parameterType="NoteShare" resultMap="NoteShareResult">
         <include refid="selectNoteShareVo"/>
-        <where>  
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="shareSecret != null  and shareSecret != ''"> and share_secret = #{shareSecret}</if>
             <if test="shareDays != null "> and share_days = #{shareDays}</if>
         </where>
     </select>
-    
+
     <select id="selectNoteShareByContentId" parameterType="Long" resultMap="NoteShareResult">
         <include refid="selectNoteShareVo"/>
         where content_id = #{contentId}
     </select>
-        
+
     <insert id="insertNoteShare" parameterType="NoteShare">
         insert into note_share
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -75,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNoteShareByContentIds" parameterType="String">
-        delete from note_share where content_id in 
+        delete from note_share where content_id in
         <foreach item="contentId" collection="array" open="(" separator="," close=")">
             #{contentId}
         </foreach>

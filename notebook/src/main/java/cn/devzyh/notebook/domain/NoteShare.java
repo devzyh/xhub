@@ -20,6 +20,12 @@ public class NoteShare extends BaseEntity {
     private Long contentId;
 
     /**
+     * 笔记标题
+     */
+    @Excel(name = "笔记标题")
+    private String title;
+
+    /**
      * 访问密码
      */
     @Excel(name = "访问密码")
@@ -37,6 +43,14 @@ public class NoteShare extends BaseEntity {
 
     public Long getContentId() {
         return contentId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setShareSecret(String shareSecret) {
@@ -58,14 +72,15 @@ public class NoteShare extends BaseEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("contentId" , getContentId())
-                .append("shareSecret" , getShareSecret())
-                .append("shareDays" , getShareDays())
-                .append("createBy" , getCreateBy())
-                .append("createTime" , getCreateTime())
-                .append("updateBy" , getUpdateBy())
-                .append("updateTime" , getUpdateTime())
-                .append("remark" , getRemark())
+                .append("contentId", getContentId())
+                .append("title", getTitle())
+                .append("shareSecret", getShareSecret())
+                .append("shareDays", getShareDays())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
                 .toString();
     }
 }
