@@ -12,6 +12,7 @@ public class NoteVo implements Serializable {
     private static final long serialVersionUID = 1L;
     private Boolean success; // 是否成功
     private Boolean showDialog; // 是否弹窗
+    private String inputSecret; // 输入的密码
     private String message; // 错误消息
     private Note note; // 笔记数据
 
@@ -21,6 +22,22 @@ public class NoteVo implements Serializable {
 
     public void setSuccess(Boolean success) {
         this.success = success;
+    }
+
+    public Boolean getShowDialog() {
+        return showDialog;
+    }
+
+    public void setShowDialog(Boolean showDialog) {
+        this.showDialog = showDialog;
+    }
+
+    public String getInputSecret() {
+        return inputSecret;
+    }
+
+    public void setInputSecret(String inputSecret) {
+        this.inputSecret = inputSecret;
     }
 
     public String getMessage() {
@@ -53,6 +70,15 @@ public class NoteVo implements Serializable {
         this.note = n;
     }
 
+    public void setSuccessWithDialog(String message) {
+        this.success = true;
+        this.message = message;
+        Note n = new Note();
+        n.setTitle(message);
+        this.note = n;
+        this.showDialog = true;
+    }
+
     public void setErrorWithDialog(String message) {
         setError(message);
         this.showDialog = true;
@@ -63,6 +89,7 @@ public class NoteVo implements Serializable {
         return "NoteVo{" +
                 "success=" + success +
                 ", showDialog=" + showDialog +
+                ", inputSecret='" + inputSecret + '\'' +
                 ", message='" + message + '\'' +
                 ", note=" + note +
                 '}';

@@ -1,6 +1,8 @@
 package cn.devzyh.toolbox.controller;
 
+import cn.devzyh.toolbox.domain.vo.NoteVo;
 import cn.devzyh.toolbox.service.IToolNoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +18,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ToolNoteController {
 
+    @Autowired
     private IToolNoteService noteService;
 
     @GetMapping("note/{id}.html")
     public String html(Model model, @PathVariable Long id,
-                       @RequestParam(required = false) String secret,
-                       @RequestParam(required = false) String token) {
-        model.addAttribute("data", noteService.html(id, secret, token));
+                       @RequestParam(required = false, defaultValue = "") String secret,
+                       @RequestParam(required = false, defaultValue = "") String token) {
+        NoteVo vo = noteService.html(id, secret, token);
+        model.addAttribute("data", vo);
+        model.addAttribute("note", vo.getNote());
         return "note";
     }
 
-    @ResponseBody
-    @GetMapping("note/{id}.md")
-    public String markdown() {
-        return "";
+    @ResponseBody()
+    @GetMapping(value = "note/{id}.md", produces = "text/text;charset=UTF-8")
+    public String markdown(@PathVariable Long id,
+                           @RequestParam(required = false, defaultValue = "") String secret,
+                           @RequestParam(required = false, defaultValue = "") String token) {
+        return noteService.markdown(id, secret, token);
     }
 }

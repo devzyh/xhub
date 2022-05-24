@@ -185,8 +185,12 @@ export default {
       }, `share_${new Date().getTime()}.xlsx`)
     },
     /** 访问按钮操作 */
-    handleLink() {
-      
+    handleLink(row) {
+      let url = "/note/" + row.contentId + ".html";
+      if (row.shareSecret) {
+        url = url + "?secret=" + row.shareSecret;
+      }
+      window.open(url)
     }
   }
 };

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title th:text="${note.title}"></title>
+    <title th:text="${note.title+'-'+title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
@@ -15,29 +15,33 @@
 
 <div class="layui-container">
     <h1 align="center" style="margin-top: 20px;font-weight: 600;" th:text="${note.title}">笔记标题</h1>
-    <h3 style=" margin-top: 15px;text-align: center;" th:text="${note.updateTime}">1970-01-01 00:00:00</h3>
+    <h3 style=" margin-top: 15px;text-align: center;" th:text="${#dates.format(note.updateTime,'yyyy-MM-dd HH:mm:ss')}">
+        1970-01-01 00:00:00</h3>
     <div id="preview" style="margin-top: 30px;"></div>
 </div>
 
 <div th:include="footer"></div>
 
-<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
-<script src="https://unpkg.com/vditor@3.8.14/dist/index.min.js"></script>
+<script id="markdownText" th:text="${note.content}"></script>
 <script id="inputDialog" type="text/html">
     <div class="layui-form"
          style="padding: 25px 25px 5px 25px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
         <div class="layui-form-item">
             <div class="layui-form-mid">请输入访问密码：</div>
             <div class="layui-input-inline">
-                <input id="secret" required="required" placeholder="请输入密码" autocomplete="off"
-                       class="layui-input">
+                <input id="secret" required="required" placeholder="请输入访问密码" autocomplete="off"
+                       class="layui-input" th:value="${data.inputSecret}">
             </div>
-            <div class="layui-form-mid" style="color: red;">密码错误</div>
+            <div class="layui-form-mid" style="color: red;" th:if="${!data.success}"
+                 th:text="${data.message}"></div>
         </div>
     </div>
 </script>
-<script>
-    let markdown = "${data.content}";
+
+<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
+<script src="https://unpkg.com/vditor@3.8.14/dist/index.min.js"></script>
+<script th:inline="javascript">
+    let markdown = document.getElementById('markdownText').innerText;
     Vditor.preview(document.getElementById('preview'), markdown, {
         cdn: 'https://unpkg.com/vditor@3.8.14/',
         anchor: 1
@@ -54,7 +58,7 @@
             id: 'shareSecretInput',
             btn: ['确认', '清空'],
             yes: function (index, layero) {
-                window.location.herf = "/note/1.html?secret=" + $("#secret").val();
+                location.href = location.href.split("?")[0] + "?secret=" + $("#secret").val();
             },
             btn2: function (index, layero) {
                 $("#secret").val("");
@@ -64,7 +68,9 @@
             moveType: 1,
             content: $("#inputDialog").html()
         }
-        layer.open(def);
+        if ([[${data.showDialog}]]) {
+            layer.open(def);
+        }
     });
 </script>
 </body>
