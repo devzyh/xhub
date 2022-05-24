@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.devzyh.toolbox.mapper.ToolNoteMapper">
+
+    <select id="selectNoteById" parameterType="Long" resultType="Note">
+        select
+            nc.id,
+            nc.title,
+            nc.content,
+            ns.share_secret,
+            ns.share_days,
+            nc.create_by,
+            nc.create_time,
+            nc.update_by,
+            nc.update_time,
+            nc.remark
+        from
+            note_share ns
+        left join note_content nc on ns.content_id = nc.id
+        where
+            content_id = #{id}
+            limit 1
+    </select>
+
+</mapper>
