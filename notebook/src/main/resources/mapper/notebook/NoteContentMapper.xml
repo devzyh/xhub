@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.notebook.mapper.NoteContentMapper">
 
     <resultMap type="NoteContent" id="NoteContentResult">
-        <result property="id"    column="id"    />
-        <result property="catalogId"    column="catalog_id"    />
-        <result property="title"    column="title"    />
-        <result property="content"    column="content"    />
-        <result property="rank"    column="rank"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="id" column="id"/>
+        <result property="catalogId" column="catalog_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="rank" column="rank"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="deleteFlag" column="delete_flag"/>
     </resultMap>
 
     <sql id="selectNoteContentVo">
-        select id, catalog_id, title, content, rank, create_by, create_time, update_by, update_time, remark, delete_flag from note_content
+        select id,
+               catalog_id,
+               title,
+               content,
+               rank,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark,
+               delete_flag
+        from note_content
     </sql>
 
     <select id="selectNoteContentList" parameterType="NoteContent" resultMap="NoteContentResult">
         <include refid="selectNoteContentVo"/>
         <where>
-            <if test="searchValue != null  and searchValue != ''">and (title like concat('%', #{searchValue}, '%') or content like concat('%', #{searchValue}, '%'))</if>
-            <if test="catalogId != null "> and catalog_id = #{catalogId}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
-            <if test="rank != null "> and rank = #{rank}</if>
-            <if test="deleteFlag != null "> and delete_flag = #{deleteFlag}</if>
+            <if test="searchValue != null  and searchValue != ''">and (title like concat('%', #{searchValue}, '%') or
+                content like concat('%', #{searchValue}, '%'))
+            </if>
+            <if test="catalogId != null ">and catalog_id = #{catalogId}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="rank != null ">and rank = #{rank}</if>
+            <if test="deleteFlag != null ">and delete_flag = #{deleteFlag}</if>
         </where>
     </select>
 
@@ -52,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
             <if test="deleteFlag != null">delete_flag,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="catalogId != null">#{catalogId},</if>
             <if test="title != null and title != ''">#{title},</if>
@@ -64,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
             <if test="deleteFlag != null">#{deleteFlag},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateNoteContent" parameterType="NoteContent">
@@ -85,14 +98,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteNoteContentById" parameterType="Long">
-        delete from note_content where id = #{id}
+        update note_content
+        set delete_flag = 1,
+            update_time = now()
+        where id = #{id}
     </delete>
 
     <delete id="deleteNoteContentByIds" parameterType="String">
-        delete from note_content where id in
+        update note_content set delete_flag = 1, pdate_time = now() where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
-        and delete_flag = 1
     </delete>
 </mapper>

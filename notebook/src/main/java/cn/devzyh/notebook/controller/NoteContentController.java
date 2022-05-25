@@ -1,26 +1,23 @@
 package cn.devzyh.notebook.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import cn.devzyh.common.annotation.Log;
+import cn.devzyh.common.constant.ToolConstants;
 import cn.devzyh.common.core.controller.BaseController;
 import cn.devzyh.common.core.domain.AjaxResult;
+import cn.devzyh.common.core.page.TableDataInfo;
+import cn.devzyh.common.core.redis.RedisCache;
 import cn.devzyh.common.enums.BusinessType;
+import cn.devzyh.common.utils.poi.ExcelUtil;
 import cn.devzyh.notebook.domain.NoteContent;
 import cn.devzyh.notebook.service.INoteContentService;
-import cn.devzyh.common.utils.poi.ExcelUtil;
-import cn.devzyh.common.core.page.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 笔记内容Controller
@@ -31,8 +28,11 @@ import cn.devzyh.common.core.page.TableDataInfo;
 @RestController
 @RequestMapping("/rest/notebook/content")
 public class NoteContentController extends BaseController {
+
     @Autowired
     private INoteContentService noteContentService;
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询笔记内容列表
@@ -49,7 +49,7 @@ public class NoteContentController extends BaseController {
      * 导出笔记内容列表
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:export')")
-    @Log(title = "笔记内容" , businessType = BusinessType.EXPORT)
+    @Log(title = "笔记内容", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteContent noteContent) {
         List<NoteContent> list = noteContentService.selectNoteContentList(noteContent);
@@ -70,7 +70,7 @@ public class NoteContentController extends BaseController {
      * 新增笔记内容
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:add')")
-    @Log(title = "笔记内容" , businessType = BusinessType.INSERT)
+    @Log(title = "笔记内容", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody NoteContent noteContent) {
         return toAjax(noteContentService.insertNoteContent(noteContent));
@@ -80,7 +80,7 @@ public class NoteContentController extends BaseController {
      * 修改笔记内容
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:edit')")
-    @Log(title = "笔记内容" , businessType = BusinessType.UPDATE)
+    @Log(title = "笔记内容", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody NoteContent noteContent) {
         return toAjax(noteContentService.updateNoteContent(noteContent));
@@ -90,9 +90,21 @@ public class NoteContentController extends BaseController {
      * 删除笔记内容
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:remove')")
-    @Log(title = "笔记内容" , businessType = BusinessType.DELETE)
+    @Log(title = "笔记内容", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(noteContentService.deleteNoteContentByIds(ids));
+    }
+
+    /**
+     * 生成访问Token
+     */
+    @PreAuthorize("@ss.hasPermi('notebook:content:token')")
+    @Log(title = "笔记内容", businessType = BusinessType.OTHER)
+    @GetMapping("/generateToken")
+    public AjaxResult generateToken() {
+        String token = UUID.randomUUID().toString();
+        redisCache.setCacheObject(ToolConstants.Note.TOKEN_PREFIX + token, token, ToolConstants.Note.TOKEN_EXPIRE, TimeUnit.MINUTES);
+        return AjaxResult.success(null, token);
     }
 }

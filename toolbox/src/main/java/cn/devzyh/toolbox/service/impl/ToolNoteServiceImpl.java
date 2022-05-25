@@ -1,5 +1,7 @@
 package cn.devzyh.toolbox.service.impl;
 
+import cn.devzyh.common.constant.ToolConstants;
+import cn.devzyh.common.core.redis.RedisCache;
 import cn.devzyh.common.utils.StringUtils;
 import cn.devzyh.toolbox.domain.Note;
 import cn.devzyh.toolbox.domain.vo.NoteVo;
@@ -15,6 +17,8 @@ public class ToolNoteServiceImpl implements IToolNoteService {
 
     @Autowired
     private ToolNoteMapper noteMapper;
+    @Autowired
+    private RedisCache redisCache;
 
     @Override
     public NoteVo html(Long id, String secret, String token) {
@@ -27,18 +31,25 @@ public class ToolNoteServiceImpl implements IToolNoteService {
 
         // 授权码随意访问
         if (StringUtils.isNotBlank(token)) {
-            // TODO 授权码验证
-            if (true) {
-                vo.setSuccess(note);
+            // 授权码验证
+            if (redisCache.getCacheObject(ToolConstants.Note.TOKEN_PREFIX + token) == null) {
+                vo.setError("授权码已过期");
                 return vo;
             } else {
-                vo.setError("授权码已过期");
+                vo.setSuccess(note);
                 return vo;
             }
         }
 
+        // 未分享的笔记
+        if (note.getShareUpdateTime() == null) {
+            vo.setError("您访问的笔记不存在");
+            return vo;
+        }
+
         // 分享到期验证
-        if (note.getShareDays() > 0 && LocalDateTime.now().isAfter(LocalDateTime.now().plusDays(note.getShareDays()))) {
+        if (note.getShareDays() > 0 &&
+                LocalDateTime.now().isAfter(note.getShareUpdateTime().plusDays(note.getShareDays()))) {
             vo.setError("您访问的笔记不存在");
             return vo;
         }
@@ -64,7 +75,7 @@ public class ToolNoteServiceImpl implements IToolNoteService {
     @Override
     public String markdown(Long id, String secret, String token) {
         NoteVo vo = html(id, secret, token);
-        if (!vo.getSuccess()) {
+        if (StringUtils.isNotBlank(vo.getMessage())) {
             return vo.getMessage();
         }
         return vo.getNote().getContent();

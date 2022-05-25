@@ -5,23 +5,20 @@
 <mapper namespace="cn.devzyh.toolbox.mapper.ToolNoteMapper">
 
     <select id="selectNoteById" parameterType="Long" resultType="Note">
-        select
-            nc.id,
-            nc.title,
-            nc.content,
-            ns.share_secret,
-            ns.share_days,
-            nc.create_by,
-            nc.create_time,
-            nc.update_by,
-            nc.update_time,
-            nc.remark
-        from
-            note_share ns
-        left join note_content nc on ns.content_id = nc.id
-        where
-            content_id = #{id}
-            limit 1
+        select c.id,
+               c.title,
+               c.content,
+               c.create_by,
+               c.create_time,
+               c.update_by,
+               c.update_time,
+               c.remark,
+               s.share_secret,
+               s.share_days,
+               s.update_time share_update_time
+        from note_content c
+                 left join note_share s on c.id = s.content_id
+        where c.id = #{id} limit 1
     </select>
 
 </mapper>

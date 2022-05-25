@@ -58,6 +58,18 @@
           </el-col>
           <el-col :span="1.5">
             <el-button
+              type="danger"
+              plain
+              icon="el-icon-delete"
+              size="mini"
+              :disabled="multiple"
+              @click="handleDelete"
+              v-hasPermi="['notebook:content:remove']"
+            >删除
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
               type="warning"
               plain
               icon="el-icon-download"
@@ -71,6 +83,7 @@
         </el-row>
 
         <el-table v-loading="loading" :data="contentList" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="60" align="center"/>
           <el-table-column label="ID" align="center" prop="id" width="60"/>
           <el-table-column label="标题" align="left" prop="title"/>
           <el-table-column label="排序" align="center" prop="rank" width="60"/>
@@ -97,6 +110,14 @@
               <el-button
                 size="mini"
                 type="text"
+                icon="el-icon-view"
+                @click="handlePreview(scope.row)"
+                v-hasPermi="['notebook:content:token']"
+              >预览
+              </el-button>
+              <el-button
+                size="mini"
+                type="text"
                 icon="el-icon-setting"
                 @click="handleSetting(scope.row)"
                 v-hasPermi="['notebook:content:setting']"
@@ -105,10 +126,10 @@
               <el-button
                 size="mini"
                 type="text"
-                icon="el-icon-delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['notebook:content:remove']"
-              >删除
+                icon="el-icon-coin"
+                @click="handleHistory(scope.row)"
+                v-hasPermi="['notebook:content:history']"
+              >备份
               </el-button>
             </template>
           </el-table-column>
@@ -171,7 +192,7 @@
 </template>
 
 <script>
-import {addContent, getContent, listContent, updateContent} from "@/api/notebook/content";
+import {addContent, delContent, getContent, listContent, updateContent, generateToken} from "@/api/notebook/content";
 import {delShare, getShare, saveShare} from "@/api/notebook/share";
 import {treeselect} from "@/api/notebook/catalog";
 import Treeselect from "@riophae/vue-treeselect";
@@ -329,34 +350,6 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加笔记基本信息";
-      this.form.catalogId = this.queryParams.catalogId;
-    },
-    /** Markdown编辑按钮操作 */
-    handleEdit(row) {
-      this.$router.push({path: "/note/editor/" + row.id});
-    },
-    /** 修改按钮操作 */
-    handleSetting(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getContent(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改笔记基本信息";
-      });
-      getShare(id).then(response => {
-        if (response.data) {
-          this.share.isShare = 'Y';
-          this.share.shareDays = response.data.shareDays;
-          this.share.shareSecret = response.data.shareSecret;
-        }
-      });
-    },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
@@ -386,21 +379,59 @@ export default {
         }
       });
     },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.open = true;
+      this.title = "添加笔记基本信息";
+      this.form.catalogId = this.queryParams.catalogId;
+    },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$modal.confirm('是否确认删除笔记编号为"' + row.id + '"的数据项？').then(function () {
-        return updateContent({id: row.id, deleteFlag: 1});
+      const ids = row.id || this.ids;
+      this.$modal.confirm('是否确认删除笔记编号为"' + ids + '"的数据项？').then(function () {
+        return delContent(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {
       });
     },
+    /** Markdown编辑按钮操作 */
+    handleEdit(row) {
+      this.$router.push({path: "/note/editor/" + row.id});
+    },
+    /** 修改按钮操作 */
+    handleSetting(row) {
+      this.reset();
+      const id = row.id || this.ids
+      getContent(id).then(response => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "修改笔记基本信息";
+      });
+      getShare(id).then(response => {
+        if (response.data) {
+          this.share.isShare = 'Y';
+          this.share.shareDays = response.data.shareDays;
+          this.share.shareSecret = response.data.shareSecret;
+        }
+      });
+    },
+    /** 历史按钮操作 */
+    handleHistory(row) {
+
+    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('notebook/content/export', {
         ...this.queryParams
       }, `content_${new Date().getTime()}.xlsx`)
+    },
+    handlePreview(row) {
+      generateToken().then(response => {
+        window.open("/note/" + row.id + ".html?token=" + response.data)
+      });
     }
   }
 };

@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.notebook.mapper.NoteCatalogMapper">
 
     <resultMap type="NoteCatalog" id="NoteCatalogResult">
-        <result property="id"    column="id"    />
-        <result property="parentId"    column="parent_id"    />
-        <result property="name"    column="name"    />
-        <result property="rank"    column="rank"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
-        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="rank" column="rank"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="deleteFlag" column="delete_flag"/>
     </resultMap>
 
     <sql id="selectNoteCatalogVo">
-        select id, parent_id, name, rank, create_by, create_time, update_by, update_time, remark, delete_flag from note_catalog
+        select id,
+               parent_id,
+               name,
+               rank,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark,
+               delete_flag
+        from note_catalog
     </sql>
 
     <select id="selectNoteCatalogList" parameterType="NoteCatalog" resultMap="NoteCatalogResult">
         <include refid="selectNoteCatalogVo"/>
         <where>
-            <if test="parentId != null "> and parent_id = #{parentId}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="rank != null "> and rank = #{rank}</if>
-            <if test="deleteFlag != null "> and delete_flag = #{deleteFlag}</if>
+            <if test="parentId != null ">and parent_id = #{parentId}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="rank != null ">and rank = #{rank}</if>
+            <if test="deleteFlag != null ">and delete_flag = #{deleteFlag}</if>
         </where>
     </select>
 
@@ -48,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
             <if test="deleteFlag != null">delete_flag,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="parentId != null">#{parentId},</if>
             <if test="name != null and name != ''">#{name},</if>
@@ -59,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
             <if test="deleteFlag != null">#{deleteFlag},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateNoteCatalog" parameterType="NoteCatalog">
@@ -79,14 +89,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteNoteCatalogById" parameterType="Long">
-        delete from note_catalog where id = #{id}
+        update note_catalog
+        set delete_flag = 1,
+            update_time = now()
+        where id = #{id}
     </delete>
 
     <delete id="deleteNoteCatalogByIds" parameterType="String">
-        delete from note_catalog where id in
+        update note_catalog set delete_flag = 1, update_time = now() where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
-        and delete_flag = 1
     </delete>
 </mapper>

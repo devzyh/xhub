@@ -209,7 +209,6 @@ export default {
         updateTime: null,
         remark: null,
         deleteFlag: 0
-
       };
       this.resetForm("form");
     },
@@ -278,7 +277,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       this.$modal.confirm('是否确认删除笔记目录编号为"' + row.id + '"的数据项？').then(function () {
-        return updateCatalog({id: row.id, deleteFlag: 1});
+        return delCatalog(row.id);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");

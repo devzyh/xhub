@@ -42,3 +42,11 @@ export function delContent(id) {
     method: 'delete'
   })
 }
+
+// 生成访问Token
+export function generateToken(id) {
+  return request({
+    url: '/notebook/content/generateToken',
+    method: 'get'
+  })
+}

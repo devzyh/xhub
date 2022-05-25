@@ -1,13 +1,8 @@
 package cn.devzyh.toolbox.domain;
 
-import cn.devzyh.common.annotation.Excel;
 import cn.devzyh.common.core.domain.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * 笔记表
@@ -49,6 +44,11 @@ public class Note extends BaseEntity {
      * 分享天数
      */
     private Long shareDays;
+
+    /**
+     * 分享时间
+     */
+    private LocalDateTime shareUpdateTime;
 
     public Long getId() {
         return id;
@@ -106,6 +106,14 @@ public class Note extends BaseEntity {
         this.shareDays = shareDays;
     }
 
+    public LocalDateTime getShareUpdateTime() {
+        return shareUpdateTime;
+    }
+
+    public void setShareUpdateTime(LocalDateTime shareUpdateTime) {
+        this.shareUpdateTime = shareUpdateTime;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -116,6 +124,7 @@ public class Note extends BaseEntity {
                 ", deleteFlag=" + deleteFlag +
                 ", shareSecret='" + shareSecret + '\'' +
                 ", shareDays=" + shareDays +
+                ", shareUpdateTime=" + shareUpdateTime +
                 '}';
     }
 }

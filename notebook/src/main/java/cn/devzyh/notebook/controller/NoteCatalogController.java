@@ -48,7 +48,7 @@ public class NoteCatalogController extends BaseController {
      * 导出笔记目录列表
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:export')")
-    @Log(title = "笔记目录" , businessType = BusinessType.EXPORT)
+    @Log(title = "笔记目录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteCatalog noteCatalog) {
         List<NoteCatalog> list = noteCatalogService.selectNoteCatalogList(noteCatalog);
@@ -69,7 +69,7 @@ public class NoteCatalogController extends BaseController {
      * 新增笔记目录
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:add')")
-    @Log(title = "笔记目录" , businessType = BusinessType.INSERT)
+    @Log(title = "笔记目录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody NoteCatalog noteCatalog) {
         return toAjax(noteCatalogService.insertNoteCatalog(noteCatalog));
@@ -79,7 +79,7 @@ public class NoteCatalogController extends BaseController {
      * 修改笔记目录
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:edit')")
-    @Log(title = "笔记目录" , businessType = BusinessType.UPDATE)
+    @Log(title = "笔记目录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody NoteCatalog noteCatalog) {
         return toAjax(noteCatalogService.updateNoteCatalog(noteCatalog));
@@ -89,7 +89,7 @@ public class NoteCatalogController extends BaseController {
      * 删除笔记目录
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:remove')")
-    @Log(title = "笔记目录" , businessType = BusinessType.DELETE)
+    @Log(title = "笔记目录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(noteCatalogService.deleteNoteCatalogByIds(ids));
@@ -100,6 +100,7 @@ public class NoteCatalogController extends BaseController {
      */
     @GetMapping("/treeselect")
     public AjaxResult treeselect(NoteCatalog catalog) {
+        catalog.setDeleteFlag(0);
         List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);
         return AjaxResult.success(noteCatalogService.buildCatalogTree(catalogs));
     }
