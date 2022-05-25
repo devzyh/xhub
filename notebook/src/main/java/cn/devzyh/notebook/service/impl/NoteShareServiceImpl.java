@@ -53,6 +53,7 @@ public class NoteShareServiceImpl implements INoteShareService {
         NoteShare localShare = noteShareMapper.selectNoteShareByContentId(noteShare.getContentId());
         if (localShare == null) {
             noteShare.setCreateTime(DateUtils.getNowDate());
+            noteShare.setUpdateTime(DateUtils.getNowDate());
             return noteShareMapper.insertNoteShare(noteShare);
         } else {
             noteShare.setUpdateTime(DateUtils.getNowDate());

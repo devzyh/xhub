@@ -110,14 +110,6 @@
               <el-button
                 size="mini"
                 type="text"
-                icon="el-icon-view"
-                @click="handlePreview(scope.row)"
-                v-hasPermi="['notebook:content:token']"
-              >预览
-              </el-button>
-              <el-button
-                size="mini"
-                type="text"
                 icon="el-icon-setting"
                 @click="handleSetting(scope.row)"
                 v-hasPermi="['notebook:content:setting']"
@@ -126,10 +118,18 @@
               <el-button
                 size="mini"
                 type="text"
+                icon="el-icon-view"
+                @click="handlePreview(scope.row)"
+                v-hasPermi="['notebook:content:token']"
+              >预览
+              </el-button>
+              <el-button
+                size="mini"
+                type="text"
                 icon="el-icon-coin"
                 @click="handleHistory(scope.row)"
                 v-hasPermi="['notebook:content:history']"
-              >备份
+              >历史
               </el-button>
             </template>
           </el-table-column>
@@ -188,6 +188,48 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 查看与恢复笔记历史对话框 -->
+    <el-dialog :title="title" :visible.sync="openHistory" width="900px" append-to-body>
+      <el-row>
+        <el-col :span="5">
+          <el-menu @select="handleSelectHistory" default-active="0"
+                   style="height: 500px;overflow-y:auto;overflow-x:hidden;">
+            <el-menu-item v-for="(h,i) in historyList" :index="i.toString()">
+              <span>{{ parseTime(h.createTime) }}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-col>
+        <el-col :span="19">
+          <el-form ref="form" :model="historyForm" label-width="80px">
+            <el-form-item label="标题" prop="title">
+              <el-input v-model="historyForm.title" :disabled="true"></el-input>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="目录" prop="catalogId">
+                  <treeselect v-model="historyForm.catalogId" :options="catalogOptions" :normalizer="normalizer"
+                              :disabled="true"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="排序" prop="rank">
+                  <el-input-number v-model="historyForm.rank" controls-position="right" :min="0"
+                                   :disabled="true"></el-input-number>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item label="内容">
+              <el-input type="textarea" v-model="historyForm.content" rows="15" :disabled="true"
+                        resize="none"></el-input>
+            </el-form-item>
+            <el-form-item style="text-align: right;">
+              <el-button type="danger" @click="handleReset">恢复到此版本</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -195,6 +237,7 @@
 import {addContent, delContent, getContent, listContent, updateContent, generateToken} from "@/api/notebook/content";
 import {delShare, getShare, saveShare} from "@/api/notebook/share";
 import {treeselect} from "@/api/notebook/catalog";
+import {listHistory} from "@/api/notebook/history";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -228,6 +271,12 @@ export default {
       catalogName: undefined,
       // 表单参数
       form: {},
+      // 是否显示历史层
+      openHistory: false,
+      // 历史笔记列表数据
+      historyList: null,
+      // 历史笔记表单参数
+      historyForm: {},
       defaultProps: {
         children: "children",
         label: "name"
@@ -334,6 +383,23 @@ export default {
       }
       this.resetForm("form");
     },
+    // 笔记历史表单重置
+    resetHistory() {
+      this.historyForm = {
+        id: null,
+        catalogId: null,
+        contentId: null,
+        title: null,
+        content: null,
+        rank: null,
+        createBy: null,
+        createTime: null,
+        updateBy: null,
+        updateTime: null,
+        remark: null
+      };
+      this.resetForm("historyForm");
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -418,21 +484,60 @@ export default {
         }
       });
     },
-    /** 历史按钮操作 */
-    handleHistory(row) {
-
-    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('notebook/content/export', {
         ...this.queryParams
       }, `content_${new Date().getTime()}.xlsx`)
     },
+    /** 预览按钮操作 */
     handlePreview(row) {
       generateToken().then(response => {
         window.open("/note/" + row.id + ".html?token=" + response.data)
       });
+    },
+    /** 历史按钮操作 */
+    handleHistory(row) {
+      this.historyList = null;
+      this.resetHistory();
+      this.openHistory = true;
+      this.title = "【" + row.title + "】笔记历史版本";
+      listHistory({contentId: row.id}).then(response => {
+        if (response.total > 0) {
+          this.historyList = response.rows;
+          this.historyForm = this.historyList[0];
+        }
+      });
+    },
+    /** 历史选中操作 */
+    handleSelectHistory(key, keyPath) {
+      this.historyForm = this.historyList[parseInt(key)];
+    },
+    /** 恢复按钮操作 */
+    handleReset() {
+      let history = this.historyForm;
+      if (history.contentId) {
+        this.$modal.confirm('确认恢复当前笔记到【' + history.createTime + '】的版本？').then(function () {
+          let content = {
+            id: history.contentId,
+            catalogId: history.catalogId,
+            title: history.title,
+            content: history.content,
+            rank: history.rank,
+            remark: history.remark
+          }
+          return updateContent(content);
+        }).then(() => {
+          this.getList();
+          this.$modal.msgSuccess("恢复成功");
+        });
+      } else {
+        this.$modal.msgError("当前笔记没有历史版本")
+      }
     }
   }
 };
 </script>
+
+<style scoped>
+</style>

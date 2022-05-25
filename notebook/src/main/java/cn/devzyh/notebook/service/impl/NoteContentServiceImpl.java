@@ -1,13 +1,18 @@
 package cn.devzyh.notebook.service.impl;
 
-import java.util.List;
-
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.bean.BeanUtils;
+import cn.devzyh.notebook.domain.NoteContent;
+import cn.devzyh.notebook.domain.NoteHistory;
+import cn.devzyh.notebook.mapper.NoteContentMapper;
+import cn.devzyh.notebook.mapper.NoteHistoryMapper;
+import cn.devzyh.notebook.service.INoteContentService;
+import cn.devzyh.notebook.service.INoteHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.devzyh.notebook.mapper.NoteContentMapper;
-import cn.devzyh.notebook.domain.NoteContent;
-import cn.devzyh.notebook.service.INoteContentService;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 笔记内容Service业务层处理
@@ -18,7 +23,9 @@ import cn.devzyh.notebook.service.INoteContentService;
 @Service
 public class NoteContentServiceImpl implements INoteContentService {
     @Autowired
-    private NoteContentMapper noteContentMapper;
+    private NoteContentMapper contentMapper;
+    @Autowired
+    private INoteHistoryService historyService;
 
     /**
      * 查询笔记内容
@@ -28,7 +35,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public NoteContent selectNoteContentById(Long id) {
-        return noteContentMapper.selectNoteContentById(id);
+        return contentMapper.selectNoteContentById(id);
     }
 
     /**
@@ -39,7 +46,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public List<NoteContent> selectNoteContentList(NoteContent noteContent) {
-        return noteContentMapper.selectNoteContentList(noteContent);
+        return contentMapper.selectNoteContentList(noteContent);
     }
 
     /**
@@ -51,19 +58,28 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     public int insertNoteContent(NoteContent noteContent) {
         noteContent.setCreateTime(DateUtils.getNowDate());
-        return noteContentMapper.insertNoteContent(noteContent);
+        return contentMapper.insertNoteContent(noteContent);
     }
 
     /**
      * 修改笔记内容
      *
-     * @param noteContent 笔记内容
+     * @param content 笔记内容
      * @return 结果
      */
     @Override
-    public int updateNoteContent(NoteContent noteContent) {
-        noteContent.setUpdateTime(DateUtils.getNowDate());
-        return noteContentMapper.updateNoteContent(noteContent);
+    @Transactional
+    public int updateNoteContent(NoteContent content) {
+        // 备份本地数据到历史表
+        NoteContent local = contentMapper.selectNoteContentById(content.getId());
+        NoteHistory history = new NoteHistory();
+        BeanUtils.copyBeanProp(history, local);
+        history.setContentId(local.getId());
+        historyService.insertNoteHistory(history);
+
+        // 更新传入数据到内容表
+        content.setUpdateTime(DateUtils.getNowDate());
+        return contentMapper.updateNoteContent(content);
     }
 
     /**
@@ -74,7 +90,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int deleteNoteContentByIds(Long[] ids) {
-        return noteContentMapper.deleteNoteContentByIds(ids);
+        return contentMapper.deleteNoteContentByIds(ids);
     }
 
     /**
@@ -85,6 +101,6 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int deleteNoteContentById(Long id) {
-        return noteContentMapper.deleteNoteContentById(id);
+        return contentMapper.deleteNoteContentById(id);
     }
 }

@@ -50,7 +50,9 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      */
     @Override
     public int insertNoteHistory(NoteHistory noteHistory) {
+        noteHistory.setId(null);
         noteHistory.setCreateTime(DateUtils.getNowDate());
+        noteHistory.setUpdateTime(DateUtils.getNowDate());
         return noteHistoryMapper.insertNoteHistory(noteHistory);
     }
 

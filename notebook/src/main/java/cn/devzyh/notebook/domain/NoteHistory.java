@@ -25,11 +25,18 @@ public class NoteHistory extends BaseEntity {
     @Excel(name = "笔记ID")
     private Long contentId;
 
+
+    /**
+     * 目录ID
+     */
+    @Excel(name = "目录ID")
+    private Long catalogId;
+
     /**
      * 标题
      */
     @Excel(name = "标题")
-    private Long title;
+    private String title;
 
     /**
      * 内容
@@ -59,11 +66,19 @@ public class NoteHistory extends BaseEntity {
         return contentId;
     }
 
-    public void setTitle(Long title) {
+    public Long getCatalogId() {
+        return catalogId;
+    }
+
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public Long getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -86,16 +101,17 @@ public class NoteHistory extends BaseEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id" , getId())
-                .append("contentId" , getContentId())
-                .append("title" , getTitle())
-                .append("content" , getContent())
-                .append("rank" , getRank())
-                .append("createBy" , getCreateBy())
-                .append("createTime" , getCreateTime())
-                .append("updateBy" , getUpdateBy())
-                .append("updateTime" , getUpdateTime())
-                .append("remark" , getRemark())
+                .append("id", getId())
+                .append("contentId", getContentId())
+                .append("catalogId", getCatalogId())
+                .append("title", getTitle())
+                .append("content", getContent())
+                .append("rank", getRank())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
                 .toString();
     }
 }

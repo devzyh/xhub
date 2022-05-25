@@ -16,8 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNoteShareVo">
-        select ns.content_id, nc.title, ns.share_secret, ns.share_days, ns.create_by, ns.create_time, ns.update_by,
-               ns.update_time, ns.remark from note_share  ns left join note_content nc on ns.content_id = nc.id
+        select s.content_id, c.title, s.share_secret, s.share_days, s.create_by, s.create_time, s.update_by,
+               s.update_time, s.remark from note_share s left join note_content c on s.content_id = c.id
     </sql>
 
     <select id="selectNoteShareList" parameterType="NoteShare" resultMap="NoteShareResult">

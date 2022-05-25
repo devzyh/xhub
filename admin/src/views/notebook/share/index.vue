@@ -47,8 +47,20 @@
       <el-table-column type="selection" width="60" align="center"/>
       <el-table-column label="笔记ID" width="80" align="center" prop="contentId"/>
       <el-table-column label="笔记标题" align="left" prop="title"/>
-      <el-table-column label="访问密码" align="center" prop="shareSecret"/>
-      <el-table-column label="分享天数" align="center" prop="shareDays"/>
+      <el-table-column label="访问密码" align="center" prop="shareSecret">
+        <template slot-scope="scope">
+          <span v-if="!scope.row.shareSecret">无密码</span>
+          <span v-if="scope.row.shareSecret">{{ scope.row.shareSecret }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="到期时间" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.shareDays==0">至无限期</span>
+          <span v-if="scope.row.shareDays>0">{{
+              parseTime(dateAddDays(scope.row.updateTime, scope.row.shareDays))
+            }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -191,6 +203,15 @@ export default {
         url = url + "?secret=" + row.shareSecret;
       }
       window.open(url)
+    },
+    /** 时间增加指定天数 **/
+    dateAddDays(date, days) {
+      if (!days) {
+        days = 1;
+      }
+      var date = new Date(date);
+      date.setDate(date.getDate() + days);
+      return date;
     }
   }
 };
