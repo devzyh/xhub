@@ -41,7 +41,11 @@
 <script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
 <script src="https://cdn.staticfile.org/vditor/3.8.15/method.min.js"></script>
 <script th:inline="javascript">
-    Vditor.preview(document.getElementById('preview'), [[${note.content}]], {
+    let markdown = [[${note.content}]];
+    if (!markdown) {
+        markdown = "";
+    }
+    Vditor.preview(document.getElementById('preview'), markdown, {
         cdn: 'https://unpkg.com/vditor@3.8.15/',
         anchor: 1
     });
@@ -50,6 +54,10 @@
         var $ = layui.jquery, layer = layui.layer, util = layui.util;
 
         // 密码输入
+        function refreshSecret() {
+            location.href = location.href.split("?")[0] + "?secret=" + $("#secret").val();
+        }
+
         let def = {
             type: 1,
             title: false,
@@ -59,7 +67,7 @@
             id: 'shareSecretInput',
             btn: ['确认', '清空'],
             yes: function (index, layero) {
-                location.href = location.href.split("?")[0] + "?secret=" + $("#secret").val();
+                refreshSecret();
             },
             btn2: function (index, layero) {
                 $("#secret").val("");
@@ -71,6 +79,11 @@
         }
         if ([[${data.showDialog}]]) {
             layer.open(def);
+            $('#secret').on('keydown', function (event) {
+                if (event.keyCode == 13) {
+                    refreshSecret();
+                }
+            });
         }
 
         // 返回顶部
