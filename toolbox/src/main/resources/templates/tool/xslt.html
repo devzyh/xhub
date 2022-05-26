@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title th:text="${'XSLT转换测试-'+title}">XSLT转换测试</title>
     <link rel="icon" href="/favicon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="/assets/layui/css/layui.css">
-    <link rel="stylesheet" href="/assets/tool/xslt/xslt.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
+    <link rel="stylesheet" href="/static/tool/xslt/xslt.css">
 </head>
 <body>
 <div style="margin: 10px">
@@ -42,10 +42,12 @@
     </div>
 
 </div>
-<script src="/assets/layui/layui.js"></script>
-<script src="/assets/ace/ace.js"></script>
-<script src="/assets/tool/xslt/xslt.js"></script>
+<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
+<script src="https://cdn.staticfile.org/ace/1.4.12/ace.min.js"></script>
+<script src="/static/tool/xslt/xslt.js"></script>
 <script>
+    ace.config.set('basePath', 'https://cdn.staticfile.org/ace/1.4.12');
+
     var xsltEditor = ace.edit("xsltEditor");
     xsltEditor.setTheme("ace/theme/sqlserver");
     xsltEditor.session.setMode("ace/mode/xml");

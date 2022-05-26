@@ -2032,3 +2032,16 @@ body .fly-user-main {
         overflow: unset;
     }
 }
+
+/* 笔记预览 */
+#shareSecretInput .secret-main {
+    padding: 25px 25px 5px 25px;
+    line-height: 22px;
+    background-color: #393D49;
+    color: #fff;
+    font-weight: 300;
+}
+
+#shareSecretInput p {
+    margin-bottom: 15px;
+}

@@ -1,7 +1,11 @@
 layui.use(['element', 'layer'], function () {
-    var element = layui.element,
+    let $ = layui.$,
+        element = layui.element,
         layer = layui.layer,
-        $ = layui.$;
+        util = layui.util;
+
+    // 返回顶部
+    util.fixbar({bar1: false, bar2: false});
 
     // 资源搜索
     $("#searchKey").keypress(function (even) {
