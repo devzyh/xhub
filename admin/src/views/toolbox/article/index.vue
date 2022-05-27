@@ -75,15 +75,15 @@
 
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="ID" align="center" prop="id"/>
-      <el-table-column label="文章标题" align="center" prop="title"/>
-      <el-table-column label="文章地址" align="center" prop="url"/>
-      <el-table-column label="来源平台" align="center" prop="source">
+      <el-table-column label="ID" align="center" prop="id" width="60"/>
+      <el-table-column label="文章标题" align="left" prop="title"/>
+      <el-table-column label="文章地址" align="left" prop="url"/>
+      <el-table-column label="来源平台" align="center" prop="source" width="120">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.tool_article_source" :value="scope.row.source"/>
         </template>
       </el-table-column>
-      <el-table-column label="发布日期" align="center" prop="created" width="180">
+      <el-table-column label="发布日期" align="center" prop="created" width="120">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.created, '{y}-{m}-{d}') }}</span>
         </template>

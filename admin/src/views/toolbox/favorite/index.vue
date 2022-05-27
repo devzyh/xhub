@@ -75,12 +75,12 @@
 
     <el-table v-loading="loading" :data="favoriteList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="ID" align="center" prop="id"/>
-      <el-table-column label="链接分组" align="center" prop="item"/>
-      <el-table-column label="显示名称" align="center" prop="name"/>
-      <el-table-column label="链接地址" align="center" prop="href"/>
-      <el-table-column label="显示顺序" align="center" prop="seq"/>
-      <el-table-column label="打开方式" align="center" prop="target">
+      <el-table-column label="ID" align="center" prop="id" width="60"/>
+      <el-table-column label="链接分组" align="center" prop="item" width="100"/>
+      <el-table-column label="显示名称" align="left" prop="name"/>
+      <el-table-column label="链接地址" align="left" prop="href"/>
+      <el-table-column label="显示顺序" align="center" prop="seq" width="80"/>
+      <el-table-column label="打开方式" align="center" prop="target" width="100">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.link_open_type" :value="scope.row.target"/>
         </template>
@@ -141,7 +141,7 @@
           <el-input v-model="form.icon" placeholder="请输入图像地址"/>
         </el-form-item>
         <el-form-item label="显示顺序" prop="seq">
-          <el-input-number v-model="form.seq" controls-position="right" :min="0" />
+          <el-input-number v-model="form.seq" controls-position="right" :min="0"/>
         </el-form-item>
         <el-form-item label="打开方式" prop="target">
           <el-select v-model="form.target">
