@@ -18,7 +18,8 @@
                s.update_time share_update_time
         from note_content c
                  left join note_share s on c.id = s.content_id
-        where c.id = #{id} limit 1
+        where c.id = #{id}
+          and c.delete_flag = 0 limit 1
     </select>
 
 </mapper>

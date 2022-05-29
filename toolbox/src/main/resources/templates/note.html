@@ -19,6 +19,12 @@
         1970-01-01 00:00:00</h3>
     <hr/>
     <div id="preview" style="padding: 0px 20px 20px 20px;"></div>
+
+    <div class="layui-layer noteOutline">
+        <div class="layui-layer-title">内容大纲</div>
+        <div id="outline"></div>
+    </div>
+
 </div>
 
 <div th:include="footer"></div>
@@ -42,7 +48,18 @@
     }
     Vditor.preview(document.getElementById('preview'), markdown, {
         cdn: 'https://unpkg.com/vditor@3.8.15/',
-        anchor: 1
+        anchor: 1,
+        after() {
+            if (window.innerWidth <= 768) {
+                return
+            }
+            const outlineElement = document.getElementById('outline')
+            Vditor.outlineRender(document.getElementById('preview'), outlineElement)
+            if (outlineElement.innerText.trim() !== '') {
+                outlineElement.parentElement.style.display = 'block'
+                outlineElement.style.display = 'block'
+            }
+        }
     });
 
     layui.use('layer', function () {

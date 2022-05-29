@@ -4,6 +4,7 @@ import cn.devzyh.common.constant.ToolConstants;
 import cn.devzyh.toolbox.domain.vo.NoteVo;
 import cn.devzyh.toolbox.service.IToolNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class ToolNoteController {
     }
 
     @ResponseBody()
-    @GetMapping(value = "note/{id}.md", produces = "text/text;charset=UTF-8")
+    @GetMapping(value = "note/{id}.md", produces = MediaType.TEXT_MARKDOWN_VALUE)
     public String markdown(@PathVariable Long id,
                            @RequestParam(required = false, defaultValue = "") String secret,
                            @RequestParam(required = false, defaultValue = "") String token) {

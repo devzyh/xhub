@@ -66,6 +66,15 @@
           <el-button
             size="mini"
             type="text"
+            icon="el-icon-copy-document"
+            v-clipboard:copy="getLink(scope.row)"
+            v-clipboard:success="copySuccess"
+            v-clipboard:error="copyFailed"
+          >复制链接
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-link"
             @click="handleLink(scope.row)"
           >访问
@@ -198,11 +207,7 @@ export default {
     },
     /** 访问按钮操作 */
     handleLink(row) {
-      let url = "/note/" + row.contentId + ".html";
-      if (row.shareSecret) {
-        url = url + "?secret=" + row.shareSecret;
-      }
-      window.open(url)
+      window.open(this.getLink(row));
     },
     /** 时间增加指定天数 **/
     dateAddDays(date, days) {
@@ -212,6 +217,22 @@ export default {
       var date = new Date(date);
       date.setDate(date.getDate() + days);
       return date;
+    },
+    /** 获取访问链接 */
+    getLink(row) {
+      let url = "/note/" + row.contentId + ".html";
+      if (row.shareSecret) {
+        url = url + "?secret=" + row.shareSecret;
+      }
+      return window.location.href.replace(window.location.pathname, "") + url;
+    },
+    /** 复制成功 */
+    copySuccess() {
+      this.$modal.msgSuccess("复制成功");
+    },
+    /** 复制失败 */
+    copyFailed() {
+      this.$modal.msgError("复制失败");
     }
   }
 };

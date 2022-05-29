@@ -2045,3 +2045,32 @@ body .fly-user-main {
 #shareSecretInput p {
     margin-bottom: 15px;
 }
+
+.noteOutline {
+    position: fixed !important;
+    top: 160px !important;
+    margin-left: 15px !important;
+    width: 160px !important;
+    z-index: 999999 !important;
+    display: none;
+}
+
+.noteOutline #outline ul li {
+    width: 150px !important;
+}
+
+.noteOutline #outline ul li svg {
+    background-color: #898989;
+    border-radius: 5px;
+    margin-left: -8px;
+    margin-right: 5px;
+}
+
+.noteOutline #outline ul li span span {
+    word-break: normal !important;
+    width: auto !important;
+    display: block !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+}

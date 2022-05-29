@@ -39,6 +39,7 @@
             <if test="rank != null ">and rank = #{rank}</if>
             <if test="deleteFlag != null ">and delete_flag = #{deleteFlag}</if>
         </where>
+        order by rank asc
     </select>
 
     <select id="selectNoteCatalogById" parameterType="Long" resultMap="NoteCatalogResult">

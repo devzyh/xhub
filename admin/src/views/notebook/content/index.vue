@@ -15,12 +15,13 @@
         </div>
         <div class="head-container">
           <el-tree
+            ref="tree"
+            node-key="id"
             :data="catalogOptions"
             :props="defaultProps"
             :expand-on-click-node="false"
             :highlight-current="true"
             :filter-node-method="filterNode"
-            ref="tree"
             @node-click="handleNodeClick"
           />
         </div>
@@ -57,6 +58,21 @@
             </el-button>
           </el-col>
           <el-col :span="1.5">
+            <el-upload
+              accept=".md,.txt"
+              :show-file-list="false"
+              :headers="headers"
+              :action="getImportAction()"
+              :before-upload="handleBeforeUpload"
+              :on-error="handleUploadError"
+              :on-success="handleUploadSuccess">
+              <el-button type="warning" icon="el-icon-upload" size="mini"
+                         @click="handleImport($event)"
+                         v-hasPermi="['notebook:content:import']">导入
+              </el-button>
+            </el-upload>
+          </el-col>
+          <el-col :span="1.5">
             <el-button
               type="danger"
               plain
@@ -68,17 +84,6 @@
             >删除
             </el-button>
           </el-col>
-          <el-col :span="1.5">
-            <el-button
-              type="warning"
-              plain
-              icon="el-icon-download"
-              size="mini"
-              @click="handleExport"
-              v-hasPermi="['notebook:content:export']"
-            >导出
-            </el-button>
-          </el-col>
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -86,7 +91,6 @@
           <el-table-column type="selection" width="60" align="center"/>
           <el-table-column label="ID" align="center" prop="id" width="60"/>
           <el-table-column label="标题" align="left" prop="title"/>
-          <el-table-column label="排序" align="center" prop="rank" width="60"/>
           <el-table-column label="创建时间" align="center" prop="createTime" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -155,9 +159,6 @@
           <treeselect v-model="form.catalogId" :options="catalogOptions" :normalizer="normalizer" :show-count="true"
                       placeholder="请选择所属目录"/>
         </el-form-item>
-        <el-form-item label="排序" prop="rank">
-          <el-input-number v-model="form.rank" controls-position="right" :min="0"/>
-        </el-form-item>
         <el-form-item label="是否分享" v-show="form.id!=null">
           <el-radio-group v-model="share.isShare">
             <el-radio
@@ -195,7 +196,7 @@
         <el-col :span="5">
           <el-menu @select="handleSelectHistory" default-active="0"
                    style="height: 500px;overflow-y:auto;overflow-x:hidden;">
-            <el-menu-item v-for="(h,i) in historyList" :index="i.toString()">
+            <el-menu-item v-for="(h,i) in historyList" :key="i" :index="i.toString()">
               <span>{{ parseTime(h.createTime) }}</span>
             </el-menu-item>
           </el-menu>
@@ -205,20 +206,10 @@
             <el-form-item label="标题" prop="title">
               <el-input v-model="historyForm.title" :disabled="true"></el-input>
             </el-form-item>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="目录" prop="catalogId">
-                  <treeselect v-model="historyForm.catalogId" :options="catalogOptions" :normalizer="normalizer"
-                              :disabled="true"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="排序" prop="rank">
-                  <el-input-number v-model="historyForm.rank" controls-position="right" :min="0"
-                                   :disabled="true"></el-input-number>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <el-form-item label="目录" prop="catalogId">
+              <treeselect v-model="historyForm.catalogId" :options="catalogOptions" :normalizer="normalizer"
+                          :disabled="true"/>
+            </el-form-item>
             <el-form-item label="内容">
               <el-input type="textarea" v-model="historyForm.content" rows="15" :disabled="true"
                         resize="none"></el-input>
@@ -234,12 +225,13 @@
 </template>
 
 <script>
-import {addContent, delContent, getContent, listContent, updateContent, generateToken} from "@/api/notebook/content";
+import {addContent, delContent, generateToken, getContent, listContent, updateContent} from "@/api/notebook/content";
 import {delShare, getShare, saveShare} from "@/api/notebook/share";
 import {treeselect} from "@/api/notebook/catalog";
 import {listHistory} from "@/api/notebook/history";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: "Content",
@@ -305,7 +297,13 @@ export default {
         isShare: 'N',
         shareDays: 0,
         shareSecret: null
-      }
+      },
+      // 请求头Token
+      headers: {
+        Authorization: "Bearer " + getToken(),
+      },
+      //  文件列表
+      fileList: []
     };
   },
   watch: {
@@ -407,8 +405,10 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.$refs.tree.setCurrentKey(null);
+      this.queryParams.catalogId = null;
       this.resetForm("queryForm");
-      this.handleQuery();
+      this.getList();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -465,7 +465,7 @@ export default {
     },
     /** Markdown编辑按钮操作 */
     handleEdit(row) {
-      this.$router.push({path: "/note/editor/" + row.id});
+      this.$router.push({path: "/notebook/editor/" + row.id});
     },
     /** 修改按钮操作 */
     handleSetting(row) {
@@ -483,12 +483,6 @@ export default {
           this.share.shareSecret = response.data.shareSecret;
         }
       });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('notebook/content/export', {
-        ...this.queryParams
-      }, `content_${new Date().getTime()}.xlsx`)
     },
     /** 预览按钮操作 */
     handlePreview(row) {
@@ -511,7 +505,9 @@ export default {
     },
     /** 历史选中操作 */
     handleSelectHistory(key, keyPath) {
-      this.historyForm = this.historyList[parseInt(key)];
+      if (key) {
+        this.historyForm = this.historyList[parseInt(key)];
+      }
     },
     /** 恢复按钮操作 */
     handleReset() {
@@ -533,6 +529,40 @@ export default {
         });
       } else {
         this.$modal.msgError("当前笔记没有历史版本")
+      }
+    },
+    /** 导入按钮操作 */
+    handleImport(event) {
+      // 必须选择目录
+      if (!this.queryParams.catalogId) {
+        this.$modal.msgError(`请在左侧选择导入笔记的目录!`);
+        event.stopPropagation();
+        return
+      }
+    },
+    /** 动态导入路径 */
+    getImportAction() {
+      return process.env.VUE_APP_BASE_API + "/notebook/content/import/" + this.queryParams.catalogId
+    },
+    /** 导入前操作 */
+    handleBeforeUpload(file) {
+      this.$modal.loading("正在上传文件，请稍候...");
+      return true;
+    },
+    /** 导入失败 */
+    handleUploadError(err) {
+      this.$modal.msgError("导入文件失败，请重试");
+      this.$modal.closeLoading()
+    },
+    /** 导入成功回调 */
+    handleUploadSuccess(resp) {
+      if (resp.code == 200) {
+        this.$modal.msgSuccess(resp.msg);
+        this.$modal.closeLoading();
+        this.getList();
+      } else {
+        this.$modal.msgError(resp.msg);
+        this.$modal.closeLoading();
       }
     }
   }
