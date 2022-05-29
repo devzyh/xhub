@@ -5,7 +5,7 @@
       <el-col :span="5" :xs="24">
         <div class="head-container">
           <el-input
-            v-model="catalogName"
+            v-model="catalogNameKey"
             placeholder="请输入目录名称"
             clearable
             size="small"
@@ -29,8 +29,8 @@
       <!--笔记数据-->
       <el-col :span="19" :xs="24">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
-                 label-width="68px" @submit.native.prevent>
-          <el-form-item label="搜索笔记" prop="searchValue">
+                 @submit.native.prevent>
+          <el-form-item :label="`【${currentCatalogName}】搜索`" prop="searchValue">
             <el-input
               v-model="queryParams.searchValue"
               placeholder="请输入搜索关键字"
@@ -259,8 +259,8 @@ export default {
       catalogOptions: undefined,
       // 是否显示弹出层
       open: false,
-      // 目录名称
-      catalogName: undefined,
+      // 目录名称关键字
+      catalogNameKey: undefined,
       // 表单参数
       form: {},
       // 是否显示历史层
@@ -273,6 +273,8 @@ export default {
         children: "children",
         label: "name"
       },
+      // 当前目录名称
+      currentCatalogName: "全部笔记",
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -308,7 +310,7 @@ export default {
   },
   watch: {
     // 根据名称筛选目录树
-    catalogName(val) {
+    catalogNameKey(val) {
       this.$refs.tree.filter(val);
     }
   },
@@ -352,6 +354,7 @@ export default {
     // 节点单击事件
     handleNodeClick(data) {
       this.queryParams.catalogId = data.id;
+      this.currentCatalogName = data.name;
       this.handleQuery();
     },
     // 取消按钮
@@ -407,6 +410,7 @@ export default {
     resetQuery() {
       this.$refs.tree.setCurrentKey(null);
       this.queryParams.catalogId = null;
+      this.currentCatalogName = "全部笔记";
       this.resetForm("queryForm");
       this.getList();
     },
