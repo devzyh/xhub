@@ -188,11 +188,11 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const contentIds = row.contentId || this.ids;
-      this.$modal.confirm('是否确认删除笔记分享编号为"' + contentIds + '"的数据项？').then(function () {
+      this.$modal.confirm('是否确认取消编号为"' + contentIds + '"的笔记分享？').then(function () {
         return delShare(contentIds);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.$modal.msgSuccess("取消成功");
       }).catch(() => {
       });
     },

@@ -236,9 +236,6 @@ import {listHistory} from "@/api/notebook/history";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import {getToken} from "@/utils/auth";
-import {genCode} from "@/api/tool/gen";
-import axios from "axios";
-import {blobValidate} from "@/utils/common";
 
 export default {
   name: "Content",
@@ -579,7 +576,7 @@ export default {
     /** 导入成功回调 */
     handleUploadSuccess(resp) {
       if (resp.code == 200) {
-        this.$modal.msgSuccess(resp.msg);
+        this.$modal.msgSuccess("文件导入成功");
         this.$modal.closeLoading();
         this.getList();
       } else {
