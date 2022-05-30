@@ -90,7 +90,11 @@
         <el-table v-loading="loading" :data="contentList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="60" align="center"/>
           <el-table-column label="ID" align="center" prop="id" width="60"/>
-          <el-table-column label="标题" align="left" prop="title"/>
+          <el-table-column label="标题" align="left" prop="title">
+            <template slot-scope="scope">
+              <el-link type="primary" @click="handlePreview(scope.row)">{{ scope.row.title }}</el-link>
+            </template>
+          </el-table-column>
           <el-table-column label="创建时间" align="center" prop="createTime" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -122,10 +126,10 @@
               <el-button
                 size="mini"
                 type="text"
-                icon="el-icon-view"
-                @click="handlePreview(scope.row)"
-                v-hasPermi="['notebook:content:token']"
-              >预览
+                icon="el-icon-download"
+                @click="handleDownload(scope.row)"
+                v-hasPermi="['notebook:content:download']"
+              >下载
               </el-button>
               <el-button
                 size="mini"
@@ -232,6 +236,9 @@ import {listHistory} from "@/api/notebook/history";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import {getToken} from "@/utils/auth";
+import {genCode} from "@/api/tool/gen";
+import axios from "axios";
+import {blobValidate} from "@/utils/common";
 
 export default {
   name: "Content",
@@ -493,6 +500,17 @@ export default {
       generateToken().then(response => {
         window.open("/note/" + row.id + ".html?token=" + response.data)
       });
+    },
+    /** 下载按钮操作 */
+    handleDownload(row) {
+      getContent(row.id).then(async (res) => {
+        if (res.data.code == 200) {
+          const blob = new Blob([res.data.content], {type: 'application/markdown'})
+          this.$download.saveAs(blob, res.data.title + ".md")
+        } else {
+          this.$modal.msgError(res.data.msg);
+        }
+      })
     },
     /** 历史按钮操作 */
     handleHistory(row) {

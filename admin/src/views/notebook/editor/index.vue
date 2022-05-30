@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       vditor: undefined,
+      cachePrefix: "mdcache:",
       form: {
         id: 0,
         title: "",
@@ -106,7 +107,8 @@ export default {
         enable: true
       },
       cache: {
-        enable: false
+        enable: true,
+        id: this.cachePrefix + this.$route.params.id
       },
       preview: {
         hljs: {
@@ -154,6 +156,14 @@ export default {
         if (id) {
           getContent(id).then(response => {
             this.form = response.data;
+            if (!this.form.content) {
+              this.form.content = "";
+            }
+            // 优先取本地缓存
+            let localContent = window.localStorage.getItem(this.cachePrefix + id);
+            if (localContent) {
+              this.form.content = localContent;
+            }
             this.vditor.setValue(this.form.content, true);
             this.visitedViews[this.visitedViews.length - 1].title = "编辑【" + this.form.id + "】";
           });
