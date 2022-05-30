@@ -188,7 +188,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const contentIds = row.contentId || this.ids;
-      this.$modal.confirm('是否确认取消编号为"' + contentIds + '"的笔记分享？').then(function () {
+      this.$modal.confirm('是否确认取消笔记ID为"' + contentIds + '"的笔记分享？').then(function () {
         return delShare(contentIds);
       }).then(() => {
         this.getList();
