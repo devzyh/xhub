@@ -1,26 +1,19 @@
 package cn.devzyh.notebook.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import cn.devzyh.common.annotation.Log;
 import cn.devzyh.common.core.controller.BaseController;
 import cn.devzyh.common.core.domain.AjaxResult;
+import cn.devzyh.common.core.page.TableDataInfo;
 import cn.devzyh.common.enums.BusinessType;
+import cn.devzyh.common.utils.poi.ExcelUtil;
 import cn.devzyh.notebook.domain.NoteShare;
 import cn.devzyh.notebook.service.INoteShareService;
-import cn.devzyh.common.utils.poi.ExcelUtil;
-import cn.devzyh.common.core.page.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 笔记分享Controller
@@ -49,7 +42,7 @@ public class NoteShareController extends BaseController {
      * 导出笔记分享列表
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:export')")
-    @Log(title = "笔记分享" , businessType = BusinessType.EXPORT)
+    @Log(title = "笔记分享", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteShare noteShare) {
         List<NoteShare> list = noteShareService.selectNoteShareList(noteShare);
@@ -70,7 +63,7 @@ public class NoteShareController extends BaseController {
      * 新增笔记分享
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:add')")
-    @Log(title = "笔记分享" , businessType = BusinessType.INSERT)
+    @Log(title = "笔记分享", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult save(@RequestBody NoteShare noteShare) {
         return toAjax(noteShareService.saveNoteShare(noteShare));
@@ -80,7 +73,7 @@ public class NoteShareController extends BaseController {
      * 修改笔记分享
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:edit')")
-    @Log(title = "笔记分享" , businessType = BusinessType.UPDATE)
+    @Log(title = "笔记分享", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody NoteShare noteShare) {
         return toAjax(noteShareService.updateNoteShare(noteShare));
@@ -90,9 +83,10 @@ public class NoteShareController extends BaseController {
      * 删除笔记分享
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:remove')")
-    @Log(title = "笔记分享" , businessType = BusinessType.DELETE)
+    @Log(title = "笔记分享", businessType = BusinessType.DELETE)
     @DeleteMapping("/{contentIds}")
     public AjaxResult remove(@PathVariable Long[] contentIds) {
-        return toAjax(noteShareService.deleteNoteShareByContentIds(contentIds));
+        noteShareService.deleteNoteShareByContentIds(contentIds);
+        return success();
     }
 }

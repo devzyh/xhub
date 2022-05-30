@@ -1,26 +1,18 @@
 package cn.devzyh.notebook.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import cn.devzyh.common.core.domain.entity.SysDept;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import cn.devzyh.common.annotation.Log;
 import cn.devzyh.common.core.controller.BaseController;
 import cn.devzyh.common.core.domain.AjaxResult;
 import cn.devzyh.common.enums.BusinessType;
+import cn.devzyh.common.utils.poi.ExcelUtil;
 import cn.devzyh.notebook.domain.NoteCatalog;
 import cn.devzyh.notebook.service.INoteCatalogService;
-import cn.devzyh.common.utils.poi.ExcelUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 笔记目录Controller

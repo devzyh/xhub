@@ -55,3 +55,8 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
+# 日志配置
+logging:
+    level:
+        cn.devzyh: warn

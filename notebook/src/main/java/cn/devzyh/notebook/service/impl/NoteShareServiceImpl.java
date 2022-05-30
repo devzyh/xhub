@@ -1,6 +1,7 @@
 package cn.devzyh.notebook.service.impl;
 
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.SecurityUtils;
 import cn.devzyh.notebook.domain.NoteShare;
 import cn.devzyh.notebook.mapper.NoteShareMapper;
 import cn.devzyh.notebook.service.INoteShareService;
@@ -54,9 +55,11 @@ public class NoteShareServiceImpl implements INoteShareService {
         if (localShare == null) {
             noteShare.setCreateTime(DateUtils.getNowDate());
             noteShare.setUpdateTime(DateUtils.getNowDate());
+            noteShare.setCreateBy(SecurityUtils.getUsername());
             return noteShareMapper.insertNoteShare(noteShare);
         } else {
             noteShare.setUpdateTime(DateUtils.getNowDate());
+            noteShare.setUpdateBy(SecurityUtils.getUsername());
             return noteShareMapper.updateNoteShare(noteShare);
         }
     }
@@ -70,6 +73,7 @@ public class NoteShareServiceImpl implements INoteShareService {
     @Override
     public int updateNoteShare(NoteShare noteShare) {
         noteShare.setUpdateTime(DateUtils.getNowDate());
+        noteShare.setUpdateBy(SecurityUtils.getUsername());
         return noteShareMapper.updateNoteShare(noteShare);
     }
 

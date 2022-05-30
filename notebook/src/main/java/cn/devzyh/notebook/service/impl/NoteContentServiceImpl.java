@@ -1,6 +1,9 @@
 package cn.devzyh.notebook.service.impl;
 
+import cn.devzyh.common.core.domain.model.LoginUser;
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.SecurityUtils;
+import cn.devzyh.common.utils.StringUtils;
 import cn.devzyh.common.utils.bean.BeanUtils;
 import cn.devzyh.notebook.domain.NoteContent;
 import cn.devzyh.notebook.domain.NoteHistory;
@@ -57,6 +60,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int insertNoteContent(NoteContent noteContent) {
+        noteContent.setCreateBy(SecurityUtils.getUsername());
         noteContent.setCreateTime(DateUtils.getNowDate());
         return contentMapper.insertNoteContent(noteContent);
     }
@@ -70,14 +74,19 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     @Transactional
     public int updateNoteContent(NoteContent content) {
-        // 备份本地数据到历史表
+        // 只有更新正文或者修改了标题、目录，才备份本地数据到历史表
         NoteContent local = contentMapper.selectNoteContentById(content.getId());
-        NoteHistory history = new NoteHistory();
-        BeanUtils.copyBeanProp(history, local);
-        history.setContentId(local.getId());
-        historyService.insertNoteHistory(history);
+        if (StringUtils.isNotBlank(content.getContent()) ||
+                !StringUtils.equalsIgnoreCase(content.getTitle(), local.getTitle()) ||
+                content.getCatalogId() != local.getCatalogId()) {
+            NoteHistory history = new NoteHistory();
+            BeanUtils.copyBeanProp(history, local);
+            history.setContentId(local.getId());
+            historyService.insertNoteHistory(history);
+        }
 
         // 更新传入数据到内容表
+        content.setUpdateBy(SecurityUtils.getUsername());
         content.setUpdateTime(DateUtils.getNowDate());
         return contentMapper.updateNoteContent(content);
     }

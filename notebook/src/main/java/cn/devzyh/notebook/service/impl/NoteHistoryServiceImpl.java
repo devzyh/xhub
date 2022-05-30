@@ -1,13 +1,14 @@
 package cn.devzyh.notebook.service.impl;
 
-import java.util.List;
-
 import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.SecurityUtils;
+import cn.devzyh.notebook.domain.NoteHistory;
+import cn.devzyh.notebook.mapper.NoteHistoryMapper;
+import cn.devzyh.notebook.service.INoteHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.devzyh.notebook.mapper.NoteHistoryMapper;
-import cn.devzyh.notebook.domain.NoteHistory;
-import cn.devzyh.notebook.service.INoteHistoryService;
+
+import java.util.List;
 
 /**
  * 笔记历史Service业务层处理
@@ -18,7 +19,7 @@ import cn.devzyh.notebook.service.INoteHistoryService;
 @Service
 public class NoteHistoryServiceImpl implements INoteHistoryService {
     @Autowired
-    private NoteHistoryMapper noteHistoryMapper;
+    private NoteHistoryMapper historyMapper;
 
     /**
      * 查询笔记历史
@@ -28,7 +29,7 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      */
     @Override
     public NoteHistory selectNoteHistoryById(Long id) {
-        return noteHistoryMapper.selectNoteHistoryById(id);
+        return historyMapper.selectNoteHistoryById(id);
     }
 
     /**
@@ -39,7 +40,7 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      */
     @Override
     public List<NoteHistory> selectNoteHistoryList(NoteHistory noteHistory) {
-        return noteHistoryMapper.selectNoteHistoryList(noteHistory);
+        return historyMapper.selectNoteHistoryList(noteHistory);
     }
 
     /**
@@ -52,8 +53,10 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
     public int insertNoteHistory(NoteHistory noteHistory) {
         noteHistory.setId(null);
         noteHistory.setCreateTime(DateUtils.getNowDate());
-        noteHistory.setUpdateTime(DateUtils.getNowDate());
-        return noteHistoryMapper.insertNoteHistory(noteHistory);
+        noteHistory.setCreateBy(SecurityUtils.getUsername());
+        noteHistory.setUpdateTime(null);
+        noteHistory.setUpdateBy(null);
+        return historyMapper.insertNoteHistory(noteHistory);
     }
 
     /**
@@ -65,7 +68,8 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
     @Override
     public int updateNoteHistory(NoteHistory noteHistory) {
         noteHistory.setUpdateTime(DateUtils.getNowDate());
-        return noteHistoryMapper.updateNoteHistory(noteHistory);
+        noteHistory.setUpdateBy(SecurityUtils.getUsername());
+        return historyMapper.updateNoteHistory(noteHistory);
     }
 
     /**
@@ -76,7 +80,7 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      */
     @Override
     public int deleteNoteHistoryByIds(Long[] ids) {
-        return noteHistoryMapper.deleteNoteHistoryByIds(ids);
+        return historyMapper.deleteNoteHistoryByIds(ids);
     }
 
     /**
@@ -87,6 +91,6 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      */
     @Override
     public int deleteNoteHistoryById(Long id) {
-        return noteHistoryMapper.deleteNoteHistoryById(id);
+        return historyMapper.deleteNoteHistoryById(id);
     }
 }

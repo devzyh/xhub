@@ -1,17 +1,17 @@
 package cn.devzyh.notebook.service.impl;
 
+import cn.devzyh.common.utils.DateUtils;
+import cn.devzyh.common.utils.SecurityUtils;
+import cn.devzyh.common.utils.StringUtils;
+import cn.devzyh.notebook.domain.NoteCatalog;
+import cn.devzyh.notebook.mapper.NoteCatalogMapper;
+import cn.devzyh.notebook.service.INoteCatalogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import cn.devzyh.common.core.domain.entity.SysDept;
-import cn.devzyh.common.utils.DateUtils;
-import cn.devzyh.common.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import cn.devzyh.notebook.mapper.NoteCatalogMapper;
-import cn.devzyh.notebook.domain.NoteCatalog;
-import cn.devzyh.notebook.service.INoteCatalogService;
 
 /**
  * 笔记目录Service业务层处理
@@ -22,7 +22,7 @@ import cn.devzyh.notebook.service.INoteCatalogService;
 @Service
 public class NoteCatalogServiceImpl implements INoteCatalogService {
     @Autowired
-    private NoteCatalogMapper noteCatalogMapper;
+    private NoteCatalogMapper catalogMapper;
 
     /**
      * 查询笔记目录
@@ -32,42 +32,44 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public NoteCatalog selectNoteCatalogById(Long id) {
-        return noteCatalogMapper.selectNoteCatalogById(id);
+        return catalogMapper.selectNoteCatalogById(id);
     }
 
     /**
      * 查询笔记目录列表
      *
-     * @param noteCatalog 笔记目录
+     * @param catalog 笔记目录
      * @return 笔记目录
      */
     @Override
-    public List<NoteCatalog> selectNoteCatalogList(NoteCatalog noteCatalog) {
-        return noteCatalogMapper.selectNoteCatalogList(noteCatalog);
+    public List<NoteCatalog> selectNoteCatalogList(NoteCatalog catalog) {
+        return catalogMapper.selectNoteCatalogList(catalog);
     }
 
     /**
      * 新增笔记目录
      *
-     * @param noteCatalog 笔记目录
+     * @param catalog 笔记目录
      * @return 结果
      */
     @Override
-    public int insertNoteCatalog(NoteCatalog noteCatalog) {
-        noteCatalog.setCreateTime(DateUtils.getNowDate());
-        return noteCatalogMapper.insertNoteCatalog(noteCatalog);
+    public int insertNoteCatalog(NoteCatalog catalog) {
+        catalog.setCreateTime(DateUtils.getNowDate());
+        catalog.setCreateBy(SecurityUtils.getUsername());
+        return catalogMapper.insertNoteCatalog(catalog);
     }
 
     /**
      * 修改笔记目录
      *
-     * @param noteCatalog 笔记目录
+     * @param catalog 笔记目录
      * @return 结果
      */
     @Override
-    public int updateNoteCatalog(NoteCatalog noteCatalog) {
-        noteCatalog.setUpdateTime(DateUtils.getNowDate());
-        return noteCatalogMapper.updateNoteCatalog(noteCatalog);
+    public int updateNoteCatalog(NoteCatalog catalog) {
+        catalog.setUpdateTime(DateUtils.getNowDate());
+        catalog.setUpdateBy(SecurityUtils.getUsername());
+        return catalogMapper.updateNoteCatalog(catalog);
     }
 
     /**
@@ -78,7 +80,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int deleteNoteCatalogByIds(Long[] ids) {
-        return noteCatalogMapper.deleteNoteCatalogByIds(ids);
+        return catalogMapper.deleteNoteCatalogByIds(ids);
     }
 
     /**
@@ -89,7 +91,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int deleteNoteCatalogById(Long id) {
-        return noteCatalogMapper.deleteNoteCatalogById(id);
+        return catalogMapper.deleteNoteCatalogById(id);
     }
 
     /**
