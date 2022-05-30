@@ -2063,12 +2063,10 @@ body .fly-user-main {
 }
 
 .noteOutline #outline ul li {
-    width: 150px !important;
+    margin-right: 10px;
 }
 
 .noteOutline #outline ul li svg {
-    background-color: #898989;
-    border-radius: 5px;
     margin-left: -8px;
     margin-right: 5px;
 }
