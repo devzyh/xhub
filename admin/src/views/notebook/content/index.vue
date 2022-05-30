@@ -502,11 +502,11 @@ export default {
     /** 下载按钮操作 */
     handleDownload(row) {
       getContent(row.id).then(async (res) => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           const blob = new Blob([res.data.content], {type: 'application/markdown'})
           this.$download.saveAs(blob, res.data.title + ".md")
         } else {
-          this.$modal.msgError(res.data.msg);
+          this.$modal.msgError(res.msg);
         }
       })
     },
