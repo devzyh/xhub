@@ -19,12 +19,10 @@
         1970-01-01 00:00:00</h3>
     <hr/>
     <div id="preview" style="padding: 0px 20px 20px 20px;"></div>
-
     <div class="layui-layer noteOutline">
-        <div class="layui-layer-title">内容大纲</div>
+        <div class="layui-layer-title">Markdown内容大纲</div>
         <div id="outline"></div>
     </div>
-
 </div>
 
 <div th:include="footer"></div>
@@ -63,7 +61,8 @@
     });
 
     layui.use('layer', function () {
-        let $ = layui.jquery, layer = layui.layer;
+        let $ = layui.jquery, layer = layui.layer, util = layui.util;
+
         let def = {
             type: 1,
             title: false,
@@ -97,6 +96,21 @@
                 }
             });
         }
+
+        // 右侧按钮
+        let fixDef = {
+            bar1: "≡",
+            bar2: false,
+            click: function (type) {
+                if (type === 'bar1') {
+                    $(".noteOutline").toggle();
+                }
+            }
+        }
+        if (window.innerWidth <= 768) {
+            fixDef.bar1 = false;
+        }
+        util.fixbar(fixDef);
     });
 </script>
 </body>

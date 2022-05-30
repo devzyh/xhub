@@ -5,7 +5,9 @@ layui.use(['element', 'layer'], function () {
         util = layui.util;
 
     // 返回顶部
-    util.fixbar({bar1: false, bar2: false});
+    if (window.location.pathname.indexOf("/note/") < 0) {
+        util.fixbar({bar1: false, bar2: false});
+    }
 
     // 资源搜索
     $("#searchKey").keypress(function (even) {

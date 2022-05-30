@@ -2049,10 +2049,17 @@ body .fly-user-main {
 .noteOutline {
     position: fixed !important;
     top: 160px !important;
-    margin-left: 15px !important;
-    width: 160px !important;
+    left: auto !important;
+    right: 15px !important;
+    width: 235px !important;
     z-index: 999999 !important;
     display: none;
+}
+
+.noteOutline #outline {
+    max-height: 360px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .noteOutline #outline ul li {
