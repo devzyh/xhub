@@ -46,7 +46,11 @@
     <el-table v-loading="loading" :data="shareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="60" align="center"/>
       <el-table-column label="笔记ID" width="80" align="center" prop="contentId"/>
-      <el-table-column label="笔记标题" align="left" prop="title"/>
+      <el-table-column label="笔记标题" align="left" prop="title">
+        <template slot-scope="scope">
+          <el-link type="primary" @click="handleLink(scope.row)">{{ scope.row.title }}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="访问密码" align="center" prop="shareSecret">
         <template slot-scope="scope">
           <span v-if="!scope.row.shareSecret">无密码</span>
@@ -75,17 +79,10 @@
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-link"
-            @click="handleLink(scope.row)"
-          >访问
-          </el-button>
-          <el-button
-            size="mini"
-            type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['notebook:share:remove']"
-          >删除
+          >取消分享
           </el-button>
         </template>
       </el-table-column>
