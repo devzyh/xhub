@@ -79,7 +79,7 @@ export default {
         "undo",
         "redo",
         "|",
-        // "fullscreen",
+        "fullscreen",
         // "edit-mode",
         {
           name: "more",
@@ -96,6 +96,10 @@ export default {
           ],
         },
       ],
+      fullscreen: {
+        "index": 1080
+      },
+      tab: "    ",
       toolbarConfig: {
         hide: false,
         pin: false
@@ -160,9 +164,11 @@ export default {
               this.form.content = "";
             }
             // 优先取本地缓存
-            let localContent = window.localStorage.getItem(this.cachePrefix + id);
-            if (localContent) {
-              this.form.content = localContent;
+            if (window.localStorage) {
+              let localContent = window.localStorage.getItem(this.cachePrefix + id);
+              if (localContent) {
+                this.form.content = localContent;
+              }
             }
             this.vditor.setValue(this.form.content, true);
             this.visitedViews[this.visitedViews.length - 1].title = "编辑【" + this.form.id + "】";
@@ -190,5 +196,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
