@@ -42,17 +42,17 @@ public class ToolSearchFavoriteServiceImpl implements IToolSearchService {
         List<ResultVo> resultVoList = new LinkedList<>();
         ToolFavorite favorite = new ToolFavorite();
         favorite.setName(key);
-        List<ToolFavorite> articleList = favoriteMapper.selectToolFavoriteList(favorite);
+        List<ToolFavorite> favoriteList = favoriteMapper.selectToolFavoriteList(favorite);
         LocalDate now = LocalDate.now();
-        for (ToolFavorite toolFavorite : articleList) {
+        for (ToolFavorite tf : favoriteList) {
             ResultVo resultVo = new ResultVo();
-            resultVo.setTitle(toolFavorite.getName());
-            resultVo.setUrl(toolFavorite.getHref());
+            resultVo.setTitle(tf.getName());
+            resultVo.setUrl(tf.getHref());
             resultVo.setPostDate(now);
-            resultVo.setDigest(toolFavorite.getRemark());
-            resultVo.setSource(toolFavorite.getItem());
-            resultVo.setTags(Collections.singletonList(toolFavorite.getItem()));
-            resultVo.setImage(DictUtils.getDictLabel(ToolConstants.Item.FAVORITE_ITEM_IMAGE.getValue(), toolFavorite.getItem()));
+            resultVo.setDigest(tf.getRemark());
+            resultVo.setSource(tf.getItem());
+            resultVo.setTags(Collections.singletonList(tf.getItem()));
+            resultVo.setImage(DictUtils.getDictLabel(ToolConstants.Item.FAVORITE_ITEM_IMAGE.getValue(), tf.getItem()));
             resultVoList.add(resultVo);
         }
         searchVo.setResultList(resultVoList);

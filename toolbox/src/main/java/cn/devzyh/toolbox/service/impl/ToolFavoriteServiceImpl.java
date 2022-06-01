@@ -27,8 +27,10 @@ public class ToolFavoriteServiceImpl implements IToolFavoriteService {
                 list = new LinkedList<>();
             }
 
-            list.add(toolFavorite);
-            result.put(toolFavorite.getItem(), list);
+            if (list.size() < 10) {
+                list.add(toolFavorite);
+                result.put(toolFavorite.getItem(), list);
+            }
         });
 
         return result;

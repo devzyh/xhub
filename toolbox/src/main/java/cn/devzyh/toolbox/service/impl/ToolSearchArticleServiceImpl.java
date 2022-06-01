@@ -41,16 +41,16 @@ public class ToolSearchArticleServiceImpl implements IToolSearchService {
         List<ResultVo> resultVoList = new LinkedList<>();
         ToolArticle article = new ToolArticle();
         article.setTitle(key);
-        List<ToolArticle> toolArticleList = articleMapper.selectToolArticleList(article);
-        for (ToolArticle toolArticle : toolArticleList) {
+        List<ToolArticle> articleList = articleMapper.selectToolArticleList(article);
+        for (ToolArticle ta : articleList) {
             ResultVo resultVo = new ResultVo();
-            resultVo.setTitle(toolArticle.getTitle());
-            resultVo.setUrl(toolArticle.getUrl());
-            resultVo.setPostDate(toolArticle.getCreated());
-            resultVo.setDigest(toolArticle.getDigest());
-            resultVo.setImage(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), toolArticle.getSource()));
-            resultVo.setSource(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE.getValue(), toolArticle.getSource()));
-            resultVo.setTags(toolArticle.getTags().stream()
+            resultVo.setTitle(ta.getTitle());
+            resultVo.setUrl(ta.getUrl());
+            resultVo.setPostDate(ta.getCreated());
+            resultVo.setDigest(ta.getDigest());
+            resultVo.setImage(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), ta.getSource()));
+            resultVo.setSource(DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_SOURCE.getValue(), ta.getSource()));
+            resultVo.setTags(ta.getTags().stream()
                     .map(val -> DictUtils.getDictLabel(ToolConstants.Item.ARTICLE_TAG.getValue(), val))
                     .collect(Collectors.toList()));
             resultVoList.add(resultVo);
