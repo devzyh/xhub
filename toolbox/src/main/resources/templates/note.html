@@ -17,8 +17,8 @@
     <h1 align="center" style="margin-top: 20px;font-weight: 600;" th:text="${note.title}">笔记标题</h1>
     <h3 style=" margin-top: 15px;text-align: center;" th:text="${#dates.format(note.updateTime,'yyyy-MM-dd HH:mm:ss')}">
         1970-01-01 00:00:00</h3>
-    <hr/>
-    <div id="preview" style="padding: 0px 20px 20px 20px;"></div>
+    <!--    <hr/>-->
+    <div id="preview"></div>
     <div class="layui-layer layui-anim layui-anim-down noteOutline">
         <div class="layui-layer-title">Markdown内容大纲</div>
         <div id="outline"></div>

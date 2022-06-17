@@ -2079,3 +2079,14 @@ body .fly-user-main {
     word-wrap: break-word !important;
     overflow: hidden !important;
 }
+
+#preview {
+    margin-top: 20px;
+    padding: 0px 20px 20px 20px;
+    border: 1px solid rgb(225, 228, 232);
+    border-radius: 1px;
+}
+
+#preview ul li {
+    list-style: inherit;
+}
