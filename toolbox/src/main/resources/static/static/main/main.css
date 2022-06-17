@@ -2082,7 +2082,7 @@ body .fly-user-main {
 
 #preview {
     margin-top: 20px;
-    padding: 0px 20px 20px 20px;
+    padding: 20px;
     border: 1px solid rgb(225, 228, 232);
     border-radius: 1px;
 }
