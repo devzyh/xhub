@@ -161,7 +161,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #304156;
+  background-color: #f8f8f9;
   background-size: cover;
 }
 .title {
@@ -208,7 +208,7 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #fff;
+  color: #707070;
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 1px;
