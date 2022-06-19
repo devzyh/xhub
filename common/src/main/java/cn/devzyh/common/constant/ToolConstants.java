@@ -10,6 +10,7 @@ public class ToolConstants {
      */
     public class Home {
         public static final String FAVORITES = "favorites"; // 链接信息
+        public static final int ITEM_SHOW_LIMIT = 10; // 每组链接展示限制
     }
 
     /**

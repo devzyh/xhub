@@ -1,5 +1,6 @@
 package cn.devzyh.toolbox.service.impl;
 
+import cn.devzyh.common.constant.ToolConstants;
 import cn.devzyh.toolbox.domain.ToolFavorite;
 import cn.devzyh.toolbox.mapper.ToolFavoriteMapper;
 import cn.devzyh.toolbox.service.IToolFavoriteService;
@@ -27,7 +28,8 @@ public class ToolFavoriteServiceImpl implements IToolFavoriteService {
                 list = new LinkedList<>();
             }
 
-            if (list.size() < 10) {
+            // 首页每组展示链接限制
+            if (list.size() < ToolConstants.Home.ITEM_SHOW_LIMIT) {
                 list.add(toolFavorite);
                 result.put(toolFavorite.getItem(), list);
             }
