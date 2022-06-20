@@ -1,0 +1,57 @@
+/* 笔记预览 */
+.note #shareSecretInput .secret-main {
+    padding: 25px 25px 5px 25px;
+    line-height: 22px;
+    background-color: #393D49;
+    color: #fff;
+    font-weight: 300;
+}
+
+.note #shareSecretInput p {
+    margin-bottom: 15px;
+}
+
+.note .noteOutline {
+    position: fixed !important;
+    top: 160px !important;
+    left: auto !important;
+    right: 15px !important;
+    width: 235px !important;
+    z-index: 999999 !important;
+    display: none;
+}
+
+.note .noteOutline #outline {
+    max-height: 360px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.note .noteOutline #outline ul li {
+    margin-right: 10px;
+}
+
+.note .noteOutline #outline ul li svg {
+    margin-left: -8px;
+    margin-right: 5px;
+}
+
+.note .noteOutline #outline ul li span span {
+    word-break: normal !important;
+    width: auto !important;
+    display: block !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+}
+
+.note #preview {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid rgb(225, 228, 232);
+    border-radius: 1px;
+}
+
+.note #preview ul li {
+    list-style: inherit;
+}

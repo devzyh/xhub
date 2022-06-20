@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/vditor/3.8.15/index.min.css"/>
     <link rel="stylesheet" href="/static/main/main.css">
+    <link rel="stylesheet" href="/static/note/note.css">
 </head>
 <body>
 
 <div th:include="header"></div>
 
-<div class="layui-container">
+<div class="layui-container note">
     <h1 align="center" style="margin-top: 20px;font-weight: 600;" th:text="${note.title}">笔记标题</h1>
     <h3 style=" margin-top: 15px;text-align: center;" th:text="${#dates.format(note.updateTime,'yyyy-MM-dd HH:mm:ss')}">
         1970-01-01 00:00:00</h3>
-    <!--    <hr/>-->
     <div id="preview"></div>
     <div class="layui-layer layui-anim layui-anim-down noteOutline">
         <div class="layui-layer-title">Markdown内容大纲</div>
@@ -36,82 +36,16 @@
     </div>
 </script>
 
+<script th:inline="javascript" type="text/javascript">
+    var noteMarkdown = [[${note.content}]];
+    if (!noteMarkdown) {
+        noteMarkdown = "";
+    }
+    var noteShowDialog = [[${data.showDialog}]];
+</script>
 <script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
 <script src="https://cdn.staticfile.org/vditor/3.8.15/method.min.js"></script>
 <script src="/static/main/main.js"></script>
-<script th:inline="javascript" type="text/javascript">
-    let markdown = [[${note.content}]];
-    if (!markdown) {
-        markdown = "";
-    }
-    Vditor.preview(document.getElementById('preview'), markdown, {
-        cdn: 'https://unpkg.com/vditor@3.8.15/',
-        anchor: 1,
-        after() {
-            if (window.innerWidth <= 768) {
-                return
-            }
-            const outlineElement = document.getElementById('outline')
-            Vditor.outlineRender(document.getElementById('preview'), outlineElement)
-            if (outlineElement.innerText.trim() !== '') {
-                outlineElement.parentElement.style.display = 'block'
-                outlineElement.style.display = 'block'
-            }
-        }
-    });
-
-    layui.use('layer', function () {
-        let $ = layui.jquery, layer = layui.layer, util = layui.util;
-
-        let def = {
-            type: 1,
-            title: false,
-            closeBtn: false,
-            area: '300px;',
-            shade: 0.8,
-            id: 'shareSecretInput',
-            btn: ['确认', '清空'],
-            yes: function (index, layero) {
-                refreshSecret();
-            },
-            btn2: function (index, layero) {
-                $("#secret").val("");
-                return false;
-            },
-            btnAlign: 'c',
-            moveType: 1,
-            content: $("#inputDialog").html()
-        }
-
-        // 密码输入
-        function refreshSecret() {
-            location.href = location.href.split("?")[0] + "?secret=" + $("#secret").val();
-        }
-
-        if ([[${data.showDialog}]]) {
-            layer.open(def);
-            $('#secret').on('keydown', function (event) {
-                if (event.keyCode == 13) {
-                    refreshSecret();
-                }
-            });
-        }
-
-        // 右侧按钮
-        let fixDef = {
-            bar1: "&#xe66e;",
-            bar2: false,
-            click: function (type) {
-                if (type === 'bar1') {
-                    $(".noteOutline").toggle();
-                }
-            }
-        }
-        if (markdown == "" || window.innerWidth <= 768) {
-            fixDef.bar1 = false;
-        }
-        util.fixbar(fixDef);
-    });
-</script>
+<script src="/static/note/note.js"></script>
 </body>
 </html>
