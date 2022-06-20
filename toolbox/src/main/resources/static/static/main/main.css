@@ -206,6 +206,10 @@ pre {
     top: 11px;
 }
 
+.fly-logo img {
+    height: 40px;
+}
+
 .fly-nav {
     margin-left: 200px;
 }
