@@ -195,8 +195,9 @@ pre {
     z-index: 10000;
     width: 100%;
     height: 60px;
-    border-bottom: 1px solid #404553;
-    border-right: 1px solid #404553;
+    background-color: #1e9fff !important;
+    border-bottom: 1px solid #1e9fff;
+    border-right: 1px solid #1e9fff;
     border-radius: 0;
 }
 
@@ -317,6 +318,10 @@ pre {
     right: 0;
     width: 120px;
     min-width: 0;
+}
+
+.fly-header .layui-nav .layui-nav-item a {
+    color: #fff;
 }
 
 /* 底部 */
