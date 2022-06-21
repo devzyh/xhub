@@ -49,7 +49,7 @@
     margin-top: 20px;
     padding: 20px;
     border: 1px solid rgb(225, 228, 232);
-    border-radius: 1px;
+    border-radius: 3px;
 }
 
 .note #preview ul li {

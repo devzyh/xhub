@@ -25,7 +25,7 @@ pre {
     padding: 10px 15px;
     margin: 10px 0;
     font-size: 12px;
-    border-left: 3px solid #586069;
+    border-left: 3px solid #1e9fff;
     background-color: #f8f8f8;
     font-family: Courier New;
     overflow: auto;
@@ -315,7 +315,7 @@ pre {
     line-height: 30px;
     text-align: center;
     color: #737573;
-    border-top: 1px solid #e2e2e2;
+    border-top: 1px solid #1e9fff;
 }
 
 .fly-footer a {
