@@ -95,7 +95,7 @@ export default {
         this.$store.dispatch('app/toggleSideBarHide', false);
       } else if(!this.$route.children) {
         activePath = path;
-        this.$store.dispatch('app/toggleSideBarHide', true);
+        this.$store.dispatch('app/toggleSideBarHide', false);
       }
       this.activeRoutes(activePath);
       return activePath;
