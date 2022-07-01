@@ -16,6 +16,7 @@
             <li>散列/哈希</li>
             <li>Base64</li>
             <li>URLEncode</li>
+            <li>Unicode</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -152,12 +153,43 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-tab-item">
+                <div class="layui-form">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输入</label>
+                        <div class="layui-input-block">
+                            <textarea id="uniInput" placeholder="请输入内容" class="layui-textarea"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="uniCONVERT_FMT2" class="layui-btn layui-btn-normal">中文转Unicode</button>
+                            <button id="uniRECONVERT" class="layui-btn layui-btn-normal">Unicode转中文</button>
+                            <button id="uniCONVERT_FMT3" class="layui-btn layui-btn-normal">Unicode转ASCII</button>
+                            <button id="uniRECONVERT" class="layui-btn layui-btn-normal">ASCII转Unicode</button>
+                            <button id="uniCONVERT_FMT1" class="layui-btn layui-btn-normal">中文转&amp;#数据</button>
+                            <button id="uniExchange" class="layui-btn">交换</button>
+                            <button id="uniClear" class="layui-btn layui-btn-danger">清空</button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">输出</label>
+                        <div class="layui-input-block">
+                            <textarea id="uniOutput" placeholder="这里输出处理结果" class="layui-textarea"
+                                      readonly="readonly"
+                                      rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
 <script src="/static/tool/code/crypto-js.js"></script>
 <script src="/static/tool/code/base64.js"></script>
+<script src="/static/tool/code/unicode.js"></script>
 <script src="/static/tool/code/code.js"></script>
 </body>
 </html>
