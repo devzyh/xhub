@@ -1,4 +1,4 @@
-layui.use(['jquery', 'layer'], function () {
+layui.use(['jquery'], function () {
     var $ = layui.$;
 
     /******** 加密/解密 ********/

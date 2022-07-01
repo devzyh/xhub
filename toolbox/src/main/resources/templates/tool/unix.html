@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${'Unix时间戳-'+title}">Unix时间戳</title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
+    <link rel="stylesheet" href="/static/tool/code/code.css">
+</head>
+<body>
+<div style="margin: 20px">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>Unix时间戳</legend>
+    </fieldset>
+
+    <form class="layui-form layui-form-pane">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 150px;">当前Unix时间戳</label>
+                <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" class="layui-input" id="nowUnix">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button type="button" class="layui-btn layui-btn-normal" id="start">继续</button>
+                <button type="button" class="layui-btn layui-btn-danger" id="stop">暂停</button>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 150px;">Unix时间戳</label>
+                <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" class="layui-input" id="inputUnix">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button type="button" class="layui-btn layui-btn-normal" id="unixToTime">Unix时间戳转时间</button>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">北京时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" class="layui-input" id="outputTime">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 150px;">北京时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="inputTime" placeholder="yyyy-MM-dd HH:mm:ss">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button type="button" class="layui-btn layui-btn-normal" id="timeToUnix">时间转Unix时间戳</button>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">Unix时间戳</label>
+                <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" class="layui-input" id="outputUnix">
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <blockquote class="layui-elem-quote" style="margin-top: 30px;">
+        Unix时间戳(Unix timestamp)：Unix时间戳(Unix timestamp)，或称Unix时间(Unix time)、POSIX时间(POSIX time)，
+        是一种时间表示方式，定义为从格林威治时间1970年01月01日00时00分00秒起至现在的总秒数。 Unix时间戳不仅被使用在Unix系统、类Unix系统中，也在许多其他操作系统中被广泛采用。
+    </blockquote>
+
+</div>
+<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
+<script src="/static/tool/unix/unix.js"></script>
+</body>
+</html>

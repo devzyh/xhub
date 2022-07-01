@@ -43,4 +43,10 @@ public class ToolViewController {
     public String cron(Model model) {
         return "tool/cron";
     }
+
+    @GetMapping("/unix")
+    public String unix(Model model) {
+        return "tool/unix";
+    }
+
 }
