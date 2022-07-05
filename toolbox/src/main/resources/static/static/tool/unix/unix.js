@@ -12,7 +12,7 @@ layui.use(['jquery', 'laydate', 'layer'], function () {
     var now = Math.round(new Date() / 1000);
     $("#nowUnix").val(now);
     $("#inputUnix").val(now);
-    var timer = setInterval(function () {
+    setInterval(function () {
         let now = Math.round(new Date() / 1000);
         if (showNowUnix) {
             $("#nowUnix").val(now)
