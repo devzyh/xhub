@@ -106,7 +106,7 @@
     </delete>
 
     <delete id="deleteNoteContentByIds" parameterType="String">
-        update note_content set delete_flag = 1, pdate_time = now() where id in
+        update note_content set delete_flag = 1, update_time = now() where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
