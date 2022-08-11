@@ -1,1 +1,7 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1547360688278" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6717" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M890 120H134a70 70 0 0 0-70 70v500a70 70 0 0 0 70 70h756a70 70 0 0 0 70-70V190a70 70 0 0 0-70-70z m-10 520a40 40 0 0 1-40 40H712V448a40 40 0 0 0-80 0v232h-80V368a40 40 0 0 0-80 0v312h-80V512a40 40 0 0 0-80 0v168H184a40 40 0 0 1-40-40V240a40 40 0 0 1 40-40h656a40 40 0 0 1 40 40zM696 824H328a40 40 0 0 0 0 80h368a40 40 0 0 0 0-80z" fill="#bfbfbf" p-id="6718"></path></svg>
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg" p-id="6717" version="1.1" class="icon" t="1547360688278">
+
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" p-id="6718" fill="#000000" d="m890,120l-756,0a70,70 0 0 0 -70,70l0,500a70,70 0 0 0 70,70l756,0a70,70 0 0 0 70,-70l0,-500a70,70 0 0 0 -70,-70zm-10,520a40,40 0 0 1 -40,40l-128,0l0,-232a40,40 0 0 0 -80,0l0,232l-80,0l0,-312a40,40 0 0 0 -80,0l0,312l-80,0l0,-168a40,40 0 0 0 -80,0l0,168l-128,0a40,40 0 0 1 -40,-40l0,-400a40,40 0 0 1 40,-40l656,0a40,40 0 0 1 40,40l0,400zm-184,184l-368,0a40,40 0 0 0 0,80l368,0a40,40 0 0 0 0,-80z"/>
+ </g>
+</svg>
