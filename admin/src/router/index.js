@@ -69,7 +69,7 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/notebook/content/index'),
-        name: 'Index',
+        name: 'Content',
         meta: {title: '首页', icon: 'dashboard', affix: true}
       }
       // {
