@@ -171,7 +171,7 @@ export default {
               }
             }
             this.vditor.setValue(this.form.content, true);
-            this.visitedViews[this.visitedViews.length - 1].title = "编辑【" + this.form.id + "】";
+            this.visitedViews[this.visitedViews.length - 1].title = "编辑-" + this.form.id;
           });
         }
       }
