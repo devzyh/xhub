@@ -1,5 +1,5 @@
 Vditor.preview(document.getElementById('preview'), noteMarkdown, {
-    cdn: 'https://unpkg.com/vditor@3.8.15/',
+    cdn: 'https://cdn.devzyh.cn/vditor/3.8.17',
     anchor: 1,
     after() {
         if (window.innerWidth <= 768) {

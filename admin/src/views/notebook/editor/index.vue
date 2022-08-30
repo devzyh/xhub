@@ -45,7 +45,7 @@ export default {
   mounted() {
     // 参考：https://ld246.com/article/1549638745630
     this.vditor = new Vditor("vditor", {
-      // cdn: 'https://cdn.jsdelivr.net/npm/vditor@3.8.17',
+      cdn: 'https://cdn.devzyh.cn/vditor/3.8.17',
       height: "75vh",
       lang: "zh_CN",
       mode: "ir",
