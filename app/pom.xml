@@ -24,7 +24,7 @@
             <optional>true</optional> <!-- 表示依赖不会传递 -->
         </dependency>
 
-         <!-- Mysql驱动包 -->
+        <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -48,16 +48,22 @@
             <artifactId>generator</artifactId>
         </dependency>
 
-        <!-- 软件工具-->
+        <!-- 页面渲染-->
         <dependency>
             <groupId>cn.devzyh</groupId>
-            <artifactId>toolbox</artifactId>
+            <artifactId>web</artifactId>
         </dependency>
 
-        <!-- 笔记系统-->
+        <!-- 笔记模块-->
         <dependency>
             <groupId>cn.devzyh</groupId>
             <artifactId>notebook</artifactId>
+        </dependency>
+
+        <!-- 收藏模块-->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>favorite</artifactId>
         </dependency>
 
     </dependencies>
@@ -87,7 +93,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>${project.artifactId}</warName>
                 </configuration>
-           </plugin>
+            </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>

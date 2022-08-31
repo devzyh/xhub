@@ -1,7 +1,7 @@
 package cn.devzyh.notebook.controller;
 
 import cn.devzyh.common.annotation.Log;
-import cn.devzyh.common.constant.ToolConstants;
+import cn.devzyh.common.constant.WebConstants;
 import cn.devzyh.common.core.controller.BaseController;
 import cn.devzyh.common.core.domain.AjaxResult;
 import cn.devzyh.common.core.page.TableDataInfo;
@@ -105,8 +105,8 @@ public class NoteContentController extends BaseController {
     @GetMapping("/generateToken")
     public AjaxResult generateToken() {
         String token = UUID.randomUUID().toString();
-        redisCache.setCacheObject(ToolConstants.Note.TOKEN_PREFIX + token, token,
-                ToolConstants.Note.TOKEN_EXPIRE, TimeUnit.MINUTES);
+        redisCache.setCacheObject(WebConstants.Note.TOKEN_PREFIX + token, token,
+                WebConstants.Note.TOKEN_EXPIRE, TimeUnit.MINUTES);
         return AjaxResult.success(null, token);
     }
 

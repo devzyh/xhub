@@ -178,20 +178,26 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 软件工具-->
+            <!-- 页面渲染-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
-                <artifactId>toolbox</artifactId>
+                <artifactId>web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 笔记系统-->
+            <!-- 笔记模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>notebook</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- 收藏模块-->
+            <dependency>
+                <groupId>cn.devzyh</groupId>
+                <artifactId>favorite</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -201,8 +207,9 @@
         <module>framework</module>
         <module>quartz</module>
         <module>generator</module>
-        <module>toolbox</module>
+        <module>web</module>
         <module>notebook</module>
+        <module>favorite</module>
     </modules>
     <packaging>pom</packaging>
 
