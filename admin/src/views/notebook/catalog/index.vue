@@ -84,7 +84,7 @@
     </el-table>
 
     <!-- 添加或修改笔记目录对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="上级目录" prop="parentId">
           <treeselect v-model="form.parentId" :options="catalogOptions" :normalizer="normalizer" placeholder="上级目录"/>

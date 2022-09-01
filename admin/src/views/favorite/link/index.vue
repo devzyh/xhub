@@ -4,7 +4,7 @@
       <el-form-item label="分组" prop="item">
         <el-select v-model="queryParams.item">
           <el-option
-            v-for="dict in dict.type.tool_favorite_item_image"
+            v-for="dict in dict.type.web_link_item_image"
             :key="dict.value"
             :label="dict.value"
             :value="dict.value"
@@ -22,7 +22,7 @@
       <el-form-item label="打开方式" prop="target">
         <el-select v-model="queryParams.target">
           <el-option
-            v-for="dict in dict.type.link_open_type"
+            v-for="dict in dict.type.web_open_type"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -82,7 +82,7 @@
       <el-table-column label="显示顺序" align="center" prop="seq" width="80"/>
       <el-table-column label="打开方式" align="center" prop="target" width="100">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.link_open_type" :value="scope.row.target"/>
+          <dict-tag :options="dict.type.web_open_type" :value="scope.row.target"/>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -116,12 +116,12 @@
     />
 
     <!-- 添加或修改主页链接对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分组" prop="item">
           <el-select v-model="form.item">
             <el-option
-              v-for="dict in dict.type.tool_favorite_item_image"
+              v-for="dict in dict.type.web_link_item_image"
               :key="dict.value"
               :label="dict.value"
               :value="dict.value"
@@ -146,7 +146,7 @@
         <el-form-item label="打开方式" prop="target">
           <el-select v-model="form.target">
             <el-option
-              v-for="dict in dict.type.link_open_type"
+              v-for="dict in dict.type.web_open_type"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
@@ -167,7 +167,7 @@ import {listFavorite, getFavorite, delFavorite, addFavorite, updateFavorite} fro
 
 export default {
   name: "Favorite",
-  dicts: ['tool_favorite_item_image', 'link_open_type'],
+  dicts: ['web_link_item_image', 'web_open_type'],
   data() {
     return {
       // 遮罩层

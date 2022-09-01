@@ -12,7 +12,7 @@
       <el-form-item label="来源平台" prop="source">
         <el-select v-model="queryParams.source">
           <el-option
-            v-for="dict in dict.type.tool_article_source"
+            v-for="dict in dict.type.web_article_source"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -22,7 +22,7 @@
       <el-form-item label="关联标签" prop="tags">
         <el-select v-model="queryParams.tags" multiple>
           <el-option
-            v-for="dict in dict.type.tool_article_tag"
+            v-for="dict in dict.type.web_article_tag"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -80,7 +80,7 @@
       <el-table-column label="文章地址" align="left" prop="url"/>
       <el-table-column label="来源平台" align="center" prop="source" width="120">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.tool_article_source" :value="scope.row.source"/>
+          <dict-tag :options="dict.type.web_article_source" :value="scope.row.source"/>
         </template>
       </el-table-column>
       <el-table-column label="发布日期" align="center" prop="created" width="120">
@@ -119,7 +119,7 @@
     />
 
     <!-- 添加或修改文章对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="文章标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入标题"/>
@@ -130,7 +130,7 @@
         <el-form-item label="关联标签">
           <el-select v-model="form.tags" multiple placeholder="请选择文章标签" style="width: 100%">
             <el-option
-              v-for="item in dict.type.tool_article_tag"
+              v-for="item in dict.type.web_article_tag"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -138,12 +138,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="内容摘要" prop="digest">
-          <el-input v-model="form.digest" type="textarea" placeholder="请输入内容摘要" rows="5" />
+          <el-input v-model="form.digest" type="textarea" placeholder="请输入内容摘要" rows="5"/>
         </el-form-item>
         <el-form-item label="来源平台" prop="source">
           <el-select v-model="form.source">
             <el-option
-              v-for="dict in dict.type.tool_article_source"
+              v-for="dict in dict.type.web_article_source"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
@@ -172,7 +172,7 @@ import {listArticle, getArticle, delArticle, addArticle, updateArticle} from "@/
 
 export default {
   name: "Article",
-  dicts: ['tool_article_tag', 'tool_article_source'],
+  dicts: ['web_article_tag', 'web_article_source'],
   data() {
     return {
       // 遮罩层

@@ -42,11 +42,11 @@ public class WebConstants {
      * 配置大类
      */
     public enum Item {
-        SITE_INFO("tool_site_info"), // 站点信息
-        ARTICLE_TAG("tool_article_tag"), // 文章标签
-        ARTICLE_SOURCE("tool_article_source"), // 文章来源平台
-        ARTICLE_SOURCE_IMAGE("tool_article_source_image"), // 文章来源平台图像
-        FAVORITE_ITEM_IMAGE("tool_favorite_item_image"); // 收藏分组图像
+        SITE_INFO("web_site_info"), // 站点基本信息
+        ARTICLE_TAG("web_article_tag"), // 文章标签信息
+        ARTICLE_SOURCE("web_article_source"), // 文章来源平台
+        ARTICLE_SOURCE_IMAGE("web_article_source_image"), // 来源平台图像
+        LINK_ITEM_IMAGE("web_link_item_image"); // 链接分组图像
 
         private final String item;
 
@@ -64,7 +64,7 @@ public class WebConstants {
      */
     public enum SearchType {
         ARTICLE("article"), // 文章数据源
-        FAVORITE("favorite"); // 收藏数据源
+        LINK("link"); // 链接数据源
 
         private final String type;
 

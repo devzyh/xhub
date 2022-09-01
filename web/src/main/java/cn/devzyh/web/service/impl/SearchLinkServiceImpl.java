@@ -33,7 +33,7 @@ public class SearchLinkServiceImpl implements ISearchService {
 
         SearchDto searchDto = new SearchDto();
         searchDto.setSearchKey(key);
-        searchDto.setSearchType(WebConstants.SearchType.FAVORITE.getValue());
+        searchDto.setSearchType(WebConstants.SearchType.LINK.getValue());
         if (StringUtils.isBlank(key)) {
             key = "";
             searchDto.setPageTitle("收藏 - ");
@@ -62,7 +62,7 @@ public class SearchLinkServiceImpl implements ISearchService {
             resultDto.setDigest(link.getRemark());
             resultDto.setSource(link.getItem());
             resultDto.setTags(Collections.singletonList(link.getItem()));
-            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.FAVORITE_ITEM_IMAGE.getValue(), link.getItem()));
+            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.LINK_ITEM_IMAGE.getValue(), link.getItem()));
             resultDtoList.add(resultDto);
         }
         searchDto.setResultList(resultDtoList);
