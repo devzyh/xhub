@@ -6,6 +6,11 @@ package cn.devzyh.common.constant;
 public class WebConstants {
 
     /**
+     * 首页链接 cache key
+     */
+    public static final String WEB_HOME_LINKS_KEY = "web_home_links";
+
+    /**
      * 工具视图
      */
     public class Home {

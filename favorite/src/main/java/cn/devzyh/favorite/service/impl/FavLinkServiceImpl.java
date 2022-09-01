@@ -1,5 +1,7 @@
 package cn.devzyh.favorite.service.impl;
 
+import cn.devzyh.common.constant.WebConstants;
+import cn.devzyh.common.core.redis.RedisCache;
 import cn.devzyh.favorite.domain.FavLink;
 import cn.devzyh.favorite.mapper.FavLinkMapper;
 import cn.devzyh.favorite.service.IFavLinkService;
@@ -11,6 +13,8 @@ import java.util.List;
 @Service
 public class FavLinkServiceImpl implements IFavLinkService {
 
+    @Autowired
+    RedisCache redisCache;
     @Autowired
     private FavLinkMapper favLinkMapper;
 
@@ -44,6 +48,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int insertFavLink(FavLink favLink) {
+        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
         return favLinkMapper.insertFavLink(favLink);
     }
 
@@ -55,6 +60,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int updateFavLink(FavLink favLink) {
+        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
         return favLinkMapper.updateFavLink(favLink);
     }
 
@@ -66,6 +72,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int deleteFavLinkByIds(Long[] ids) {
+        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
         return favLinkMapper.deleteFavLinkByIds(ids);
     }
 
@@ -77,6 +84,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int deleteFavLinkById(Long id) {
+        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
         return favLinkMapper.deleteFavLinkById(id);
     }
 }
