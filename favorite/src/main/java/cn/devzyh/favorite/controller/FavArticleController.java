@@ -7,7 +7,7 @@ import cn.devzyh.common.core.page.TableDataInfo;
 import cn.devzyh.common.enums.BusinessType;
 import cn.devzyh.common.utils.poi.ExcelUtil;
 import cn.devzyh.favorite.service.IFavArticleService;
-import cn.devzyh.favorite.domain.dao.FavArticle;
+import cn.devzyh.favorite.domain.FavArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

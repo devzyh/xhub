@@ -1,7 +1,7 @@
 package cn.devzyh.web.service.impl;
 
 import cn.devzyh.common.constant.WebConstants;
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 import cn.devzyh.favorite.service.IFavLinkService;
 import cn.devzyh.web.service.ILinkService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,31 +5,23 @@ import cn.devzyh.notebook.domain.NoteContent;
 import java.io.Serializable;
 
 /**
- * 笔记视图实体
+ * 分享内容数据传输对象
  */
 public class ShareDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Boolean success; // 是否成功
-    private Boolean showDialog; // 是否弹窗
+    private boolean success; // 验证成功
+    private boolean showInput; // 显示输入框
     private String inputSecret; // 输入的密码
     private String message; // 错误消息
     private NoteContent note; // 笔记数据
 
-    public Boolean getSuccess() {
+    public Boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public Boolean getShowDialog() {
-        return showDialog;
-    }
-
-    public void setShowDialog(Boolean showDialog) {
-        this.showDialog = showDialog;
+    public Boolean getShowInput() {
+        return showInput;
     }
 
     public String getInputSecret() {
@@ -44,54 +36,32 @@ public class ShareDto implements Serializable {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public NoteContent getNote() {
         return note;
     }
 
-    public void setNote(NoteContent note) {
-        this.note = note;
+    public static ShareDto success(NoteContent note) {
+        ShareDto dto = new ShareDto();
+        dto.success = true;
+        dto.note = note;
+        return dto;
     }
 
-    public void setSuccess(NoteContent note) {
-        this.success = true;
-        this.message = "";
-        this.note = note;
+    public static ShareDto error(String message) {
+        ShareDto dto = new ShareDto();
+        dto.message = message;
+        return dto;
     }
 
-    public void setError(String message) {
-        this.success = false;
-        this.message = message;
-        NoteContent n = new NoteContent();
-        n.setTitle(message);
-        this.note = n;
+    public static ShareDto errorWithInput(String message) {
+        return errorWithInput(message, null);
     }
 
-    public void setSuccessWithDialog(String message) {
-        this.success = true;
-        this.message = message;
-        NoteContent n = new NoteContent();
-        n.setTitle(message);
-        this.note = n;
-        this.showDialog = true;
-    }
-
-    public void setErrorWithDialog(String message) {
-        setError(message);
-        this.showDialog = true;
-    }
-
-    @Override
-    public String toString() {
-        return "NoteVo{" +
-                "success=" + success +
-                ", showDialog=" + showDialog +
-                ", inputSecret='" + inputSecret + '\'' +
-                ", message='" + message + '\'' +
-                ", note=" + note +
-                '}';
+    public static ShareDto errorWithInput(String message, String inputSecret) {
+        ShareDto dto = new ShareDto();
+        dto.message = message;
+        dto.showInput = true;
+        dto.inputSecret = inputSecret;
+        return dto;
     }
 }

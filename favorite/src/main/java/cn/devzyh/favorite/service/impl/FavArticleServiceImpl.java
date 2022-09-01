@@ -1,6 +1,6 @@
 package cn.devzyh.favorite.service.impl;
 
-import cn.devzyh.favorite.domain.dao.FavArticle;
+import cn.devzyh.favorite.domain.FavArticle;
 import cn.devzyh.favorite.mapper.FavArticleMapper;
 import cn.devzyh.favorite.service.IFavArticleService;
 import org.springframework.beans.factory.annotation.Autowired;

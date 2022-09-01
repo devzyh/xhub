@@ -496,7 +496,7 @@ export default {
     /** 预览按钮操作 */
     handlePreview(row) {
       generateToken().then(response => {
-        window.open("/note/" + row.id + ".html?token=" + response.data)
+        window.open("/share/" + row.id + ".html?token=" + response.data)
       });
     },
     /** 下载按钮操作 */

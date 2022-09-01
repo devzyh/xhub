@@ -1,6 +1,6 @@
 package cn.devzyh.favorite.service.impl;
 
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 import cn.devzyh.favorite.mapper.FavLinkMapper;
 import cn.devzyh.favorite.service.IFavLinkService;
 import org.springframework.beans.factory.annotation.Autowired;

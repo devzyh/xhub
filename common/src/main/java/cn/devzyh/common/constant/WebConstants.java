@@ -34,7 +34,7 @@ public class WebConstants {
     public class Note {
         public static final String DATA = "data"; // 页面结果数据
         public static final String NOTE = "note"; // 笔记内容数据
-        public static final String TOKEN_PREFIX = "note_access_token:"; // 访问Token前缀
+        public static final String TOKEN_PREFIX = "share_access_token:"; // 访问Token前缀
         public static final int TOKEN_EXPIRE = 5; // 访问Token有效期，单位：分钟
     }
 

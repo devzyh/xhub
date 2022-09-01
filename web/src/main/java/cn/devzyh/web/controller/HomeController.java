@@ -26,7 +26,7 @@ public class HomeController {
 
     @GetMapping("/cm")
     public String caom(Model model) {
-        return "caom";
+        return "page/caom";
     }
 
 }

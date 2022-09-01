@@ -25,64 +25,66 @@ public class ShareServiceImpl implements IShareService {
 
     @Override
     public ShareDto html(Long id, String secret, String token) {
-        ShareDto dto = new ShareDto();
-        NoteShare share = shareService.selectNoteShareByContentId(id);
-        if (share == null) {
-            dto.setError("您访问的笔记不存在");
-            return dto;
+        NoteContent content = contentService.selectNoteContentById(id);
+        if (content == null) {
+            return ShareDto.error("您访问的笔记不存在！");
+        } else {
+            // 内容头增加标题与时间
+            StringBuilder builder = new StringBuilder();
+            builder.append("# ");
+            builder.append(content.getTitle());
+            builder.append("\r\n");
+            builder.append("最后更新时间：");
+            builder.append(DateUtils.parseDateToStr("yyyy年MM月dd日 HH时mm分ss秒", content.getUpdateTime()));
+            builder.append("\r\n\r\n");
+            builder.append(content.getContent());
+            content.setContent(builder.toString());
         }
 
-        NoteContent content = contentService.selectNoteContentById(id);
-        // 授权码随意访问
+        // 后台授权码访问
         if (StringUtils.isNotBlank(token)) {
             // 授权码验证
             if (redisCache.getCacheObject(WebConstants.Note.TOKEN_PREFIX + token) == null) {
-                dto.setError("授权码已过期");
-                return dto;
+                return ShareDto.error("授权码已过期！");
             } else {
-                dto.setSuccess(content);
-                return dto;
+                return ShareDto.success(content);
             }
         }
 
-        // 未分享的笔记
-        if (share.getUpdateTime() == null) {
-            dto.setError("您访问的笔记不存在");
-            return dto;
+        // 前台分享访问
+        NoteShare share = shareService.selectNoteShareByContentId(id);
+        if (share == null) {
+            return ShareDto.error("您访问的笔记不存在！");
         }
 
-        // 分享到期验证
+        // 前台分享过期
         if (share.getShareDays() > 0 && DateUtils.differentDaysByMillisecond(DateUtils.getNowDate(),
                 share.getUpdateTime()) > share.getShareDays()) {
-            dto.setError("您访问的笔记不存在");
-            return dto;
+            return ShareDto.error("您访问的笔记不存在！");
         }
 
-        // 访问密码验证
+        // 前台密码访问
         if (StringUtils.isNotBlank(share.getShareSecret())) {
             if (StringUtils.isBlank(secret)) {
-                dto.setSuccessWithDialog("请输入访问密码");
-                return dto;
+                return ShareDto.errorWithInput("请输入访问密码！");
             }
             if (!StringUtils.equalsIgnoreCase(share.getShareSecret(), secret)) {
-                dto.setInputSecret(secret);
-                dto.setErrorWithDialog("访问密码错误");
-                return dto;
+                return ShareDto.errorWithInput("输入的访问密码错误！", secret);
             }
         }
 
         // 直接返回数据
-        dto.setSuccess(content);
-        return dto;
+        return ShareDto.success(content);
     }
 
     @Override
     public String markdown(Long id, String secret, String token) {
-        ShareDto vo = html(id, secret, token);
-        if (StringUtils.isNotBlank(vo.getMessage())) {
-            return vo.getMessage();
+        ShareDto dto = html(id, secret, token);
+        if (dto.isSuccess()) {
+            return dto.getNote().getContent();
+        } else {
+            return dto.getMessage();
         }
-        return vo.getNote().getContent();
     }
 
 }

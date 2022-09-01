@@ -1,7 +1,7 @@
 package cn.devzyh.web.service;
 
 
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 
 import java.util.List;
 import java.util.Map;

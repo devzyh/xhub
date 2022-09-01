@@ -217,7 +217,7 @@ export default {
     },
     /** 获取访问链接 */
     getLink(row) {
-      let url = "/note/" + row.contentId + ".html";
+      let url = "/share/" + row.contentId + ".html";
       if (row.shareSecret) {
         url = url + "?secret=" + row.shareSecret;
       }

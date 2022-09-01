@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 搜索页面数据类
+ * 搜索页面数据传输对象
  */
 public class SearchDto implements Serializable {
 

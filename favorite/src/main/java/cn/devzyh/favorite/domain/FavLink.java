@@ -1,4 +1,4 @@
-package cn.devzyh.favorite.domain.dao;
+package cn.devzyh.favorite.domain;
 
 import cn.devzyh.common.annotation.Excel;
 import cn.devzyh.common.core.domain.BaseEntity;

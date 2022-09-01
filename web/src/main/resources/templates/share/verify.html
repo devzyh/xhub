@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${data.message}"></title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.10/css/layui.min.css">
+    <link rel="stylesheet" href="/static/share/verify.css">
+</head>
+<body>
+
+<div class="layui-container shareVerify">
+    <div class="tip">
+        <h1 th:text="${data.message}"></h1>
+        <div th:if="${data.showInput}" class="secret">
+            <div class="layui-input-inline">
+                <input class="layui-input" id="inputSecret" th:value="${data.inputSecret}"/>
+            </div>
+            <button class="layui-btn layui-btn-normal" id="visit" title="">访问</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
+<script type="text/javascript">
+    layui.use(['jquery'], function () {
+        let $ = layui.jquery;
+        // 密码访问
+        $("#visit").click(function () {
+            location.href = location.href.split("?")[0] + "?secret=" + $("#inputSecret").val();
+        });
+    });
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 搜索结果数据类
+ * 搜索结果数据传输对象
  */
 public class ResultDto implements Serializable {
 

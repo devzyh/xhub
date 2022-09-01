@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title th:text="${note.title}"></title>
+    <link rel="icon" href="/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.devzyh.cn/editor.md/1.5.0/css/editormd.preview.css"/>
+    <link rel="stylesheet" href="/static/share/share.css"/>
+</head>
+<body>
+<div>
+    <div id="sidebar">
+        <h1>Markdown大纲</h1>
+        <div class="markdown-body editormd-preview-container" id="share-toc-container">#share-toc-container</div>
+    </div>
+    <div id="share-editormd-view"></div>
+    <textarea id="append-test" style="display:none;" th:text="${note.content}"></textarea>
+</div>
+
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/js/jquery.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/marked.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/prettify.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/raphael.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/underscore.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/sequence-diagram.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/flowchart.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/lib/jquery.flowchart.min.js"></script>
+<script src="https://cdn.devzyh.cn/editor.md/1.5.0/editormd.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editormd.markdownToHTML("share-editormd-view", {
+            markdown: $("#append-test").text(),
+            htmlDecode: "style,script,iframe",
+            tocm: true,
+            tocContainer: "#share-toc-container",
+            emoji: true,
+            taskList: true,
+            tex: true,
+            flowChart: true,
+            sequenceDiagram: true
+        });
+        if (window.innerWidth <= 768) {
+            $("#sidebar").hide();
+            $("#share-editormd-view").css("padding-right", "20px");
+        }
+    });
+</script>
+</body>
+</html>

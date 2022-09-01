@@ -27,10 +27,14 @@ public class ShareController {
     public String html(Model model, @PathVariable Long id,
                        @RequestParam(required = false, defaultValue = "") String secret,
                        @RequestParam(required = false, defaultValue = "") String token) {
-        ShareDto vo = shareService.html(id, secret, token);
-        model.addAttribute(WebConstants.Note.DATA, vo);
-        model.addAttribute(WebConstants.Note.NOTE, vo.getNote());
-        return "share";
+        ShareDto dto = shareService.html(id, secret, token);
+        model.addAttribute(WebConstants.Note.DATA, dto);
+        if (dto.isSuccess()) {
+            model.addAttribute(WebConstants.Note.NOTE, dto.getNote());
+            return "share/share";
+        } else {
+            return "share/verify";
+        }
     }
 
     @ResponseBody()

@@ -1,6 +1,6 @@
 package cn.devzyh.favorite.service;
 
-import cn.devzyh.favorite.domain.dao.FavArticle;
+import cn.devzyh.favorite.domain.FavArticle;
 
 import java.util.List;
 

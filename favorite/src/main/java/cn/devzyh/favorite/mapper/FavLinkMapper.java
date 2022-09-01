@@ -1,6 +1,6 @@
 package cn.devzyh.favorite.mapper;
 
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 
 import java.util.List;
 

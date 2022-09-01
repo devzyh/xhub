@@ -3,7 +3,7 @@ package cn.devzyh.web.service.impl;
 import cn.devzyh.common.constant.WebConstants;
 import cn.devzyh.common.utils.DictUtils;
 import cn.devzyh.common.utils.StringUtils;
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 import cn.devzyh.favorite.mapper.FavLinkMapper;
 import cn.devzyh.web.domain.dto.ResultDto;
 import cn.devzyh.web.domain.dto.SearchDto;

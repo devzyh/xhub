@@ -3,7 +3,7 @@ package cn.devzyh.favorite.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.devzyh.favorite.domain.dao.FavLink;
+import cn.devzyh.favorite.domain.FavLink;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
