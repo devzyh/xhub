@@ -13,6 +13,8 @@ import cn.devzyh.web.service.IShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ShareServiceImpl implements IShareService {
 
@@ -35,7 +37,11 @@ public class ShareServiceImpl implements IShareService {
             builder.append(content.getTitle());
             builder.append("\r\n");
             builder.append("最后更新时间：");
-            builder.append(DateUtils.parseDateToStr("yyyy年MM月dd日 HH时mm分ss秒", content.getUpdateTime()));
+            Date updateTime = content.getUpdateTime();
+            if (updateTime == null) {
+                updateTime = content.getCreateTime();
+            }
+            builder.append(DateUtils.parseDateToStr("yyyy年MM月dd日 HH时mm分ss秒", updateTime));
             builder.append("\r\n\r\n");
             builder.append(content.getContent());
             content.setContent(builder.toString());
