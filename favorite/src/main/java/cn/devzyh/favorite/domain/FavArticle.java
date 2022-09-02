@@ -1,13 +1,16 @@
 package cn.devzyh.favorite.domain;
 
 import cn.devzyh.common.annotation.Excel;
+import cn.devzyh.common.constant.Constants;
 import cn.devzyh.common.core.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文章表 fav_article
@@ -54,7 +57,7 @@ public class FavArticle extends BaseEntity {
     /**
      * 关联标签
      */
-    private String tags;
+    private List<String> tags;
 
     public void setId(Long id) {
         this.id = id;
@@ -104,11 +107,11 @@ public class FavArticle extends BaseEntity {
         return created;
     }
 
-    public String getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

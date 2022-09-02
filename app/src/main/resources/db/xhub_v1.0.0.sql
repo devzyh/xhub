@@ -1,8 +1,8 @@
 /*
 
- Target Server Type    : MySQL
+ Target Server Type  : MySQL
  Target Server Version : 50718
- File Encoding         : 65001
+ File Encoding     : 65001
 
  Date: 02/09/2022 14:52:45
 */
@@ -219,6 +219,7 @@ INSERT INTO `fav_article_tag` VALUES (73, 'java');
 INSERT INTO `fav_article_tag` VALUES (73, 'jvm');
 INSERT INTO `fav_article_tag` VALUES (74, 'java');
 
+
 -- ----------------------------
 -- Table structure for fav_link
 -- ----------------------------
@@ -231,60 +232,61 @@ CREATE TABLE `fav_link`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图像',
   `seq` int(11) NOT NULL DEFAULT 0 COMMENT '顺序',
-  `target` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '_self',
+  `target` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '_self' COMMENT '打开方式',
+  `visits` bigint(255) NULL DEFAULT 0 COMMENT '访问次数',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '链接地址' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of fav_link
 -- ----------------------------
-INSERT INTO `fav_link` VALUES (1, 'editor', 'JSON编辑器', '/json', '简单的JSON文本编辑工具，可以对数据进行格式化和反格式化', NULL, 1, '_self');
-INSERT INTO `fav_link` VALUES (2, 'editor', 'XML编辑器', '/xml', '简单的XML美化压缩工具', NULL, 2, '_self');
-INSERT INTO `fav_link` VALUES (3, 'editor', '文本差异对比', '/diff', '对比两个文本的内容并高亮显示', NULL, 3, '_self');
-INSERT INTO `fav_link` VALUES (4, 'editor', 'XSLT测试', '/xslt', 'XML数据样式表功能测试', NULL, 4, '_self');
-INSERT INTO `fav_link` VALUES (5, 'editor', '加密解密', '/code', '支持常见的加密与解密技术', NULL, 5, '_self');
-INSERT INTO `fav_link` VALUES (6, 'helper', '腾讯翻译君', 'https://fanyi.qq.com/', '全新人工智能翻译， 句子、文章、论文、资料翻译首选', NULL, 1, '_blank');
-INSERT INTO `fav_link` VALUES (7, 'helper', '变量命名', 'https://unbug.github.io/codelf/', 'Codelf,变量命名,函数命名,方法命名,变量命名神器,GitHub 分组', NULL, 2, '_blank');
-INSERT INTO `fav_link` VALUES (8, 'helper', 'Github代下载', 'https://ghproxy.com/', 'GitHub 文件 , Releases , archive , gist , raw.githubusercontent.com 文件代理加速下载服务', NULL, 3, '_blank');
-INSERT INTO `fav_link` VALUES (9, 'helper', '项目文档工具', 'https://docsify.js.org/#/zh-cn/', '一个神奇的文档网站生成器', NULL, 4, '_blank');
-INSERT INTO `fav_link` VALUES (10, 'helper', 'IDEA试用', 'https://gitee.com/pengzhile/ide-eval-resetter', 'Jetbrains系列产品重置试用方法', NULL, 5, '_blank');
-INSERT INTO `fav_link` VALUES (11, 'helper', 'Git大全', 'https://gitee.com/all-about-git', '最全面的 Git 资源索引以及常用命令教程', NULL, 6, '_blank');
-INSERT INTO `fav_link` VALUES (12, 'helper', 'httpbin.org', 'https://httpbin.org', '一个简单的HTPP请求响应网站', NULL, 7, '_blank');
-INSERT INTO `fav_link` VALUES (13, 'document', 'Apache项目', 'https://www.apache.org/index.html#projects-list', 'Apache基金会官方项目列表', NULL, 1, '_blank');
-INSERT INTO `fav_link` VALUES (14, 'document', 'Java8文档', 'https://docs.oracle.com/javase/8/docs/api/', 'Java8官方文档', NULL, 2, '_blank');
-INSERT INTO `fav_link` VALUES (15, 'document', 'Spring文档', 'https://spring.io/projects', 'Spring项目官方文档', NULL, 3, '_blank');
-INSERT INTO `fav_link` VALUES (16, 'document', 'Mybatis文档', 'https://mybatis.org/mybatis-3/zh/index.html', 'Mybatis官方中文文档', NULL, 4, '_blank');
-INSERT INTO `fav_link` VALUES (17, 'document', 'Java开发手册', 'https://github.com/alibaba/p3c', '阿里巴巴Java开发手册', NULL, 5, '_blank');
-INSERT INTO `fav_link` VALUES (18, 'document', 'On Java8', 'https://gitee.com/lingcoder/OnJava8/tree/1ef7ec48e492862300e667e24c245e9b3a5ccd98', '《On Java 8》中文版', NULL, 6, '_blank');
-INSERT INTO `fav_link` VALUES (19, 'document', 'Java8特性', 'https://github.com/biezhi/learn-java8', 'Java8 改变了我们思考和编码的方式，在这里你可以学习到 Java8 中的核心特性以及使用场景，跟我学习 Java8，让你的编程更轻松', NULL, 7, '_blank');
-INSERT INTO `fav_link` VALUES (20, 'document', 'Docs4dev', 'https://www.docs4dev.com/docs/zh', '开发文档中文版汇总', NULL, 8, '_blank');
-INSERT INTO `fav_link` VALUES (21, 'blog', '菜鸟教程', 'https://www.runoob.com', '提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python，Java，Ruby，C，PHP , MySQL等各种编程语言的基础知识', NULL, 1, '_blank');
-INSERT INTO `fav_link` VALUES (22, 'blog', '阿里云藏经阁', 'https://developer.aliyun.com/ebook', '汇聚阿里巴巴技术实践精华，涵盖云原生、物联网、大数据、AI 等技术领域，深度分享阿里工程师实战经验，顶级技术内容一手掌握', NULL, 2, '_blank');
-INSERT INTO `fav_link` VALUES (23, 'blog', '程序员DD', 'https://blog.didispace.com/', '内容涵盖Java后端技术、Spring Boot、Spring Cloud、微服务架构、运维开发、系统监控等相关的研究与知识分享', NULL, 4, '_blank');
-INSERT INTO `fav_link` VALUES (24, 'blog', '酷壳博客', 'https://coolshell.cn/', '享受编程和技术所带来的快乐 – https://coolshell.cn', NULL, 7, '_blank');
-INSERT INTO `fav_link` VALUES (25, 'blog', '虫洞栈', 'https://bugstack.cn/', 'bugstack 虫洞栈, 重学Java设计模式, 字节码编程, 中间件, Spring, Java基础, 面经手册', NULL, 3, '_blank');
-INSERT INTO `fav_link` VALUES (26, 'blog', '三太子敖丙', 'https://mp.weixin.qq.com/s/2l8iZeTRfMaUOcgtad1wIQ', '渣男两年文章汇总（附硬核面试点脑图）', NULL, 13, '_blank');
-INSERT INTO `fav_link` VALUES (27, 'blog', '商城实战项目', 'http://www.macrozheng.com/', 'mall学习教程，架构、业务、技术要点全方位解析', NULL, 14, '_blank');
-INSERT INTO `fav_link` VALUES (29, 'friend', 'HMISTER', 'https://blog.hmister.net/', '不想你惊艳我年少时光 只愿你暖我今后岁月', NULL, 2, '_blank');
-INSERT INTO `fav_link` VALUES (30, 'editor', 'Cron表达式', '/cron', 'Crontab计划任务表达式在线生成', NULL, 6, '_self');
-INSERT INTO `fav_link` VALUES (34, 'helper', 'CrxDL', 'https://crxdl.com/', '下载Chrome扩展插件Crx离线安装包', NULL, 11, '_blank');
-INSERT INTO `fav_link` VALUES (35, 'helper', 'SSL/TLS安全评估', 'https://myssl.com/', '您部署的HTTPS网站安全吗', NULL, 9, '_blank');
-INSERT INTO `fav_link` VALUES (36, 'blog', 'Javadoop', 'https://javadoop.com/', '来自魔都的程序员，在互联网摸爬滚打了很多年', NULL, 11, '_blank');
-INSERT INTO `fav_link` VALUES (38, 'blog', '凤凰架构', 'http://icyfenix.cn/', '构建可靠的大型分布式系统', NULL, 8, '_blank');
-INSERT INTO `fav_link` VALUES (39, 'editor', 'Diagram', 'https://app.diagrams.net/', '图表软件和流程图制作工具', NULL, 8, '_blank');
-INSERT INTO `fav_link` VALUES (41, 'helper', '程序员做饭指南', 'https://cook.aiurs.co/', '程序员在家做饭方法指南。Programmer\'s guide about how to cook at home (Chinese)', NULL, 10, '_blank');
-INSERT INTO `fav_link` VALUES (42, 'blog', 'SpringForAll社区', 'http://spring4all.com/', '专注服务Java和Spring开发者的技术社区', NULL, 12, '_blank');
-INSERT INTO `fav_link` VALUES (43, 'blog', 'JavaGuide', 'https://javaguide.cn/', '一份涵盖大部分 Java 程序员所需要掌握的核心知识', NULL, 9, '_blank');
-INSERT INTO `fav_link` VALUES (46, 'document', 'Java规范', 'https://docs.oracle.com/javase/specs/index.html', 'Java语言和虚拟机规范', '', 0, '_blank');
-INSERT INTO `fav_link` VALUES (47, 'document', 'Arthas文档', 'https://arthas.aliyun.com/doc/quick-start.html', 'Arthas 是Alibaba开源的Java诊断工具，深受开发者喜爱', NULL, 10, '_blank');
-INSERT INTO `fav_link` VALUES (48, 'blog', '并发编程网', 'http://ifeve.com/', '让天下没有难学的技术', NULL, 6, '_blank');
-INSERT INTO `fav_link` VALUES (49, 'blog', 'Java进阶知识', 'https://doocs.github.io/advanced-java/#/', '本系列知识由 Doocs 技术社区总结发布，内容涵盖高并发、分布式、高可用、微服务、海量数据处理等', '', 10, '_blank');
-INSERT INTO `fav_link` VALUES (50, 'editor', 'Unix时间戳', '/unix', 'Unix时间戳在线转换工具', NULL, 7, '_self');
-INSERT INTO `fav_link` VALUES (51, 'helper', 'Unicode字符百科', 'https://unicode-table.com/cn/', 'Unicode(万国码、国际码、统一码) 字符搜索Web服务 ', NULL, 8, '_blank');
-INSERT INTO `fav_link` VALUES (52, 'helper', 'SVG文件处理', 'https://svgtopng.com/zh/', '软件允许您将SVG文档转换成PNG文档。', NULL, 12, '_blank');
-INSERT INTO `fav_link` VALUES (53, 'document', 'OI Wiki', 'https://oi-wiki.org/', '一个免费开放且持续更新的 编程竞赛（competitive programming） 知识整合站点', NULL, 9, '_blank');
-INSERT INTO `fav_link` VALUES (54, 'helper', 'Respeed Download', 'https://respeed.chromiumer.com/', '主要用于文件下载加速（国内资源下载可能会更慢）', NULL, 13, '_blank');
-INSERT INTO `fav_link` VALUES (55, 'blog', 'Java全栈知识体系', 'https://pdai.tech/', '包含: Java 基础, Java 部分源码, JVM, Spring, 数据库原理, 分布式, 中间件, 开发工具, Git, IDE等', NULL, 5, '_blank');
+INSERT INTO `fav_link` VALUES (1, 'editor', 'JSON编辑器', '/json', '简单的JSON文本编辑工具，可以对数据进行格式化和反格式化', NULL, 1, '_self', 2);
+INSERT INTO `fav_link` VALUES (2, 'editor', 'XML编辑器', '/xml', '简单的XML美化压缩工具', NULL, 2, '_self', 1);
+INSERT INTO `fav_link` VALUES (3, 'editor', '文本差异对比', '/diff', '对比两个文本的内容并高亮显示', NULL, 3, '_self', 0);
+INSERT INTO `fav_link` VALUES (4, 'editor', 'XSLT测试', '/xslt', 'XML数据样式表功能测试', NULL, 4, '_self', 0);
+INSERT INTO `fav_link` VALUES (5, 'editor', '加密解密', '/code', '支持常见的加密与解密技术', NULL, 5, '_self', 1);
+INSERT INTO `fav_link` VALUES (6, 'helper', '腾讯翻译君', 'https://fanyi.qq.com/', '全新人工智能翻译， 句子、文章、论文、资料翻译首选', NULL, 1, '_blank', 0);
+INSERT INTO `fav_link` VALUES (7, 'helper', '变量命名', 'https://unbug.github.io/codelf/', 'Codelf,变量命名,函数命名,方法命名,变量命名神器,GitHub 分组', NULL, 2, '_blank', 0);
+INSERT INTO `fav_link` VALUES (8, 'helper', 'Github代下载', 'https://ghproxy.com/', 'GitHub 文件 , Releases , archive , gist , raw.githubusercontent.com 文件代理加速下载服务', NULL, 3, '_blank', 0);
+INSERT INTO `fav_link` VALUES (9, 'helper', '项目文档工具', 'https://docsify.js.org/#/zh-cn/', '一个神奇的文档网站生成器', NULL, 4, '_blank', 0);
+INSERT INTO `fav_link` VALUES (10, 'helper', 'IDEA试用', 'https://gitee.com/pengzhile/ide-eval-resetter', 'Jetbrains系列产品重置试用方法', NULL, 5, '_blank', 0);
+INSERT INTO `fav_link` VALUES (11, 'helper', 'Git大全', 'https://gitee.com/all-about-git', '最全面的 Git 资源索引以及常用命令教程', NULL, 6, '_blank', 0);
+INSERT INTO `fav_link` VALUES (12, 'helper', 'httpbin.org', 'https://httpbin.org', '一个简单的HTPP请求响应网站', NULL, 7, '_blank', 0);
+INSERT INTO `fav_link` VALUES (13, 'document', 'Apache项目', 'https://www.apache.org/index.html#projects-list', 'Apache基金会官方项目列表', NULL, 1, '_blank', 0);
+INSERT INTO `fav_link` VALUES (14, 'document', 'Java8文档', 'https://docs.oracle.com/javase/8/docs/api/', 'Java8官方文档', NULL, 2, '_blank', 0);
+INSERT INTO `fav_link` VALUES (15, 'document', 'Spring文档', 'https://spring.io/projects', 'Spring项目官方文档', NULL, 3, '_blank', 0);
+INSERT INTO `fav_link` VALUES (16, 'document', 'Mybatis文档', 'https://mybatis.org/mybatis-3/zh/index.html', 'Mybatis官方中文文档', NULL, 4, '_blank', 0);
+INSERT INTO `fav_link` VALUES (17, 'document', 'Java开发手册', 'https://github.com/alibaba/p3c', '阿里巴巴Java开发手册', NULL, 5, '_blank', 0);
+INSERT INTO `fav_link` VALUES (18, 'document', 'On Java8', 'https://gitee.com/lingcoder/OnJava8/tree/1ef7ec48e492862300e667e24c245e9b3a5ccd98', '《On Java 8》中文版', NULL, 6, '_blank', 0);
+INSERT INTO `fav_link` VALUES (19, 'document', 'Java8特性', 'https://github.com/biezhi/learn-java8', '在这里你可以学习到 Java8 中的核心特性以及使用场景', NULL, 7, '_blank', 0);
+INSERT INTO `fav_link` VALUES (20, 'document', 'Docs4dev', 'https://www.docs4dev.com/docs/zh', '开发文档中文版汇总', NULL, 8, '_blank', 0);
+INSERT INTO `fav_link` VALUES (21, 'blog', '菜鸟教程', 'https://www.runoob.com', '提供了编程的基础技术教程, 介绍了各种编程语言的基础知识', NULL, 1, '_blank', 0);
+INSERT INTO `fav_link` VALUES (22, 'blog', '阿里云藏经阁', 'https://developer.aliyun.com/ebook', '汇聚阿里巴巴技术实践精华，深度分享阿里工程师实战经验', NULL, 2, '_blank', 0);
+INSERT INTO `fav_link` VALUES (23, 'blog', '程序员DD', 'https://blog.didispace.com/', '内容涵盖Java后端技术、微服务架构、运维开发等相关的研究与知识分享', NULL, 4, '_blank', 0);
+INSERT INTO `fav_link` VALUES (24, 'blog', '酷壳博客', 'https://coolshell.cn/', '享受编程和技术所带来的快乐 – https://coolshell.cn', NULL, 7, '_blank', 0);
+INSERT INTO `fav_link` VALUES (25, 'blog', '虫洞栈', 'https://bugstack.cn/', '重学Java设计模式, 字节码编程, 中间件, Spring, Java基础, 面经手册', NULL, 3, '_blank', 0);
+INSERT INTO `fav_link` VALUES (26, 'blog', '三太子敖丙', 'https://mp.weixin.qq.com/s/2l8iZeTRfMaUOcgtad1wIQ', '渣男两年文章汇总（附硬核面试点脑图）', NULL, 13, '_blank', 0);
+INSERT INTO `fav_link` VALUES (27, 'blog', '商城实战项目', 'http://www.macrozheng.com/', 'mall学习教程，架构、业务、技术要点全方位解析', NULL, 14, '_blank', 0);
+INSERT INTO `fav_link` VALUES (29, 'friend', 'HMISTER', 'https://blog.hmister.net/', '不想你惊艳我年少时光 只愿你暖我今后岁月', NULL, 2, '_blank', 0);
+INSERT INTO `fav_link` VALUES (30, 'editor', 'Cron表达式', '/cron', 'Crontab计划任务表达式在线生成', NULL, 6, '_self', 0);
+INSERT INTO `fav_link` VALUES (34, 'helper', 'CrxDL', 'https://crxdl.com/', '下载Chrome扩展插件Crx离线安装包', NULL, 11, '_blank', 0);
+INSERT INTO `fav_link` VALUES (35, 'helper', 'SSL/TLS安全评估', 'https://myssl.com/', '您部署的HTTPS网站安全吗', NULL, 9, '_blank', 0);
+INSERT INTO `fav_link` VALUES (36, 'blog', 'Javadoop', 'https://javadoop.com/', '来自魔都的程序员，在互联网摸爬滚打了很多年', NULL, 11, '_blank', 0);
+INSERT INTO `fav_link` VALUES (38, 'blog', '凤凰架构', 'http://icyfenix.cn/', '构建可靠的大型分布式系统', NULL, 8, '_blank', 0);
+INSERT INTO `fav_link` VALUES (39, 'editor', 'Diagram', 'https://app.diagrams.net/', '图表软件和流程图制作工具', NULL, 8, '_blank', 0);
+INSERT INTO `fav_link` VALUES (41, 'helper', '程序员做饭指南', 'https://cook.aiurs.co/', '程序员在家做饭方法指南', NULL, 10, '_blank', 0);
+INSERT INTO `fav_link` VALUES (42, 'blog', 'SpringForAll社区', 'http://spring4all.com/', '专注服务Java和Spring开发者的技术社区', NULL, 12, '_blank', 0);
+INSERT INTO `fav_link` VALUES (43, 'blog', 'JavaGuide', 'https://javaguide.cn/', '一份涵盖大部分 Java 程序员所需要掌握的核心知识', NULL, 9, '_blank', 0);
+INSERT INTO `fav_link` VALUES (46, 'document', 'Java规范', 'https://docs.oracle.com/javase/specs/index.html', 'Java语言和虚拟机规范', '', 0, '_blank', 0);
+INSERT INTO `fav_link` VALUES (47, 'document', 'Arthas文档', 'https://arthas.aliyun.com/doc/quick-start.html', 'Arthas 是Alibaba开源的Java诊断工具，深受开发者喜爱', NULL, 10, '_blank', 0);
+INSERT INTO `fav_link` VALUES (48, 'blog', '并发编程网', 'http://ifeve.com/', '让天下没有难学的技术', NULL, 6, '_blank', 0);
+INSERT INTO `fav_link` VALUES (49, 'blog', 'Java进阶知识', 'https://doocs.github.io/advanced-java/#/', '内容涵盖高并发、分布式、高可用、微服务、海量数据处理等', '', 10, '_blank', 0);
+INSERT INTO `fav_link` VALUES (50, 'editor', 'Unix时间戳', '/unix', 'Unix时间戳在线转换工具', NULL, 7, '_self', 0);
+INSERT INTO `fav_link` VALUES (51, 'helper', 'Unicode字符百科', 'https://unicode-table.com/cn/', 'Unicode(万国码、国际码、统一码) 字符搜索Web服务 ', NULL, 8, '_blank', 0);
+INSERT INTO `fav_link` VALUES (52, 'helper', 'SVG文件处理', 'https://svgtopng.com/zh/', '软件允许您将SVG文档转换成PNG文档。', NULL, 12, '_blank', 0);
+INSERT INTO `fav_link` VALUES (53, 'document', 'OI Wiki', 'https://oi-wiki.org/', '一个免费开放且持续更新的编程竞赛知识整合站点', NULL, 9, '_blank', 0);
+INSERT INTO `fav_link` VALUES (54, 'helper', 'Respeed Download', 'https://respeed.chromiumer.com/', '主要用于文件下载加速（国内资源下载可能会更慢）', NULL, 13, '_blank', 0);
+INSERT INTO `fav_link` VALUES (55, 'blog', 'Java全栈知识体系', 'https://pdai.tech/', '包含: Java, Spring, 数据库原理, 分布式, 中间件, 开发工具等', NULL, 5, '_blank', 0);
 
 -- ----------------------------
 -- Table structure for gen_table

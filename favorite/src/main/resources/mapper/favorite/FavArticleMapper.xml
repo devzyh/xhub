@@ -9,7 +9,10 @@
         <result column="digest" property="digest"/>
         <result column="source" property="source"/>
         <result column="created" property="created"/>
-        <result column="tags" property="tags"/>
+        <collection column="id" property="tags" ofType="string" javaType="java.util.List"
+                    select="selectFavArticleTagsById">
+            <result column="tag_code"/>
+        </collection>
     </resultMap>
 
     <sql id="selectToolArticleVo">
@@ -18,8 +21,7 @@
                url,
                digest,
                source,
-               created,
-               (select group_concat(tag_code) from fav_article_tag where article_id = id) tags
+               created
         from fav_article
     </sql>
 
@@ -32,8 +34,8 @@
             <if test="source != null  and source != ''">and source = #{source}</if>
             <if test="created != null ">and created = #{created}</if>
             <if test="tags != null ">
-            and id in (select article_id from fav_article_tag where tag_code in
-                <foreach item="tag" collection="tags.split(',')" open="(" separator="," close=")">
+                and id in (select article_id from fav_article_tag where tag_code in
+                <foreach item="tag" collection="tags" open="(" separator="," close=")">
                     #{tag}
                 </foreach>)
             </if>
@@ -101,5 +103,11 @@
             ( #{id}, #{tag} )
         </foreach>
     </insert>
+
+    <select id="selectFavArticleTagsById" parameterType="Long" resultType="String">
+        select tag_code
+        from fav_article_tag
+        where article_id = #{id}
+    </select>
 
 </mapper>

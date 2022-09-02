@@ -59,7 +59,7 @@ public class SearchArticleServiceImpl implements ISearchService {
             resultDto.setDigest(fa.getDigest());
             resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), fa.getSource()));
             resultDto.setSource(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE.getValue(), fa.getSource()));
-            resultDto.setTags(Arrays.stream(fa.getTags().split(Constants.GROUP_CONCAT_SPLIT))
+            resultDto.setTags(fa.getTags().stream()
                     .map(val -> DictUtils.getDictLabel(WebConstants.Item.ARTICLE_TAG.getValue(), val))
                     .collect(Collectors.toList()));
             resultDtoList.add(resultDto);

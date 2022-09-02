@@ -55,7 +55,7 @@
             <div class="grid-col grid-col-2" th:each="link: ${links.helper}">
                 <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
-                        <i class="fa czs-sword-l"></i>
+                        <i class="fa czs-link-l"></i>
                         <div class="link-info">
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
@@ -109,7 +109,7 @@
             <div class="grid-col grid-col-2" th:each="link: ${links.blog}">
                 <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
-                        <i class="fa czs-book-l"></i>
+                        <i class="fa czs-network-l"></i>
                         <div class="link-info">
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
