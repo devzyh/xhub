@@ -53,7 +53,7 @@
         </div>
         <div class="grid links">
             <div class="grid-col grid-col-2" th:each="link: ${links.helper}">
-                <a th:href="${link.href}" th:target="${link.target}">
+                <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
                         <i class="fa czs-sword-l"></i>
                         <div class="link-info">
@@ -80,7 +80,7 @@
         </div>
         <div class="grid links">
             <div class="grid-col grid-col-2" th:each="link: ${links.document}">
-                <a th:href="${link.href}" th:target="${link.target}">
+                <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
                         <i class="fa czs-doc-file-l"></i>
                         <div class="link-info">
@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class="grid links">
-            <div class="grid-col grid-col-2" th:each="link: ${links.blog}">
+            <div class="grid-col grid-col-2" th:each="link: ${links.blog}" th:accesskey="${link.id}">
                 <a th:href="${link.href}" th:target="${link.target}">
                     <div class="link-item">
                         <i class="fa czs-book-l"></i>
