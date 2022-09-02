@@ -1,5 +1,6 @@
 package cn.devzyh.web.service.impl;
 
+import cn.devzyh.common.constant.Constants;
 import cn.devzyh.common.constant.WebConstants;
 import cn.devzyh.common.utils.DictUtils;
 import cn.devzyh.common.utils.StringUtils;
@@ -8,9 +9,12 @@ import cn.devzyh.favorite.mapper.FavArticleMapper;
 import cn.devzyh.web.domain.dto.ResultDto;
 import cn.devzyh.web.domain.dto.SearchDto;
 import cn.devzyh.web.service.ISearchService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +29,10 @@ public class SearchArticleServiceImpl implements ISearchService {
     private FavArticleMapper articleMapper;
 
     @Override
-    public SearchDto search(String... keys) {
+    public SearchDto search(Integer page, String... keys) {
         // 获取基本信息
         String key = keys[0];
         SearchDto searchDto = new SearchDto();
-        searchDto.setSearchKey(key);
         searchDto.setSearchType(WebConstants.SearchType.ARTICLE.getValue());
         if (StringUtils.isBlank(key)) {
             key = "";
@@ -37,26 +40,33 @@ public class SearchArticleServiceImpl implements ISearchService {
         } else {
             searchDto.setPageTitle(key + " - 文章 - ");
         }
+        searchDto.setSearchKey(key);
+
+        // 设置分页
+        PageHelper.startPage(page, WebConstants.Search.PAGE_SIZE);
 
         // 获取文章信息
         List<ResultDto> resultDtoList = new LinkedList<>();
         FavArticle article = new FavArticle();
         article.setTitle(key);
-        List<FavArticle> articleList = articleMapper.selectFavArticleList(article);
-        for (FavArticle ta : articleList) {
+        List<FavArticle> list = articleMapper.selectFavArticleList(article);
+
+        for (FavArticle fa : list) {
             ResultDto resultDto = new ResultDto();
-            resultDto.setTitle(ta.getTitle());
-            resultDto.setUrl(ta.getUrl());
-            resultDto.setPostDate(ta.getCreated());
-            resultDto.setDigest(ta.getDigest());
-            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), ta.getSource()));
-            resultDto.setSource(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE.getValue(), ta.getSource()));
-            resultDto.setTags(ta.getTags().stream()
+            resultDto.setTitle(fa.getTitle());
+            resultDto.setUrl(fa.getUrl());
+            resultDto.setPostDate(fa.getCreated());
+            resultDto.setDigest(fa.getDigest());
+            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), fa.getSource()));
+            resultDto.setSource(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE.getValue(), fa.getSource()));
+            resultDto.setTags(Arrays.stream(fa.getTags().split(Constants.GROUP_CONCAT_SPLIT))
                     .map(val -> DictUtils.getDictLabel(WebConstants.Item.ARTICLE_TAG.getValue(), val))
                     .collect(Collectors.toList()));
             resultDtoList.add(resultDto);
         }
+
         searchDto.setResultList(resultDtoList);
+        searchDto.setPage(new PageInfo(list));
         return searchDto;
     }
 

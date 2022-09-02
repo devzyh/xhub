@@ -163,4 +163,9 @@ public class Constants {
      */
     public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.devzyh.common.utils.file"};
+
+    /**
+     * MySQL group_concat函数默认分隔符
+     */
+    public static final String GROUP_CONCAT_SPLIT = ",";
 }

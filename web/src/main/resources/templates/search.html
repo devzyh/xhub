@@ -9,37 +9,60 @@
     <link rel="stylesheet" href="/static/main/main.css">
 </head>
 <body>
+<div class="page-wrapper">
 
-<div th:include="header"></div>
+    <div th:include="header"></div>
 
-<div class="layui-container">
-    <div class="fly-panel" style="margin-bottom: 0;">
-        <div class="fly-panel-title fly-filter" style="margin-top: 20px;">
-            <span class="layui-this">搜索结果如下：</span>
+    <div class="page-main" id="searchpage">
+
+        <input type="hidden" id="searchType" th:value="${data.searchType}">
+
+        <div class="grid links">
+            <div class="grid-col" th:each="result: ${data.resultList}">
+                <a th:href="${result.url}" target="_blank">
+                    <div class="link-item">
+                        <div class="link-info">
+                            <h2 th:text="${result.title}">文章标题</h2>
+                            <p class="excerpt" th:if="${result.digest == null || result.digest == ''}"
+                               th:text="${result.title}"></p>
+                            <p class="excerpt" th:if="${result.digest != null && result.digest != ''}"
+                               th:text="${result.digest}"></p>
+                            <p class="link-meta">
+                                <span class="date fl">
+                                    <span class="source" th:text="${result.postDate}"></span>
+                                    <span class="source" th:text="${result.source}"></span>
+                                </span>
+                                <span class="view fr">
+                                    <span class="tag" th:each="tag: ${result.tags}" th:text="${tag}"></span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
 
-        <ul class="fly-list">
-            <li th:each="result: ${data.resultList}">
-                <a href="#" target="_blank" class="fly-avatar">
-                    <img th:src="${result.image}" th:alt="${result.source}">
+        <div class="pager" th:if="${page != null}">
+            <div class="box">
+                <a class="prev" th:if="${page.hasPreviousPage}"
+                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page='+ page.prePage}">
+                    <span><i class="fas czs-angle-left-l"></i></span>
                 </a>
-                <h2>
-                    <a th:href="${result.url}" target="_blank" th:text="${result.title}"></a>
-                </h2>
-                <div class="fly-list-info">
-                    <span th:text="'首次发布时间：'+${result.postDate}"></span>
+                <div class="nav_pagenum">
+                    <span th:text="${page.pageNum + ' / ' + page.pages}"></span>
                 </div>
-                <div class="fly-list-badge">
-                    <span class="layui-badge layui-bg-blue" th:each="tag: ${result.tags}" th:text="${tag}"></span>
-                </div>
-            </li>
-        </ul>
+                <a class="next" th:if="${page.hasNextPage}"
+                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page=' + page.nextPage}">
+                    <span><i class="fas czs-angle-right-l"></i></span>
+                </a>
+            </div>
+        </div>
 
     </div>
+
+    <div th:include="footer"></div>
+
 </div>
-
-<div th:include="footer"></div>
-
 <script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
 <script src="/static/main/main.js"></script>
 </body>

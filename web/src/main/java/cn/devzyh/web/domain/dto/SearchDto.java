@@ -1,5 +1,7 @@
 package cn.devzyh.web.domain.dto;
 
+import com.github.pagehelper.PageInfo;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class SearchDto implements Serializable {
     private String searchType; // 搜索源类型
     private String searchKey; // 搜索关键词
     private List<ResultDto> resultList; // 搜索结果
+    private PageInfo page; // 分页数据
 
     public String getPageTitle() {
         return pageTitle;
@@ -44,5 +47,13 @@ public class SearchDto implements Serializable {
 
     public void setResultList(List<ResultDto> resultList) {
         this.resultList = resultList;
+    }
+
+    public PageInfo getPage() {
+        return page;
+    }
+
+    public void setPage(PageInfo page) {
+        this.page = page;
     }
 }

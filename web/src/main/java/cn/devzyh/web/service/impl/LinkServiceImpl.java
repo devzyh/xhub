@@ -8,7 +8,9 @@ import cn.devzyh.web.service.ILinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,12 +36,22 @@ public class LinkServiceImpl implements ILinkService {
                         Map.Entry<String, List<FavLink>> next = iterator.next();
                         next.setValue(next.getValue().stream().limit(10).collect(Collectors.toList()));
                     }
-                    redisCache.setCacheMap(WebConstants.WEB_HOME_LINKS_KEY, result);
+                    redisCache.setCacheMap(WebConstants.WEB_HOME_LINKS_KEY, result);  // 首页链接
                 }
             }
         }
 
         return result;
+    }
+
+    /**
+     * 获取前N个友情链接数据
+     *
+     * @return
+     */
+    public List<FavLink> selectTopNFriendLinks() {
+        Map<String, List<FavLink>> links = selectLinks();
+        return links.get(WebConstants.LinkItem.FRIEND);
     }
 
 }

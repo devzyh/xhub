@@ -1,10 +1,24 @@
-<div class="fly-footer">
-    <p>
-        <a href="https://www.devzyh.cn" target="_blank">软件工具箱</a>
-        2021 &copy;
-        <a href="http://blog.devzyh.cn" target="_blank">DEVZYH.CN</a>
-    </p>
-    <p>
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">鄂ICP备2021005865号</a>
-    </p>
+<div class="footer">
+    <div class="grid" style="padding-bottom: 10px;">
+        <div class="grid-col" style="font-size:15px;">
+            友情链接：
+            <a th:each="link: ${friends}" th:href="${link.href}" th:target="${link.target}"
+               th:text="${link.name}">友链</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="grid-col">
+            <div class="footer-copyright">
+                <p>
+                    <a href="https://www.devzyh.cn" target="_blank">软件工具箱</a>
+                    2021 &copy;
+                    <a href="http://blog.devzyh.cn" target="_blank">DEVZYH.CN</a>
+                </p>
+                <p>
+                    <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">鄂ICP备2021005865号</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

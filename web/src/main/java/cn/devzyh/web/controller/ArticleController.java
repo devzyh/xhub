@@ -1,6 +1,7 @@
 package cn.devzyh.web.controller;
 
 import cn.devzyh.common.constant.WebConstants;
+import cn.devzyh.web.domain.dto.SearchDto;
 import cn.devzyh.web.service.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,12 @@ public class ArticleController {
     private ISearchService searchArticleService;
 
     @GetMapping("/article")
-    public String article(@RequestParam(required = false) String key, Model model) {
-        model.addAttribute(WebConstants.Search.DATA, searchArticleService.search(key));
+    public String article(@RequestParam(required = false) String key,
+                          @RequestParam(required = false, defaultValue = "1") Integer page,
+                          Model model) {
+        SearchDto dto = searchArticleService.search(page, key);
+        model.addAttribute(WebConstants.Search.DATA, dto);
+        model.addAttribute(WebConstants.Search.PAGE, dto.getPage());
         return "search";
     }
 }

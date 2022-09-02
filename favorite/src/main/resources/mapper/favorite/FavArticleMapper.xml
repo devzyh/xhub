@@ -9,15 +9,18 @@
         <result column="digest" property="digest"/>
         <result column="source" property="source"/>
         <result column="created" property="created"/>
-        <collection property="tags" ofType="string" javaType="java.util.List">
-            <result column="tag_code"/>
-        </collection>
+        <result column="tags" property="tags"/>
     </resultMap>
 
     <sql id="selectToolArticleVo">
-        select id, title, url, digest, source, created, tag_code
+        select id,
+               title,
+               url,
+               digest,
+               source,
+               created,
+               (select group_concat(tag_code) from fav_article_tag where article_id = id) tags
         from fav_article
-                 left join fav_article_tag on fav_article.id = fav_article_tag.article_id
     </sql>
 
     <select id="selectFavArticleList" parameterType="FavArticle" resultMap="FavArticleResult">
@@ -28,10 +31,11 @@
             <if test="digest != null  and digest != ''">and digest LIKE CONCAT('%', #{digest}, '%')</if>
             <if test="source != null  and source != ''">and source = #{source}</if>
             <if test="created != null ">and created = #{created}</if>
-            <if test="tags != null ">and tag_code in
-                <foreach item="tag" collection="tags" open="(" separator="," close=")">
+            <if test="tags != null ">
+            and id in (select article_id from fav_article_tag where tag_code in
+                <foreach item="tag" collection="tags.split(',')" open="(" separator="," close=")">
                     #{tag}
-                </foreach>
+                </foreach>)
             </if>
         </where>
         order by created desc, id desc

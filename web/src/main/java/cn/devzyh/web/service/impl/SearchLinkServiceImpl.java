@@ -8,6 +8,8 @@ import cn.devzyh.favorite.mapper.FavLinkMapper;
 import cn.devzyh.web.domain.dto.ResultDto;
 import cn.devzyh.web.domain.dto.SearchDto;
 import cn.devzyh.web.service.ISearchService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,20 +28,23 @@ public class SearchLinkServiceImpl implements ISearchService {
     private FavLinkMapper favoriteMapper;
 
     @Override
-    public SearchDto search(String... keys) {
+    public SearchDto search(Integer page, String... keys) {
         // 获取基本信息
         String type = keys[0];
         String key = keys[1];
 
         SearchDto searchDto = new SearchDto();
-        searchDto.setSearchKey(key);
         searchDto.setSearchType(WebConstants.SearchType.LINK.getValue());
         if (StringUtils.isBlank(key)) {
             key = "";
-            searchDto.setPageTitle("收藏 - ");
+            searchDto.setPageTitle("链接 - ");
         } else {
-            searchDto.setPageTitle(key + " - 收藏 - ");
+            searchDto.setPageTitle(key + " - 链接 - ");
         }
+        searchDto.setSearchKey(key);
+
+        // 设置分页
+        PageHelper.startPage(page, WebConstants.Search.PAGE_SIZE);
 
         // 获取文章信息
         List<ResultDto> resultDtoList = new LinkedList<>();
@@ -65,7 +70,9 @@ public class SearchLinkServiceImpl implements ISearchService {
             resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.LINK_ITEM_IMAGE.getValue(), link.getItem()));
             resultDtoList.add(resultDto);
         }
+
         searchDto.setResultList(resultDtoList);
+        searchDto.setPage(new PageInfo(list));
         return searchDto;
     }
 

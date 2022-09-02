@@ -19,8 +19,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="关联标签" prop="tags">
-        <el-select v-model="queryParams.tags" multiple>
+      <el-form-item label="关联标签" prop="queryTags">
+        <el-select v-model="queryTags" multiple>
           <el-option
             v-for="dict in dict.type.web_article_tag"
             :key="dict.value"
@@ -203,6 +203,8 @@ export default {
         source: null,
         created: null
       },
+      // 搜索选中标签
+      queryTags: null,
       // 表单参数
       form: {},
       // 表单校验
@@ -229,6 +231,9 @@ export default {
     /** 查询文章列表 */
     getList() {
       this.loading = true;
+      if (this.queryTags && this.queryTags.length > 0) {
+        this.queryParams.tags = this.queryTags.join();
+      }
       listArticle(this.queryParams).then(response => {
         this.articleList = response.rows;
         this.total = response.total;

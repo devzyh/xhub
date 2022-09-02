@@ -10,9 +10,10 @@ public interface ISearchService {
     /**
      * 搜索内容
      *
+     * @param key 页码
      * @param key 关键词
      * @return
      */
-    SearchDto search(String... keys);
+    SearchDto search(Integer page, String... keys);
 
 }

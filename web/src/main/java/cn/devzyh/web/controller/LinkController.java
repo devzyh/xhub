@@ -1,6 +1,7 @@
 package cn.devzyh.web.controller;
 
 import cn.devzyh.common.constant.WebConstants;
+import cn.devzyh.web.domain.dto.SearchDto;
 import cn.devzyh.web.service.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,22 @@ public class LinkController {
     private ISearchService searchLinkService;
 
     @GetMapping("/link")
-    public String searchLink(@RequestParam(required = false) String key, Model model) {
-        model.addAttribute(WebConstants.Search.DATA, searchLinkService
-                .search(WebConstants.SearchParamsType.KEY, key));
+    public String searchLink(@RequestParam(required = false) String key,
+                             @RequestParam(required = false, defaultValue = "1") Integer page,
+                             Model model) {
+        SearchDto dto = searchLinkService.search(page, WebConstants.SearchParamsType.KEY, key);
+        model.addAttribute(WebConstants.Search.DATA, dto);
+        model.addAttribute(WebConstants.Search.PAGE, dto.getPage());
         return "search";
     }
 
     @GetMapping("/link/{item}")
-    public String searchLinkByItem(@PathVariable("item") String item, Model model) {
-        model.addAttribute(WebConstants.Search.DATA, searchLinkService
-                .search(WebConstants.SearchParamsType.ITEM, item));
+    public String searchLinkByItem(@PathVariable("item") String item,
+                                   @RequestParam(required = false, defaultValue = "1") Integer page,
+                                   Model model) {
+        SearchDto dto = searchLinkService.search(page, WebConstants.SearchParamsType.ITEM, item);
+        model.addAttribute(WebConstants.Search.DATA, dto);
+        model.addAttribute(WebConstants.Search.PAGE, dto.getPage());
         return "search";
     }
 

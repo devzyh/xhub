@@ -10,95 +10,125 @@
 </head>
 <body>
 
-<div th:include="header"></div>
+<div class="page-wrapper">
 
-<div class="layui-container">
-    <table class="layui-table layui-text toobox-search">
-        <tr>
-            <td colspan="3" style="text-align: center"><b>资源搜索</b></td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align: center">
-                <div class="layui-form layui-form-item" style="margin-bottom: 0px;">
-                    <label class="layui-form-label">
-                        <select id="searchType">
-                            <option value="article" selected="selected">文章</option>
-                            <option value="link">链接</option>
-                        </select>
-                    </label>
-                    <div class="layui-input-block" style="padding-top: 9px;padding-right: 15px;">
-                        <input id="searchKey" type="text" placeholder="输入关键词后按回车进行搜索" class="layui-input"/>
+    <div th:include="header"></div>
+
+    <div class="page-main">
+
+        <!-- 数据编辑 -->
+        <div class="grid">
+            <div class="grid-col">
+                <h1 class="heading">
+                    <span class="heading-title">数据编辑</span>
+                </h1>
+            </div>
+        </div>
+        <div class="grid links">
+            <div class="grid-col grid-col-2" th:each="link: ${links.editor}">
+                <a th:href="${link.href}" th:target="${link.target}">
+                    <div class="link-item">
+                        <i class="fa czs-product-l"></i>
+                        <div class="link-info">
+                            <h2 th:text="${link.name}">链接名称</h2>
+                            <p class="link-meta">
+                                <span class="date fl" th:text="${link.remark}"></span>
+                                <span class="view fr">999 次使用</span></p>
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+                </a>
+            </div>
+        </div>
+        <div class="text-center" style="margin-bottom:20px;">
+            <a class="btn" href="/link/editor">更多链接</a>
+        </div>
 
-    <table class="layui-table layui-text">
-        <colgroup>
-            <col width="150">
-            <col>
-            <col width="60">
-        </colgroup>
+        <!-- 辅助工具 -->
+        <div class="grid">
+            <div class="grid-col">
+                <h1 class="heading">
+                    <span class="heading-title">辅助工具</span>
+                </h1>
+            </div>
+        </div>
+        <div class="grid links">
+            <div class="grid-col grid-col-2" th:each="link: ${links.helper}">
+                <a th:href="${link.href}" th:target="${link.target}">
+                    <div class="link-item">
+                        <i class="fa czs-product-l"></i>
+                        <div class="link-info">
+                            <h2 th:text="${link.name}">链接名称</h2>
+                            <p class="link-meta">
+                                <span class="date fl" th:text="${link.remark}"></span>
+                                <span class="view fr">999 次使用</span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="text-center" style="margin-bottom:20px;">
+            <a class="btn" href="/link/helper">更多链接</a>
+        </div>
 
-        <tr>
-            <td colspan="2" style="text-align: center"><b>数据编辑</b></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-primary" href="/link/editor" target="_blank">更多</a></td>
-        </tr>
-        <tr th:each="link: ${links.editor}">
-            <td th:text="${link.name}"></td>
-            <td th:text="${link.remark}"></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-normal" th:href="${link.href}"
-                   th:target="${link.target}">访问</a></td>
-        </tr>
+        <!-- 文档链接 -->
+        <div class="grid">
+            <div class="grid-col">
+                <h1 class="heading">
+                    <span class="heading-title">文档链接</span>
+                </h1>
+            </div>
+        </div>
+        <div class="grid links">
+            <div class="grid-col grid-col-2" th:each="link: ${links.document}">
+                <a th:href="${link.href}" th:target="${link.target}">
+                    <div class="link-item">
+                        <i class="fa czs-product-l"></i>
+                        <div class="link-info">
+                            <h2 th:text="${link.name}">链接名称</h2>
+                            <p class="link-meta">
+                                <span class="date fl" th:text="${link.remark}"></span>
+                                <span class="view fr">999 次使用</span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="text-center" style="margin-bottom:20px;">
+            <a class="btn" href="/link/document">更多链接</a>
+        </div>
 
-        <tr>
-            <td colspan="2" style="text-align: center"><b>辅助工具</b></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-primary" href="/link/helper" target="_blank">更多</a></td>
-        </tr>
-        <tr th:each="link: ${links.helper}">
-            <td th:text="${link.name}"></td>
-            <td th:text="${link.remark}"></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-normal" th:href="${link.href}"
-                   th:target="${link.target}">访问</a></td>
-        </tr>
+        <!-- 技术博客 -->
+        <div class="grid">
+            <div class="grid-col">
+                <h1 class="heading">
+                    <span class="heading-title">技术博客</span>
+                </h1>
+            </div>
+        </div>
+        <div class="grid links">
+            <div class="grid-col grid-col-2" th:each="link: ${links.blog}">
+                <a th:href="${link.href}" th:target="${link.target}">
+                    <div class="link-item">
+                        <i class="fa czs-product-l"></i>
+                        <div class="link-info">
+                            <h2 th:text="${link.name}">链接名称</h2>
+                            <p class="link-meta">
+                                <span class="date fl" th:text="${link.remark}"></span>
+                                <span class="view fr">999 次使用</span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="text-center" style="margin-bottom:20px;">
+            <a class="btn" href="/link/blog">更多链接</a>
+        </div>
 
-        <tr>
-            <td colspan="2" style="text-align: center"><b>文档链接</b></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-primary" href="/link/document" target="_blank">更多</a></td>
-        </tr>
-        <tr th:each="link: ${links.document}">
-            <td th:text="${link.name}"></td>
-            <td th:text="${link.remark}"></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-normal" th:href="${link.href}"
-                   th:target="${link.target}">访问</a></td>
-        </tr>
+    </div>
 
-        <tr>
-            <td colspan="2" style="text-align: center"><b>技术博客</b></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-primary" href="/link/blog" target="_blank">更多</a></td>
-        </tr>
-        <tr th:each="link: ${links.blog}">
-            <td th:text="${link.name}"></td>
-            <td th:text="${link.remark}"></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-normal" th:href="${link.href}"
-                   th:target="${link.target}">访问</a></td>
-        </tr>
+    <div th:include="footer"></div>
 
-        <tr>
-            <td colspan="2" style="text-align: center"><b>友情链接</b></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-primary" href="/link/friend" target="_blank">更多</a></td>
-        </tr>
-        <tr th:each="link: ${links.friend}">
-            <td th:text="${link.name}"></td>
-            <td th:text="${link.remark}"></td>
-            <td><a class="layui-btn layui-btn-xs layui-btn-normal" th:href="${link.href}"
-                   th:target="${link.target}">访问</a></td>
-        </tr>
-    </table>
 </div>
-
-<div th:include="footer"></div>
 
 <script src="https://cdn.staticfile.org/layui/2.6.10/layui.min.js"></script>
 <script src="/static/main/main.js"></script>

@@ -5,24 +5,29 @@ layui.use(['element', 'layer'], function () {
         util = layui.util;
 
     // 返回顶部
-    if (window.location.pathname.indexOf("/note/") < 0) {
-        util.fixbar({bar1: false, bar2: false});
+    util.fixbar({bar1: false, bar2: false});
+
+    // 搜索功能
+    function search() {
+        let key = $("#searchKey").val();
+        if (!key) {
+            layer.msg("请输入搜索内容！");
+            return;
+        }
+        let searchType = $("#searchType").val();
+        if (!searchType) {
+            searchType = "article"; // 默认搜索文章
+        }
+        window.location.href = "/" + searchType + "?key=" + key;
     }
 
-    // 资源搜索
+    $("#search").click(function () {
+        search();
+    });
+
     $("#searchKey").keypress(function (even) {
         if (even.which === 13) {
-            let type = $("#searchType").find("option:selected").val();
-            if (!type) {
-                layer.msg("请选择资源类型！");
-                return;
-            }
-            let key = $(this).val();
-            if (!key) {
-                layer.msg("请输入搜索内容！");
-                return;
-            }
-            window.location.href = "/" + type + "?key=" + key;
+            search();
         }
     });
 

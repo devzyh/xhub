@@ -11,6 +11,13 @@ public class WebConstants {
     public static final String WEB_HOME_LINKS_KEY = "web_home_links";
 
     /**
+     * 全局视图
+     */
+    public class Global {
+        public static final String FRIENDS = "friends"; // 友情链接
+    }
+
+    /**
      * 工具视图
      */
     public class Home {
@@ -23,6 +30,8 @@ public class WebConstants {
      */
     public class Search {
         public static final String DATA = "data"; // 搜索结果数据
+        public static final String PAGE = "page"; // 分页结果数据
+        public static final int PAGE_SIZE = 20; // 每页展示数据量
     }
 
     /**
@@ -41,6 +50,13 @@ public class WebConstants {
         public static final String NOTE = "note"; // 笔记内容数据
         public static final String TOKEN_PREFIX = "share_access_token:"; // 访问Token前缀
         public static final int TOKEN_EXPIRE = 5; // 访问Token有效期，单位：分钟
+    }
+
+    /**
+     * 链接分组
+     */
+    public class LinkItem {
+        public static final String FRIEND = "friend"; // 友情链接
     }
 
     /**
