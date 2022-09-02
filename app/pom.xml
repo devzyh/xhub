@@ -39,7 +39,7 @@
         <!-- 定时任务-->
         <dependency>
             <groupId>cn.devzyh</groupId>
-            <artifactId>quartz</artifactId>
+            <artifactId>schedule</artifactId>
         </dependency>
 
         <!-- 代码生成-->

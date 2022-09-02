@@ -8,7 +8,12 @@ public class WebConstants {
     /**
      * 首页链接 cache key
      */
-    public static final String WEB_HOME_LINKS_KEY = "web_home_links";
+    public static final String HOME_LINKS_KEY = "web:home_links";
+
+    /**
+     * 首页链接访问量 cache key
+     */
+    public static final String HOME_LINKS_VISITS_KEY = "web:home_links_visits";
 
     /**
      * 全局视图
@@ -22,6 +27,7 @@ public class WebConstants {
      */
     public class Home {
         public static final String LINKS = "links"; // 链接信息
+        public static final String VISITS = "visits"; // 链接访问信息
         public static final int SHOW_ITEM_LIMIT = 10; // 每组链接展示限制
     }
 

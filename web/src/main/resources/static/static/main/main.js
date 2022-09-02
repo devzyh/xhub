@@ -31,4 +31,9 @@ layui.use(['element', 'layer'], function () {
         }
     });
 
+    // 首页链接点击监听
+    $("a[accesskey]").on("click", function () {
+        $.get("/web/link/visit/" + $(this).attr("accesskey"));
+    });
+
 });

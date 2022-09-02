@@ -26,14 +26,14 @@
         </div>
         <div class="grid links">
             <div class="grid-col grid-col-2" th:each="link: ${links.editor}">
-                <a th:href="${link.href}" th:target="${link.target}">
+                <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
                         <i class="fa czs-product-l"></i>
                         <div class="link-info">
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
                                 <span class="date fl" th:text="${link.remark}"></span>
-                                <span class="view fr">999 次使用</span></p>
+                                <span class="view fr" th:text="${visits.get(link.id.toString()) + ' 次使用'}"></span></p>
                         </div>
                     </div>
                 </a>
@@ -60,7 +60,7 @@
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
                                 <span class="date fl" th:text="${link.remark}"></span>
-                                <span class="view fr">999 次使用</span></p>
+                                <span class="view fr" th:text="${visits.get(link.id.toString()) + ' 次使用'}"></span></p>
                         </div>
                     </div>
                 </a>
@@ -87,7 +87,7 @@
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
                                 <span class="date fl" th:text="${link.remark}"></span>
-                                <span class="view fr">999 次使用</span></p>
+                                <span class="view fr" th:text="${visits.get(link.id.toString()) + ' 次使用'}"></span></p>
                         </div>
                     </div>
                 </a>
@@ -114,7 +114,7 @@
                             <h2 th:text="${link.name}">链接名称</h2>
                             <p class="link-meta">
                                 <span class="date fl" th:text="${link.remark}"></span>
-                                <span class="view fr">999 次使用</span></p>
+                                <span class="view fr" th:text="${visits.get(link.id.toString()) + ' 次使用'}"></span></p>
                         </div>
                     </div>
                 </a>

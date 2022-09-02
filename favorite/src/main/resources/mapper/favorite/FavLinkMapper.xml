@@ -38,6 +38,7 @@
         <result property="icon" column="icon"/>
         <result property="seq" column="seq"/>
         <result property="target" column="target"/>
+        <result property="visits" column="visits"/>
     </resultMap>
 
     <sql id="selectToolFavoriteVo">
@@ -48,7 +49,8 @@
                remark,
                icon,
                seq,
-               target
+               target,
+               visits
         from fav_link
     </sql>
 
@@ -80,6 +82,7 @@
             <if test="icon != null">icon,</if>
             <if test="seq != null">seq,</if>
             <if test="target != null and target != ''">target,</if>
+            <if test="visits != null">visits,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="item != null and item != ''">#{item},</if>
@@ -89,6 +92,7 @@
             <if test="icon != null">#{icon},</if>
             <if test="seq != null">#{seq},</if>
             <if test="target != null and target != ''">#{target},</if>
+            <if test="visits != null">#{visits},</if>
         </trim>
     </insert>
 
@@ -102,6 +106,7 @@
             <if test="icon != null">icon = #{icon},</if>
             <if test="seq != null">seq = #{seq},</if>
             <if test="target != null and target != ''">target = #{target},</if>
+            <if test="visits != null">visits = #{visits},</if>
         </trim>
         where id = #{id}
     </update>

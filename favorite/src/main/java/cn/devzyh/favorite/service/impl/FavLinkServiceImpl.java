@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FavLinkServiceImpl implements IFavLinkService {
@@ -48,7 +49,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int insertFavLink(FavLink favLink) {
-        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
+        redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
         return favLinkMapper.insertFavLink(favLink);
     }
 
@@ -60,7 +61,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int updateFavLink(FavLink favLink) {
-        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
+        redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
         return favLinkMapper.updateFavLink(favLink);
     }
 
@@ -72,7 +73,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int deleteFavLinkByIds(Long[] ids) {
-        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
+        redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
         return favLinkMapper.deleteFavLinkByIds(ids);
     }
 
@@ -84,7 +85,20 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public int deleteFavLinkById(Long id) {
-        redisCache.deleteObject(WebConstants.WEB_HOME_LINKS_KEY);
+        redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
         return favLinkMapper.deleteFavLinkById(id);
+    }
+
+    @Override
+    public void saveLinkVisitsToDb() {
+        // 从缓存获取数据
+        Map<String, Long> cacheMap = redisCache.getCacheMap(WebConstants.HOME_LINKS_VISITS_KEY);
+        // 更新到数据库
+        FavLink link = new FavLink();
+        for (Map.Entry<String, Long> entry : cacheMap.entrySet()) {
+            link.setId(Long.parseLong(entry.getKey()));
+            link.setVisits(entry.getValue());
+            favLinkMapper.updateFavLink(link);
+        }
     }
 }

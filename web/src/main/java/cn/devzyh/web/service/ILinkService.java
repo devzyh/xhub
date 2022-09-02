@@ -18,4 +18,18 @@ public interface ILinkService {
      */
     Map<String, List<FavLink>> selectLinks();
 
+    /**
+     * 获取连接访问次数
+     *
+     * @return
+     */
+    Map<String, Long> selectVisits();
+
+    /**
+     * 统计访问首页次数
+     *
+     * @param id
+     */
+    void visitLink(Long id);
+
 }

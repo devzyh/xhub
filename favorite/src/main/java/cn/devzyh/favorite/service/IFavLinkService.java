@@ -57,4 +57,9 @@ public interface IFavLinkService {
      */
     public int deleteFavLinkById(Long id);
 
+    /**
+     * 保存首页访问量数据到库
+     */
+    public void saveLinkVisitsToDb();
+
 }

@@ -21,6 +21,7 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute(WebConstants.Home.LINKS, linkService.selectLinks());
+        model.addAttribute(WebConstants.Home.VISITS, linkService.selectVisits());
         return "index";
     }
 

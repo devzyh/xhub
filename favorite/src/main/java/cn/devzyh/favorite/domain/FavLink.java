@@ -55,6 +55,12 @@ public class FavLink extends BaseEntity {
     @Excel(name = "打开方式")
     private String target;
 
+    /**
+     * $column.columnComment
+     */
+    @Excel(name = "访问次数")
+    private Long visits;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -111,6 +117,14 @@ public class FavLink extends BaseEntity {
         return target;
     }
 
+    public Long getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Long visits) {
+        this.visits = visits;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -122,6 +136,7 @@ public class FavLink extends BaseEntity {
                 .append("icon", getIcon())
                 .append("seq", getSeq())
                 .append("target", getTarget())
+                .append("visits", getVisits())
                 .toString();
     }
 }
