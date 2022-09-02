@@ -40,8 +40,8 @@ public class LinkServiceImpl implements ILinkService {
                     redisCache.setCacheMap(WebConstants.HOME_LINKS_KEY, result);
 
                     // 获取首页链接访问量
-                    Map<String, Integer> visits = favLinks.stream().collect(Collectors
-                            .toMap((k -> k.getId().toString()), (v -> v.getVisits().intValue())));
+                    Map<String, Long> visits = favLinks.stream().collect(Collectors
+                            .toMap((k -> k.getId().toString()), (v -> v.getVisits())));
                     redisCache.setCacheMap(WebConstants.HOME_LINKS_VISITS_KEY, visits);
                 }
             }
@@ -67,7 +67,9 @@ public class LinkServiceImpl implements ILinkService {
 
     @Override
     public void visitLink(Long id) {
-        redisCache.redisTemplate.opsForHash().increment(WebConstants.HOME_LINKS_VISITS_KEY, id.toString(), 1);
+        String key = id.toString();
+        Long visits = redisCache.getCacheMapValue(WebConstants.HOME_LINKS_VISITS_KEY, key);
+        redisCache.setCacheMapValue(WebConstants.HOME_LINKS_VISITS_KEY, key, ++visits);
     }
 
 }
