@@ -106,8 +106,8 @@
             </div>
         </div>
         <div class="grid links">
-            <div class="grid-col grid-col-2" th:each="link: ${links.blog}" th:accesskey="${link.id}">
-                <a th:href="${link.href}" th:target="${link.target}">
+            <div class="grid-col grid-col-2" th:each="link: ${links.blog}">
+                <a th:href="${link.href}" th:target="${link.target}" th:accesskey="${link.id}">
                     <div class="link-item">
                         <i class="fa czs-book-l"></i>
                         <div class="link-info">
