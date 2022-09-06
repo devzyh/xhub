@@ -857,9 +857,10 @@ CREATE TABLE `sys_job`  (
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', '', NULL, '');
-INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', '', NULL, '');
-INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', '', NULL, '');
+INSERT INTO `sys_job` VALUES (1, '测试系统默认（无参）', 'DEFAULT', 'testTask.testNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', 'admin', '2022-09-02 17:26:23', '');
+INSERT INTO `sys_job` VALUES (2, '测试系统默认（有参）', 'DEFAULT', 'testTask.testParams(\'test\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', 'admin', '2022-09-02 17:26:43', '');
+INSERT INTO `sys_job` VALUES (3, '测试系统默认（多参）', 'DEFAULT', 'testTask.testMultipleParams(\'test\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2022-04-22 09:21:16', 'admin', '2022-09-02 17:26:38', '');
+INSERT INTO `sys_job` VALUES (4, '首页链接访问量落库', 'DEFAULT', 'webTask.linkVisitsToDb', '0 0 3 * * ?', '1', '1', '0', 'admin', '2022-09-02 17:23:38', '', '2022-09-02 18:29:28', '');
 
 -- ----------------------------
 -- Table structure for sys_job_log
