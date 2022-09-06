@@ -1,6 +1,6 @@
 ## 平台简介
 
-本系统基于若依框架（http://ruoyi.vip）二次开发，为建立多模块单体应用提供脚手架。
+基于[若依管理系统](http://ruoyi.vip)二次开发，为建立多模块单体应用提供脚手架。
 
 * 前端采用Vue、Element UI。
 * 后端采用Spring Boot、Spring Security、Redis 、MySQL。
