@@ -24,13 +24,13 @@ kill -9 $pid
 echo "Stop Success"
 
 # deploy
-rm -rf build/app.jar
-cp app/target/app*.jar build/app.jar
+rm -rf build/xhub.jar
+cp xhub-app/target/xhub*.jar build/xhub.jar
 
 # start
 cd build
 echo "Start App"
-nohup java -jar app.jar --spring.profiles.active=prod > run.log 2>&1 &
+nohup java -jar xhub.jar --spring.profiles.active=prod > run.log 2>&1 &
 echo $! > run.pid
 echo "Start Success"
 cd ..
