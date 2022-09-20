@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xhub</artifactId>
+        <groupId>cn.devzyh</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xhub-web</artifactId>
+    <description>页面渲染</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+
+        <!-- SpringBoot Web容器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 模板解析引擎 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>xhub-common</artifactId>
+        </dependency>
+
+        <!-- 笔记模块 -->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>xhub-notebook</artifactId>
+        </dependency>
+
+        <!-- 收藏模块 -->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>xhub-favorite</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

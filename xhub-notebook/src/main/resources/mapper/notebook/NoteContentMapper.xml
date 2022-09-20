@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.devzyh.xhub.notebook.mapper.NoteContentMapper">
+
+    <resultMap type="NoteContent" id="NoteContentResult">
+        <result property="id" column="id"/>
+        <result property="catalogId" column="catalog_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="rank" column="rank"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="deleteFlag" column="delete_flag"/>
+    </resultMap>
+
+    <sql id="selectNoteContentVo">
+        select id,
+               catalog_id,
+               title,
+               content,
+               rank,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark,
+               delete_flag
+        from note_content
+    </sql>
+
+    <select id="selectNoteContentList" parameterType="NoteContent" resultMap="NoteContentResult">
+        <include refid="selectNoteContentVo"/>
+        <where>
+            <if test="searchValue != null  and searchValue != ''">and (title like concat('%', #{searchValue}, '%') or
+                content like concat('%', #{searchValue}, '%'))
+            </if>
+            <if test="catalogId != null ">and catalog_id = #{catalogId}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="rank != null ">and rank = #{rank}</if>
+            <if test="deleteFlag != null ">and delete_flag = #{deleteFlag}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectNoteContentById" parameterType="Long" resultMap="NoteContentResult">
+        <include refid="selectNoteContentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNoteContent" parameterType="NoteContent" useGeneratedKeys="true" keyProperty="id">
+        insert into note_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="catalogId != null">catalog_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="content != null">content,</if>
+            <if test="rank != null">rank,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="catalogId != null">#{catalogId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="rank != null">#{rank},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNoteContent" parameterType="NoteContent">
+        update note_content
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="catalogId != null">catalog_id = #{catalogId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="rank != null">rank = #{rank},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNoteContentById" parameterType="Long">
+        update note_content
+        set delete_flag = 1,
+            update_time = now()
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteNoteContentByIds" parameterType="String">
+        update note_content set delete_flag = 1, update_time = now() where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
