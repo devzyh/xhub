@@ -37,20 +37,20 @@ export const constantRoutes = [
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect')
+        component: () => import('@/views/login/redirect')
       }
     ]
   },
   {
     path: '/login',
-    component: () => import('@/views/login'),
+    component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/register',
-    component: () => import('@/views/register'),
-    hidden: true
-  },
+  // {
+  //   path: '/register',
+  //   component: () => import('@/views/login/register'),
+  //   hidden: true
+  // },
   {
     path: '/404',
     component: () => import('@/views/error/404'),
