@@ -7,7 +7,7 @@
       <div class="login-left animate__animated animate__fadeInLeft">
         <img class="img" src="@/assets/images/logo.png" alt=""/>
         <p class="title">软件工具箱</p>
-        <p>©2022 V1.0.0</p>
+        <p>{{ '©2022 V' + version }}</p>
       </div>
       <div class="login-border animate__animated animate__fadeInRight">
         <div class="login-main">
@@ -29,6 +29,8 @@
 import "@/assets/styles/login.scss";
 import userLogin from "./userLogin";
 import userRegister from "./userRegister";
+import config from '@/../package.json'
+
 
 export default {
   name: "login",
@@ -39,6 +41,7 @@ export default {
   data() {
     return {
       time: "",
+      version: config.version,
       enableRegister: false,
       activeName: "userLogin"
     };

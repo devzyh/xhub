@@ -4,6 +4,7 @@ import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
+import cn.devzyh.xhub.common.utils.sign.Md5Utils;
 import cn.devzyh.xhub.notebook.domain.NoteContent;
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.mapper.NoteContentMapper;
@@ -72,11 +73,26 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     @Transactional
     public int updateNoteContent(NoteContent content) {
-        // 只有更新正文或者修改了标题、目录，才备份本地数据到历史表
         NoteContent local = contentMapper.selectNoteContentById(content.getId());
-        if (StringUtils.isNotBlank(content.getContent()) ||
-                !StringUtils.equalsIgnoreCase(content.getTitle(), local.getTitle()) ||
-                content.getCatalogId() != local.getCatalogId()) {
+
+        boolean saveHistory = false;
+        // 更改了标题
+        if (saveHistory == false && StringUtils.isNotBlank(content.getTitle()) &&
+                !StringUtils.equalsIgnoreCase(content.getTitle(), local.getTitle())) {
+            saveHistory = true;
+        }
+        // 更改了目录
+        if (saveHistory == false && content.getCatalogId() != null && content.getCatalogId() != local.getCatalogId()) {
+            saveHistory = true;
+        }
+        // 更改了正文
+        if (saveHistory == false &&
+                StringUtils.isNotBlank(content.getContent()) && StringUtils.isNotBlank(local.getContent()) &&
+                !StringUtils.equals(Md5Utils.hash(content.getContent()), Md5Utils.hash(local.getContent()))) {
+            saveHistory = true;
+        }
+
+        if (saveHistory) {
             NoteHistory history = new NoteHistory();
             BeanUtils.copyBeanProp(history, local);
             history.setContentId(local.getId());

@@ -24,7 +24,7 @@ import {getContent, updateContent} from "@/api/notebook/content";
 import {getToken} from "@/utils/auth";
 
 export default {
-  name: "Editor",
+  name: "Vditor",
   data() {
     return {
       vditor: undefined,

@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 笔记控制器
+ * Markdown控制器
  *
  * @author devzyh
  */
 @Controller
-public class ShareController {
+public class MarkdownController {
+
+    @GetMapping(value = {"md", "md/{id}"})
+    public String markdown(Model model, @PathVariable(required = false) Long id) {
+        return "markdown/editor";
+    }
 
     @Autowired
     private IShareService shareService;
@@ -31,9 +36,9 @@ public class ShareController {
         model.addAttribute(WebConstants.Note.DATA, dto);
         if (dto.isSuccess()) {
             model.addAttribute(WebConstants.Note.NOTE, dto.getNote());
-            return "share/share";
+            return "markdown/share";
         } else {
-            return "share/verify";
+            return "markdown/verify";
         }
     }
 
@@ -44,5 +49,4 @@ public class ShareController {
                            @RequestParam(required = false, defaultValue = "") String token) {
         return shareService.markdown(id, secret, token);
     }
-
 }
