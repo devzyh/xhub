@@ -118,16 +118,13 @@
 .login-submit {
   width: 100%;
   height: 45px;
-  border: 1px solid #409EFF;
-  background: none;
   font-size: 18px;
   letter-spacing: 2px;
   font-weight: 300;
-  color: #409EFF;
   cursor: pointer;
   margin-top: 30px;
-  font-family: "neo";
-  transition: 0.25s;
+  font-family: neo;
+  transition: .25s;
 }
 
 .login-form {
@@ -204,4 +201,73 @@
   font-size: 28px;
   text-align: center;
   letter-spacing: 4px;
+}
+
+
+@media screen and (max-width: 992px) {
+  .avue-sidebar {
+    position: fixed;
+    top: 0;
+    left: -265px;
+    z-index: 1024
+  }
+
+  .avue--collapse .avue-sidebar {
+    left: 0;
+    width: 230px
+  }
+
+  .avue--collapse .avue-logo {
+    width: 230px
+  }
+
+  .avue--collapse .avue-main {
+    margin-left: 230px
+  }
+
+  .el-dialog, .el-message-box {
+    width: 98%
+  }
+
+  .login-left {
+    width: 100%;
+    min-height: auto
+  }
+
+  .login-left .title {
+    margin-top: 20px;
+    font-size: 20px;
+    text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0
+  }
+
+  .login-left .img {
+    width: 50px
+  }
+
+  .login-logo {
+    padding-top: 30px;
+    margin-left: -30px
+  }
+
+  .login-border {
+    border-radius: 5px;
+    padding: 20px;
+    margin: 0 auto;
+    width: 100%
+  }
+
+  .login-main {
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: none
+  }
+
+  .login-container:before {
+    margin-left: 0
+  }
+
+  .top-bar__item {
+    display: none
+  }
 }
