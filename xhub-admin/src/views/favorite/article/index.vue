@@ -12,7 +12,7 @@
       <el-form-item label="来源平台" prop="source">
         <el-select v-model="queryParams.source">
           <el-option
-            v-for="dict in dict.type.web_article_source"
+            v-for="dict in dict.type.fav_article_source"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -20,12 +20,12 @@
         </el-select>
       </el-form-item>
       <el-form-item label="关联标签" prop="tags">
-        <el-select v-model="queryParams.tags" multiple>
+        <el-select v-model="queryParams.tags" multiple filterable>
           <el-option
-            v-for="dict in dict.type.web_article_tag"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
+            v-for="tag in tagList"
+            :key="tag.tagCode"
+            :label="tag.tagName"
+            :value="tag.tagCode"
           />
         </el-select>
       </el-form-item>
@@ -80,7 +80,7 @@
       <el-table-column label="文章地址" align="left" prop="url"/>
       <el-table-column label="来源平台" align="center" prop="source" width="120">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.web_article_source" :value="scope.row.source"/>
+          <dict-tag :options="dict.type.fav_article_source" :value="scope.row.source"/>
         </template>
       </el-table-column>
       <el-table-column label="发布日期" align="center" prop="created" width="120">
@@ -128,12 +128,12 @@
           <el-input v-model="form.url" placeholder="请输入地址"/>
         </el-form-item>
         <el-form-item label="关联标签">
-          <el-select v-model="form.tags" multiple placeholder="请选择文章标签" style="width: 100%">
+          <el-select v-model="form.tags" multiple filterable placeholder="请选择文章标签" style="width: 100%">
             <el-option
-              v-for="item in dict.type.web_article_tag"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="tag in tagList"
+              :key="tag.tagCode"
+              :label="tag.tagName"
+              :value="tag.tagCode"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -143,7 +143,7 @@
         <el-form-item label="来源平台" prop="source">
           <el-select v-model="form.source">
             <el-option
-              v-for="dict in dict.type.web_article_source"
+              v-for="dict in dict.type.fav_article_source"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
@@ -169,10 +169,11 @@
 
 <script>
 import {listArticle, getArticle, delArticle, addArticle, updateArticle} from "@/api/favorite/article";
+import {listTag} from '@/api/favorite/tag'
 
 export default {
   name: "Article",
-  dicts: ['web_article_tag', 'web_article_source'],
+  dicts: ['fav_article_source'],
   data() {
     return {
       // 遮罩层
@@ -189,6 +190,8 @@ export default {
       total: 0,
       // 文章表格数据
       articleList: [],
+      // 文章标签数据
+      tagList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -225,6 +228,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getTagList();
   },
   methods: {
     /** 查询文章列表 */
@@ -237,6 +241,12 @@ export default {
         this.articleList = response.rows;
         this.total = response.total;
         this.loading = false;
+      });
+    },
+    /** 查询文章标签 */
+    getTagList() {
+      listTag().then(response => {
+        this.tagList = response.rows;
       });
     },
     // 取消按钮

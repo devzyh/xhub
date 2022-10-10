@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.devzyh.xhub.favorite.mapper.FavTagMapper">
+
+    <resultMap type="FavTag" id="FavTagResult">
+        <result property="id"    column="id"    />
+        <result property="tagCode"    column="tag_code"    />
+        <result property="tagName"    column="tag_name"    />
+    </resultMap>
+
+    <sql id="selectFavTagVo">
+        select id, tag_name, tag_code from fav_tag
+    </sql>
+
+    <select id="selectFavTagList" parameterType="FavTag" resultMap="FavTagResult">
+        <include refid="selectFavTagVo"/>
+        <where>
+            <if test="tagCode != null  and tagCode != ''"> and tag_code = #{tagCode}</if>
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectFavTagById" parameterType="Long" resultMap="FavTagResult">
+        <include refid="selectFavTagVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFavTag" parameterType="FavTag" useGeneratedKeys="true" keyProperty="id">
+        insert into fav_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">tag_name,</if>
+            <if test="tagCode != null and tagCode != ''">tag_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">#{tagName},</if>
+            <if test="tagCode != null and tagCode != ''">#{tagCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFavTag" parameterType="FavTag">
+        update fav_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tagName != null and tagName != ''">tag_name = #{tagName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFavTagById" parameterType="Long">
+        delete from fav_tag where id = #{id}
+    </delete>
+
+    <delete id="deleteFavTagByIds" parameterType="String">
+        delete from fav_tag where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectTagNameListByArticleId" parameterType="Long" resultType="String">
+        select ft.tag_name from fav_article_tag fat
+            left join fav_tag ft on fat.tag_id = ft.id
+        where fat.article_id = #{id}
+    </select>
+</mapper>

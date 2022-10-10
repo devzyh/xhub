@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.web.service.impl;
 
 import cn.devzyh.xhub.common.constant.WebConstants;
+import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.DictUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.favorite.domain.FavArticle;
@@ -13,8 +14,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -48,18 +51,19 @@ public class SearchArticleServiceImpl implements ISearchService {
         FavArticle article = new FavArticle();
         article.setTitle(key);
         List<FavArticle> list = articleMapper.selectFavArticleList(article);
-
+        HashMap<String, SysDictData> sourceMap = new HashMap();
+        DictUtils.getDictCache(WebConstants.Item.ARTICLE_SOURCE.getValue()).forEach(it -> {
+            sourceMap.put(it.getDictValue(), it);
+        });
         for (FavArticle fa : list) {
             ResultDto resultDto = new ResultDto();
             resultDto.setTitle(fa.getTitle());
             resultDto.setUrl(fa.getUrl());
             resultDto.setPostDate(fa.getCreated());
             resultDto.setDigest(fa.getDigest());
-            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE_IMAGE.getValue(), fa.getSource()));
-            resultDto.setSource(DictUtils.getDictLabel(WebConstants.Item.ARTICLE_SOURCE.getValue(), fa.getSource()));
-            resultDto.setTags(fa.getTags().stream()
-                    .map(val -> DictUtils.getDictLabel(WebConstants.Item.ARTICLE_TAG.getValue(), val))
-                    .collect(Collectors.toList()));
+            resultDto.setImage(sourceMap.get(fa.getSource()).getRemark());
+            resultDto.setSource(sourceMap.get(fa.getSource()).getDictLabel());
+            resultDto.setTags(fa.getTags());
             resultDtoList.add(resultDto);
         }
 

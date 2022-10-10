@@ -70,10 +70,8 @@ public class WebConstants {
      */
     public enum Item {
         SITE_INFO("web_site_info"), // 站点基本信息
-        ARTICLE_TAG("web_article_tag"), // 文章标签信息
-        ARTICLE_SOURCE("web_article_source"), // 文章来源平台
-        ARTICLE_SOURCE_IMAGE("web_article_source_image"), // 来源平台图像
-        LINK_ITEM_IMAGE("web_link_item_image"); // 链接分组图像
+        ARTICLE_SOURCE("fav_article_source"), // 文章来源信息
+        LINK_ITEM("fav_link_item"); // 链接分组信息
 
         private final String item;
 

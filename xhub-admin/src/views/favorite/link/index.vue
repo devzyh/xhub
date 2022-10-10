@@ -4,9 +4,9 @@
       <el-form-item label="分组" prop="item">
         <el-select v-model="queryParams.item">
           <el-option
-            v-for="dict in dict.type.web_link_item_image"
+            v-for="dict in dict.type.fav_link_item"
             :key="dict.value"
-            :label="dict.value"
+            :label="dict.label"
             :value="dict.value"
           />
         </el-select>
@@ -121,9 +121,9 @@
         <el-form-item label="分组" prop="item">
           <el-select v-model="form.item">
             <el-option
-              v-for="dict in dict.type.web_link_item_image"
+              v-for="dict in dict.type.fav_link_item"
               :key="dict.value"
-              :label="dict.value"
+              :label="dict.label"
               :value="dict.value"
             />
           </el-select>
@@ -167,7 +167,7 @@ import {listFavorite, getFavorite, delFavorite, addFavorite, updateFavorite} fro
 
 export default {
   name: "Favorite",
-  dicts: ['web_link_item_image', 'web_open_type'],
+  dicts: ['fav_link_item', 'web_open_type'],
   data() {
     return {
       // 遮罩层

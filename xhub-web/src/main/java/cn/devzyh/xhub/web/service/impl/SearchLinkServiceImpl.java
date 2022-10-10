@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.web.service.impl;
 
 import cn.devzyh.xhub.common.constant.WebConstants;
+import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.DictUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.favorite.domain.FavLink;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,6 +60,10 @@ public class SearchLinkServiceImpl implements ISearchService {
                 break;
         }
         List<FavLink> list = favoriteMapper.selectFavLinkList(favorite);
+        HashMap<String, SysDictData> itemMap = new HashMap();
+        DictUtils.getDictCache(WebConstants.Item.LINK_ITEM.getValue()).forEach(it -> {
+            itemMap.put(it.getDictValue(), it);
+        });
         LocalDate now = LocalDate.now();
         for (FavLink link : list) {
             ResultDto resultDto = new ResultDto();
@@ -65,9 +71,9 @@ public class SearchLinkServiceImpl implements ISearchService {
             resultDto.setUrl(link.getHref());
             resultDto.setPostDate(now);
             resultDto.setDigest(link.getRemark());
-            resultDto.setSource(link.getItem());
-            resultDto.setTags(Collections.singletonList(link.getItem()));
-            resultDto.setImage(DictUtils.getDictLabel(WebConstants.Item.LINK_ITEM_IMAGE.getValue(), link.getItem()));
+            resultDto.setSource(itemMap.get(link.getItem()).getDictLabel());
+            resultDto.setTags(Collections.singletonList(itemMap.get(link.getItem()).getDictLabel()));
+            resultDto.setImage(itemMap.get(link.getItem()).getRemark());
             resultDtoList.add(resultDto);
         }
 

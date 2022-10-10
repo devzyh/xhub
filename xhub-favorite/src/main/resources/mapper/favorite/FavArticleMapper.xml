@@ -10,7 +10,7 @@
         <result column="source" property="source"/>
         <result column="created" property="created"/>
         <collection column="id" property="tags" ofType="string" javaType="java.util.List"
-                    select="selectFavArticleTagsById">
+                    select="cn.devzyh.xhub.favorite.mapper.FavTagMapper.selectTagNameListByArticleId">
             <result column="tag_code"/>
         </collection>
     </resultMap>
@@ -103,11 +103,5 @@
             ( #{id}, #{tag} )
         </foreach>
     </insert>
-
-    <select id="selectFavArticleTagsById" parameterType="Long" resultType="String">
-        select tag_code
-        from fav_article_tag
-        where article_id = #{id}
-    </select>
 
 </mapper>
