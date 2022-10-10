@@ -20,11 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MarkdownController {
 
-    @GetMapping(value = {"md", "md/{id}"})
-    public String markdown(Model model, @PathVariable(required = false) Long id) {
-        return "markdown/editor";
-    }
-
     @Autowired
     private IShareService shareService;
 
