@@ -198,8 +198,7 @@
     <el-dialog :title="title" :visible.sync="openHistory" :close-on-click-modal="false" width="900px" append-to-body>
       <el-row>
         <el-col :span="5">
-          <el-menu @select="handleSelectHistory" default-active="0"
-                   style="height: 500px;overflow-y:auto;overflow-x:hidden;">
+          <el-menu class="hisMenu" @select="handleSelectHistory" default-active="0">
             <el-menu-item v-for="(h,i) in historyList" :key="i" :index="i.toString()">
               <span>{{ parseTime(h.createTime) }}</span>
             </el-menu-item>
@@ -216,7 +215,7 @@
             </el-form-item>
             <el-form-item label="内容">
               <el-input type="textarea" v-model="historyForm.content" rows="15" :disabled="true"
-                        resize="none"></el-input>
+                        resize="none" class="hisContent"></el-input>
             </el-form-item>
             <el-form-item style="text-align: right;">
               <el-button type="danger" @click="handleReset">恢复到此版本</el-button>
@@ -589,5 +588,44 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+.hisMenu {
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.hisMenu::-webkit-scrollbar {
+  width: 4px;
+  height: 4px
+}
+
+.hisMenu::-webkit-scrollbar-thumb {
+  background-color: #c9cdd4;
+  outline: none;
+  border-radius: 2px;
+}
+
+.hisMenu::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+.hisContent textarea::-webkit-scrollbar {
+  width: 4px;
+  height: 4px
+}
+
+.hisContent textarea::-webkit-scrollbar-thumb {
+  background-color: #c9cdd4;
+  outline: none;
+  border-radius: 2px;
+}
+
+.hisContent textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
 </style>
