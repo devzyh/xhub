@@ -473,7 +473,13 @@ export default {
     },
     /** Markdown编辑按钮操作 */
     handleEdit(row) {
-      this.$router.push({path: "/notebook/editor/" + row.id});
+      this.$router.push({
+        name: "Editor/:id",
+        params: {
+          id: row.id,
+          title: row.title
+        }
+      });
     },
     /** 修改按钮操作 */
     handleSetting(row) {

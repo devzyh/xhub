@@ -50,18 +50,21 @@ export default {
       zhHans,
       form: {
         id: 0,
+        title: "",
         content: ""
       },
       cachePrefix: "mdcache:",
     }
   },
   mounted() {
-    const id = this.$route.params.id
+    const id = this.$route.params.id;
+    const title = this.$route.params.title;
+    const contentKey = this.cachePrefix + id;
     if (id && !isNaN(id)) {
       // 优先取本地缓存
       let localContent;
       if (window.localStorage) {
-        localContent = window.localStorage.getItem(this.cachePrefix + id);
+        localContent = window.localStorage.getItem(contentKey);
         if (localContent) {
           this.form.id = id;
           this.form.content = localContent;
@@ -72,14 +75,18 @@ export default {
       if (!localContent) {
         getContent(id).then(response => {
           this.form = response.data;
-          if (!this.form.content) {
+          if (this.form.content) {
+            window.localStorage.setItem(contentKey, this.form.content);
+          } else {
             this.form.content = "";
           }
         });
       }
 
       // 页面标题重写
-      this.visitedViews[this.visitedViews.length - 1].title = "编辑-" + id;
+      if (title) {
+        this.visitedViews[this.visitedViews.length - 1].title = title;
+      }
     }
   },
   methods: {
