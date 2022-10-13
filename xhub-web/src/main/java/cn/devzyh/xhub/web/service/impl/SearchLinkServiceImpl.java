@@ -6,6 +6,7 @@ import cn.devzyh.xhub.common.utils.DictUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.favorite.domain.FavLink;
 import cn.devzyh.xhub.favorite.mapper.FavLinkMapper;
+import cn.devzyh.xhub.favorite.service.IFavLinkService;
 import cn.devzyh.xhub.web.domain.dto.ResultDto;
 import cn.devzyh.xhub.web.domain.dto.SearchDto;
 import cn.devzyh.xhub.web.service.ISearchService;
@@ -27,7 +28,7 @@ import java.util.List;
 public class SearchLinkServiceImpl implements ISearchService {
 
     @Autowired
-    private FavLinkMapper favoriteMapper;
+    private IFavLinkService favLinkService;
 
     @Override
     public SearchDto search(Integer page, String... keys) {
@@ -59,7 +60,7 @@ public class SearchLinkServiceImpl implements ISearchService {
                 favorite.setItem(key);
                 break;
         }
-        List<FavLink> list = favoriteMapper.selectFavLinkList(favorite);
+        List<FavLink> list = favLinkService.selectFavLinkList(favorite);
         HashMap<String, SysDictData> itemMap = new HashMap();
         DictUtils.getDictCache(WebConstants.Item.LINK_ITEM.getValue()).forEach(it -> {
             itemMap.put(it.getDictValue(), it);

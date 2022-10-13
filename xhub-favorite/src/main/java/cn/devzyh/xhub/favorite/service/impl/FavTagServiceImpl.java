@@ -3,6 +3,7 @@ package cn.devzyh.xhub.favorite.service.impl;
 import java.util.List;
 
 import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.redis.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.devzyh.xhub.favorite.mapper.FavTagMapper;
@@ -19,6 +20,10 @@ import cn.devzyh.xhub.favorite.service.IFavTagService;
 public class FavTagServiceImpl implements IFavTagService {
     @Autowired
     private FavTagMapper favTagMapper;
+    @Autowired
+    RedisCache redisCache;
+
+    private static final String REDIS_FAV_TAG_KEY = "fav_tag:all";
 
     /**
      * 查询文章标签
@@ -43,19 +48,32 @@ public class FavTagServiceImpl implements IFavTagService {
     }
 
     /**
+     * 查询文章标签列表
+     *
+     * @param favTag 文章标签
+     * @return 文章标签
+     */
+    @Override
+    public List<FavTag> selectAllFavTag() {
+        List<FavTag> tags = redisCache.getCacheObject(REDIS_FAV_TAG_KEY);
+        if (tags == null) {
+            tags = favTagMapper.selectFavTagList(new FavTag());
+            redisCache.setCacheObject(REDIS_FAV_TAG_KEY, tags);
+        }
+        return tags;
+    }
+
+
+    /**
      * 新增文章标签
      *
      * @param favTag 文章标签
      * @return 结果
      */
     @Override
-    public AjaxResult insertFavTag(FavTag favTag) {
-        FavTag condition = new FavTag();
-        condition.setTagCode(favTag.getTagCode());
-        if (!selectFavTagList(condition).isEmpty()) {
-            return AjaxResult.error("标签代码已存在");
-        }
-        return favTagMapper.insertFavTag(favTag) > 0 ? AjaxResult.success() : AjaxResult.error();
+    public int insertFavTag(FavTag favTag) {
+        redisCache.deleteObject(REDIS_FAV_TAG_KEY);
+        return favTagMapper.insertFavTag(favTag);
     }
 
     /**
@@ -66,6 +84,7 @@ public class FavTagServiceImpl implements IFavTagService {
      */
     @Override
     public int updateFavTag(FavTag favTag) {
+        redisCache.deleteObject(REDIS_FAV_TAG_KEY);
         return favTagMapper.updateFavTag(favTag);
     }
 
@@ -77,6 +96,7 @@ public class FavTagServiceImpl implements IFavTagService {
      */
     @Override
     public int deleteFavTagByIds(Long[] ids) {
+        redisCache.deleteObject(REDIS_FAV_TAG_KEY);
         return favTagMapper.deleteFavTagByIds(ids);
     }
 
@@ -88,6 +108,7 @@ public class FavTagServiceImpl implements IFavTagService {
      */
     @Override
     public int deleteFavTagById(Long id) {
+        redisCache.deleteObject(REDIS_FAV_TAG_KEY);
         return favTagMapper.deleteFavTagById(id);
     }
 }

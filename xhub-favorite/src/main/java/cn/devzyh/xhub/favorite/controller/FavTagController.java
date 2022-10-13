@@ -2,6 +2,7 @@ package cn.devzyh.xhub.favorite.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,15 @@ public class FavTagController extends BaseController {
     }
 
     /**
+     * 查询所有文章标签
+     */
+    @PreAuthorize("@ss.hasPermi('favorite:tag:list')")
+    @GetMapping("/all")
+    public List<FavTag> all() {
+        return favTagService.selectAllFavTag();
+    }
+
+    /**
      * 导出文章标签列表
      */
     @PreAuthorize("@ss.hasPermi('favorite:tag:export')")
@@ -72,7 +82,7 @@ public class FavTagController extends BaseController {
     @Log(title = "文章标签", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody FavTag favTag) {
-        return favTagService.insertFavTag(favTag);
+        return toAjax(favTagService.insertFavTag(favTag));
     }
 
     /**
@@ -90,7 +100,7 @@ public class FavTagController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('favorite:tag:remove')")
     @Log(title = "文章标签", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
+    @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(favTagService.deleteFavTagByIds(ids));
     }

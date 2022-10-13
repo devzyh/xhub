@@ -20,16 +20,10 @@ public class FavTag extends BaseEntity {
     private Long id;
 
     /**
-     * 标签代码
-     */
-    @Excel(name = "标签代码")
-    private String tagCode;
-
-    /**
      * 标签名称
      */
     @Excel(name = "标签名称")
-    private String tagName;
+    private String name;
 
     public void setId(Long id) {
         this.id = id;
@@ -39,28 +33,21 @@ public class FavTag extends BaseEntity {
         return id;
     }
 
-    public void setTagCode(String tagCode) {
-        this.tagCode = tagCode;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTagCode() {
-        return tagCode;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-
-    public String getTagName() {
-        return tagName;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
-                .append("tagCode", getTagCode())
-                .append("tagName", getTagName())
+                .append("name", getName())
                 .toString();
     }
+
+
 }

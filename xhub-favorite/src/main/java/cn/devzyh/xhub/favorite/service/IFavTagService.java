@@ -29,12 +29,20 @@ public interface IFavTagService {
     public List<FavTag> selectFavTagList(FavTag favTag);
 
     /**
+     * 查询所有文章标签
+     *
+     * @param favTag 文章标签
+     * @return 文章标签集合
+     */
+    public List<FavTag> selectAllFavTag();
+
+    /**
      * 新增文章标签
      *
      * @param favTag 文章标签
      * @return 结果
      */
-    public AjaxResult insertFavTag(FavTag favTag);
+    public int insertFavTag(FavTag favTag);
 
     /**
      * 修改文章标签

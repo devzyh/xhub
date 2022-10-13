@@ -1,17 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="标签代码" prop="tagCode">
+    <el-form :model="queryParams" ref="queryForm" size="small"
+             :inline="true" v-show="showSearch" label-width="68px"
+             @submit.native.prevent>
+      <el-form-item label="标签名称" prop="name">
         <el-input
-          v-model="queryParams.tagCode"
-          placeholder="请输入标签代码"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="标签名称" prop="tagName">
-        <el-input
-          v-model="queryParams.tagName"
+          v-model="queryParams.name"
           placeholder="请输入标签名称"
           clearable
           @keyup.enter.native="handleQuery"
@@ -52,8 +46,7 @@
     <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="ID" width="100" align="center" prop="id"/>
-      <el-table-column label="标签代码" align="center" prop="tagCode"/>
-      <el-table-column label="标签名称" align="center" prop="tagName"/>
+      <el-table-column label="标签名称" align="center" prop="name"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -87,11 +80,8 @@
     <!-- 添加或修改文章标签对话框 -->
     <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="标签代码" prop="tagCode">
-          <el-input v-model="form.tagCode" :disabled="this.form.id" placeholder="请输入标签代码"/>
-        </el-form-item>
-        <el-form-item label="标签名称" prop="tagName">
-          <el-input v-model="form.tagName" placeholder="请输入标签名称"/>
+        <el-form-item label="标签名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入标签名称"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -131,14 +121,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        tagName: null,
+        name: null,
         tagCode: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        tagName: [
+        name: [
           {required: true, message: "标签名称不能为空", trigger: "blur"}
         ],
         tagCode: [
@@ -169,8 +159,7 @@ export default {
     reset() {
       this.form = {
         id: null,
-        tagCode: null,
-        tagName: null
+        name: null
       };
       this.resetForm("form");
     },

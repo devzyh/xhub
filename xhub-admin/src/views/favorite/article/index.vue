@@ -23,9 +23,9 @@
         <el-select v-model="queryParams.tags" multiple filterable>
           <el-option
             v-for="tag in tagList"
-            :key="tag.tagCode"
-            :label="tag.tagName"
-            :value="tag.tagCode"
+            :key="tag.id"
+            :label="tag.name"
+            :value="tag.id"
           />
         </el-select>
       </el-form-item>
@@ -131,9 +131,9 @@
           <el-select v-model="form.tags" multiple filterable placeholder="请选择文章标签" style="width: 100%">
             <el-option
               v-for="tag in tagList"
-              :key="tag.tagCode"
-              :label="tag.tagName"
-              :value="tag.tagCode"
+              :key="tag.id"
+              :label="tag.name"
+              :value="tag.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -169,7 +169,7 @@
 
 <script>
 import {listArticle, getArticle, delArticle, addArticle, updateArticle} from "@/api/favorite/article";
-import {listTag} from '@/api/favorite/tag'
+import {allTag} from '@/api/favorite/tag'
 
 export default {
   name: "Article",
@@ -245,8 +245,8 @@ export default {
     },
     /** 查询文章标签 */
     getTagList() {
-      listTag().then(response => {
-        this.tagList = response.rows;
+      allTag().then(response => {
+        this.tagList = response;
       });
     },
     // 取消按钮

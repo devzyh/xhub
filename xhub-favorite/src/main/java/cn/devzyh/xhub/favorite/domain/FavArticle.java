@@ -52,9 +52,9 @@ public class FavArticle extends BaseEntity {
     private LocalDate created;
 
     /**
-     * 关联标签
+     * 关联标签ID
      */
-    private List<String> tags;
+    private List<Long> tags;
 
     public void setId(Long id) {
         this.id = id;
@@ -104,11 +104,11 @@ public class FavArticle extends BaseEntity {
         return created;
     }
 
-    public List<String> getTags() {
+    public List<Long> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<Long> tags) {
         this.tags = tags;
     }
 

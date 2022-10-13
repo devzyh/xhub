@@ -9,6 +9,15 @@ export function listTag(query) {
   })
 }
 
+// 查询所有文章标签
+export function allTag() {
+  return request({
+    url: '/fav/tag/all',
+    method: 'get'
+  })
+}
+
+
 // 查询文章标签详细
 export function getTag(id) {
   return request({

@@ -1,13 +1,17 @@
 package cn.devzyh.xhub.favorite.service.impl;
 
+import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.favorite.domain.FavArticle;
+import cn.devzyh.xhub.favorite.domain.FavTag;
 import cn.devzyh.xhub.favorite.mapper.FavArticleMapper;
 import cn.devzyh.xhub.favorite.service.IFavArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文章Service业务层处理

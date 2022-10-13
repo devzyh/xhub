@@ -9,9 +9,9 @@
         <result column="digest" property="digest"/>
         <result column="source" property="source"/>
         <result column="created" property="created"/>
-        <collection column="id" property="tags" ofType="string" javaType="java.util.List"
-                    select="cn.devzyh.xhub.favorite.mapper.FavTagMapper.selectTagNameListByArticleId">
-            <result column="tag_code"/>
+        <collection column="id" property="tags" ofType="Long" javaType="java.util.List"
+                    select="selectArticleTags">
+            <result column="tag_id"/>
         </collection>
     </resultMap>
 
@@ -34,7 +34,7 @@
             <if test="source != null  and source != ''">and source = #{source}</if>
             <if test="created != null ">and created = #{created}</if>
             <if test="tags != null ">
-                and id in (select article_id from fav_article_tag where tag_code in
+                and id in (select article_id from fav_article_tag where tag_id in
                 <foreach item="tag" collection="tags" open="(" separator="," close=")">
                     #{tag}
                 </foreach>)
@@ -98,10 +98,13 @@
     </delete>
 
     <insert id="insertFavArticleTags" parameterType="FavArticle">
-        insert into fav_article_tag (article_id, tag_code) values
+        insert into fav_article_tag (article_id, tag_id) values
         <foreach item="tag" collection="tags" separator=",">
             ( #{id}, #{tag} )
         </foreach>
     </insert>
 
+    <select id="selectArticleTags" parameterType="Long" resultType="Long">
+        select tag_id from fav_article_tag where article_id = #{id}
+    </select>
 </mapper>
