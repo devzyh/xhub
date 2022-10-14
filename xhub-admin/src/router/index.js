@@ -63,16 +63,11 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/notebook/content/index'),
-        name: 'Content',
-        meta: {title: '首页', icon: 'dashboard', affix: true}
+        redirect: '/notebook/content',
+        // component: () => import('@/views/index'),
+        name: 'Index',
+        meta: {title: '首页', icon: 'dashboard', affix: false}
       }
-      // {
-      //   path: 'index',
-      //   component: () => import('@/views/index'),
-      //   name: 'Index',
-      //   meta: { title: '首页', icon: 'dashboard', affix: true }
-      // }
     ]
   },
   {

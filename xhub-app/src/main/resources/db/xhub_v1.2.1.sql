@@ -325,43 +325,42 @@ INSERT INTO `fav_link` VALUES (59, 'helper', '代码在线高亮工具', 'https:
 -- ----------------------------
 DROP TABLE IF EXISTS `fav_tag`;
 CREATE TABLE `fav_tag`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签ID',
-  `tag_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签代码',
-  `tag_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名称',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_article_id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章标签表' ROW_FORMAT = DYNAMIC;
+                            `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签ID',
+                            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名称',
+                            PRIMARY KEY (`id`) USING BTREE,
+                            INDEX `idx_article_id`(`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章标签表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of fav_tag
 -- ----------------------------
-INSERT INTO `fav_tag` VALUES (1, 'algorithm', '数据结构与算法');
-INSERT INTO `fav_tag` VALUES (2, 'book', '书籍推荐');
-INSERT INTO `fav_tag` VALUES (3, 'design_pattern', '设计模式');
-INSERT INTO `fav_tag` VALUES (4, 'docker', 'Docker');
-INSERT INTO `fav_tag` VALUES (5, 'dubbo', 'Dubbo');
-INSERT INTO `fav_tag` VALUES (6, 'funcational_design', '功能设计');
-INSERT INTO `fav_tag` VALUES (7, 'git', 'Git');
-INSERT INTO `fav_tag` VALUES (8, 'interview', '面试资料\r\n');
-INSERT INTO `fav_tag` VALUES (9, 'java', 'Java');
-INSERT INTO `fav_tag` VALUES (10, 'jvm', 'Java虚拟机');
-INSERT INTO `fav_tag` VALUES (11, 'linux', 'Linux');
-INSERT INTO `fav_tag` VALUES (12, 'microservice', '微服务治理');
-INSERT INTO `fav_tag` VALUES (13, 'mongo', 'MongoDB');
-INSERT INTO `fav_tag` VALUES (14, 'mq', '消息队列');
-INSERT INTO `fav_tag` VALUES (15, 'mysql', 'MySQL');
-INSERT INTO `fav_tag` VALUES (16, 'network', '计算机网络');
-INSERT INTO `fav_tag` VALUES (17, 'project_manage', '项目管理');
-INSERT INTO `fav_tag` VALUES (18, 'rabbitmq', 'RabbitMQ');
-INSERT INTO `fav_tag` VALUES (19, 'redis', 'Redis');
-INSERT INTO `fav_tag` VALUES (20, 'spring', 'Spring');
-INSERT INTO `fav_tag` VALUES (21, 'study_method', '学习方法');
-INSERT INTO `fav_tag` VALUES (22, 'test', '测试技术');
-INSERT INTO `fav_tag` VALUES (23, 'tool', '工具使用');
-INSERT INTO `fav_tag` VALUES (24, 'vue', 'Vue.js');
-INSERT INTO `fav_tag` VALUES (25, 'web_component', '前端组件');
-INSERT INTO `fav_tag` VALUES (26, 'architecture_knowledge', '架构知识');
-INSERT INTO `fav_tag` VALUES (27, 'open_source', '开源项目');
+INSERT INTO `fav_tag` VALUES (1, '数据结构与算法');
+INSERT INTO `fav_tag` VALUES (2, '书籍推荐');
+INSERT INTO `fav_tag` VALUES (3, '设计模式');
+INSERT INTO `fav_tag` VALUES (4, 'Docker');
+INSERT INTO `fav_tag` VALUES (5, 'Dubbo');
+INSERT INTO `fav_tag` VALUES (6, '功能设计');
+INSERT INTO `fav_tag` VALUES (7, 'Git');
+INSERT INTO `fav_tag` VALUES (8, '面试资料\r\n');
+INSERT INTO `fav_tag` VALUES (9, 'Java');
+INSERT INTO `fav_tag` VALUES (10, 'Java虚拟机');
+INSERT INTO `fav_tag` VALUES (11, 'Linux');
+INSERT INTO `fav_tag` VALUES (12, '微服务治理');
+INSERT INTO `fav_tag` VALUES (13, 'MongoDB');
+INSERT INTO `fav_tag` VALUES (14, '消息队列');
+INSERT INTO `fav_tag` VALUES (15, 'MySQL');
+INSERT INTO `fav_tag` VALUES (16, '计算机网络');
+INSERT INTO `fav_tag` VALUES (17, '项目管理');
+INSERT INTO `fav_tag` VALUES (18, 'RabbitMQ');
+INSERT INTO `fav_tag` VALUES (19, 'Redis');
+INSERT INTO `fav_tag` VALUES (20, 'Spring');
+INSERT INTO `fav_tag` VALUES (21, '学习方法');
+INSERT INTO `fav_tag` VALUES (22, '测试技术');
+INSERT INTO `fav_tag` VALUES (23, '工具使用');
+INSERT INTO `fav_tag` VALUES (24, 'Vue.js');
+INSERT INTO `fav_tag` VALUES (25, '前端组件');
+INSERT INTO `fav_tag` VALUES (26, '架构知识');
+INSERT INTO `fav_tag` VALUES (27, '开源项目');
 
 -- ----------------------------
 -- Table structure for gen_table
