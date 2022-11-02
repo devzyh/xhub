@@ -1,13 +1,13 @@
 package cn.devzyh.xhub.common.core.domain.entity;
 
+import cn.devzyh.xhub.common.annotation.Excel;
+import cn.devzyh.xhub.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import cn.devzyh.xhub.common.annotation.Excel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import cn.devzyh.xhub.common.core.domain.BaseEntity;
 
 /**
  * 字典类型表 sys_dict_type

@@ -5,7 +5,6 @@ import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.DictUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.favorite.domain.FavLink;
-import cn.devzyh.xhub.favorite.mapper.FavLinkMapper;
 import cn.devzyh.xhub.favorite.service.IFavLinkService;
 import cn.devzyh.xhub.web.domain.dto.ResultDto;
 import cn.devzyh.xhub.web.domain.dto.SearchDto;

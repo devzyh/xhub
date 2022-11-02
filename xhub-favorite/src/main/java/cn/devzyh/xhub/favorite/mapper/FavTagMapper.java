@@ -1,7 +1,8 @@
 package cn.devzyh.xhub.favorite.mapper;
 
-import java.util.List;
 import cn.devzyh.xhub.favorite.domain.FavTag;
+
+import java.util.List;
 
 /**
  * 文章标签Mapper接口

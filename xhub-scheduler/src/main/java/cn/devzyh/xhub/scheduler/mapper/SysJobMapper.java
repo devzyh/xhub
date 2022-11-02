@@ -1,16 +1,15 @@
 package cn.devzyh.xhub.scheduler.mapper;
 
-import java.util.List;
-
 import cn.devzyh.xhub.scheduler.domain.SysJob;
+
+import java.util.List;
 
 /**
  * 调度任务信息 数据层
  *
  * @author ruoyi
  */
-public interface SysJobMapper
-{
+public interface SysJobMapper {
     /**
      * 查询调度任务日志集合
      *

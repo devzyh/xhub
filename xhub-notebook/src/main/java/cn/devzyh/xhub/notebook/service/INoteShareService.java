@@ -1,8 +1,8 @@
 package cn.devzyh.xhub.notebook.service;
 
-import java.util.List;
-
 import cn.devzyh.xhub.notebook.domain.NoteShare;
+
+import java.util.List;
 
 /**
  * 笔记分享Service接口

@@ -100,17 +100,17 @@ public class NoteContent extends BaseEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id" , getId())
-                .append("catalogId" , getCatalogId())
-                .append("title" , getTitle())
-                .append("content" , getContent())
-                .append("rank" , getRank())
-                .append("createBy" , getCreateBy())
-                .append("createTime" , getCreateTime())
-                .append("updateBy" , getUpdateBy())
-                .append("updateTime" , getUpdateTime())
-                .append("remark" , getRemark())
-                .append("deleteFlag" , getDeleteFlag())
+                .append("id", getId())
+                .append("catalogId", getCatalogId())
+                .append("title", getTitle())
+                .append("content", getContent())
+                .append("rank", getRank())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .append("deleteFlag", getDeleteFlag())
                 .toString();
     }
 }

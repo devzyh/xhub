@@ -1,9 +1,9 @@
 package cn.devzyh.xhub.common.core.domain;
 
-import java.util.HashMap;
-
 import cn.devzyh.xhub.common.constant.HttpStatus;
 import cn.devzyh.xhub.common.utils.StringUtils;
+
+import java.util.HashMap;
 
 /**
  * 操作消息提醒

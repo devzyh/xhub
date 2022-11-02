@@ -1,16 +1,15 @@
 package cn.devzyh.xhub.generator.mapper;
 
-import java.util.List;
-
 import cn.devzyh.xhub.generator.domain.GenTableColumn;
+
+import java.util.List;
 
 /**
  * 业务字段 数据层
  *
  * @author ruoyi
  */
-public interface GenTableColumnMapper
-{
+public interface GenTableColumnMapper {
     /**
      * 根据表名称查询列信息
      *

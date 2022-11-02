@@ -1,12 +1,12 @@
 package cn.devzyh.xhub.common.core.domain;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import cn.devzyh.xhub.common.core.domain.entity.SysDept;
 import cn.devzyh.xhub.common.core.domain.entity.SysMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Treeselect树结构实体类

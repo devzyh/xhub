@@ -72,16 +72,16 @@ public class NoteCatalog extends TreeEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id" , getId())
-                .append("parentId" , getParentId())
-                .append("name" , getName())
-                .append("rank" , getRank())
-                .append("createBy" , getCreateBy())
-                .append("createTime" , getCreateTime())
-                .append("updateBy" , getUpdateBy())
-                .append("updateTime" , getUpdateTime())
-                .append("remark" , getRemark())
-                .append("deleteFlag" , getDeleteFlag())
+                .append("id", getId())
+                .append("parentId", getParentId())
+                .append("name", getName())
+                .append("rank", getRank())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .append("deleteFlag", getDeleteFlag())
                 .toString();
     }
 }

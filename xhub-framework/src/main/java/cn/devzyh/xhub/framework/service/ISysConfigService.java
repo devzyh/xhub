@@ -9,8 +9,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-public interface ISysConfigService
-{
+public interface ISysConfigService {
     /**
      * 查询参数配置信息
      *

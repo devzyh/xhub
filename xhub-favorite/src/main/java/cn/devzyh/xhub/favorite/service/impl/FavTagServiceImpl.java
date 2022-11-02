@@ -1,15 +1,14 @@
 package cn.devzyh.xhub.favorite.service.impl;
 
-import java.util.List;
-
 import cn.devzyh.xhub.common.constant.FavConstants;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
+import cn.devzyh.xhub.favorite.domain.FavTag;
+import cn.devzyh.xhub.favorite.mapper.FavTagMapper;
+import cn.devzyh.xhub.favorite.service.IFavTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.devzyh.xhub.favorite.mapper.FavTagMapper;
-import cn.devzyh.xhub.favorite.domain.FavTag;
-import cn.devzyh.xhub.favorite.service.IFavTagService;
+
+import java.util.List;
 
 /**
  * 文章标签Service业务层处理

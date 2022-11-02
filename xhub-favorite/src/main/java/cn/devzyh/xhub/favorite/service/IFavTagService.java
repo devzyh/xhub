@@ -1,9 +1,8 @@
 package cn.devzyh.xhub.favorite.service;
 
-import java.util.List;
-
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
 import cn.devzyh.xhub.favorite.domain.FavTag;
+
+import java.util.List;
 
 /**
  * 文章标签Service接口

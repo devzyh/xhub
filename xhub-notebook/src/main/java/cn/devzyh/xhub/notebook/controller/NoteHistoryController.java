@@ -1,26 +1,19 @@
 package cn.devzyh.xhub.notebook.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import cn.devzyh.xhub.notebook.service.INoteHistoryService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.AjaxResult;
-import cn.devzyh.xhub.common.enums.BusinessType;
-import cn.devzyh.xhub.notebook.domain.NoteHistory;
-import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.enums.BusinessType;
+import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
+import cn.devzyh.xhub.notebook.domain.NoteHistory;
+import cn.devzyh.xhub.notebook.service.INoteHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 笔记历史Controller
@@ -49,7 +42,7 @@ public class NoteHistoryController extends BaseController {
      * 导出笔记历史列表
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:export')")
-    @Log(title = "笔记历史" , businessType = BusinessType.EXPORT)
+    @Log(title = "笔记历史", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteHistory noteHistory) {
         List<NoteHistory> list = noteHistoryService.selectNoteHistoryList(noteHistory);
@@ -70,7 +63,7 @@ public class NoteHistoryController extends BaseController {
      * 新增笔记历史
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:add')")
-    @Log(title = "笔记历史" , businessType = BusinessType.INSERT)
+    @Log(title = "笔记历史", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody NoteHistory noteHistory) {
         return toAjax(noteHistoryService.insertNoteHistory(noteHistory));
@@ -80,7 +73,7 @@ public class NoteHistoryController extends BaseController {
      * 修改笔记历史
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:edit')")
-    @Log(title = "笔记历史" , businessType = BusinessType.UPDATE)
+    @Log(title = "笔记历史", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody NoteHistory noteHistory) {
         return toAjax(noteHistoryService.updateNoteHistory(noteHistory));
@@ -90,7 +83,7 @@ public class NoteHistoryController extends BaseController {
      * 删除笔记历史
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:remove')")
-    @Log(title = "笔记历史" , businessType = BusinessType.DELETE)
+    @Log(title = "笔记历史", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(noteHistoryService.deleteNoteHistoryByIds(ids));

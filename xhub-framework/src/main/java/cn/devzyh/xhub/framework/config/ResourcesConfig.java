@@ -1,5 +1,7 @@
 package cn.devzyh.xhub.framework.config;
 
+import cn.devzyh.xhub.common.config.ProjectConfig;
+import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.framework.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +12,6 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import cn.devzyh.xhub.common.config.ProjectConfig;
-import cn.devzyh.xhub.common.constant.Constants;
 
 /**
  * 通用配置

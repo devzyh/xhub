@@ -1,8 +1,8 @@
 package cn.devzyh.xhub.notebook.mapper;
 
-import java.util.List;
-
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
+
+import java.util.List;
 
 /**
  * 笔记历史Mapper接口

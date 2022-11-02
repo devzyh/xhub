@@ -1,12 +1,12 @@
 package cn.devzyh.xhub.common.utils;
 
-import java.util.Collection;
-import java.util.List;
-
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.spring.SpringUtils;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 字典工具类

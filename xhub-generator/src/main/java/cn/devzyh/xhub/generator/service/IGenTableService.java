@@ -1,17 +1,16 @@
 package cn.devzyh.xhub.generator.service;
 
+import cn.devzyh.xhub.generator.domain.GenTable;
+
 import java.util.List;
 import java.util.Map;
-
-import cn.devzyh.xhub.generator.domain.GenTable;
 
 /**
  * 业务 服务层
  *
  * @author ruoyi
  */
-public interface IGenTableService
-{
+public interface IGenTableService {
     /**
      * 查询业务列表
      *

@@ -9,8 +9,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-public interface SysUserPostMapper
-{
+public interface SysUserPostMapper {
     /**
      * 通过用户ID删除用户和岗位关联
      *

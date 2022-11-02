@@ -1,10 +1,10 @@
 package cn.devzyh.xhub.common.utils.ip;
 
+import cn.devzyh.xhub.common.utils.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import javax.servlet.http.HttpServletRequest;
-
-import cn.devzyh.xhub.common.utils.StringUtils;
 
 /**
  * 获取IP方法

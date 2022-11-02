@@ -1,9 +1,9 @@
 package cn.devzyh.xhub.common.core.text;
 
+import cn.devzyh.xhub.common.utils.StringUtils;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-
-import cn.devzyh.xhub.common.utils.StringUtils;
 
 /**
  * 字符集工具类

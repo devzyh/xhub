@@ -10,8 +10,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-public interface SysDictDataMapper
-{
+public interface SysDictDataMapper {
     /**
      * 根据条件分页查询字典数据
      *
@@ -31,7 +30,7 @@ public interface SysDictDataMapper
     /**
      * 根据字典类型和字典键值查询字典数据信息
      *
-     * @param dictType 字典类型
+     * @param dictType  字典类型
      * @param dictValue 字典键值
      * @return 字典标签
      */

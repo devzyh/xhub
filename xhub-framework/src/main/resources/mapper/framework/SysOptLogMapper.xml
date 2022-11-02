@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.devzyh.xhub.framework.mapper.SysOptLogMapper">
+
+    <resultMap type="SysOptLog" id="SysoptLogResult">
+        <id property="optId" column="opt_id"/>
+        <result property="title" column="title"/>
+        <result property="businessType" column="business_type"/>
+        <result property="method" column="method"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="optType" column="opt_type"/>
+        <result property="optName" column="opt_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="optUrl" column="opt_url"/>
+        <result property="optIp" column="opt_ip"/>
+        <result property="optLocation" column="opt_location"/>
+        <result property="optParam" column="opt_param"/>
+        <result property="jsonResult" column="json_result"/>
+        <result property="status" column="status"/>
+        <result property="errorMsg" column="error_msg"/>
+        <result property="optTime" column="opt_time"/>
+    </resultMap>
+
+    <sql id="selectoptLogVo">
+        select opt_id,
+               title,
+               business_type,
+               method,
+               request_method,
+               opt_type,
+               opt_name,
+               dept_name,
+               opt_url,
+               opt_ip,
+               opt_location,
+               opt_param,
+               json_result,
+               status,
+               error_msg,
+               opt_time
+        from sys_opt_log
+    </sql>
+
+    <insert id="insertOptlog" parameterType="SysOptLog">
+        insert into sys_opt_log(title, business_type, method, request_method, opt_type, opt_name, dept_name, opt_url,
+                                opt_ip, opt_location, opt_param, json_result, status, error_msg, opt_time)
+        values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{optType}, #{optName}, #{deptName}, #{optUrl},
+                #{optIp}, #{optLocation}, #{optParam}, #{jsonResult}, #{status}, #{errorMsg}, sysdate())
+    </insert>
+
+    <select id="selectOptLogList" parameterType="SysOptLog" resultMap="SysoptLogResult">
+        <include refid="selectoptLogVo"/>
+        <where>
+            <if test="title != null and title != ''">
+                AND title like concat('%', #{title}, '%')
+            </if>
+            <if test="businessType != null and businessType != ''">
+                AND business_type = #{businessType}
+            </if>
+            <if test="businessTypes != null and businessTypes.length > 0">
+                AND business_type in
+                <foreach collection="businessTypes" item="businessType" open="(" separator="," close=")">
+                    #{businessType}
+                </foreach>
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="optName != null and optName != ''">
+                AND opt_name like concat('%', #{optName}, '%')
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(opt_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(opt_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+        order by opt_id desc
+    </select>
+
+    <delete id="deleteOptLogByIds" parameterType="Long">
+        delete from sys_opt_log where opt_id in
+        <foreach collection="array" item="optId" open="(" separator="," close=")">
+            #{optId}
+        </foreach>
+    </delete>
+
+    <select id="selectOptLogById" parameterType="Long" resultMap="SysoptLogResult">
+        <include refid="selectoptLogVo"/>
+        where opt_id = #{optId}
+    </select>
+
+    <update id="cleanOptLog">
+        truncate table sys_opt_log
+    </update>
+
+</mapper>

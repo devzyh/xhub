@@ -90,7 +90,7 @@ public class NoteCatalogController extends BaseController {
     /**
      * 获取部门下拉树列表
      */
-    @GetMapping("/treeselect")
+    @GetMapping("/treeSelect")
     public AjaxResult treeselect(NoteCatalog catalog) {
         catalog.setDeleteFlag(0);
         List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);

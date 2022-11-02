@@ -10,8 +10,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-public interface ISysDeptService
-{
+public interface ISysDeptService {
     /**
      * 查询部门管理数据
      *

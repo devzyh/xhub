@@ -5,7 +5,7 @@
 git clone https://gitee.com/devzyh/xhub.git
 
 # 进入项目目录
-cd admin
+cd xhub-admin
 
 # 安装依赖
 npm install

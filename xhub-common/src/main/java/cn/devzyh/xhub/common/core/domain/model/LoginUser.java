@@ -1,12 +1,12 @@
 package cn.devzyh.xhub.common.core.domain.model;
 
-import java.util.Collection;
-import java.util.Set;
-
 import cn.devzyh.xhub.common.core.domain.entity.SysUser;
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 登录用户身份权限

@@ -1,12 +1,5 @@
 package cn.devzyh.xhub.framework.controller.system;
 
-import java.util.List;
-import java.util.Set;
-
-import cn.devzyh.xhub.framework.web.service.SysLoginService;
-import cn.devzyh.xhub.framework.web.service.SysPermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.domain.AjaxResult;
 import cn.devzyh.xhub.common.core.domain.entity.SysMenu;
@@ -14,6 +7,13 @@ import cn.devzyh.xhub.common.core.domain.entity.SysUser;
 import cn.devzyh.xhub.common.core.domain.model.LoginBody;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.framework.service.ISysMenuService;
+import cn.devzyh.xhub.framework.web.service.SysLoginService;
+import cn.devzyh.xhub.framework.web.service.SysPermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 登录验证
@@ -22,8 +22,7 @@ import cn.devzyh.xhub.framework.service.ISysMenuService;
  */
 @RestController
 @RequestMapping("/rest")
-public class SysLoginController
-{
+public class SysLoginController {
     @Autowired
     private SysLoginService loginService;
 
@@ -40,8 +39,7 @@ public class SysLoginController
      * @return 结果
      */
     @PostMapping("/api/login")
-    public AjaxResult login(@RequestBody LoginBody loginBody)
-    {
+    public AjaxResult login(@RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
@@ -56,8 +54,7 @@ public class SysLoginController
      * @return 用户信息
      */
     @GetMapping("/getInfo")
-    public AjaxResult getInfo()
-    {
+    public AjaxResult getInfo() {
         SysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
@@ -76,8 +73,7 @@ public class SysLoginController
      * @return 路由信息
      */
     @GetMapping("/getRouters")
-    public AjaxResult getRouters()
-    {
+    public AjaxResult getRouters() {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));

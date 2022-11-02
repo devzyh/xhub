@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.xhub.favorite.mapper.FavTagMapper">
 
     <resultMap type="FavTag" id="FavTagResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
     </resultMap>
 
     <sql id="selectFavTagVo">
-        select id, name from fav_tag
+        select id, name
+        from fav_tag
     </sql>
 
     <select id="selectFavTagList" parameterType="FavTag" resultMap="FavTagResult">
         <include refid="selectFavTagVo"/>
         <where>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
         </where>
     </select>
 
@@ -29,10 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into fav_tag
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateFavTag" parameterType="FavTag">
@@ -44,7 +45,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteFavTagById" parameterType="Long">
-        delete from fav_tag where id = #{id}
+        delete
+        from fav_tag
+        where id = #{id}
     </delete>
 
     <delete id="deleteFavTagByIds" parameterType="String">
@@ -55,8 +58,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <select id="selectTagsByArticleId" parameterType="Long" resultType="String">
-        select ft.id from fav_article_tag fat
-            left join fav_tag ft on fat.tag_id = ft.id
+        select ft.id
+        from fav_article_tag fat
+                 left join fav_tag ft on fat.tag_id = ft.id
         where fat.article_id = #{id}
     </select>
 </mapper>

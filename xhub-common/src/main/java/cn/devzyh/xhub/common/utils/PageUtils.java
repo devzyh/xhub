@@ -1,9 +1,9 @@
 package cn.devzyh.xhub.common.utils;
 
+import cn.devzyh.xhub.common.core.page.PageDomain;
 import cn.devzyh.xhub.common.core.page.TableSupport;
 import cn.devzyh.xhub.common.utils.sql.SqlUtil;
 import com.github.pagehelper.PageHelper;
-import cn.devzyh.xhub.common.core.page.PageDomain;
 
 /**
  * 分页工具类

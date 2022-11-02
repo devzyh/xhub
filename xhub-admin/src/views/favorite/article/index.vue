@@ -1,76 +1,74 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryParamsRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="标题" prop="title">
         <el-input
-          v-model="queryParams.title"
-          placeholder="请输入标题"
-          clearable
-          @keyup.enter.native="handleQuery"
+            v-model="queryParams.title"
+            placeholder="请输入标题"
+            clearable
+            @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="来源平台" prop="source">
         <el-select v-model="queryParams.source">
           <el-option
-            v-for="dict in dict.type.fav_article_source"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
+              v-for="dict in fav_article_source"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="关联标签" prop="tags">
         <el-select v-model="queryParams.tags" multiple filterable>
           <el-option
-            v-for="tag in tagList"
-            :key="tag.id"
-            :label="tag.name"
-            :value="tag.id"
+              v-for="tag in tagList"
+              :key="tag.id"
+              :label="tag.name"
+              :value="tag.id"
           />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['fav:article:add']"
+            type="primary"
+            plain
+            icon="Plus"
+            @click="handleAdd"
+            v-hasPermi="['fav:article:add']"
         >新增
         </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['fav:article:remove']"
+            type="danger"
+            plain
+            icon="Delete"
+            :disabled="multiple"
+            @click="handleDelete"
+            v-hasPermi="['fav:article:remove']"
         >删除
         </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['fav:article:export']"
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['fav:article:export']"
         >导出
         </el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+
+      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
@@ -79,31 +77,31 @@
       <el-table-column label="文章标题" align="left" prop="title"/>
       <el-table-column label="文章地址" align="left" prop="url"/>
       <el-table-column label="来源平台" align="center" prop="source" width="120">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.fav_article_source" :value="scope.row.source"/>
+        <template #default="scope">
+          <dict-tag :options="fav_article_source" :value="scope.row.source"/>
         </template>
       </el-table-column>
       <el-table-column label="发布日期" align="center" prop="created" width="120">
-        <template slot-scope="scope">
+        <template #default="scope">
           <span>{{ parseTime(scope.row.created, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['fav:article:edit']"
+              size="small"
+              type="text"
+              icon="Edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['fav:article:edit']"
           >修改
           </el-button>
           <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['fav:article:remove']"
+              size="small"
+              type="text"
+              icon="Delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['fav:article:remove']"
           >删除
           </el-button>
         </template>
@@ -111,16 +109,16 @@
     </el-table>
 
     <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
     <!-- 添加或修改文章对话框 -->
-    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" v-model="open" :close-on-click-modal="false" width="500px" append-to-body>
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="文章标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入标题"/>
         </el-form-item>
@@ -130,10 +128,10 @@
         <el-form-item label="关联标签">
           <el-select v-model="form.tags" multiple filterable placeholder="请选择文章标签" style="width: 100%">
             <el-option
-              v-for="tag in tagList"
-              :key="tag.id"
-              :label="tag.name"
-              :value="tag.id"
+                v-for="tag in tagList"
+                :key="tag.id"
+                :label="tag.name"
+                :value="tag.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -143,19 +141,21 @@
         <el-form-item label="来源平台" prop="source">
           <el-select v-model="form.source">
             <el-option
-              v-for="dict in dict.type.fav_article_source"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
+                v-for="dict in fav_article_source"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
             />
           </el-select>
         </el-form-item>
         <el-form-item label="发布日期" prop="created">
-          <el-date-picker clearable
-                          v-model="form.created"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择发布日期">
+          <el-date-picker
+              clearable
+              v-model="form.created"
+              type="date"
+              value-format="YYYY-MM-DD"
+              placeholder="请选择发布日期"
+          >
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -167,174 +167,175 @@
   </div>
 </template>
 
-<script>
+<script setup name="Article">
 import {listArticle, getArticle, delArticle, addArticle, updateArticle} from "@/api/favorite/article";
 import {allTag} from '@/api/favorite/tag'
 
-export default {
-  name: "Article",
-  dicts: ['fav_article_source'],
-  data() {
-    return {
-      // 遮罩层
-      loading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
-      total: 0,
-      // 文章表格数据
-      articleList: [],
-      // 文章标签数据
-      tagList: [],
-      // 弹出层标题
-      title: "",
-      // 是否显示弹出层
-      open: false,
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        title: null,
-        url: null,
-        digest: null,
-        source: null,
-        created: null,
-        tags: null
-      },
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules: {
-        title: [
-          {required: true, message: "文章标题不能为空", trigger: "blur"}
-        ],
-        url: [
-          {required: true, message: "文章地址不能为空", trigger: "blur"}
-        ],
-        source: [
-          {required: true, message: "来源平台不能为空", trigger: "blur"}
-        ],
-        created: [
-          {required: true, message: "发布日期不能为空", trigger: "blur"}
-        ]
-      }
-    };
-  },
-  created() {
-    this.getList();
-    this.getTagList();
-  },
-  methods: {
-    /** 查询文章列表 */
-    getList() {
-      this.loading = true;
-      // if (this.queryTags && this.queryTags.length > 0) {
-      //   this.queryParams.tags = this.queryTags.join();
-      // }
-      listArticle(this.queryParams).then(response => {
-        this.articleList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
-    },
-    /** 查询文章标签 */
-    getTagList() {
-      allTag().then(response => {
-        this.tagList = response;
-      });
-    },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        title: null,
-        url: null,
-        digest: null,
-        source: null,
-        created: null
-      };
-      this.resetForm("form");
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加文章信息";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getArticle(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改文章信息";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateArticle(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addArticle(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function () {
-        return delArticle(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {
-      });
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('toolbox/article/export', {
-        ...this.queryParams
-      }, `article_${new Date().getTime()}.xlsx`)
-    }
-  }
+const {proxy} = getCurrentInstance();
+const {fav_article_source} = proxy.useDict("fav_article_source");
+
+// 遮罩层
+const loading = ref(true);
+// 选中数组
+const ids = ref([]);
+// 非单个禁用
+const single = ref(true);
+// 非多个禁用
+const multiple = ref(true);
+// 显示搜索条件
+const showSearch = ref(true);
+// 总条数
+const total = ref(0);
+// 文章表格数据
+const articleList = ref([]);
+// 文章标签数据
+const tagList = ref([]);
+// 弹出层标题
+const title = ref("");
+// 是否显示弹出层
+const open = ref(false);
+// 查询参数
+const queryParams = ref({
+  pageNum: 1,
+  pageSize: 10,
+  title: null,
+  url: null,
+  digest: null,
+  source: null,
+  created: null,
+  tags: null
+});
+// 表单参数
+const form = ref({});
+// 表单校验
+const rules = {
+  title: [
+    {required: true, message: "文章标题不能为空", trigger: "blur"}
+  ],
+  url: [
+    {required: true, message: "文章地址不能为空", trigger: "blur"}
+  ],
+  source: [
+    {required: true, message: "来源平台不能为空", trigger: "blur"}
+  ],
+  created: [
+    {required: true, message: "发布日期不能为空", trigger: "blur"}
+  ]
 };
+
+/** 查询文章列表 */
+function getList() {
+  loading.value = true;
+  listArticle(queryParams.value).then(response => {
+    articleList.value = response.rows;
+    total.value = response.total;
+    loading.value = false;
+  });
+}
+
+/** 查询文章标签 */
+function getTagList() {
+  allTag().then(response => {
+    tagList.value = response;
+  });
+}
+
+// 取消按钮
+function cancel() {
+  open.value = false;
+  reset();
+}
+
+// 表单重置
+function reset() {
+  form.value = {
+    id: null,
+    title: null,
+    url: null,
+    digest: null,
+    source: null,
+    created: null
+  };
+  proxy.resetForm("formRef");
+}
+
+/** 搜索按钮操作 */
+function handleQuery() {
+  queryParams.value.pageNum = 1;
+  getList();
+}
+
+/** 重置按钮操作 */
+function resetQuery() {
+  proxy.resetForm("queryParamsRef");
+  handleQuery();
+}
+
+// 多选框选中数据
+function handleSelectionChange(selection) {
+  ids.value = selection.map(item => item.id)
+  single.value = selection.length !== 1
+  multiple.value = !selection.length
+}
+
+/** 新增按钮操作 */
+function handleAdd() {
+  reset();
+  open.value = true;
+  title.value = "添加文章信息";
+}
+
+/** 修改按钮操作 */
+function handleUpdate(row) {
+  reset();
+  const select = row.id || ids.value
+  getArticle(select).then(response => {
+    form.value = response.data;
+    open.value = true;
+    title.value = "修改文章信息";
+  });
+}
+
+/** 提交按钮 */
+function submitForm() {
+  proxy.$refs["formRef"].validate(valid => {
+    if (valid) {
+      if (form.value.id != null) {
+        updateArticle(form.value).then(response => {
+          proxy.$modal.msgSuccess("修改成功");
+          open.value = false;
+          getList();
+        });
+      } else {
+        addArticle(form.value).then(response => {
+          proxy.$modal.msgSuccess("新增成功");
+          open.value = false;
+          getList();
+        });
+      }
+    }
+  });
+}
+
+/** 删除按钮操作 */
+function handleDelete(row) {
+  const select = row.id || ids.value;
+  proxy.$modal.confirm('是否确认删除文章编号为"' + select + '"的数据项？').then(function () {
+    return delArticle(select);
+  }).then(() => {
+    getList();
+    proxy.$modal.msgSuccess("删除成功");
+  }).catch(() => {
+  });
+}
+
+/** 导出按钮操作 */
+function handleExport() {
+  proxy.download('fav/article/export', {
+    ...queryParams.value
+  }, `fav_article_${new Date().getTime()}.xlsx`)
+}
+
+getList();
+getTagList();
 </script>

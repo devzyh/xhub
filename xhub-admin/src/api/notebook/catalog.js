@@ -44,9 +44,9 @@ export function delCatalog(id) {
 }
 
 // 查询目录下拉树结构
-export function treeselect() {
+export function treeSelect() {
   return request({
-    url: '/notebook/catalog/treeselect',
+    url: '/notebook/catalog/treeSelect',
     method: 'get'
   })
 }

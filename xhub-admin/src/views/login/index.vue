@@ -11,7 +11,6 @@
       </div>
       <div class="login-border animate__animated animate__fadeInRight">
         <div class="login-main">
-
           <user-login v-if="activeName === 'userLogin'"></user-login>
           <user-register v-else-if="activeName==='userRegister'" @ok="activeName='userLogin'"></user-register>
           <div class="login-menu" v-if="enableRegister">
@@ -25,44 +24,31 @@
     </div>
   </div>
 </template>
-<script>
+
+<script setup name="login">
 import "@/assets/styles/login.scss";
-import userLogin from "./userLogin";
-import userRegister from "./userRegister";
+import UserLogin from "./userLogin";
+import UserRegister from "./userRegister";
 import config from '@/../package.json'
 
+const time = ref("");
+const version = config.version;
+const enableRegister = ref(false);
+const activeName = ref("userLogin");
 
-export default {
-  name: "login",
-  components: {
-    userLogin,
-    userRegister
-  },
-  data() {
-    return {
-      time: "",
-      version: config.version,
-      enableRegister: false,
-      activeName: "userLogin"
-    };
-  },
-  created() {
-    this.getTime();
-    setInterval(() => {
-      this.getTime();
-    }, 1000);
-  },
-  methods: {
-    getTime() {
-      const date = new Date();
-      var Y = date.getFullYear() + '年';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月';
-      var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '日';
-      var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + '时';
-      var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + '分';
-      var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds() + '秒';
-      this.time = Y + M + D + h + m + s;
-    }
-  }
-};
+function getTime() {
+  const date = new Date();
+  var Y = date.getFullYear() + '年';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月';
+  var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '日';
+  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + '时';
+  var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + '分';
+  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds() + '秒';
+  time.value = Y + M + D + h + m + s;
+}
+
+getTime();
+setInterval(() => {
+  getTime();
+}, 1000);
 </script>

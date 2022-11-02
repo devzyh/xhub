@@ -105,6 +105,8 @@
     </insert>
 
     <select id="selectArticleTags" parameterType="Long" resultType="Long">
-        select tag_id from fav_article_tag where article_id = #{id}
+        select tag_id
+        from fav_article_tag
+        where article_id = #{id}
     </select>
 </mapper>

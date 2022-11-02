@@ -1,9 +1,9 @@
 package cn.devzyh.xhub.common.utils.uuid;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author ruoyi 序列生成类
