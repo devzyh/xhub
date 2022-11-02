@@ -4,10 +4,10 @@ git config --global credential.helper store
 git pull origin master
 
 # npm
-cd xhub-admin
-npm run build:prod
-cd ..
-echo "Vue Success"
+#cd xhub-admin
+#npm run build:prod
+#cd ..
+#echo "Vue Success"
 
 # maven
 mvn clean package
