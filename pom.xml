@@ -13,7 +13,6 @@
     <description>X-Hub</description>
 
     <properties>
-        <project.version>1.0.0</project.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -155,49 +154,49 @@
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-common</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-framework</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 定时任务-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-scheduler</artifactId>
-                <version>1.0.0</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 代码生成-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-generator</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 页面渲染-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-web</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 笔记模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-notebook</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
 
             <!-- 收藏模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-favorite</artifactId>
-                <version>${project.version}</version>
+                <version>${version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

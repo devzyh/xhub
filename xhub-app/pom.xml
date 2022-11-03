@@ -23,7 +23,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional> <!-- 表示依赖不会传递 -->
         </dependency>
-        
+
         <!-- 核心模块-->
         <dependency>
             <groupId>cn.devzyh</groupId>
@@ -88,8 +88,66 @@
                     <warName>${project.name}</warName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <!--exec-maven-plugin插件可以执行cmd命令-->
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>exec-npm-run-build</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <!--程序名称-->
+                            <executable>npm</executable>
+                            <arguments>
+                                <!-- 程序所执行的命令-->
+                                <argument>run</argument>
+                                <argument>build:prod</argument>
+                            </arguments>
+                            <!--${basedir}项目根目录-->
+                            <!--前端代码地址-->
+                            <workingDirectory>${basedir}\..\xhub-admin</workingDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!--maven-resources-plugin：maven复制文件插件-->
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resource</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <!--前端代码地址-->
+                                    <directory>${basedir}\..\xhub-admin\dist</directory>
+                                </resource>
+                            </resources>
+                            <!--输出文件路径-->
+                            <outputDirectory>${basedir}\src\main\resources\static\admin</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        <finalName>${project.parent.artifactId}</finalName>
     </build>
 
 </project>
