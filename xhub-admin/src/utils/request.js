@@ -1,8 +1,8 @@
 import axios from 'axios'
-import {ElNotification, ElMessageBox, ElMessage, ElLoading} from 'element-plus'
+import {ElLoading, ElMessage, ElMessageBox, ElNotification} from 'element-plus'
 import {getToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
-import {tansParams, blobValidate} from '@/utils/common'
+import {blobValidate, tansParams} from '@/utils/common'
 import cache from '@/plugins/cache'
 import {saveAs} from 'file-saver'
 import useUserStore from '@/store/modules/user'
@@ -86,7 +86,7 @@ service.interceptors.response.use(res => {
                 ).then(() => {
                     isRelogin.show = false;
                     useUserStore().logOut().then(() => {
-                        location.href = import.meta.env.BASE_URL + 'index';
+                        location.href = import.meta.env.BASE_URL;
                     })
                 }).catch(() => {
                     isRelogin.show = false;

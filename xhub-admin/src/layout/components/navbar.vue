@@ -82,7 +82,7 @@ function logout() {
     type: 'warning'
   }).then(() => {
     userStore.logOut().then(() => {
-      location.href = import.meta.env.BASE_URL + 'index';
+      location.href = import.meta.env.BASE_URL;
     })
   }).catch(() => {
   });

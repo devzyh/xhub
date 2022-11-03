@@ -44,6 +44,7 @@ nbdist/
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
+/xhub-app/src/main/resources/static/admin/*
 /xhub-app/src/main/resources/application-dev.yml
 /xhub-app/src/main/resources/application-test.yml
 /xhub-app/src/main/resources/application-prod.yml

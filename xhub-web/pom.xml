@@ -19,12 +19,6 @@
 
     <dependencies>
 
-        <!-- SpringBoot Web容器 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- 模板解析引擎 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
