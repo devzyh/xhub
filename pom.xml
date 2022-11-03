@@ -154,49 +154,49 @@
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-common</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-framework</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 定时任务-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-scheduler</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 代码生成-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-generator</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 页面渲染-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-web</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 笔记模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-notebook</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 收藏模块-->
             <dependency>
                 <groupId>cn.devzyh</groupId>
                 <artifactId>xhub-favorite</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
