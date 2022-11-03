@@ -60,3 +60,7 @@ spring:
 logging:
   level:
     cn.devzyh: warn
+
+project:
+  # 文件上传路径
+  profile: /home/app/file

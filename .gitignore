@@ -37,6 +37,8 @@ nbdist/
 .nb-gradle/
 
 ### Project ###
+logs/*
+data/*
 *.log
 *.xml.versionsBackup
 *.swp
