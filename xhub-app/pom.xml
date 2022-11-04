@@ -12,7 +12,7 @@
     <artifactId>xhub-app</artifactId>
 
     <description>
-        web服务入口
+        Web服务入口
     </description>
 
     <dependencies>
@@ -96,7 +96,7 @@
                 <executions>
                     <execution>
                         <id>exec-npm-run-build</id>
-                        <phase>prepare-package</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -111,31 +111,6 @@
                             <!--${basedir}项目根目录-->
                             <!--前端代码地址-->
                             <workingDirectory>${basedir}\..\xhub-admin</workingDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- 复制文件插件 -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resource</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <!--前端代码地址-->
-                                    <directory>${basedir}\..\xhub-admin\dist</directory>
-                                </resource>
-                            </resources>
-                            <!--输出文件路径-->
-                            <outputDirectory>${basedir}\src\main\resources\static\admin</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

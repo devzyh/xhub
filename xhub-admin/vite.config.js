@@ -23,6 +23,10 @@ export default defineConfig(({mode, command}) => {
             // https://cn.vitejs.dev/config/#resolve-extensions
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
         },
+        // 打包相关配置
+        build: {
+            outDir: '../xhub-app/src/main/resources/static/admin'
+        },
         // vite 相关配置
         server: {
             port: 80,
