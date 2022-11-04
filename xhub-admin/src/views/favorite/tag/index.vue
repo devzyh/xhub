@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryParamsRef" :inline="true" v-show="showSearch" label-width="68px" @submit.native.prevent>
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px" @submit.native.prevent>
       <el-form-item label="标签名称" prop="name">
         <el-input
             v-model="queryParams.name"
@@ -164,7 +164,7 @@ function handleQuery() {
 
 /** 重置按钮操作 */
 function resetQuery() {
-  proxy.resetForm("queryParamsRef");
+  proxy.resetForm("queryRef");
   handleQuery();
 }
 

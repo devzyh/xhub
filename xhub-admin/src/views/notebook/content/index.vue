@@ -27,7 +27,7 @@
       </el-col>
       <!--笔记数据-->
       <el-col :span="19" :xs="24">
-        <el-form :model="queryParams" ref="queryParamsRef" :inline="true" v-show="showSearch"
+        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch"
                  @submit.native.prevent>
           <el-form-item :label="`【${currentCatalogName}】搜索`" prop="searchValue">
             <el-input
@@ -410,7 +410,7 @@ function resetQuery() {
   proxy.$refs["treeRef"].setCurrentKey(null);
   queryParams.value.catalogId = null;
   currentCatalogName.value = "全部笔记";
-  proxy.resetForm("queryParamsRef");
+  proxy.resetForm("queryRef");
   getList();
 }
 

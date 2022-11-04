@@ -61,8 +61,7 @@ private List<${subClassName}> ${subclassName}List;
             this.$column.javaField = $column.javaField;
             }
 
-    public $column.javaType get${AttrName}()
-            {
+    public $column.javaType get${AttrName}(){
             return $column.javaField;
             }
     #end
@@ -73,8 +72,7 @@ public List<${subClassName}> get${subClassName}List(){
         return ${subclassName}List;
         }
 
-public void set${subClassName}List(List<${subClassName}> ${subclassName}List)
-        {
+public void set${subClassName}List(List<${subClassName}> ${subclassName}List){
         this.${subclassName}List= ${subclassName}List;
         }
 
