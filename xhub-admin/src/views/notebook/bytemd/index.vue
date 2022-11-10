@@ -59,13 +59,10 @@ onMounted(() => {
   const contentKey = cachePrefix.value + id;
   if (id && !isNaN(id)) {
     // 优先取本地缓存
-    let localContent;
-    if (window.localStorage) {
-      localContent = window.localStorage.getItem(contentKey);
-      if (localContent) {
-        form.value.id = id;
-        form.value.content = localContent;
-      }
+    let localContent = proxy.$cache.local.get(contentKey);
+    if (localContent) {
+      form.value.id = id;
+      form.value.content = localContent;
     }
 
     // 本地不存在从远程获取
@@ -73,7 +70,7 @@ onMounted(() => {
       getContent(id).then(response => {
         form.value = response.data;
         if (form.value.content) {
-          window.localStorage.setItem(contentKey, form.value.content);
+          proxy.$cache.local.set(contentKey, form.value.content);
         } else {
           form.value.content = "";
         }
@@ -82,7 +79,8 @@ onMounted(() => {
 
     // 页面标题重写
     if (title) {
-      tagsViewStore.visitedViews[tagsViewStore.visitedViews.length - 1].title = title;
+      const obj = Object.assign({}, route, {title: title})
+      proxy.$tab.updatePage(obj);
     }
   }
 });
@@ -90,7 +88,7 @@ onMounted(() => {
 /** 内容更新事件 */
 function handleChange(v) {
   form.value.content = v
-  window.localStorage.setItem(cachePrefix.value + form.value.id, v);
+  proxy.$cache.local.set(cachePrefix.value + form.value.id, v);
 }
 
 /** 批量上传图片 */
