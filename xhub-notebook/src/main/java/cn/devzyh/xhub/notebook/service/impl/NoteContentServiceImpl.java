@@ -8,6 +8,7 @@ import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.mapper.NoteContentMapper;
 import cn.devzyh.xhub.notebook.service.INoteContentService;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
+import cn.devzyh.xhub.notebook.service.INoteShareService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ import java.util.List;
  */
 @Service
 public class NoteContentServiceImpl implements INoteContentService {
+
     @Autowired
     private NoteContentMapper contentMapper;
     @Autowired
     private INoteHistoryService historyService;
+    @Autowired
+    private INoteShareService shareService;
 
     /**
      * 查询笔记内容列表
@@ -108,7 +112,9 @@ public class NoteContentServiceImpl implements INoteContentService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteNoteContentByIds(List<Long> ids) {
+        shareService.deleteNoteShareByContentIds(ids);
         return contentMapper.deleteBatchIds(ids);
     }
 
