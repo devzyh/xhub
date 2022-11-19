@@ -9,8 +9,7 @@ import cn.devzyh.xhub.favorite.service.IFavLinkService;
 import cn.devzyh.xhub.web.domain.dto.ResultDto;
 import cn.devzyh.xhub.web.domain.dto.SearchDto;
 import cn.devzyh.xhub.web.service.ISearchService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class SearchLinkServiceImpl implements ISearchService {
     private IFavLinkService favLinkService;
 
     @Override
-    public SearchDto search(Integer page, String... keys) {
+    public SearchDto search(Integer current, String... keys) {
         // 获取基本信息
         String type = keys[0];
         String key = keys[1];
@@ -45,9 +44,6 @@ public class SearchLinkServiceImpl implements ISearchService {
         }
         searchDto.setSearchKey(key);
 
-        // 设置分页
-        PageHelper.startPage(page, WebConstants.Search.PAGE_SIZE);
-
         // 获取文章信息
         List<ResultDto> resultDtoList = new LinkedList<>();
         FavLink favorite = new FavLink();
@@ -59,7 +55,9 @@ public class SearchLinkServiceImpl implements ISearchService {
                 favorite.setItem(key);
                 break;
         }
-        List<FavLink> list = favLinkService.selectFavLinkList(favorite);
+
+        Page<FavLink> page = new Page<>(current, WebConstants.Search.PAGE_SIZE);
+        List<FavLink> list = favLinkService.selectFavLinkList(page, favorite);
         HashMap<String, SysDictData> itemMap = new HashMap();
         DictUtils.getDictCache(WebConstants.Item.LINK_ITEM.getValue()).forEach(it -> {
             itemMap.put(it.getDictValue(), it);
@@ -78,7 +76,7 @@ public class SearchLinkServiceImpl implements ISearchService {
         }
 
         searchDto.setResultList(resultDtoList);
-        searchDto.setPage(new PageInfo(list));
+        searchDto.setPage(page);
         return searchDto;
     }
 

@@ -4,9 +4,13 @@ import cn.devzyh.xhub.common.constant.UserConstants;
 import cn.devzyh.xhub.common.exception.ServiceException;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.framework.domain.SysPost;
+import cn.devzyh.xhub.framework.domain.SysUserPost;
 import cn.devzyh.xhub.framework.mapper.SysPostMapper;
 import cn.devzyh.xhub.framework.mapper.SysUserPostMapper;
 import cn.devzyh.xhub.framework.service.ISysPostService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +36,8 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 岗位信息集合
      */
     @Override
-    public List<SysPost> selectPostList(SysPost post) {
-        return postMapper.selectPostList(post);
+    public List<SysPost> selectPostList(IPage<SysPost> page, SysPost post) {
+        return postMapper.selectPostList(page, post);
     }
 
     /**
@@ -43,7 +47,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public List<SysPost> selectPostAll() {
-        return postMapper.selectPostAll();
+        return postMapper.selectList(null);
     }
 
     /**
@@ -54,7 +58,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public SysPost selectPostById(Long postId) {
-        return postMapper.selectPostById(postId);
+        return postMapper.selectById(postId);
     }
 
     /**
@@ -77,11 +81,10 @@ public class SysPostServiceImpl implements ISysPostService {
     @Override
     public String checkPostNameUnique(SysPost post) {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
-        SysPost info = postMapper.checkPostNameUnique(post.getPostName());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        QueryWrapper<SysPost> qw = Wrappers.query(post);
+        qw.eq("post_name", post.getPostName());
+        qw.ne("post_id", postId);
+        return postMapper.exists(qw) ? UserConstants.NOT_UNIQUE : UserConstants.UNIQUE;
     }
 
     /**
@@ -93,11 +96,10 @@ public class SysPostServiceImpl implements ISysPostService {
     @Override
     public String checkPostCodeUnique(SysPost post) {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
-        SysPost info = postMapper.checkPostCodeUnique(post.getPostCode());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        QueryWrapper<SysPost> qw = Wrappers.query(post);
+        qw.eq("post_code", post.getPostCode());
+        qw.ne("post_id", postId);
+        return postMapper.exists(qw) ? UserConstants.NOT_UNIQUE : UserConstants.UNIQUE;
     }
 
     /**
@@ -108,7 +110,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public int countUserPostById(Long postId) {
-        return userPostMapper.countUserPostById(postId);
+        return Math.toIntExact(userPostMapper.selectCount(new QueryWrapper<SysUserPost>().eq("post_id", postId)));
     }
 
     /**
@@ -119,7 +121,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public int deletePostById(Long postId) {
-        return postMapper.deletePostById(postId);
+        return postMapper.deleteById(postId);
     }
 
     /**
@@ -129,14 +131,14 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 结果
      */
     @Override
-    public int deletePostByIds(Long[] postIds) {
+    public int deletePostByIds(List<Long> postIds) {
         for (Long postId : postIds) {
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0) {
                 throw new ServiceException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
-        return postMapper.deletePostByIds(postIds);
+        return postMapper.deleteBatchIds(postIds);
     }
 
     /**
@@ -147,7 +149,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public int insertPost(SysPost post) {
-        return postMapper.insertPost(post);
+        return postMapper.insert(post);
     }
 
     /**
@@ -158,6 +160,6 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public int updatePost(SysPost post) {
-        return postMapper.updatePost(post);
+        return postMapper.updateById(post);
     }
 }

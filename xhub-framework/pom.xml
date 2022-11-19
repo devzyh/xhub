@@ -24,6 +24,7 @@
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>javax.servlet-api</artifactId>
@@ -36,6 +37,7 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
         </dependency>
 
         <!-- 系统模块-->

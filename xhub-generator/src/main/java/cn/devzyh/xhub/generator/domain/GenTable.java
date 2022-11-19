@@ -3,6 +3,10 @@ package cn.devzyh.xhub.generator.domain;
 import cn.devzyh.xhub.common.constant.GenConstants;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
 import cn.devzyh.xhub.common.utils.StringUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.validation.Valid;
@@ -11,15 +15,17 @@ import java.util.List;
 
 /**
  * 业务表 gen_table
- *
- * @author ruoyi
  */
+@TableName("gen_table")
 public class GenTable extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * 编号
      */
+    @TableId(type = IdType.AUTO)
     private Long tableId;
 
     /**
@@ -98,17 +104,20 @@ public class GenTable extends BaseEntity {
     /**
      * 主键信息
      */
+    @TableField(exist = false)
     private GenTableColumn pkColumn;
 
     /**
      * 子表信息
      */
+    @TableField(exist = false)
     private GenTable subTable;
 
     /**
      * 表列信息
      */
     @Valid
+    @TableField(exist = false)
     private List<GenTableColumn> columns;
 
     /**
@@ -119,26 +128,31 @@ public class GenTable extends BaseEntity {
     /**
      * 树编码字段
      */
+    @TableField(exist = false)
     private String treeCode;
 
     /**
      * 树父编码字段
      */
+    @TableField(exist = false)
     private String treeParentCode;
 
     /**
      * 树名称字段
      */
+    @TableField(exist = false)
     private String treeName;
 
     /**
      * 上级菜单ID字段
      */
+    @TableField(exist = false)
     private String parentMenuId;
 
     /**
      * 上级菜单名称字段
      */
+    @TableField(exist = false)
     private String parentMenuName;
 
     public Long getTableId() {

@@ -8,9 +8,9 @@ import cn.devzyh.xhub.common.utils.ip.AddressUtils;
 import cn.devzyh.xhub.common.utils.ip.IpUtils;
 import cn.devzyh.xhub.common.utils.spring.SpringUtils;
 import cn.devzyh.xhub.framework.domain.SysLoginLog;
-import cn.devzyh.xhub.framework.domain.SysOptLog;
+import cn.devzyh.xhub.framework.domain.SysOperLog;
 import cn.devzyh.xhub.framework.service.ISysLoginLogService;
-import cn.devzyh.xhub.framework.service.ISysOptLogService;
+import cn.devzyh.xhub.framework.service.ISysOperLogService;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import java.util.TimerTask;
  * @author ruoyi
  */
 public class AsyncFactory {
-    private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
+    private static final Logger SysUserLogger = LoggerFactory.getLogger("sys-user");
 
     /**
      * 记录登录信息
@@ -49,27 +49,27 @@ public class AsyncFactory {
                 s.append(LogUtils.getBlock(status));
                 s.append(LogUtils.getBlock(message));
                 // 打印信息到日志
-                sys_user_logger.info(s.toString(), args);
+                SysUserLogger.info(s.toString(), args);
                 // 获取客户端操作系统
                 String os = userAgent.getOperatingSystem().getName();
                 // 获取客户端浏览器
                 String browser = userAgent.getBrowser().getName();
                 // 封装对象
-                SysLoginLog logininfor = new SysLoginLog();
-                logininfor.setUserName(username);
-                logininfor.setIpaddr(ip);
-                logininfor.setLoginLocation(address);
-                logininfor.setBrowser(browser);
-                logininfor.setOs(os);
-                logininfor.setMsg(message);
+                SysLoginLog loginLog = new SysLoginLog();
+                loginLog.setUserName(username);
+                loginLog.setIpaddr(ip);
+                loginLog.setLoginLocation(address);
+                loginLog.setBrowser(browser);
+                loginLog.setOs(os);
+                loginLog.setMsg(message);
                 // 日志状态
                 if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
-                    logininfor.setStatus(Constants.SUCCESS);
+                    loginLog.setStatus(Constants.SUCCESS);
                 } else if (Constants.LOGIN_FAIL.equals(status)) {
-                    logininfor.setStatus(Constants.FAIL);
+                    loginLog.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-                SpringUtils.getBean(ISysLoginLogService.class).insertLoginLog(logininfor);
+                SpringUtils.getBean(ISysLoginLogService.class).insertLoginLog(loginLog);
             }
         };
     }
@@ -80,13 +80,13 @@ public class AsyncFactory {
      * @param optLog 操作日志信息
      * @return 任务task
      */
-    public static TimerTask recordOptLog(final SysOptLog optLog) {
+    public static TimerTask recordOperLog(final SysOperLog operLog) {
         return new TimerTask() {
             @Override
             public void run() {
                 // 远程查询操作地点
-                optLog.setOptLocation(AddressUtils.getRealAddressByIP(optLog.getOptIp()));
-                SpringUtils.getBean(ISysOptLogService.class).insertOptlog(optLog);
+                operLog.setOperIp(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
+                SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
             }
         };
     }

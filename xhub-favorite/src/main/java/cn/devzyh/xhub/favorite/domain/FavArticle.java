@@ -2,9 +2,15 @@ package cn.devzyh.xhub.favorite.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,12 +18,20 @@ import java.util.List;
 /**
  * 文章表 fav_article
  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("fav_article")
 public class FavArticle extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -49,78 +63,12 @@ public class FavArticle extends BaseEntity {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "发布日期", width = 30, dateFormat = "yyyy-MM-dd")
-    private LocalDate created;
+    private LocalDate releaseDate;
 
     /**
      * 关联标签ID
      */
+    @TableField(exist = false)
     private List<Long> tags;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setDigest(String digest) {
-        this.digest = digest;
-    }
-
-    public String getDigest() {
-        return digest;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setCreated(LocalDate created) {
-        this.created = created;
-    }
-
-    public LocalDate getCreated() {
-        return created;
-    }
-
-    public List<Long> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Long> tags) {
-        this.tags = tags;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("title", getTitle())
-                .append("url", getUrl())
-                .append("digest", getDigest())
-                .append("source", getSource())
-                .append("created", getCreated())
-                .toString();
-    }
 }

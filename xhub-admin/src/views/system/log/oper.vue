@@ -10,9 +10,9 @@
                @keyup.enter="handleQuery"
             />
          </el-form-item>
-         <el-form-item label="操作人员" prop="optName">
+         <el-form-item label="操作人员" prop="operName">
             <el-input
-               v-model="queryParams.optName"
+               v-model="queryParams.operName"
                placeholder="请输入操作人员"
                clearable
                style="width: 240px;"
@@ -27,7 +27,7 @@
                style="width: 240px"
             >
                <el-option
-                  v-for="dict in sys_opt_type"
+                  v-for="dict in sys_oper_type"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -73,7 +73,7 @@
                icon="Delete"
                :disabled="multiple"
                @click="handleDelete"
-               v-hasPermi="['system:log:opt:remove']"
+               v-hasPermi="['system:log:oper:remove']"
             >删除</el-button>
          </el-col>
          <el-col :span="1.5">
@@ -82,7 +82,7 @@
                plain
                icon="Delete"
                @click="handleClean"
-               v-hasPermi="['system:log:opt:remove']"
+               v-hasPermi="['system:log:oper:remove']"
             >清空</el-button>
          </el-col>
          <el-col :span="1.5">
@@ -91,32 +91,32 @@
                plain
                icon="Download"
                @click="handleExport"
-               v-hasPermi="['system:log:opt:export']"
+               v-hasPermi="['system:log:oper:export']"
             >导出</el-button>
          </el-col>
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table ref="optLogRef" v-loading="loading" :data="optlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
+      <el-table ref="operLogRef" v-loading="loading" :data="operLogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
          <el-table-column type="selection" width="55" align="center" />
-         <el-table-column label="日志编号" align="center" prop="optId" />
+         <el-table-column label="日志编号" align="center" prop="operId" />
          <el-table-column label="系统模块" align="center" prop="title" />
          <el-table-column label="操作类型" align="center" prop="businessType">
             <template #default="scope">
-               <dict-tag :options="sys_opt_type" :value="scope.row.businessType" />
+               <dict-tag :options="sys_oper_type" :value="scope.row.businessType" />
             </template>
          </el-table-column>
          <el-table-column label="请求方式" align="center" prop="requestMethod" />
-         <el-table-column label="操作人员" align="center" prop="optName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" width="100" />
-         <el-table-column label="主机" align="center" prop="optIp" width="130" :show-overflow-tooltip="true" />
+         <el-table-column label="操作人员" align="center" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" width="100" />
+         <el-table-column label="主机" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
          <el-table-column label="操作状态" align="center" prop="status">
             <template #default="scope">
                <dict-tag :options="sys_common_status" :value="scope.row.status" />
             </template>
          </el-table-column>
-         <el-table-column label="操作日期" align="center" prop="optTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
+         <el-table-column label="操作日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
             <template #default="scope">
-               <span>{{ parseTime(scope.row.optTime) }}</span>
+               <span>{{ parseTime(scope.row.operTime) }}</span>
             </template>
          </el-table-column>
          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -125,7 +125,7 @@
                   type="text"
                   icon="View"
                   @click="handleView(scope.row, scope.index)"
-                  v-hasPermi="['system:log:opt:query']"
+                  v-hasPermi="['system:log:oper:query']"
                >详细</el-button>
             </template>
          </el-table-column>
@@ -147,17 +147,17 @@
                   <el-form-item label="操作模块：">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
                   <el-form-item
                     label="登录信息："
-                  >{{ form.optName }} / {{ form.optIp }} / {{ form.optLocation }}</el-form-item>
+                  >{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="请求地址：">{{ form.optUrl }}</el-form-item>
+                  <el-form-item label="请求地址：">{{ form.operUrl }}</el-form-item>
                   <el-form-item label="请求方式：">{{ form.requestMethod }}</el-form-item>
                </el-col>
                <el-col :span="24">
                   <el-form-item label="操作方法：">{{ form.method }}</el-form-item>
                </el-col>
                <el-col :span="24">
-                  <el-form-item label="请求参数：">{{ form.optParam }}</el-form-item>
+                  <el-form-item label="请求参数：">{{ form.operParam }}</el-form-item>
                </el-col>
                <el-col :span="24">
                   <el-form-item label="返回参数：">{{ form.jsonResult }}</el-form-item>
@@ -169,7 +169,7 @@
                   </el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="操作时间：">{{ parseTime(form.optTime) }}</el-form-item>
+                  <el-form-item label="操作时间：">{{ parseTime(form.operTime) }}</el-form-item>
                </el-col>
                <el-col :span="24">
                   <el-form-item label="异常信息：" v-if="form.status === 1">{{ form.errorMsg }}</el-form-item>
@@ -185,13 +185,13 @@
    </div>
 </template>
 
-<script setup name="OptLog">
-import { list, delOptLog, cleanOptLog } from "@/api/system/log/operation";
+<script setup name="OperLog">
+import { list, delOperLog, cleanOperLog } from "@/api/system/log/oper";
 
 const { proxy } = getCurrentInstance();
-const { sys_opt_type, sys_common_status } = proxy.useDict("sys_opt_type","sys_common_status");
+const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
 
-const optlogList = ref([]);
+const operLogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -201,7 +201,7 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const dateRange = ref([]);
-const defaultSort = ref({ prop: "optTime", order: "descending" });
+const defaultSort = ref({ prop: "operTime", order: "descending" });
 
 const data = reactive({
   form: {},
@@ -209,7 +209,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     title: undefined,
-    optName: undefined,
+    operName: undefined,
     businessType: undefined,
     status: undefined
   }
@@ -221,14 +221,14 @@ const { queryParams, form } = toRefs(data);
 function getList() {
   loading.value = true;
   list(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    optlogList.value = response.rows;
+    operLogList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
 }
 /** 操作日志类型字典翻译 */
 function typeFormat(row, column) {
-  return proxy.selectDictLabel(sys_opt_type.value, row.businessType);
+  return proxy.selectDictLabel(sys_oper_type.value, row.businessType);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -240,11 +240,11 @@ function resetQuery() {
   dateRange.value = [];
   proxy.resetForm("queryRef");
   queryParams.value.pageNum = 1;
-  proxy.$refs["optLogRef"].sort(defaultSort.value.prop, defaultSort.value.order);
+  proxy.$refs["operLogRef"].sort(defaultSort.value.prop, defaultSort.value.order);
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.optId);
+  ids.value = selection.map(item => item.operId);
   multiple.value = !selection.length;
 }
 /** 排序触发事件 */
@@ -260,9 +260,9 @@ function handleView(row) {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const optIds = row.optId || ids.value;
-  proxy.$modal.confirm('是否确认删除日志编号为"' + optIds + '"的数据项?').then(function () {
-    return delOptLog(optIds);
+  const operIds = row.operId || ids.value;
+  proxy.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
+    return delOperLog(operIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -271,7 +271,7 @@ function handleDelete(row) {
 /** 清空按钮操作 */
 function handleClean() {
   proxy.$modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
-    return cleanOptLog();
+    return cleanOperLog();
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("清空成功");
@@ -279,7 +279,7 @@ function handleClean() {
 }
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download("monitor/optLog/export",{
+  proxy.download("system/log/oper/export",{
     ...queryParams.value,
   }, `config_${new Date().getTime()}.xlsx`);
 }

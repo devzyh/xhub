@@ -14,6 +14,6 @@ public interface ISearchService {
      * @param key 关键词
      * @return
      */
-    SearchDto search(Integer page, String... keys);
+    SearchDto search(Integer current, String... keys);
 
 }

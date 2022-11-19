@@ -8,6 +8,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.favorite.domain.FavLink;
 import cn.devzyh.xhub.favorite.service.IFavLinkService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/fav/link")
 public class FavLinkController extends BaseController {
+    
     @Autowired
     private IFavLinkService favLinkService;
 
@@ -33,9 +35,8 @@ public class FavLinkController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:link:list')")
     @GetMapping("/list")
     public TableDataInfo list(FavLink favLink) {
-        startPage();
-        List<FavLink> list = favLinkService.selectFavLinkList(favLink);
-        return getDataTable(list);
+        IPage<FavLink> page = getPage();
+        return getDataTable(page, favLinkService.selectFavLinkList(page, favLink));
     }
 
     /**
@@ -45,7 +46,7 @@ public class FavLinkController extends BaseController {
     @Log(title = "主页链接", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, FavLink favLink) {
-        List<FavLink> list = favLinkService.selectFavLinkList(favLink);
+        List<FavLink> list = favLinkService.selectFavLinkList(null, favLink);
         ExcelUtil<FavLink> util = new ExcelUtil<FavLink>(FavLink.class);
         util.exportExcel(response, list, "主页链接数据");
     }
@@ -85,7 +86,7 @@ public class FavLinkController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:link:remove')")
     @Log(title = "主页链接", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable List<Long> ids) {
         return toAjax(favLinkService.deleteFavLinkByIds(ids));
     }
 }

@@ -9,6 +9,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysPost;
 import cn.devzyh.xhub.framework.service.ISysPostService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -34,16 +35,15 @@ public class SysPostController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:post:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPost post) {
-        startPage();
-        List<SysPost> list = postService.selectPostList(post);
-        return getDataTable(list);
+        IPage<SysPost> page = getPage();
+        return getDataTable(page, postService.selectPostList(page, post));
     }
 
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:post:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) {
-        List<SysPost> list = postService.selectPostList(post);
+        List<SysPost> list = postService.selectPostList(null, post);
         ExcelUtil<SysPost> util = new ExcelUtil<SysPost>(SysPost.class);
         util.exportExcel(response, list, "岗位数据");
     }
@@ -95,7 +95,7 @@ public class SysPostController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:post:remove')")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
-    public AjaxResult remove(@PathVariable Long[] postIds) {
+    public AjaxResult remove(@PathVariable List<Long> postIds) {
         return toAjax(postService.deletePostByIds(postIds));
     }
 

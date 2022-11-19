@@ -4,6 +4,7 @@ import cn.devzyh.xhub.common.constant.HttpStatus;
 import cn.devzyh.xhub.common.utils.StringUtils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * 操作消息提醒
@@ -100,6 +101,27 @@ public class AjaxResult extends HashMap<String, Object> {
     }
 
     /**
+     * 返回警告消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static AjaxResult warn(String msg) {
+        return AjaxResult.warn(msg, null);
+    }
+
+    /**
+     * 返回警告消息
+     *
+     * @param msg  返回内容
+     * @param data 数据对象
+     * @return 警告消息
+     */
+    public static AjaxResult warn(String msg, Object data) {
+        return new AjaxResult(HttpStatus.WARN, msg, data);
+    }
+
+    /**
      * 返回错误消息
      *
      * @return
@@ -141,11 +163,29 @@ public class AjaxResult extends HashMap<String, Object> {
     }
 
     /**
+     * 是否为成功消息
+     *
+     * @return 结果
+     */
+    public boolean isSuccess() {
+        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
+    }
+
+    /**
+     * 是否为错误消息
+     *
+     * @return 结果
+     */
+    public boolean isError() {
+        return !isSuccess();
+    }
+
+    /**
      * 方便链式调用
      *
-     * @param key   键
-     * @param value 值
-     * @return 数据对象
+     * @param key
+     * @param value
+     * @return
      */
     @Override
     public AjaxResult put(String key, Object value) {

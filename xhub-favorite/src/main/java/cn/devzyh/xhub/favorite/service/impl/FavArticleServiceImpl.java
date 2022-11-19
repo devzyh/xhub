@@ -3,6 +3,7 @@ package cn.devzyh.xhub.favorite.service.impl;
 import cn.devzyh.xhub.favorite.domain.FavArticle;
 import cn.devzyh.xhub.favorite.mapper.FavArticleMapper;
 import cn.devzyh.xhub.favorite.service.IFavArticleService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +18,21 @@ import java.util.List;
  */
 @Service
 public class FavArticleServiceImpl implements IFavArticleService {
+
     @Autowired
     private FavArticleMapper favArticleMapper;
 
+    /**
+     * 查询文章列表
+     *
+     * @param favArticle 文章
+     * @return 文章
+     */
+    @Override
+    public List<FavArticle> selectFavArticleList(IPage<FavArticle> page, FavArticle favArticle) {
+        return favArticleMapper.selectFavArticleList(page, favArticle);
+    }
+    
     /**
      * 查询文章
      *
@@ -32,17 +45,6 @@ public class FavArticleServiceImpl implements IFavArticleService {
     }
 
     /**
-     * 查询文章列表
-     *
-     * @param favArticle 文章
-     * @return 文章
-     */
-    @Override
-    public List<FavArticle> selectFavArticleList(FavArticle favArticle) {
-        return favArticleMapper.selectFavArticleList(favArticle);
-    }
-
-    /**
      * 新增文章
      *
      * @param favArticle 文章
@@ -51,7 +53,7 @@ public class FavArticleServiceImpl implements IFavArticleService {
     @Override
     @Transactional
     public int insertFavArticle(FavArticle favArticle) {
-        favArticleMapper.insertFavArticle(favArticle);
+        favArticleMapper.insert(favArticle);
         favArticleMapper.insertFavArticleTags(favArticle);
         return 1;
     }
@@ -67,7 +69,7 @@ public class FavArticleServiceImpl implements IFavArticleService {
     public int updateFavArticle(FavArticle favArticle) {
         favArticleMapper.deleteFavArticleTagsById(favArticle.getId());
         favArticleMapper.insertFavArticleTags(favArticle);
-        return favArticleMapper.updateFavArticle(favArticle);
+        return favArticleMapper.updateById(favArticle);
     }
 
     /**
@@ -77,13 +79,8 @@ public class FavArticleServiceImpl implements IFavArticleService {
      * @return 结果
      */
     @Override
-    public int deleteFavArticleByIds(Long[] ids) {
-        int row = 0;
-        for (Long id : ids) {
-            deleteFavArticleById(id);
-            row++;
-        }
-        return row;
+    public int deleteFavArticleByIds(List<Long> ids) {
+        return favArticleMapper.deleteBatchIds(ids);
     }
 
     /**
@@ -96,6 +93,6 @@ public class FavArticleServiceImpl implements IFavArticleService {
     @Transactional
     public int deleteFavArticleById(Long id) {
         favArticleMapper.deleteFavArticleTagsById(id);
-        return favArticleMapper.deleteFavArticleById(id);
+        return favArticleMapper.deleteById(id);
     }
 }

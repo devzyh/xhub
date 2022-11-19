@@ -1,12 +1,17 @@
 package cn.devzyh.xhub.framework.domain.vo;
 
 import cn.devzyh.xhub.common.utils.StringUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 路由显示信息
  *
  * @author ruoyi
  */
+@Data
+@Accessors(chain = true)
 public class MetaVo {
     /**
      * 设置该路由在侧边栏和面包屑中展示的名字
@@ -56,36 +61,5 @@ public class MetaVo {
             this.link = link;
         }
     }
-
-    public boolean isNoCache() {
-        return noCache;
-    }
-
-    public void setNoCache(boolean noCache) {
-        this.noCache = noCache;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
+    
 }

@@ -8,7 +8,12 @@
         <result column="url" property="url"/>
         <result column="digest" property="digest"/>
         <result column="source" property="source"/>
-        <result column="created" property="created"/>
+        <result column="release_date" property="releaseDate"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
         <collection column="id" property="tags" ofType="Long" javaType="java.util.List"
                     select="selectArticleTags">
             <result column="tag_id"/>
@@ -21,75 +26,40 @@
                url,
                digest,
                source,
-               created
+               release_date,
+               create_by,
+               create_time
         from fav_article
     </sql>
-
-    <select id="selectFavArticleList" parameterType="FavArticle" resultMap="FavArticleResult">
+    
+    <select id="selectArticleTags" parameterType="Long" resultType="Long">
+        select tag_id
+        from fav_article_tag
+        where article_id = #{id}
+    </select>
+    
+    <select id="selectFavArticleList" resultMap="FavArticleResult">
         <include refid="selectToolArticleVo"/>
         <where>
-            <if test="title != null  and title != ''">and title LIKE CONCAT('%', #{title}, '%')</if>
-            <if test="url != null  and url != ''">and url = #{url}</if>
-            <if test="digest != null  and digest != ''">and digest LIKE CONCAT('%', #{digest}, '%')</if>
-            <if test="source != null  and source != ''">and source = #{source}</if>
-            <if test="created != null ">and created = #{created}</if>
-            <if test="tags != null ">
+            <if test="data.title != null  and data.title != ''">and title LIKE CONCAT('%', #{data.title}, '%')</if>
+            <if test="data.url != null  and data.url != ''">and url = #{data.url}</if>
+            <if test="data.digest != null  and data.digest != ''">and digest LIKE CONCAT('%', #{data.digest}, '%')</if>
+            <if test="data.source != null  and data.source != ''">and source = #{data.source}</if>
+            <if test="data.releaseDate != null ">and release_date = #{data.releaseDate}</if>
+            <if test="data.tags != null ">
                 and id in (select article_id from fav_article_tag where tag_id in
-                <foreach item="tag" collection="tags" open="(" separator="," close=")">
+                <foreach item="tag" collection="data.tags" open="(" separator="," close=")">
                     #{tag}
                 </foreach>)
             </if>
         </where>
-        order by created desc, id desc
+        order by release_date desc, id desc
     </select>
 
     <select id="selectFavArticleById" parameterType="Long" resultMap="FavArticleResult">
         <include refid="selectToolArticleVo"/>
         where fav_article.id = #{id}
     </select>
-
-    <insert id="insertFavArticle" parameterType="FavArticle" useGeneratedKeys="true" keyProperty="id">
-        insert into fav_article
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="title != null and title != ''">title,</if>
-            <if test="url != null and url != ''">url,</if>
-            <if test="digest != null">digest,</if>
-            <if test="source != null">source,</if>
-            <if test="created != null">created,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="title != null and title != ''">#{title},</if>
-            <if test="url != null and url != ''">#{url},</if>
-            <if test="digest != null">#{digest},</if>
-            <if test="source != null">#{source},</if>
-            <if test="created != null">#{created},</if>
-        </trim>
-    </insert>
-
-    <update id="updateFavArticle" parameterType="FavArticle">
-        update fav_article
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="title != null and title != ''">title = #{title},</if>
-            <if test="url != null and url != ''">url = #{url},</if>
-            <if test="digest != null">digest = #{digest},</if>
-            <if test="source != null">source = #{source},</if>
-            <if test="created != null">created = #{created},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteFavArticleById" parameterType="Long">
-        delete
-        from fav_article
-        where id = #{id}
-    </delete>
-
-    <delete id="deleteFavArticleByIds" parameterType="String">
-        delete from fav_article where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
 
     <delete id="deleteFavArticleTagsById" parameterType="Long">
         delete
@@ -104,9 +74,4 @@
         </foreach>
     </insert>
 
-    <select id="selectArticleTags" parameterType="Long" resultType="Long">
-        select tag_id
-        from fav_article_tag
-        where article_id = #{id}
-    </select>
 </mapper>

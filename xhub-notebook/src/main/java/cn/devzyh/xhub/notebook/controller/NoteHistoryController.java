@@ -8,6 +8,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,8 @@ public class NoteHistoryController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:history:list')")
     @GetMapping("/list")
     public TableDataInfo list(NoteHistory noteHistory) {
-        startPage();
-        List<NoteHistory> list = noteHistoryService.selectNoteHistoryList(noteHistory);
-        return getDataTable(list);
+        IPage<NoteHistory> page = getPage();
+        return getDataTable(page, noteHistoryService.selectNoteHistoryList(page, noteHistory));
     }
 
     /**
@@ -45,7 +45,7 @@ public class NoteHistoryController extends BaseController {
     @Log(title = "笔记历史", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteHistory noteHistory) {
-        List<NoteHistory> list = noteHistoryService.selectNoteHistoryList(noteHistory);
+        List<NoteHistory> list = noteHistoryService.selectNoteHistoryList(null, noteHistory);
         ExcelUtil<NoteHistory> util = new ExcelUtil<NoteHistory>(NoteHistory.class);
         util.exportExcel(response, list, "笔记历史数据");
     }
@@ -85,7 +85,7 @@ public class NoteHistoryController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:history:remove')")
     @Log(title = "笔记历史", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable List<Long> ids) {
         return toAjax(noteHistoryService.deleteNoteHistoryByIds(ids));
     }
 }

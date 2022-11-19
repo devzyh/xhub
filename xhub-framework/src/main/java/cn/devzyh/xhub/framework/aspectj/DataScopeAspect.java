@@ -45,11 +45,6 @@ public class DataScopeAspect {
      */
     public static final String DATA_SCOPE_SELF = "5";
 
-    /**
-     * 数据权限过滤关键字
-     */
-    public static final String DATA_SCOPE = "dataScope";
-
     @Before("@annotation(controllerDataScope)")
     public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable {
         clearDataScope(point);
@@ -108,7 +103,7 @@ public class DataScopeAspect {
             Object params = joinPoint.getArgs()[0];
             if (StringUtils.isNotNull(params) && params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+                baseEntity.setDataScope(" AND (" + sqlString.substring(4) + ")");
             }
         }
     }
@@ -120,7 +115,7 @@ public class DataScopeAspect {
         Object params = joinPoint.getArgs()[0];
         if (StringUtils.isNotNull(params) && params instanceof BaseEntity) {
             BaseEntity baseEntity = (BaseEntity) params;
-            baseEntity.getParams().put(DATA_SCOPE, "");
+            baseEntity.setDataScope("");
         }
     }
 }

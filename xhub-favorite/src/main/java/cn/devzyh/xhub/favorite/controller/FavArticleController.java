@@ -8,6 +8,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.favorite.domain.FavArticle;
 import cn.devzyh.xhub.favorite.service.IFavArticleService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/fav/article")
 public class FavArticleController extends BaseController {
+    
     @Autowired
     private IFavArticleService favArticleService;
 
@@ -33,9 +35,8 @@ public class FavArticleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:article:list')")
     @GetMapping("/list")
     public TableDataInfo list(FavArticle favArticle) {
-        startPage();
-        List<FavArticle> list = favArticleService.selectFavArticleList(favArticle);
-        return getDataTable(list);
+        IPage<FavArticle> page = getPage();
+        return getDataTable(page, favArticleService.selectFavArticleList(page, favArticle));
     }
 
     /**
@@ -45,7 +46,7 @@ public class FavArticleController extends BaseController {
     @Log(title = "文章", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, FavArticle favArticle) {
-        List<FavArticle> list = favArticleService.selectFavArticleList(favArticle);
+        List<FavArticle> list = favArticleService.selectFavArticleList(null, favArticle);
         ExcelUtil<FavArticle> util = new ExcelUtil<FavArticle>(FavArticle.class);
         util.exportExcel(response, list, "文章数据");
     }
@@ -85,7 +86,7 @@ public class FavArticleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:article:remove')")
     @Log(title = "文章", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable List<Long> ids) {
         return toAjax(favArticleService.deleteFavArticleByIds(ids));
     }
 }

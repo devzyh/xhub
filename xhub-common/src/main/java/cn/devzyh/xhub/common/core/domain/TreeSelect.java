@@ -3,6 +3,8 @@ package cn.devzyh.xhub.common.core.domain;
 import cn.devzyh.xhub.common.core.domain.entity.SysDept;
 import cn.devzyh.xhub.common.core.domain.entity.SysMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +15,10 @@ import java.util.stream.Collectors;
  *
  * @author ruoyi
  */
+@Data
+@Accessors(chain = true)
 public class TreeSelect implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -47,28 +52,5 @@ public class TreeSelect implements Serializable {
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public List<TreeSelect> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<TreeSelect> children) {
-        this.children = children;
-    }
+    
 }

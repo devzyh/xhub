@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.notebook.service;
 
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -11,21 +12,22 @@ import java.util.List;
  * @date 2022-05-18
  */
 public interface INoteHistoryService {
-    /**
-     * 查询笔记历史
-     *
-     * @param id 笔记历史主键
-     * @return 笔记历史
-     */
-    public NoteHistory selectNoteHistoryById(Long id);
-
+    
     /**
      * 查询笔记历史列表
      *
      * @param noteHistory 笔记历史
      * @return 笔记历史集合
      */
-    public List<NoteHistory> selectNoteHistoryList(NoteHistory noteHistory);
+    List<NoteHistory> selectNoteHistoryList(IPage<NoteHistory> page, NoteHistory noteHistory);
+    
+    /**
+     * 查询笔记历史
+     *
+     * @param id 笔记历史主键
+     * @return 笔记历史
+     */
+    NoteHistory selectNoteHistoryById(Long id);
 
     /**
      * 新增笔记历史
@@ -33,7 +35,7 @@ public interface INoteHistoryService {
      * @param noteHistory 笔记历史
      * @return 结果
      */
-    public int insertNoteHistory(NoteHistory noteHistory);
+    int insertNoteHistory(NoteHistory noteHistory);
 
     /**
      * 修改笔记历史
@@ -41,7 +43,7 @@ public interface INoteHistoryService {
      * @param noteHistory 笔记历史
      * @return 结果
      */
-    public int updateNoteHistory(NoteHistory noteHistory);
+    int updateNoteHistory(NoteHistory noteHistory);
 
     /**
      * 批量删除笔记历史
@@ -49,7 +51,7 @@ public interface INoteHistoryService {
      * @param ids 需要删除的笔记历史主键集合
      * @return 结果
      */
-    public int deleteNoteHistoryByIds(Long[] ids);
+    int deleteNoteHistoryByIds(List<Long> ids);
 
     /**
      * 删除笔记历史信息
@@ -57,5 +59,5 @@ public interface INoteHistoryService {
      * @param id 笔记历史主键
      * @return 结果
      */
-    public int deleteNoteHistoryById(Long id);
+    int deleteNoteHistoryById(Long id);
 }

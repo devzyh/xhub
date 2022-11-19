@@ -83,7 +83,7 @@ public class NoteCatalogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:catalog:remove')")
     @Log(title = "笔记目录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable List<Long> ids) {
         return toAjax(noteCatalogService.deleteNoteCatalogByIds(ids));
     }
 

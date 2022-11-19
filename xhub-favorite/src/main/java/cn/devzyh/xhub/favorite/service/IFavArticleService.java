@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.favorite.service;
 
 import cn.devzyh.xhub.favorite.domain.FavArticle;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -11,13 +12,6 @@ import java.util.List;
  * @date 2022-05-08
  */
 public interface IFavArticleService {
-    /**
-     * 查询文章
-     *
-     * @param id 文章主键
-     * @return 文章
-     */
-    public FavArticle selectFavArticleById(Long id);
 
     /**
      * 查询文章列表
@@ -25,7 +19,15 @@ public interface IFavArticleService {
      * @param favArticle 文章
      * @return 文章集合
      */
-    public List<FavArticle> selectFavArticleList(FavArticle favArticle);
+    List<FavArticle> selectFavArticleList(IPage<FavArticle> page, FavArticle favArticle);
+
+    /**
+     * 查询文章
+     *
+     * @param id 文章主键
+     * @return 文章
+     */
+    FavArticle selectFavArticleById(Long id);
 
     /**
      * 新增文章
@@ -33,7 +35,7 @@ public interface IFavArticleService {
      * @param favArticle 文章
      * @return 结果
      */
-    public int insertFavArticle(FavArticle favArticle);
+    int insertFavArticle(FavArticle favArticle);
 
     /**
      * 修改文章
@@ -41,7 +43,7 @@ public interface IFavArticleService {
      * @param favArticle 文章
      * @return 结果
      */
-    public int updateFavArticle(FavArticle favArticle);
+    int updateFavArticle(FavArticle favArticle);
 
     /**
      * 批量删除文章
@@ -49,7 +51,7 @@ public interface IFavArticleService {
      * @param ids 需要删除的文章主键集合
      * @return 结果
      */
-    public int deleteFavArticleByIds(Long[] ids);
+    int deleteFavArticleByIds(List<Long> ids);
 
     /**
      * 删除文章信息
@@ -57,5 +59,5 @@ public interface IFavArticleService {
      * @param id 文章主键
      * @return 结果
      */
-    public int deleteFavArticleById(Long id);
+    int deleteFavArticleById(Long id);
 }

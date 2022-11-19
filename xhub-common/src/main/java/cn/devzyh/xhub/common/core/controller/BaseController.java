@@ -7,12 +7,11 @@ import cn.devzyh.xhub.common.core.page.PageDomain;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.core.page.TableSupport;
 import cn.devzyh.xhub.common.utils.DateUtils;
-import cn.devzyh.xhub.common.utils.PageUtils;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
-import cn.devzyh.xhub.common.utils.sql.SqlUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -46,39 +45,41 @@ public class BaseController {
 
     /**
      * 设置请求分页数据
+     *
+     * @return
      */
-    protected void startPage() {
-        PageUtils.startPage();
-    }
-
-    /**
-     * 设置请求排序数据
-     */
-    protected void startOrderBy() {
+    protected <T> Page<T> getPage() {
         PageDomain pageDomain = TableSupport.buildPageRequest();
-        if (StringUtils.isNotEmpty(pageDomain.getOrderBy())) {
-            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
-            PageHelper.orderBy(orderBy);
+        Page<T> page = new Page<>();
+        page.setCurrent(pageDomain.getPageNum());
+        page.setSize(pageDomain.getPageSize());
+        OrderItem item = pageDomain.getOrderItem();
+        if (item != null) {
+            page.addOrder(item);
         }
-    }
-
-    /**
-     * 清理分页的线程变量
-     */
-    protected void clearPage() {
-        PageUtils.clearPage();
+        return page;
     }
 
     /**
      * 响应请求分页数据
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected TableDataInfo getDataTable(List<?> list) {
+    protected TableDataInfo getDataTable(IPage<?> page) {
+        return getDataTable(page, null);
+    }
+
+    /**
+     * 响应请求分页数据
+     */
+    protected TableDataInfo getDataTable(IPage<?> page, List<?> records) {
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
+        if (records == null) {
+            rspData.setRows(page.getRecords());
+        } else {
+            rspData.setRows(records);
+        }
         rspData.setMsg("查询成功");
-        rspData.setRows(list);
-        rspData.setTotal(new PageInfo(list).getTotal());
+        rspData.setTotal(page.getTotal());
         return rspData;
     }
 

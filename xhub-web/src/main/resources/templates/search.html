@@ -44,15 +44,15 @@
 
         <div class="pager" th:if="${page != null}">
             <div class="box">
-                <a class="prev" th:if="${page.hasPreviousPage}"
-                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page='+ page.prePage}">
+                <a class="prev" th:if="${page.hasPrevious()}"
+                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page='+ (page.current-1)}">
                     <span><i class="fas czs-angle-left-l"></i></span>
                 </a>
                 <div class="nav_pagenum">
-                    <span th:text="${page.pageNum + ' / ' + page.pages}"></span>
+                    <span th:text="${page.current + ' / ' + page.getPages()}"></span>
                 </div>
-                <a class="next" th:if="${page.hasNextPage}"
-                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page=' + page.nextPage}">
+                <a class="next" th:if="${page.hasNext()}"
+                   th:href="${'/' + data.searchType + '?key=' + data.searchKey + '&page=' + (page.current+1)}">
                     <span><i class="fas czs-angle-right-l"></i></span>
                 </a>
             </div>

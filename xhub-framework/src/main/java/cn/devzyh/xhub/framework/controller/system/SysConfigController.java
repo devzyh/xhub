@@ -9,6 +9,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysConfig;
 import cn.devzyh.xhub.framework.service.ISysConfigService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -34,16 +35,15 @@ public class SysConfigController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:config:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysConfig config) {
-        startPage();
-        List<SysConfig> list = configService.selectConfigList(config);
-        return getDataTable(list);
+        IPage<SysConfig> page = getPage();
+        return getDataTable(page, configService.selectConfigList(page, config));
     }
 
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:config:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysConfig config) {
-        List<SysConfig> list = configService.selectConfigList(config);
+        List<SysConfig> list = configService.selectConfigList(null, config);
         ExcelUtil<SysConfig> util = new ExcelUtil<SysConfig>(SysConfig.class);
         util.exportExcel(response, list, "参数数据");
     }

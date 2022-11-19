@@ -16,6 +16,7 @@ import cn.devzyh.xhub.framework.service.ISysRoleService;
 import cn.devzyh.xhub.framework.service.ISysUserService;
 import cn.devzyh.xhub.framework.web.service.SysPermissionService;
 import cn.devzyh.xhub.framework.web.service.TokenService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -47,16 +48,15 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysRole role) {
-        startPage();
-        List<SysRole> list = roleService.selectRoleList(role);
-        return getDataTable(list);
+        IPage<SysRole> page = getPage();
+        return getDataTable(page, roleService.selectRoleList(page, role));
     }
 
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:role:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysRole role) {
-        List<SysRole> list = roleService.selectRoleList(role);
+        List<SysRole> list = roleService.selectRoleList(null, role);
         ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
         util.exportExcel(response, list, "角色数据");
     }
@@ -148,7 +148,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:remove')")
     @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{roleIds}")
-    public AjaxResult remove(@PathVariable Long[] roleIds) {
+    public AjaxResult remove(@PathVariable List<Long> roleIds) {
         return toAjax(roleService.deleteRoleByIds(roleIds));
     }
 
@@ -167,9 +167,8 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/allocatedList")
     public TableDataInfo allocatedList(SysUser user) {
-        startPage();
-        List<SysUser> list = userService.selectAllocatedList(user);
-        return getDataTable(list);
+        IPage<SysUser> page = getPage();
+        return getDataTable(page, userService.selectAllocatedList(page, user));
     }
 
     /**
@@ -178,9 +177,8 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/unallocatedList")
     public TableDataInfo unallocatedList(SysUser user) {
-        startPage();
-        List<SysUser> list = userService.selectUnallocatedList(user);
-        return getDataTable(list);
+        IPage<SysUser> page = getPage();
+        return getDataTable(page, userService.selectUnallocatedList(page, user));
     }
 
     /**
@@ -199,7 +197,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/cancelAll")
-    public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds) {
+    public AjaxResult cancelAuthUserAll(Long roleId, List<Long> userIds) {
         return toAjax(roleService.deleteAuthUsers(roleId, userIds));
     }
 

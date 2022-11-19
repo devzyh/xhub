@@ -11,6 +11,9 @@ import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.framework.domain.SysConfig;
 import cn.devzyh.xhub.framework.mapper.SysConfigMapper;
 import cn.devzyh.xhub.framework.service.ISysConfigService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,9 +51,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     @DataSource(DataSourceType.MASTER)
     public SysConfig selectConfigById(Long configId) {
-        SysConfig config = new SysConfig();
-        config.setConfigId(configId);
-        return configMapper.selectConfig(config);
+        return configMapper.selectById(configId);
     }
 
     /**
@@ -67,7 +68,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         }
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
-        SysConfig retConfig = configMapper.selectConfig(config);
+        SysConfig retConfig = configMapper.selectOne(new QueryWrapper<SysConfig>().eq("config_key", configKey));
         if (StringUtils.isNotNull(retConfig)) {
             redisCache.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
@@ -75,11 +76,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
         return StringUtils.EMPTY;
     }
 
-    /**
-     * 获取验证码开关
-     *
-     * @return true开启，false关闭
-     */
     @Override
     public boolean selectCaptchaOnOff() {
         String captchaOnOff = selectConfigByKey("sys.account.captchaOnOff");
@@ -96,8 +92,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 参数配置集合
      */
     @Override
-    public List<SysConfig> selectConfigList(SysConfig config) {
-        return configMapper.selectConfigList(config);
+    public List<SysConfig> selectConfigList(IPage<SysConfig> page, SysConfig config) {
+        return configMapper.selectConfigList(page, config);
     }
 
     /**
@@ -108,7 +104,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int insertConfig(SysConfig config) {
-        int row = configMapper.insertConfig(config);
+        int row = configMapper.insert(config);
         if (row > 0) {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -123,7 +119,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int updateConfig(SysConfig config) {
-        int row = configMapper.updateConfig(config);
+        int row = configMapper.updateById(config);
         if (row > 0) {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -142,7 +138,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
             if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
                 throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
-            configMapper.deleteConfigById(configId);
+            configMapper.deleteById(configId);
             redisCache.deleteObject(getCacheKey(config.getConfigKey()));
         }
     }
@@ -152,7 +148,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public void loadingConfigCache() {
-        List<SysConfig> configsList = configMapper.selectConfigList(new SysConfig());
+        List<SysConfig> configsList = configMapper.selectConfigList(null, new SysConfig());
         for (SysConfig config : configsList) {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -185,11 +181,10 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
         Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        QueryWrapper<SysConfig> qw = Wrappers.query(config);
+        qw.eq("config_key", config.getConfigKey());
+        qw.ne("config_id", configId);
+        return configMapper.exists(qw) ? UserConstants.NOT_UNIQUE : UserConstants.UNIQUE;
     }
 
     /**

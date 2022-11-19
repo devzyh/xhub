@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.common.core.page;
 
 import cn.devzyh.xhub.common.utils.StringUtils;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 
 /**
  * 分页数据
@@ -38,6 +39,13 @@ public class PageDomain {
             return "";
         }
         return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;
+    }
+
+    public OrderItem getOrderItem() {
+        if (StringUtils.isEmpty(orderByColumn)) {
+            return null;
+        }
+        return new OrderItem(StringUtils.toUnderScoreCase(orderByColumn), isAsc.equalsIgnoreCase("asc"));
     }
 
     public Integer getPageNum() {

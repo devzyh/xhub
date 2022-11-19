@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.xhub.framework.mapper.SysDeptMapper">
 
-    <resultMap type="SysDept" id="SysDeptResult">
+    <resultMap type="cn.devzyh.xhub.common.core.domain.entity.SysDept" id="SysDeptResult">
         <id property="deptId" column="dept_id"/>
         <result property="parentId" column="parent_id"/>
         <result property="ancestors" column="ancestors"/>
@@ -38,7 +38,8 @@
         from sys_dept d
     </sql>
 
-    <select id="selectDeptList" parameterType="SysDept" resultMap="SysDeptResult">
+    <select id="selectDeptList" parameterType="cn.devzyh.xhub.common.core.domain.entity.SysDept"
+            resultMap="SysDeptResult">
         <include refid="selectDeptVo"/>
         where d.del_flag = '0'
         <if test="deptId != null and deptId != 0">
@@ -70,25 +71,6 @@
         order by d.parent_id, d.order_num
     </select>
 
-    <select id="selectDeptById" parameterType="Long" resultMap="SysDeptResult">
-        <include refid="selectDeptVo"/>
-        where dept_id = #{deptId}
-    </select>
-
-    <select id="checkDeptExistUser" parameterType="Long" resultType="int">
-        select count(1)
-        from sys_user
-        where dept_id = #{deptId}
-          and del_flag = '0'
-    </select>
-
-    <select id="hasChildByDeptId" parameterType="Long" resultType="int">
-        select count(1)
-        from sys_dept
-        where del_flag = '0'
-          and parent_id = #{deptId} limit 1
-    </select>
-
     <select id="selectChildrenDeptById" parameterType="Long" resultMap="SysDeptResult">
         select *
         from sys_dept
@@ -102,56 +84,6 @@
           and del_flag = '0'
           and find_in_set(#{deptId}, ancestors)
     </select>
-
-    <select id="checkDeptNameUnique" resultMap="SysDeptResult">
-        <include refid="selectDeptVo"/>
-        where dept_name=#{deptName} and parent_id = #{parentId} limit 1
-    </select>
-
-    <insert id="insertDept" parameterType="SysDept">
-        insert into sys_dept(
-        <if test="deptId != null and deptId != 0">dept_id,</if>
-        <if test="parentId != null and parentId != 0">parent_id,</if>
-        <if test="deptName != null and deptName != ''">dept_name,</if>
-        <if test="ancestors != null and ancestors != ''">ancestors,</if>
-        <if test="orderNum != null and orderNum != ''">order_num,</if>
-        <if test="leader != null and leader != ''">leader,</if>
-        <if test="phone != null and phone != ''">phone,</if>
-        <if test="email != null and email != ''">email,</if>
-        <if test="status != null">status,</if>
-        <if test="createBy != null and createBy != ''">create_by,</if>
-        create_time
-        )values(
-        <if test="deptId != null and deptId != 0">#{deptId},</if>
-        <if test="parentId != null and parentId != 0">#{parentId},</if>
-        <if test="deptName != null and deptName != ''">#{deptName},</if>
-        <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
-        <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
-        <if test="leader != null and leader != ''">#{leader},</if>
-        <if test="phone != null and phone != ''">#{phone},</if>
-        <if test="email != null and email != ''">#{email},</if>
-        <if test="status != null">#{status},</if>
-        <if test="createBy != null and createBy != ''">#{createBy},</if>
-        sysdate()
-        )
-    </insert>
-
-    <update id="updateDept" parameterType="SysDept">
-        update sys_dept
-        <set>
-            <if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
-            <if test="deptName != null and deptName != ''">dept_name = #{deptName},</if>
-            <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
-            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
-            <if test="leader != null">leader = #{leader},</if>
-            <if test="phone != null">phone = #{phone},</if>
-            <if test="email != null">email = #{email},</if>
-            <if test="status != null and status != ''">status = #{status},</if>
-            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-            update_time = sysdate()
-        </set>
-        where dept_id = #{deptId}
-    </update>
 
     <update id="updateDeptChildren" parameterType="java.util.List">
         update sys_dept set ancestors =
@@ -173,10 +105,4 @@
         </foreach>
     </update>
 
-    <delete id="deleteDeptById" parameterType="Long">
-        update sys_dept
-        set del_flag = '2'
-        where dept_id = #{deptId}
-    </delete>
-
-</mapper>
+</mapper> 

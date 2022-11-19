@@ -2,8 +2,14 @@ package cn.devzyh.xhub.notebook.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 笔记历史对象 note_history
@@ -11,12 +17,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author devzyh
  * @date 2022-05-18
  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("note_history")
 public class NoteHistory extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -49,69 +63,5 @@ public class NoteHistory extends BaseEntity {
      */
     @Excel(name = "排序")
     private Long rank;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setContentId(Long contentId) {
-        this.contentId = contentId;
-    }
-
-    public Long getContentId() {
-        return contentId;
-    }
-
-    public Long getCatalogId() {
-        return catalogId;
-    }
-
-    public void setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setRank(Long rank) {
-        this.rank = rank;
-    }
-
-    public Long getRank() {
-        return rank;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("contentId", getContentId())
-                .append("catalogId", getCatalogId())
-                .append("title", getTitle())
-                .append("content", getContent())
-                .append("rank", getRank())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
-    }
+    
 }

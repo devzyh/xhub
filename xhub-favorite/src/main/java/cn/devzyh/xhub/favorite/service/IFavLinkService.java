@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.favorite.service;
 
 import cn.devzyh.xhub.favorite.domain.FavLink;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -10,20 +11,20 @@ import java.util.List;
 public interface IFavLinkService {
 
     /**
-     * 查询主页链接
-     *
-     * @param id 主页链接主键
-     * @return 主页链接
-     */
-    public FavLink selectFavLinkById(Long id);
-
-    /**
      * 查询主页链接列表
      *
      * @param favLink 主页链接
      * @return 主页链接集合
      */
-    public List<FavLink> selectFavLinkList(FavLink favLink);
+    List<FavLink> selectFavLinkList(IPage<FavLink> page, FavLink favLink);
+
+    /**
+     * 查询主页链接
+     *
+     * @param id 主页链接主键
+     * @return 主页链接
+     */
+    FavLink selectFavLinkById(Long id);
 
     /**
      * 新增主页链接
@@ -31,7 +32,7 @@ public interface IFavLinkService {
      * @param favLink 主页链接
      * @return 结果
      */
-    public int insertFavLink(FavLink favLink);
+    int insertFavLink(FavLink favLink);
 
     /**
      * 修改主页链接
@@ -39,7 +40,7 @@ public interface IFavLinkService {
      * @param favLink 主页链接
      * @return 结果
      */
-    public int updateFavLink(FavLink favLink);
+    int updateFavLink(FavLink favLink);
 
     /**
      * 批量删除主页链接
@@ -47,7 +48,7 @@ public interface IFavLinkService {
      * @param ids 需要删除的主页链接主键集合
      * @return 结果
      */
-    public int deleteFavLinkByIds(Long[] ids);
+    int deleteFavLinkByIds(List<Long> ids);
 
     /**
      * 删除主页链接信息
@@ -55,11 +56,11 @@ public interface IFavLinkService {
      * @param id 主页链接主键
      * @return 结果
      */
-    public int deleteFavLinkById(Long id);
+    int deleteFavLinkById(Long id);
 
     /**
      * 保存首页访问量数据到库
      */
-    public void saveLinkVisitsToDb();
+    void saveLinkVisitsToDb();
 
 }

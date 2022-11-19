@@ -1,22 +1,35 @@
 package cn.devzyh.xhub.framework.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
-import cn.devzyh.xhub.common.annotation.Excel.ColumnType;
-import cn.devzyh.xhub.common.core.domain.BaseEntity;
+import cn.devzyh.xhub.common.core.domain.RootEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 系统访问记录表 sys_login_log
  */
-public class SysLoginLog extends BaseEntity {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("sys_login_log")
+public class SysLoginLog extends RootEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
-    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+    @Excel(name = "序号", cellType = Excel.ColumnType.NUMERIC)
+    @TableId(type = IdType.AUTO)
     private Long infoId;
 
     /**
@@ -26,15 +39,15 @@ public class SysLoginLog extends BaseEntity {
     private String userName;
 
     /**
-     * 登录状态 0成功 1失败
+     * 状态 0成功 1失败
      */
-    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
+    @Excel(name = "状态", readConverterExp = "0=成功,1=失败")
     private String status;
 
     /**
-     * 登录IP地址
+     * 地址
      */
-    @Excel(name = "登录地址")
+    @Excel(name = "地址")
     private String ipaddr;
 
     /**
@@ -56,9 +69,9 @@ public class SysLoginLog extends BaseEntity {
     private String os;
 
     /**
-     * 提示消息
+     * 描述
      */
-    @Excel(name = "提示消息")
+    @Excel(name = "描述")
     private String msg;
 
     /**
@@ -68,75 +81,4 @@ public class SysLoginLog extends BaseEntity {
     @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 
-    public Long getInfoId() {
-        return infoId;
-    }
-
-    public void setInfoId(Long infoId) {
-        this.infoId = infoId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getIpaddr() {
-        return ipaddr;
-    }
-
-    public void setIpaddr(String ipaddr) {
-        this.ipaddr = ipaddr;
-    }
-
-    public String getLoginLocation() {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation) {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser() {
-        return browser;
-    }
-
-    public void setBrowser(String browser) {
-        this.browser = browser;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Date getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Date loginTime) {
-        this.loginTime = loginTime;
-    }
 }

@@ -4,6 +4,8 @@ import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.DictUtils;
 import cn.devzyh.xhub.framework.mapper.SysDictDataMapper;
 import cn.devzyh.xhub.framework.service.ISysDictDataService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +13,10 @@ import java.util.List;
 
 /**
  * 字典 业务层处理
- *
- * @author ruoyi
  */
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService {
+
     @Autowired
     private SysDictDataMapper dictDataMapper;
 
@@ -26,8 +27,23 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      * @return 字典数据集合信息
      */
     @Override
-    public List<SysDictData> selectDictDataList(SysDictData dictData) {
-        return dictDataMapper.selectDictDataList(dictData);
+    public List<SysDictData> selectDictDataList(IPage<SysDictData> page, SysDictData dictData) {
+        return dictDataMapper.selectDictDataList(page, dictData);
+    }
+
+    /**
+     * 根据条件分页查询字典数据
+     *
+     * @param dictType 字典类型
+     * @return 字典数据集合信息
+     */
+    @Override
+    public List<SysDictData> selectDictDataByType(String dictType) {
+        QueryWrapper<SysDictData> qw = new QueryWrapper<>();
+        qw.eq("status", "0");
+        qw.eq("dict_type", dictType);
+        qw.orderByAsc("dict_sort");
+        return dictDataMapper.selectList(qw);
     }
 
     /**
@@ -39,7 +55,15 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      */
     @Override
     public String selectDictLabel(String dictType, String dictValue) {
-        return dictDataMapper.selectDictLabel(dictType, dictValue);
+        QueryWrapper<SysDictData> qw = new QueryWrapper<>();
+        qw.select("dict_label");
+        qw.eq("dict_type", dictType);
+        qw.eq("dict_value", dictValue);
+        SysDictData data = dictDataMapper.selectOne(qw);
+        if (data == null) {
+            return null;
+        }
+        return data.getDictLabel();
     }
 
     /**
@@ -50,7 +74,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      */
     @Override
     public SysDictData selectDictDataById(Long dictCode) {
-        return dictDataMapper.selectDictDataById(dictCode);
+        return dictDataMapper.selectById(dictCode);
     }
 
     /**
@@ -62,8 +86,8 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     public void deleteDictDataByIds(Long[] dictCodes) {
         for (Long dictCode : dictCodes) {
             SysDictData data = selectDictDataById(dictCode);
-            dictDataMapper.deleteDictDataById(dictCode);
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            dictDataMapper.deleteById(dictCode);
+            List<SysDictData> dictDatas = selectDictDataByType(data.getDictType());
             DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
     }
@@ -76,9 +100,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      */
     @Override
     public int insertDictData(SysDictData data) {
-        int row = dictDataMapper.insertDictData(data);
+        int row = dictDataMapper.insert(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            List<SysDictData> dictDatas = selectDictDataByType(data.getDictType());
             DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
         return row;
@@ -92,9 +116,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      */
     @Override
     public int updateDictData(SysDictData data) {
-        int row = dictDataMapper.updateDictData(data);
+        int row = dictDataMapper.updateById(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            List<SysDictData> dictDatas = selectDictDataByType(data.getDictType());
             DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
         return row;

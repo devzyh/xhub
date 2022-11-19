@@ -2,6 +2,11 @@ package cn.devzyh.xhub.notebook.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,12 +16,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author devzyh
  * @date 2022-05-18
  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("note_content")
 public class NoteContent extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -47,70 +60,7 @@ public class NoteContent extends BaseEntity {
      * 删除标记
      */
     @Excel(name = "删除标记")
+    @TableLogic(value = "0", delval = "2")
     private Integer deleteFlag;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setCatalogId(Long catalogId) {
-        this.catalogId = catalogId;
-    }
-
-    public Long getCatalogId() {
-        return catalogId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setRank(Long rank) {
-        this.rank = rank;
-    }
-
-    public Long getRank() {
-        return rank;
-    }
-
-    public void setDeleteFlag(Integer deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
-
-    public Integer getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("catalogId", getCatalogId())
-                .append("title", getTitle())
-                .append("content", getContent())
-                .append("rank", getRank())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .append("deleteFlag", getDeleteFlag())
-                .toString();
-    }
 }

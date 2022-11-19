@@ -1,10 +1,9 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
-import cn.devzyh.xhub.common.utils.DateUtils;
-import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.mapper.NoteShareMapper;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,20 @@ import java.util.List;
  */
 @Service
 public class NoteShareServiceImpl implements INoteShareService {
+    
     @Autowired
     private NoteShareMapper noteShareMapper;
+
+    /**
+     * 查询笔记分享列表
+     *
+     * @param noteShare 笔记分享
+     * @return 笔记分享
+     */
+    @Override
+    public List<NoteShare> selectNoteShareList(IPage<NoteShare> page, NoteShare noteShare) {
+        return noteShareMapper.selectNoteShareList(page, noteShare);
+    }
 
     /**
      * 查询笔记分享
@@ -33,17 +44,6 @@ public class NoteShareServiceImpl implements INoteShareService {
     }
 
     /**
-     * 查询笔记分享列表
-     *
-     * @param noteShare 笔记分享
-     * @return 笔记分享
-     */
-    @Override
-    public List<NoteShare> selectNoteShareList(NoteShare noteShare) {
-        return noteShareMapper.selectNoteShareList(noteShare);
-    }
-
-    /**
      * 新增笔记分享
      *
      * @param noteShare 笔记分享
@@ -53,14 +53,9 @@ public class NoteShareServiceImpl implements INoteShareService {
     public int saveNoteShare(NoteShare noteShare) {
         NoteShare localShare = noteShareMapper.selectNoteShareByContentId(noteShare.getContentId());
         if (localShare == null) {
-            noteShare.setCreateTime(DateUtils.getNowDate());
-            noteShare.setUpdateTime(DateUtils.getNowDate());
-            noteShare.setCreateBy(SecurityUtils.getUsername());
-            return noteShareMapper.insertNoteShare(noteShare);
+            return noteShareMapper.insert(noteShare);
         } else {
-            noteShare.setUpdateTime(DateUtils.getNowDate());
-            noteShare.setUpdateBy(SecurityUtils.getUsername());
-            return noteShareMapper.updateNoteShare(noteShare);
+            return noteShareMapper.updateById(noteShare);
         }
     }
 
@@ -72,9 +67,7 @@ public class NoteShareServiceImpl implements INoteShareService {
      */
     @Override
     public int updateNoteShare(NoteShare noteShare) {
-        noteShare.setUpdateTime(DateUtils.getNowDate());
-        noteShare.setUpdateBy(SecurityUtils.getUsername());
-        return noteShareMapper.updateNoteShare(noteShare);
+        return noteShareMapper.updateById(noteShare);
     }
 
     /**
@@ -84,8 +77,8 @@ public class NoteShareServiceImpl implements INoteShareService {
      * @return 结果
      */
     @Override
-    public int deleteNoteShareByContentIds(Long[] contentIds) {
-        return noteShareMapper.deleteNoteShareByContentIds(contentIds);
+    public int deleteNoteShareByContentIds(List<Long> contentIds) {
+        return noteShareMapper.deleteBatchIds(contentIds);
     }
 
     /**
@@ -96,6 +89,6 @@ public class NoteShareServiceImpl implements INoteShareService {
      */
     @Override
     public int deleteNoteShareByContentId(Long contentId) {
-        return noteShareMapper.deleteNoteShareByContentId(contentId);
+        return noteShareMapper.deleteById(contentId);
     }
 }

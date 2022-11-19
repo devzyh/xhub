@@ -1,44 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.devzyh.xhub.favorite.mapper.FavLinkMapper">
-
-    <select id="selectAll" resultType="FavLink">
-        SELECT id,
-               item,
-               name,
-               href,
-               remark,
-               icon,
-               seq,
-               target
-        FROM fav_link
-        ORDER BY item, seq
-    </select>
-
-    <select id="search" parameterType="string" resultType="FavLink">
-        SELECT id,
-               item,
-               name,
-               href,
-               remark,
-               icon,
-               seq,
-               target
-        FROM fav_link
-        WHERE name LIKE CONCAT('%', #{key}, '%')
-        ORDER BY item, seq
-    </select>
-
+    
     <resultMap type="FavLink" id="FavLinkResult">
         <result property="id" column="id"/>
         <result property="item" column="item"/>
         <result property="name" column="name"/>
         <result property="href" column="href"/>
-        <result property="remark" column="remark"/>
         <result property="icon" column="icon"/>
         <result property="seq" column="seq"/>
         <result property="target" column="target"/>
         <result property="visits" column="visits"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectToolFavoriteVo">
@@ -50,78 +27,23 @@
                icon,
                seq,
                target,
-               visits
+               visits,
+               create_by,
+               create_time
         from fav_link
     </sql>
 
-    <select id="selectFavLinkList" parameterType="FavLink" resultMap="FavLinkResult">
+    <select id="selectFavLinkList" resultMap="FavLinkResult">
         <include refid="selectToolFavoriteVo"/>
         <where>
-            <if test="item != null  and item != ''">and item = #{item}</if>
-            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
-            <if test="href != null  and href != ''">and href = #{href}</if>
-            <if test="icon != null  and icon != ''">and icon = #{icon}</if>
-            <if test="seq != null ">and seq = #{seq}</if>
-            <if test="target != null  and target != ''">and target = #{target}</if>
+            <if test="data.item != null  and data.item != ''">and item = #{data.item}</if>
+            <if test="data.name != null  and data.name != ''">and name like concat('%', #{data.name}, '%')</if>
+            <if test="data.href != null  and data.href != ''">and href = #{data.href}</if>
+            <if test="data.icon != null  and data.icon != ''">and icon = #{data.icon}</if>
+            <if test="data.seq != null ">and seq = #{data.seq}</if>
+            <if test="data.target != null  and data.target != ''">and target = #{data.target}</if>
         </where>
         order by item, seq
     </select>
-
-    <select id="selectFavLinkById" parameterType="Long" resultMap="FavLinkResult">
-        <include refid="selectToolFavoriteVo"/>
-        where id = #{id}
-    </select>
-
-    <insert id="insertFavLink" parameterType="FavLink" useGeneratedKeys="true" keyProperty="id">
-        insert into fav_link
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="item != null and item != ''">item,</if>
-            <if test="name != null and name != ''">name,</if>
-            <if test="href != null and href != ''">href,</if>
-            <if test="remark != null">remark,</if>
-            <if test="icon != null">icon,</if>
-            <if test="seq != null">seq,</if>
-            <if test="target != null and target != ''">target,</if>
-            <if test="visits != null">visits,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="item != null and item != ''">#{item},</if>
-            <if test="name != null and name != ''">#{name},</if>
-            <if test="href != null and href != ''">#{href},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="icon != null">#{icon},</if>
-            <if test="seq != null">#{seq},</if>
-            <if test="target != null and target != ''">#{target},</if>
-            <if test="visits != null">#{visits},</if>
-        </trim>
-    </insert>
-
-    <update id="updateFavLink" parameterType="FavLink">
-        update fav_link
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="item != null and item != ''">item = #{item},</if>
-            <if test="name != null and name != ''">name = #{name},</if>
-            <if test="href != null and href != ''">href = #{href},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="icon != null">icon = #{icon},</if>
-            <if test="seq != null">seq = #{seq},</if>
-            <if test="target != null and target != ''">target = #{target},</if>
-            <if test="visits != null">visits = #{visits},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteFavLinkById" parameterType="Long">
-        delete
-        from fav_link
-        where id = #{id}
-    </delete>
-
-    <delete id="deleteFavLinkByIds" parameterType="String">
-        delete from fav_link where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
-
+    
 </mapper>

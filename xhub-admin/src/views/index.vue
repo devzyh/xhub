@@ -38,7 +38,7 @@
           <el-col :span="6">
             <h4>后端技术</h4>
             <ul>
-              <li>Java 8</li>
+              <li>Java 11</li>
             </ul>
           </el-col>
           <el-col :span="6">

@@ -9,12 +9,12 @@
         <result property="parentId" column="parent_id"/>
         <result property="name" column="name"/>
         <result property="rank" column="rank"/>
+        <result property="deleteFlag" column="delete_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
-        <result property="deleteFlag" column="delete_flag"/>
     </resultMap>
 
     <sql id="selectNoteCatalogVo">
@@ -22,12 +22,12 @@
                parent_id,
                name,
                rank,
+               delete_flag,
                create_by,
                create_time,
                update_by,
                update_time,
-               remark,
-               delete_flag
+               remark
         from note_catalog
     </sql>
 
@@ -41,65 +41,5 @@
         </where>
         order by rank asc
     </select>
-
-    <select id="selectNoteCatalogById" parameterType="Long" resultMap="NoteCatalogResult">
-        <include refid="selectNoteCatalogVo"/>
-        where id = #{id}
-    </select>
-
-    <insert id="insertNoteCatalog" parameterType="NoteCatalog" useGeneratedKeys="true" keyProperty="id">
-        insert into note_catalog
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="parentId != null">parent_id,</if>
-            <if test="name != null and name != ''">name,</if>
-            <if test="rank != null">rank,</if>
-            <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="remark != null">remark,</if>
-            <if test="deleteFlag != null">delete_flag,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="parentId != null">#{parentId},</if>
-            <if test="name != null and name != ''">#{name},</if>
-            <if test="rank != null">#{rank},</if>
-            <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="deleteFlag != null">#{deleteFlag},</if>
-        </trim>
-    </insert>
-
-    <update id="updateNoteCatalog" parameterType="NoteCatalog">
-        update note_catalog
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="parentId != null">parent_id = #{parentId},</if>
-            <if test="name != null and name != ''">name = #{name},</if>
-            <if test="rank != null">rank = #{rank},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteNoteCatalogById" parameterType="Long">
-        update note_catalog
-        set delete_flag = 1,
-            update_time = now()
-        where id = #{id}
-    </delete>
-
-    <delete id="deleteNoteCatalogByIds" parameterType="String">
-        update note_catalog set delete_flag = 1, update_time = now() where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+    
 </mapper>

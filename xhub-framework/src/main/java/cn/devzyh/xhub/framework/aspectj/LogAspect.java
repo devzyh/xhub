@@ -8,7 +8,7 @@ import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.ServletUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.ip.IpUtils;
-import cn.devzyh.xhub.framework.domain.SysOptLog;
+import cn.devzyh.xhub.framework.domain.SysOperLog;
 import cn.devzyh.xhub.framework.manager.AsyncManager;
 import cn.devzyh.xhub.framework.manager.factory.AsyncFactory;
 import com.alibaba.fastjson.JSON;
@@ -65,14 +65,14 @@ public class LogAspect {
             LoginUser loginUser = SecurityUtils.getLoginUser();
 
             // *========数据库日志=========*//
-            SysOptLog operLog = new SysOptLog();
+            SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
-            operLog.setOptIp(ip);
-            operLog.setOptUrl(ServletUtils.getRequest().getRequestURI());
+            operLog.setOperIp(ip);
+            operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             if (loginUser != null) {
-                operLog.setOptName(loginUser.getUsername());
+                operLog.setOperName(loginUser.getUsername());
             }
 
             if (e != null) {
@@ -88,7 +88,7 @@ public class LogAspect {
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
             // 保存数据库
-            AsyncManager.me().execute(AsyncFactory.recordOptLog(operLog));
+            AsyncManager.me().execute(AsyncFactory.recordOperLog(operLog));
         } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
@@ -104,13 +104,13 @@ public class LogAspect {
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOptLog operLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
         operLog.setTitle(log.title());
         // 设置操作人类别
-        operLog.setOptType(log.operatorType().ordinal());
+        operLog.setOperatorType(log.operatorType().ordinal());
         // 是否需要保存request，参数和值
         if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。
@@ -128,14 +128,14 @@ public class LogAspect {
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, SysOptLog operLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog) throws Exception {
         String requestMethod = operLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
-            operLog.setOptParam(StringUtils.substring(params, 0, 2000));
+            operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         } else {
             Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            operLog.setOptParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
+            operLog.setOperParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
         }
     }
 

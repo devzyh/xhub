@@ -7,60 +7,26 @@
     <resultMap type="FavTag" id="FavTagResult">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectFavTagVo">
-        select id, name
+        select id,
+               name,
+               create_by,
+               create_time
         from fav_tag
     </sql>
 
-    <select id="selectFavTagList" parameterType="FavTag" resultMap="FavTagResult">
+    <select id="selectFavTagList" resultMap="FavTagResult">
         <include refid="selectFavTagVo"/>
         <where>
-            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="data.name != null  and data.name != ''">and name like concat('%', #{data.name}, '%')</if>
         </where>
     </select>
-
-    <select id="selectFavTagById" parameterType="Long" resultMap="FavTagResult">
-        <include refid="selectFavTagVo"/>
-        where id = #{id}
-    </select>
-
-    <insert id="insertFavTag" parameterType="FavTag" useGeneratedKeys="true" keyProperty="id">
-        insert into fav_tag
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null and name != ''">name,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="name != null and name != ''">#{name},</if>
-        </trim>
-    </insert>
-
-    <update id="updateFavTag" parameterType="FavTag">
-        update fav_tag
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="name != null and name != ''">name = #{name},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteFavTagById" parameterType="Long">
-        delete
-        from fav_tag
-        where id = #{id}
-    </delete>
-
-    <delete id="deleteFavTagByIds" parameterType="String">
-        delete from fav_tag where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
-
-    <select id="selectTagsByArticleId" parameterType="Long" resultType="String">
-        select ft.id
-        from fav_article_tag fat
-                 left join fav_tag ft on fat.tag_id = ft.id
-        where fat.article_id = #{id}
-    </select>
+    
 </mapper>

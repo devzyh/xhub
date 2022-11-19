@@ -5,6 +5,7 @@ import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.favorite.domain.FavLink;
 import cn.devzyh.xhub.favorite.mapper.FavLinkMapper;
 import cn.devzyh.xhub.favorite.service.IFavLinkService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,17 @@ public class FavLinkServiceImpl implements IFavLinkService {
     private FavLinkMapper favLinkMapper;
 
     /**
+     * 查询主页链接列表
+     *
+     * @param favLink 主页链接
+     * @return 主页链接
+     */
+    @Override
+    public List<FavLink> selectFavLinkList(IPage<FavLink> page, FavLink favLink) {
+        return favLinkMapper.selectFavLinkList(page, favLink);
+    }
+
+    /**
      * 查询主页链接
      *
      * @param id 主页链接主键
@@ -27,18 +39,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
      */
     @Override
     public FavLink selectFavLinkById(Long id) {
-        return favLinkMapper.selectFavLinkById(id);
-    }
-
-    /**
-     * 查询主页链接列表
-     *
-     * @param favLink 主页链接
-     * @return 主页链接
-     */
-    @Override
-    public List<FavLink> selectFavLinkList(FavLink favLink) {
-        return favLinkMapper.selectFavLinkList(favLink);
+        return favLinkMapper.selectById(id);
     }
 
     /**
@@ -50,7 +51,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
     @Override
     public int insertFavLink(FavLink favLink) {
         redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
-        return favLinkMapper.insertFavLink(favLink);
+        return favLinkMapper.insert(favLink);
     }
 
     /**
@@ -62,7 +63,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
     @Override
     public int updateFavLink(FavLink favLink) {
         redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
-        return favLinkMapper.updateFavLink(favLink);
+        return favLinkMapper.updateById(favLink);
     }
 
     /**
@@ -72,9 +73,9 @@ public class FavLinkServiceImpl implements IFavLinkService {
      * @return 结果
      */
     @Override
-    public int deleteFavLinkByIds(Long[] ids) {
+    public int deleteFavLinkByIds(List<Long> ids) {
         redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
-        return favLinkMapper.deleteFavLinkByIds(ids);
+        return favLinkMapper.deleteBatchIds(ids);
     }
 
     /**
@@ -86,7 +87,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
     @Override
     public int deleteFavLinkById(Long id) {
         redisCache.deleteObject(WebConstants.HOME_LINKS_KEY);
-        return favLinkMapper.deleteFavLinkById(id);
+        return favLinkMapper.deleteById(id);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class FavLinkServiceImpl implements IFavLinkService {
         for (Map.Entry<String, Long> entry : cacheMap.entrySet()) {
             link.setId(Long.parseLong(entry.getKey()));
             link.setVisits(entry.getValue());
-            favLinkMapper.updateFavLink(link);
+            favLinkMapper.updateById(link);
         }
     }
 }

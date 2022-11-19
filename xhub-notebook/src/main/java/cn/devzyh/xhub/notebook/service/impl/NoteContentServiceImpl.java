@@ -10,6 +10,7 @@ import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.mapper.NoteContentMapper;
 import cn.devzyh.xhub.notebook.service.INoteContentService;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,17 @@ public class NoteContentServiceImpl implements INoteContentService {
     private INoteHistoryService historyService;
 
     /**
+     * 查询笔记内容列表
+     *
+     * @param noteContent 笔记内容
+     * @return 笔记内容
+     */
+    @Override
+    public List<NoteContent> selectNoteContentList(IPage<NoteContent> page, NoteContent noteContent) {
+        return contentMapper.selectNoteContentList(page, noteContent);
+    }
+
+    /**
      * 查询笔记内容
      *
      * @param id 笔记内容主键
@@ -37,18 +49,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public NoteContent selectNoteContentById(Long id) {
-        return contentMapper.selectNoteContentById(id);
-    }
-
-    /**
-     * 查询笔记内容列表
-     *
-     * @param noteContent 笔记内容
-     * @return 笔记内容
-     */
-    @Override
-    public List<NoteContent> selectNoteContentList(NoteContent noteContent) {
-        return contentMapper.selectNoteContentList(noteContent);
+        return contentMapper.selectById(id);
     }
 
     /**
@@ -59,9 +60,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int insertNoteContent(NoteContent noteContent) {
-        noteContent.setCreateBy(SecurityUtils.getUsername());
-        noteContent.setCreateTime(DateUtils.getNowDate());
-        return contentMapper.insertNoteContent(noteContent);
+        return contentMapper.insert(noteContent);
     }
 
     /**
@@ -73,7 +72,7 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     @Transactional
     public int updateNoteContent(NoteContent content) {
-        NoteContent local = contentMapper.selectNoteContentById(content.getId());
+        NoteContent local = contentMapper.selectById(content.getId());
 
         boolean saveHistory = false;
         // 更改了标题
@@ -100,9 +99,7 @@ public class NoteContentServiceImpl implements INoteContentService {
         }
 
         // 更新传入数据到内容表
-        content.setUpdateBy(SecurityUtils.getUsername());
-        content.setUpdateTime(DateUtils.getNowDate());
-        return contentMapper.updateNoteContent(content);
+        return contentMapper.updateById(content);
     }
 
     /**
@@ -112,8 +109,8 @@ public class NoteContentServiceImpl implements INoteContentService {
      * @return 结果
      */
     @Override
-    public int deleteNoteContentByIds(Long[] ids) {
-        return contentMapper.deleteNoteContentByIds(ids);
+    public int deleteNoteContentByIds(List<Long> ids) {
+        return contentMapper.deleteBatchIds(ids);
     }
 
     /**
@@ -124,6 +121,6 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int deleteNoteContentById(Long id) {
-        return contentMapper.deleteNoteContentById(id);
+        return contentMapper.deleteById(id);
     }
 }

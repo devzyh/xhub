@@ -13,6 +13,7 @@ import cn.devzyh.xhub.scheduler.domain.SysJob;
 import cn.devzyh.xhub.scheduler.service.ISysJobService;
 import cn.devzyh.xhub.scheduler.util.CronUtils;
 import cn.devzyh.xhub.scheduler.util.ScheduleUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,9 +39,8 @@ public class SysJobController extends BaseController {
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
-        startPage();
-        List<SysJob> list = jobService.selectJobList(sysJob);
-        return getDataTable(list);
+        IPage<SysJob> page = getPage();
+        return getDataTable(page, jobService.selectJobList(page, sysJob));
     }
 
     /**
@@ -50,7 +50,7 @@ public class SysJobController extends BaseController {
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysJob sysJob) {
-        List<SysJob> list = jobService.selectJobList(sysJob);
+        List<SysJob> list = jobService.selectJobList(null, sysJob);
         ExcelUtil<SysJob> util = new ExcelUtil<SysJob>(SysJob.class);
         util.exportExcel(response, list, "定时任务");
     }

@@ -1,7 +1,5 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
-import cn.devzyh.xhub.common.utils.DateUtils;
-import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 import cn.devzyh.xhub.notebook.mapper.NoteCatalogMapper;
@@ -25,17 +23,6 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
     private NoteCatalogMapper catalogMapper;
 
     /**
-     * 查询笔记目录
-     *
-     * @param id 笔记目录主键
-     * @return 笔记目录
-     */
-    @Override
-    public NoteCatalog selectNoteCatalogById(Long id) {
-        return catalogMapper.selectNoteCatalogById(id);
-    }
-
-    /**
      * 查询笔记目录列表
      *
      * @param catalog 笔记目录
@@ -47,6 +34,17 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
     }
 
     /**
+     * 查询笔记目录
+     *
+     * @param id 笔记目录主键
+     * @return 笔记目录
+     */
+    @Override
+    public NoteCatalog selectNoteCatalogById(Long id) {
+        return catalogMapper.selectById(id);
+    }
+
+    /**
      * 新增笔记目录
      *
      * @param catalog 笔记目录
@@ -54,9 +52,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int insertNoteCatalog(NoteCatalog catalog) {
-        catalog.setCreateTime(DateUtils.getNowDate());
-        catalog.setCreateBy(SecurityUtils.getUsername());
-        return catalogMapper.insertNoteCatalog(catalog);
+        return catalogMapper.insert(catalog);
     }
 
     /**
@@ -67,9 +63,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int updateNoteCatalog(NoteCatalog catalog) {
-        catalog.setUpdateTime(DateUtils.getNowDate());
-        catalog.setUpdateBy(SecurityUtils.getUsername());
-        return catalogMapper.updateNoteCatalog(catalog);
+        return catalogMapper.updateById(catalog);
     }
 
     /**
@@ -79,8 +73,8 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      * @return 结果
      */
     @Override
-    public int deleteNoteCatalogByIds(Long[] ids) {
-        return catalogMapper.deleteNoteCatalogByIds(ids);
+    public int deleteNoteCatalogByIds(List<Long> ids) {
+        return catalogMapper.deleteBatchIds(ids);
     }
 
     /**
@@ -91,7 +85,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int deleteNoteCatalogById(Long id) {
-        return catalogMapper.deleteNoteCatalogById(id);
+        return catalogMapper.deleteById(id);
     }
 
     /**

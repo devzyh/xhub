@@ -29,7 +29,7 @@ public class LinkServiceImpl implements ILinkService {
                 result = redisCache.getCacheMap(WebConstants.HOME_LINKS_KEY);
                 if (result.isEmpty()) {
                     // 从数据库加载
-                    List<FavLink> favLinks = favLinkService.selectFavLinkList(new FavLink());
+                    List<FavLink> favLinks = favLinkService.selectFavLinkList(null, new FavLink());
                     // 获取首页链接数据
                     result = favLinks.stream().collect(Collectors.groupingBy(FavLink::getItem));
                     Iterator<Map.Entry<String, List<FavLink>>> iterator = result.entrySet().iterator();

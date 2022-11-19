@@ -1,6 +1,8 @@
 package cn.devzyh.xhub.notebook.mapper;
 
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -10,14 +12,8 @@ import java.util.List;
  * @author devzyh
  * @date 2022-05-18
  */
-public interface NoteCatalogMapper {
-    /**
-     * 查询笔记目录
-     *
-     * @param id 笔记目录主键
-     * @return 笔记目录
-     */
-    public NoteCatalog selectNoteCatalogById(Long id);
+@Mapper
+public interface NoteCatalogMapper extends BaseMapper<NoteCatalog> {
 
     /**
      * 查询笔记目录列表
@@ -25,37 +21,6 @@ public interface NoteCatalogMapper {
      * @param noteCatalog 笔记目录
      * @return 笔记目录集合
      */
-    public List<NoteCatalog> selectNoteCatalogList(NoteCatalog noteCatalog);
+    List<NoteCatalog> selectNoteCatalogList(NoteCatalog noteCatalog);
 
-    /**
-     * 新增笔记目录
-     *
-     * @param noteCatalog 笔记目录
-     * @return 结果
-     */
-    public int insertNoteCatalog(NoteCatalog noteCatalog);
-
-    /**
-     * 修改笔记目录
-     *
-     * @param noteCatalog 笔记目录
-     * @return 结果
-     */
-    public int updateNoteCatalog(NoteCatalog noteCatalog);
-
-    /**
-     * 删除笔记目录
-     *
-     * @param id 笔记目录主键
-     * @return 结果
-     */
-    public int deleteNoteCatalogById(Long id);
-
-    /**
-     * 批量删除笔记目录
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteNoteCatalogByIds(Long[] ids);
 }

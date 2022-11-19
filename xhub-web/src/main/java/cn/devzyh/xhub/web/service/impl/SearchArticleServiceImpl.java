@@ -10,8 +10,7 @@ import cn.devzyh.xhub.favorite.service.IFavTagService;
 import cn.devzyh.xhub.web.domain.dto.ResultDto;
 import cn.devzyh.xhub.web.domain.dto.SearchDto;
 import cn.devzyh.xhub.web.service.ISearchService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class SearchArticleServiceImpl implements ISearchService {
     private IFavTagService favTagService;
 
     @Override
-    public SearchDto search(Integer page, String... keys) {
+    public SearchDto search(Integer current, String... keys) {
         // 获取基本信息
         String key = keys[0];
         SearchDto searchDto = new SearchDto();
@@ -45,14 +44,12 @@ public class SearchArticleServiceImpl implements ISearchService {
         }
         searchDto.setSearchKey(key);
 
-        // 设置分页
-        PageHelper.startPage(page, WebConstants.Search.PAGE_SIZE);
-
         // 获取文章信息
         List<ResultDto> resultDtoList = new LinkedList<>();
         FavArticle article = new FavArticle();
         article.setTitle(key);
-        List<FavArticle> list = favArticleService.selectFavArticleList(article);
+        Page<FavArticle> page = new Page<>(current, WebConstants.Search.PAGE_SIZE);
+        List<FavArticle> list = favArticleService.selectFavArticleList(page, article);
         HashMap<String, SysDictData> sourceMap = new HashMap();
         DictUtils.getDictCache(WebConstants.Item.ARTICLE_SOURCE.getValue()).forEach(it -> {
             sourceMap.put(it.getDictValue(), it);
@@ -65,7 +62,7 @@ public class SearchArticleServiceImpl implements ISearchService {
             ResultDto resultDto = new ResultDto();
             resultDto.setTitle(fa.getTitle());
             resultDto.setUrl(fa.getUrl());
-            resultDto.setPostDate(fa.getCreated());
+            resultDto.setPostDate(fa.getReleaseDate());
             resultDto.setDigest(fa.getDigest());
             resultDto.setImage(sourceMap.get(fa.getSource()).getRemark());
             resultDto.setSource(sourceMap.get(fa.getSource()).getDictLabel());
@@ -74,7 +71,7 @@ public class SearchArticleServiceImpl implements ISearchService {
         }
 
         searchDto.setResultList(resultDtoList);
-        searchDto.setPage(new PageInfo(list));
+        searchDto.setPage(page);
         return searchDto;
     }
 

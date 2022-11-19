@@ -2,8 +2,14 @@ package cn.devzyh.xhub.notebook.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 笔记分享对象 note_share
@@ -11,18 +17,27 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author devzyh
  * @date 2022-05-18
  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("note_share")
 public class NoteShare extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * 笔记ID
      */
+    @TableId(type = IdType.AUTO)
     private Long contentId;
 
     /**
      * 笔记标题
      */
     @Excel(name = "笔记标题")
+    @TableField(exist = false)
     private String title;
 
     /**
@@ -37,50 +52,4 @@ public class NoteShare extends BaseEntity {
     @Excel(name = "分享天数")
     private Long shareDays;
 
-    public void setContentId(Long contentId) {
-        this.contentId = contentId;
-    }
-
-    public Long getContentId() {
-        return contentId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setShareSecret(String shareSecret) {
-        this.shareSecret = shareSecret;
-    }
-
-    public String getShareSecret() {
-        return shareSecret;
-    }
-
-    public void setShareDays(Long shareDays) {
-        this.shareDays = shareDays;
-    }
-
-    public Long getShareDays() {
-        return shareDays;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("contentId", getContentId())
-                .append("title", getTitle())
-                .append("shareSecret", getShareSecret())
-                .append("shareDays", getShareDays())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
-    }
 }

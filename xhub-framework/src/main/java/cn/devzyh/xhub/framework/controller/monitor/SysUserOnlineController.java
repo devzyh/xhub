@@ -11,6 +11,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.framework.domain.SysUserOnline;
 import cn.devzyh.xhub.framework.service.ISysUserOnlineService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 在线用户监控
@@ -59,7 +61,11 @@ public class SysUserOnlineController extends BaseController {
         }
         Collections.reverse(userOnlineList);
         userOnlineList.removeAll(Collections.singleton(null));
-        return getDataTable(userOnlineList);
+        IPage<SysUserOnline> page = getPage();
+        return getDataTable(page, userOnlineList.stream()
+                .skip((page.getCurrent() - 1) * page.getSize())
+                .limit(page.getSize())
+                .collect(Collectors.toList()));
     }
 
     /**

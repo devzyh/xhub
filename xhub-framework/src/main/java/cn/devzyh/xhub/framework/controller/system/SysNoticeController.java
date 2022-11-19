@@ -7,6 +7,7 @@ import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.framework.domain.SysNotice;
 import cn.devzyh.xhub.framework.service.ISysNoticeService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -31,9 +32,8 @@ public class SysNoticeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:notice:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysNotice notice) {
-        startPage();
-        List<SysNotice> list = noticeService.selectNoticeList(notice);
-        return getDataTable(list);
+        IPage<SysNotice> page = getPage();
+        return getDataTable(page, noticeService.selectNoticeList(page, notice));
     }
 
     /**
@@ -73,7 +73,7 @@ public class SysNoticeController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:notice:remove')")
     @Log(title = "通知公告", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeIds}")
-    public AjaxResult remove(@PathVariable Long[] noticeIds) {
+    public AjaxResult remove(@PathVariable List<Long> noticeIds) {
         return toAjax(noticeService.deleteNoticeByIds(noticeIds));
     }
 }

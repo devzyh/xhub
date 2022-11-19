@@ -1,11 +1,13 @@
-package cn.devzyh.xhub.generator.service;
+package cn.devzyh.xhub.generator.service.impl;
 
 import cn.devzyh.xhub.common.core.text.Convert;
 import cn.devzyh.xhub.generator.domain.GenTableColumn;
 import cn.devzyh.xhub.generator.mapper.GenTableColumnMapper;
+import cn.devzyh.xhub.generator.service.IGenTableColumnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int insertGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.insertGenTableColumn(genTableColumn);
+        return genTableColumnMapper.insert(genTableColumn);
     }
 
     /**
@@ -48,7 +50,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int updateGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.updateGenTableColumn(genTableColumn);
+        return genTableColumnMapper.updateById(genTableColumn);
     }
 
     /**
@@ -59,6 +61,6 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int deleteGenTableColumnByIds(String ids) {
-        return genTableColumnMapper.deleteGenTableColumnByIds(Convert.toLongArray(ids));
+        return genTableColumnMapper.deleteBatchIds(Arrays.asList(Convert.toLongArray(ids)));
     }
 }

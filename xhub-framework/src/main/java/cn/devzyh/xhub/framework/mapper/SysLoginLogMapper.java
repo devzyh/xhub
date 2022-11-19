@@ -1,21 +1,18 @@
 package cn.devzyh.xhub.framework.mapper;
 
 import cn.devzyh.xhub.framework.domain.SysLoginLog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 系统访问日志情况信息 数据层
- *
- * @author ruoyi
  */
-public interface SysLoginLogMapper {
-    /**
-     * 新增系统登录日志
-     *
-     * @param loginLog 访问日志对象
-     */
-    public void insertLoginLog(SysLoginLog loginLog);
+@Mapper
+public interface SysLoginLogMapper extends BaseMapper<SysLoginLog> {
 
     /**
      * 查询系统登录日志集合
@@ -23,20 +20,12 @@ public interface SysLoginLogMapper {
      * @param loginLog 访问日志对象
      * @return 登录记录集合
      */
-    public List<SysLoginLog> selectLoginLogList(SysLoginLog loginLog);
-
-    /**
-     * 批量删除系统登录日志
-     *
-     * @param infoIds 需要删除的登录日志ID
-     * @return 结果
-     */
-    public int deleteLoginLogByIds(Long[] infoIds);
+    List<SysLoginLog> selectLoginLogList(IPage<SysLoginLog> page, @Param("log") SysLoginLog loginLog);
 
     /**
      * 清空系统登录日志
      *
      * @return 结果
      */
-    public int cleanLoginLog();
+    int cleanLoginLog();
 }

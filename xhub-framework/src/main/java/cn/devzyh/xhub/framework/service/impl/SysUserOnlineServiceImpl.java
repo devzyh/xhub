@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * 在线用户 服务层处理
- *
- * @author ruoyi
  */
 @Service
 public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
+
     /**
      * 通过登录地址查询信息
      *
@@ -67,20 +66,14 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline loginUserToUserOnline(LoginUser user) {
-        if (StringUtils.isNull(user) || StringUtils.isNull(user.getUser())) {
+        if (StringUtils.isNull(user)) {
             return null;
         }
         SysUserOnline sysUserOnline = new SysUserOnline();
         sysUserOnline.setTokenId(user.getToken());
         sysUserOnline.setUserName(user.getUsername());
         sysUserOnline.setIpaddr(user.getIpaddr());
-        sysUserOnline.setLoginLocation(user.getLoginLocation());
-        sysUserOnline.setBrowser(user.getBrowser());
-        sysUserOnline.setOs(user.getOs());
         sysUserOnline.setLoginTime(user.getLoginTime());
-        if (StringUtils.isNotNull(user.getUser().getDept())) {
-            sysUserOnline.setDeptName(user.getUser().getDept().getDeptName());
-        }
         return sysUserOnline;
     }
 }

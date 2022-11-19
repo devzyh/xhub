@@ -3,6 +3,7 @@ package cn.devzyh.xhub.scheduler.service.impl;
 import cn.devzyh.xhub.scheduler.domain.SysJobLog;
 import cn.devzyh.xhub.scheduler.mapper.SysJobLogMapper;
 import cn.devzyh.xhub.scheduler.service.ISysJobLogService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,10 @@ import java.util.List;
 
 /**
  * 定时任务调度日志信息 服务层
- *
- * @author ruoyi
  */
 @Service
 public class SysJobLogServiceImpl implements ISysJobLogService {
+
     @Autowired
     private SysJobLogMapper jobLogMapper;
 
@@ -25,8 +25,8 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
      * @return 调度任务日志集合
      */
     @Override
-    public List<SysJobLog> selectJobLogList(SysJobLog jobLog) {
-        return jobLogMapper.selectJobLogList(jobLog);
+    public List<SysJobLog> selectJobLogList(IPage<SysJobLog> page, SysJobLog jobLog) {
+        return jobLogMapper.selectJobLogList(page, jobLog);
     }
 
     /**
@@ -37,7 +37,7 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
      */
     @Override
     public SysJobLog selectJobLogById(Long jobLogId) {
-        return jobLogMapper.selectJobLogById(jobLogId);
+        return jobLogMapper.selectById(jobLogId);
     }
 
     /**
@@ -47,7 +47,7 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
      */
     @Override
     public void addJobLog(SysJobLog jobLog) {
-        jobLogMapper.insertJobLog(jobLog);
+        jobLogMapper.insert(jobLog);
     }
 
     /**
@@ -57,8 +57,8 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
      * @return 结果
      */
     @Override
-    public int deleteJobLogByIds(Long[] logIds) {
-        return jobLogMapper.deleteJobLogByIds(logIds);
+    public int deleteJobLogByIds(List<Long> logIds) {
+        return jobLogMapper.deleteBatchIds(logIds);
     }
 
     /**
@@ -68,7 +68,7 @@ public class SysJobLogServiceImpl implements ISysJobLogService {
      */
     @Override
     public int deleteJobLogById(Long jobId) {
-        return jobLogMapper.deleteJobLogById(jobId);
+        return jobLogMapper.deleteById(jobId);
     }
 
     /**

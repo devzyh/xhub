@@ -8,12 +8,15 @@ import cn.devzyh.xhub.common.core.domain.entity.SysRole;
 import cn.devzyh.xhub.common.core.domain.entity.SysUser;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
+import cn.devzyh.xhub.framework.domain.SysRoleMenu;
 import cn.devzyh.xhub.framework.domain.vo.MetaVo;
 import cn.devzyh.xhub.framework.domain.vo.RouterVo;
 import cn.devzyh.xhub.framework.mapper.SysMenuMapper;
 import cn.devzyh.xhub.framework.mapper.SysRoleMapper;
 import cn.devzyh.xhub.framework.mapper.SysRoleMenuMapper;
 import cn.devzyh.xhub.framework.service.ISysMenuService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +25,6 @@ import java.util.stream.Collectors;
 
 /**
  * 菜单 业务层处理
- *
- * @author ruoyi
  */
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
@@ -87,6 +88,24 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
     /**
+     * 根据角色ID查询权限
+     *
+     * @param roleId 角色ID
+     * @return 权限列表
+     */
+    @Override
+    public Set<String> selectMenuPermsByRoleId(Long roleId) {
+        List<String> perms = menuMapper.selectMenuPermsByRoleId(roleId);
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms) {
+            if (StringUtils.isNotEmpty(perm)) {
+                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+            }
+        }
+        return permsSet;
+    }
+
+    /**
      * 根据用户ID查询菜单
      *
      * @param userId 用户名称
@@ -111,7 +130,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<Long> selectMenuListByRoleId(Long roleId) {
-        SysRole role = roleMapper.selectRoleById(roleId);
+        SysRole role = roleMapper.selectById(roleId);
         return menuMapper.selectMenuListByRoleId(roleId, role.isMenuCheckStrictly());
     }
 
@@ -180,7 +199,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             tempList.add(dept.getMenuId());
         }
         for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext(); ) {
-            SysMenu menu = (SysMenu) iterator.next();
+            SysMenu menu = iterator.next();
             // 如果是顶级节点, 遍历该父节点的所有子节点
             if (!tempList.contains(menu.getParentId())) {
                 recursionFn(menus, menu);
@@ -213,7 +232,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public SysMenu selectMenuById(Long menuId) {
-        return menuMapper.selectMenuById(menuId);
+        return menuMapper.selectById(menuId);
     }
 
     /**
@@ -224,8 +243,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public boolean hasChildByMenuId(Long menuId) {
-        int result = menuMapper.hasChildByMenuId(menuId);
-        return result > 0 ? true : false;
+        return menuMapper.exists(new QueryWrapper<SysMenu>().eq("parent_id", menuId));
     }
 
     /**
@@ -236,8 +254,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public boolean checkMenuExistRole(Long menuId) {
-        int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0 ? true : false;
+        return roleMenuMapper.exists(new QueryWrapper<SysRoleMenu>().eq("menu_id", menuId));
     }
 
     /**
@@ -248,7 +265,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int insertMenu(SysMenu menu) {
-        return menuMapper.insertMenu(menu);
+        return menuMapper.insert(menu);
     }
 
     /**
@@ -259,7 +276,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int updateMenu(SysMenu menu) {
-        return menuMapper.updateMenu(menu);
+        return menuMapper.updateById(menu);
     }
 
     /**
@@ -270,7 +287,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int deleteMenuById(Long menuId) {
-        return menuMapper.deleteMenuById(menuId);
+        return menuMapper.deleteById(menuId);
     }
 
     /**
@@ -282,11 +299,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public String checkMenuNameUnique(SysMenu menu) {
         Long menuId = StringUtils.isNull(menu.getMenuId()) ? -1L : menu.getMenuId();
-        SysMenu info = menuMapper.checkMenuNameUnique(menu.getMenuName(), menu.getParentId());
-        if (StringUtils.isNotNull(info) && info.getMenuId().longValue() != menuId.longValue()) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        QueryWrapper<SysMenu> qw = Wrappers.query(menu);
+        qw.eq("menu_name", menu.getMenuName());
+        qw.eq("parent_id", menu.getParentId());
+        qw.ne("menu_id", menuId);
+        return menuMapper.exists(qw) ? UserConstants.NOT_UNIQUE : UserConstants.UNIQUE;
     }
 
     /**
@@ -387,7 +404,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
         for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext(); ) {
-            SysMenu t = (SysMenu) iterator.next();
+            SysMenu t = iterator.next();
             // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
             if (t.getParentId() == parentId) {
                 recursionFn(list, t);
@@ -421,7 +438,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         List<SysMenu> tlist = new ArrayList<SysMenu>();
         Iterator<SysMenu> it = list.iterator();
         while (it.hasNext()) {
-            SysMenu n = (SysMenu) it.next();
+            SysMenu n = it.next();
             if (n.getParentId().longValue() == t.getMenuId().longValue()) {
                 tlist.add(n);
             }
@@ -442,7 +459,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     public String innerLinkReplaceEach(String path) {
-        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS},
-                new String[]{"", ""});
+        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
+                new String[]{"", "", "", "/"});
     }
 }

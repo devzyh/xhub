@@ -3,6 +3,7 @@ package cn.devzyh.xhub.framework.service.impl;
 import cn.devzyh.xhub.framework.domain.SysLoginLog;
 import cn.devzyh.xhub.framework.mapper.SysLoginLogMapper;
 import cn.devzyh.xhub.framework.service.ISysLoginLogService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,6 @@ import java.util.List;
 
 /**
  * 系统访问日志情况信息 服务层处理
- *
- * @author ruoyi
  */
 @Service
 public class SysLoginLogServiceImpl implements ISysLoginLogService {
@@ -25,8 +24,8 @@ public class SysLoginLogServiceImpl implements ISysLoginLogService {
      * @param loginLog 访问日志对象
      */
     @Override
-    public void insertLoginLog(SysLoginLog loginLog) {
-        loginLogMapper.insertLoginLog(loginLog);
+    public int insertLoginLog(SysLoginLog loginLog) {
+        return loginLogMapper.insert(loginLog);
     }
 
     /**
@@ -36,8 +35,8 @@ public class SysLoginLogServiceImpl implements ISysLoginLogService {
      * @return 登录记录集合
      */
     @Override
-    public List<SysLoginLog> selectLoginLogList(SysLoginLog loginLog) {
-        return loginLogMapper.selectLoginLogList(loginLog);
+    public List<SysLoginLog> selectLoginLogList(IPage<SysLoginLog> page, SysLoginLog loginLog) {
+        return loginLogMapper.selectLoginLogList(page, loginLog);
     }
 
     /**
@@ -47,8 +46,8 @@ public class SysLoginLogServiceImpl implements ISysLoginLogService {
      * @return 结果
      */
     @Override
-    public int deleteLoginLogByIds(Long[] infoIds) {
-        return loginLogMapper.deleteLoginLogByIds(infoIds);
+    public int deleteLoginLogByIds(List<Long> infoIds) {
+        return loginLogMapper.deleteBatchIds(infoIds);
     }
 
     /**

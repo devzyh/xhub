@@ -10,6 +10,7 @@ import cn.devzyh.xhub.generator.domain.GenTable;
 import cn.devzyh.xhub.generator.domain.GenTableColumn;
 import cn.devzyh.xhub.generator.service.IGenTableColumnService;
 import cn.devzyh.xhub.generator.service.IGenTableService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,9 +43,8 @@ public class GenController extends BaseController {
     @PreAuthorize("@ss.hasPermi('tool:gen:list')")
     @GetMapping("/list")
     public TableDataInfo genList(GenTable genTable) {
-        startPage();
-        List<GenTable> list = genTableService.selectGenTableList(genTable);
-        return getDataTable(list);
+        IPage<GenTable> page = getPage();
+        return getDataTable(page, genTableService.selectGenTableList(page, genTable));
     }
 
     /**
@@ -69,9 +69,8 @@ public class GenController extends BaseController {
     @PreAuthorize("@ss.hasPermi('tool:gen:list')")
     @GetMapping("/db/list")
     public TableDataInfo dataList(GenTable genTable) {
-        startPage();
-        List<GenTable> list = genTableService.selectDbTableList(genTable);
-        return getDataTable(list);
+        IPage<GenTable> page = getPage();
+        return getDataTable(page, genTableService.selectDbTableList(page, genTable));
     }
 
     /**
@@ -119,7 +118,7 @@ public class GenController extends BaseController {
     @PreAuthorize("@ss.hasPermi('tool:gen:remove')")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
     @DeleteMapping("/{tableIds}")
-    public AjaxResult remove(@PathVariable Long[] tableIds) {
+    public AjaxResult remove(@PathVariable List<Long> tableIds) {
         genTableService.deleteGenTableByIds(tableIds);
         return AjaxResult.success();
     }

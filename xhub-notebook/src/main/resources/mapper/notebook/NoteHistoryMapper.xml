@@ -33,78 +33,16 @@
         from note_history
     </sql>
 
-    <select id="selectNoteHistoryList" parameterType="NoteHistory" resultMap="NoteHistoryResult">
+    <select id="selectNoteHistoryList" resultMap="NoteHistoryResult">
         <include refid="selectNoteHistoryVo"/>
         <where>
-            <if test="contentId != null ">and content_id = #{contentId}</if>
-            <if test="catalogId != null ">and catalog_id = #{catalogId}</if>
-            <if test="title != null ">and title = #{title}</if>
-            <if test="content != null  and content != ''">and content = #{content}</if>
-            <if test="rank != null ">and rank = #{rank}</if>
+            <if test="data.contentId != null ">and content_id = #{data.contentId}</if>
+            <if test="data.catalogId != null ">and catalog_id = #{data.catalogId}</if>
+            <if test="data.title != null ">and title = #{data.title}</if>
+            <if test="data.content != null and data.content != ''">and content = #{data.content}</if>
+            <if test="data.rank != null ">and rank = #{data.rank}</if>
         </where>
         order by create_time desc
     </select>
 
-    <select id="selectNoteHistoryById" parameterType="Long" resultMap="NoteHistoryResult">
-        <include refid="selectNoteHistoryVo"/>
-        where id = #{id}
-    </select>
-
-    <insert id="insertNoteHistory" parameterType="NoteHistory" useGeneratedKeys="true" keyProperty="id">
-        insert into note_history
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="contentId != null">content_id,</if>
-            <if test="catalogId != null">catalog_id,</if>
-            <if test="title != null and title != ''">title,</if>
-            <if test="content != null and content != ''">content,</if>
-            <if test="rank != null">rank,</if>
-            <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="remark != null">remark,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="contentId != null">#{contentId},</if>
-            <if test="catalogId != null">#{catalogId},</if>
-            <if test="title != null">#{title},</if>
-            <if test="content != null and content != ''">#{content},</if>
-            <if test="rank != null">#{rank},</if>
-            <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="remark != null">#{remark},</if>
-        </trim>
-    </insert>
-
-    <update id="updateNoteHistory" parameterType="NoteHistory">
-        update note_history
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="contentId != null">content_id = #{contentId},</if>
-            <if test="catalogId != null">catalog_id = #{catalogId},</if>
-            <if test="title != null">title = #{title},</if>
-            <if test="content != null and content != ''">content = #{content},</if>
-            <if test="rank != null">rank = #{rank},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="remark != null">remark = #{remark},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteNoteHistoryById" parameterType="Long">
-        delete
-        from note_history
-        where id = #{id}
-    </delete>
-
-    <delete id="deleteNoteHistoryByIds" parameterType="String">
-        delete from note_history where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
 </mapper>

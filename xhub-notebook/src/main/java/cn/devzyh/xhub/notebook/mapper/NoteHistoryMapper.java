@@ -1,6 +1,10 @@
 package cn.devzyh.xhub.notebook.mapper;
 
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,14 +14,8 @@ import java.util.List;
  * @author devzyh
  * @date 2022-05-18
  */
-public interface NoteHistoryMapper {
-    /**
-     * 查询笔记历史
-     *
-     * @param id 笔记历史主键
-     * @return 笔记历史
-     */
-    public NoteHistory selectNoteHistoryById(Long id);
+@Mapper
+public interface NoteHistoryMapper extends BaseMapper<NoteHistory> {
 
     /**
      * 查询笔记历史列表
@@ -25,37 +23,6 @@ public interface NoteHistoryMapper {
      * @param noteHistory 笔记历史
      * @return 笔记历史集合
      */
-    public List<NoteHistory> selectNoteHistoryList(NoteHistory noteHistory);
+    List<NoteHistory> selectNoteHistoryList(IPage<NoteHistory> page, @Param("data") NoteHistory noteHistory);
 
-    /**
-     * 新增笔记历史
-     *
-     * @param noteHistory 笔记历史
-     * @return 结果
-     */
-    public int insertNoteHistory(NoteHistory noteHistory);
-
-    /**
-     * 修改笔记历史
-     *
-     * @param noteHistory 笔记历史
-     * @return 结果
-     */
-    public int updateNoteHistory(NoteHistory noteHistory);
-
-    /**
-     * 删除笔记历史
-     *
-     * @param id 笔记历史主键
-     * @return 结果
-     */
-    public int deleteNoteHistoryById(Long id);
-
-    /**
-     * 批量删除笔记历史
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteNoteHistoryByIds(Long[] ids);
 }

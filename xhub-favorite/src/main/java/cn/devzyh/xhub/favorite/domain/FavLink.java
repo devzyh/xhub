@@ -2,8 +2,14 @@ package cn.devzyh.xhub.favorite.domain;
 
 import cn.devzyh.xhub.common.annotation.Excel;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 主页链接对象 fav_link
@@ -11,12 +17,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author devzyh
  * @date 2022-05-08
  */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("fav_link")
 public class FavLink extends BaseEntity {
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -50,93 +64,15 @@ public class FavLink extends BaseEntity {
     private Long seq;
 
     /**
-     * $column.columnComment
+     * 打开方式
      */
     @Excel(name = "打开方式")
     private String target;
 
     /**
-     * $column.columnComment
+     * 访问次数
      */
     @Excel(name = "访问次数")
     private Long visits;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setSeq(Long seq) {
-        this.seq = seq;
-    }
-
-    public Long getSeq() {
-        return seq;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public Long getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Long visits) {
-        this.visits = visits;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("item", getItem())
-                .append("name", getName())
-                .append("href", getHref())
-                .append("remark", getRemark())
-                .append("icon", getIcon())
-                .append("seq", getSeq())
-                .append("target", getTarget())
-                .append("visits", getVisits())
-                .toString();
-    }
 }

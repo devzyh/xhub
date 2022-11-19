@@ -38,7 +38,7 @@ public class SecurityUtils {
     /**
      * 获取用户账户
      **/
-    public static String getUsername() {
+    public static String getUserName() {
         try {
             return getLoginUser().getUsername();
         } catch (Exception e) {

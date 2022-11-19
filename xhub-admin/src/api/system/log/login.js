@@ -17,14 +17,6 @@ export function delLoginLog(infoId) {
   })
 }
 
-// 解锁用户登录状态
-export function unlockLoginLog(userName) {
-  return request({
-    url: '/system/log/login/unlock/' + userName,
-    method: 'get'
-  })
-}
-
 // 清空登录日志
 export function cleanLoginLog() {
   return request({

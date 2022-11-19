@@ -1,6 +1,6 @@
 package cn.devzyh.xhub.web.domain.dto;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +15,7 @@ public class SearchDto implements Serializable {
     private String searchType; // 搜索源类型
     private String searchKey; // 搜索关键词
     private List<ResultDto> resultList; // 搜索结果
-    private PageInfo page; // 分页数据
+    private Page page; // 分页数据
 
     public String getPageTitle() {
         return pageTitle;
@@ -49,11 +49,11 @@ public class SearchDto implements Serializable {
         this.resultList = resultList;
     }
 
-    public PageInfo getPage() {
+    public Page getPage() {
         return page;
     }
 
-    public void setPage(PageInfo page) {
+    public void setPage(Page page) {
         this.page = page;
     }
 }

@@ -37,36 +37,36 @@ public class SysRegisterService {
      * 注册
      */
     public String register(RegisterBody registerBody) {
-        String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
+        SysUser user = new SysUser();
+        user.setUserName(registerBody.getUsername());
+        user.setNickName(registerBody.getUsername());
+        user.setPassword(SecurityUtils.encryptPassword(registerBody.getPassword()));
+        String msg = "";
 
         boolean captchaOnOff = configService.selectCaptchaOnOff();
         // 验证码开关
         if (captchaOnOff) {
-            validateCaptcha(username, registerBody.getCode(), registerBody.getUuid());
+            validateCaptcha(user.getUserName(), registerBody.getCode(), registerBody.getUuid());
         }
 
-        if (StringUtils.isEmpty(username)) {
+        if (StringUtils.isEmpty(user.getUserName())) {
             msg = "用户名不能为空";
-        } else if (StringUtils.isEmpty(password)) {
+        } else if (StringUtils.isEmpty(registerBody.getPassword())) {
             msg = "用户密码不能为空";
-        } else if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
+        } else if (user.getUserName().length() < UserConstants.USERNAME_MIN_LENGTH
+                || user.getUserName().length() > UserConstants.USERNAME_MAX_LENGTH) {
             msg = "账户长度必须在2到20个字符之间";
-        } else if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-                || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
+        } else if (user.getUserName().length() < UserConstants.PASSWORD_MIN_LENGTH
+                || user.getUserName().length() > UserConstants.PASSWORD_MAX_LENGTH) {
             msg = "密码长度必须在5到20个字符之间";
-        } else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
-            msg = "保存用户'" + username + "'失败，注册账号已存在";
+        } else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user))) {
+            msg = "保存用户'" + user.getUserName() + "'失败，注册账号已存在";
         } else {
-            SysUser sysUser = new SysUser();
-            sysUser.setUserName(username);
-            sysUser.setNickName(username);
-            sysUser.setPassword(SecurityUtils.encryptPassword(registerBody.getPassword()));
-            boolean regFlag = userService.registerUser(sysUser);
+            boolean regFlag = userService.registerUser(user);
             if (!regFlag) {
                 msg = "注册失败,请联系系统管理人员";
             } else {
-                AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, Constants.REGISTER,
+                AsyncManager.me().execute(AsyncFactory.recordLoginLog(user.getUserName(), Constants.REGISTER,
                         MessageUtils.message("user.register.success")));
             }
         }

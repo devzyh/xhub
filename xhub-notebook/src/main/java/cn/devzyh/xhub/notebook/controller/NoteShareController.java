@@ -8,6 +8,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/notebook/share")
 public class NoteShareController extends BaseController {
+    
     @Autowired
     private INoteShareService noteShareService;
 
@@ -33,9 +35,8 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:list')")
     @GetMapping("/list")
     public TableDataInfo list(NoteShare noteShare) {
-        startPage();
-        List<NoteShare> list = noteShareService.selectNoteShareList(noteShare);
-        return getDataTable(list);
+        IPage<NoteShare> page = getPage();
+        return getDataTable(page, noteShareService.selectNoteShareList(page, noteShare));
     }
 
     /**
@@ -45,7 +46,7 @@ public class NoteShareController extends BaseController {
     @Log(title = "笔记分享", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, NoteShare noteShare) {
-        List<NoteShare> list = noteShareService.selectNoteShareList(noteShare);
+        List<NoteShare> list = noteShareService.selectNoteShareList(null, noteShare);
         ExcelUtil<NoteShare> util = new ExcelUtil<NoteShare>(NoteShare.class);
         util.exportExcel(response, list, "笔记分享数据");
     }
@@ -85,7 +86,7 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:remove')")
     @Log(title = "笔记分享", businessType = BusinessType.DELETE)
     @DeleteMapping("/{contentIds}")
-    public AjaxResult remove(@PathVariable Long[] contentIds) {
+    public AjaxResult remove(@PathVariable List<Long> contentIds) {
         noteShareService.deleteNoteShareByContentIds(contentIds);
         return success();
     }

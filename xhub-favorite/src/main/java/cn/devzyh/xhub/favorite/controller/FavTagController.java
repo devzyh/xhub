@@ -8,6 +8,7 @@ import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.favorite.domain.FavTag;
 import cn.devzyh.xhub.favorite.service.IFavTagService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/fav/tag")
 public class FavTagController extends BaseController {
+
     @Autowired
     private IFavTagService favTagService;
 
@@ -33,9 +35,8 @@ public class FavTagController extends BaseController {
     @PreAuthorize("@ss.hasPermi('favorite:tag:list')")
     @GetMapping("/list")
     public TableDataInfo list(FavTag favTag) {
-        startPage();
-        List<FavTag> list = favTagService.selectFavTagList(favTag);
-        return getDataTable(list);
+        IPage<FavTag> page = getPage();
+        return getDataTable(page, favTagService.selectFavTagList(page, favTag));
     }
 
     /**
@@ -54,7 +55,7 @@ public class FavTagController extends BaseController {
     @Log(title = "文章标签", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, FavTag favTag) {
-        List<FavTag> list = favTagService.selectFavTagList(favTag);
+        List<FavTag> list = favTagService.selectFavTagList(null, favTag);
         ExcelUtil<FavTag> util = new ExcelUtil<FavTag>(FavTag.class);
         util.exportExcel(response, list, "文章标签数据");
     }
@@ -94,7 +95,7 @@ public class FavTagController extends BaseController {
     @PreAuthorize("@ss.hasPermi('favorite:tag:remove')")
     @Log(title = "文章标签", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable List<Long> ids) {
         return toAjax(favTagService.deleteFavTagByIds(ids));
     }
 }

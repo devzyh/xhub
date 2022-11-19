@@ -10,6 +10,7 @@ import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.service.ISysDictDataService;
 import cn.devzyh.xhub.framework.service.ISysDictTypeService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -36,16 +37,15 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysDictData dictData) {
-        startPage();
-        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        return getDataTable(list);
+        IPage<SysDictData> page = getPage();
+        return getDataTable(page, dictDataService.selectDictDataList(page, dictData));
     }
 
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:dict:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictData dictData) {
-        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+        List<SysDictData> list = dictDataService.selectDictDataList(null, dictData);
         ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
         util.exportExcel(response, list, "字典数据");
     }
