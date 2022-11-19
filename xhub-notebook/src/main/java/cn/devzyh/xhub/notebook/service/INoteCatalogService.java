@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service;
 
+import cn.devzyh.xhub.common.core.domain.R;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface INoteCatalogService {
      * @param ids 需要删除的笔记目录主键集合
      * @return 结果
      */
-    int deleteNoteCatalogByIds(List<Long> ids);
+    R deleteNoteCatalogByIds(List<Long> ids);
 
     /**
      * 删除笔记目录信息

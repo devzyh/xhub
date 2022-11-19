@@ -1,7 +1,5 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
-import cn.devzyh.xhub.common.utils.DateUtils;
-import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -10,6 +8,7 @@ import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.mapper.NoteContentMapper;
 import cn.devzyh.xhub.notebook.service.INoteContentService;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int updateNoteContent(NoteContent content) {
         NoteContent local = contentMapper.selectById(content.getId());
 
@@ -122,5 +121,12 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     public int deleteNoteContentById(Long id) {
         return contentMapper.deleteById(id);
+    }
+
+    @Override
+    public long selectCountByCatalogIds(List<Long> ids) {
+        QueryWrapper<NoteContent> qw = new QueryWrapper<>();
+        qw.in("catalog_id", ids);
+        return contentMapper.selectCount(qw);
     }
 }

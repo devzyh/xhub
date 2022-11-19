@@ -2,6 +2,7 @@ package cn.devzyh.xhub.common.core.controller;
 
 import cn.devzyh.xhub.common.constant.HttpStatus;
 import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.R;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.core.page.PageDomain;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
@@ -119,6 +120,20 @@ public class BaseController {
      */
     protected AjaxResult toAjax(int rows) {
         return rows > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+
+    /**
+     * 响应返回结果
+     *
+     * @param r R类型消息
+     * @return 操作结果
+     */
+    protected AjaxResult toAjax(R r) {
+        if (r.getCode() == R.SUCCESS) {
+            return AjaxResult.success(r.getData());
+        } else {
+            return AjaxResult.error(r.getMsg());
+        }
     }
 
     /**

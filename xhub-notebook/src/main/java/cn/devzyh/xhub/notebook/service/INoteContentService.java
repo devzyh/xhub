@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2022-05-18
  */
 public interface INoteContentService {
-    
+
     /**
      * 查询笔记内容列表
      *
@@ -60,4 +60,12 @@ public interface INoteContentService {
      * @return 结果
      */
     int deleteNoteContentById(Long id);
+
+    /**
+     * 查询指定目录下文章数量
+     *
+     * @param ids
+     * @return
+     */
+    long selectCountByCatalogIds(List<Long> ids);
 }

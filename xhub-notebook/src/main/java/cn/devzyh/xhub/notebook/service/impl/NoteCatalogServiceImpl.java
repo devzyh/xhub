@@ -1,9 +1,11 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.core.domain.R;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 import cn.devzyh.xhub.notebook.mapper.NoteCatalogMapper;
 import cn.devzyh.xhub.notebook.service.INoteCatalogService;
+import cn.devzyh.xhub.notebook.service.INoteContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,12 @@ import java.util.List;
  */
 @Service
 public class NoteCatalogServiceImpl implements INoteCatalogService {
+
     @Autowired
     private NoteCatalogMapper catalogMapper;
+
+    @Autowired
+    private INoteContentService contentService;
 
     /**
      * 查询笔记目录列表
@@ -73,8 +79,14 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      * @return 结果
      */
     @Override
-    public int deleteNoteCatalogByIds(List<Long> ids) {
-        return catalogMapper.deleteBatchIds(ids);
+    public R deleteNoteCatalogByIds(List<Long> ids) {
+        // 检查目录下是否有文章
+        if (contentService.selectCountByCatalogIds(ids) > 0) {
+            return R.fail("所选目录下存在关联文章");
+        }
+
+        catalogMapper.deleteBatchIds(ids);
+        return R.ok();
     }
 
     /**
