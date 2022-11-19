@@ -91,12 +91,6 @@ token:
   # 令牌有效期（默认30分钟）
   expireTime: 10080
 
-# PageHelper分页插件
-pagehelper:
-  helperDialect: mysql
-  supportMethodsArguments: true
-  params: count=countSql
-
 # mybatis-plus配置
 mybatis-plus:
   # 搜索指定包别名
