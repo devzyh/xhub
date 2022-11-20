@@ -10,7 +10,7 @@
         <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="rank" column="rank"/>
-        <result property="deleteFlag" column="delete_flag"/>
+        <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
@@ -24,7 +24,7 @@
                title,
                content,
                rank,
-               delete_flag,
+               del_flag,
                create_by,
                create_time,
                update_by,
@@ -43,7 +43,7 @@
             <if test="data.title != null  and data.title != ''">and title = #{data.title}</if>
             <if test="data.content != null  and data.content != ''">and content = #{data.content}</if>
             <if test="data.rank != null ">and rank = #{data.rank}</if>
-            <if test="data.deleteFlag != null ">and delete_flag = #{data.deleteFlag}</if>
+            <if test="data.delFlag != null ">and del_flag = #{data.delFlag}</if>
         </where>
         order by id desc
     </select>

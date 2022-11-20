@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 笔记内容对象 note_content
@@ -60,7 +58,6 @@ public class NoteContent extends BaseEntity {
      * 删除标记
      */
     @Excel(name = "删除标记")
-    @TableLogic(value = "0", delval = "2")
-    private Integer deleteFlag;
+    private Integer delFlag;
 
 }

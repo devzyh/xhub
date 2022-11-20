@@ -130,9 +130,17 @@ public class BaseController {
      */
     protected AjaxResult toAjax(R r) {
         if (r.getCode() == R.SUCCESS) {
-            return AjaxResult.success(r.getData());
+            if (r.getData() == null) {
+                return AjaxResult.success();
+            } else {
+                return AjaxResult.success(r.getData());
+            }
         } else {
-            return AjaxResult.error(r.getMsg());
+            if (StringUtils.isEmpty(r.getMsg())) {
+                return AjaxResult.error();
+            } else {
+                return AjaxResult.error(r.getMsg());
+            }
         }
     }
 

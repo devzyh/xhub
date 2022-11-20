@@ -57,6 +57,14 @@ public class R<T> implements Serializable {
         return restResult(null, code, msg);
     }
 
+    public static <T> R<T> of(int rows) {
+        if (rows > 0) {
+            return ok();
+        } else {
+            return fail();
+        }
+    }
+
     private static <T> R<T> restResult(T data, int code, String msg) {
         R<T> apiResult = new R<>();
         apiResult.setCode(code);

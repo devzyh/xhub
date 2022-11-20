@@ -9,7 +9,7 @@
         <result property="parentId" column="parent_id"/>
         <result property="name" column="name"/>
         <result property="rank" column="rank"/>
-        <result property="deleteFlag" column="delete_flag"/>
+        <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
@@ -22,7 +22,7 @@
                parent_id,
                name,
                rank,
-               delete_flag,
+               del_flag,
                create_by,
                create_time,
                update_by,
@@ -37,9 +37,9 @@
             <if test="parentId != null ">and parent_id = #{parentId}</if>
             <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
             <if test="rank != null ">and rank = #{rank}</if>
-            <if test="deleteFlag != null ">and delete_flag = #{deleteFlag}</if>
+            <if test="delFlag != null ">and del_flag = #{delFlag}</if>
         </where>
         order by rank asc
     </select>
-    
+
 </mapper>

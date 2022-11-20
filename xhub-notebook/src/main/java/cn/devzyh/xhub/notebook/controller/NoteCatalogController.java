@@ -92,7 +92,7 @@ public class NoteCatalogController extends BaseController {
      */
     @GetMapping("/treeSelect")
     public AjaxResult treeselect(NoteCatalog catalog) {
-        catalog.setDeleteFlag(0);
+        catalog.setDelFlag(0);
         List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);
         return AjaxResult.success(noteCatalogService.buildCatalogTree(catalogs));
     }

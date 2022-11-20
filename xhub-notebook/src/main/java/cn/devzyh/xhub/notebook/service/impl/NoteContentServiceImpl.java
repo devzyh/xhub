@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.core.domain.R;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -74,35 +75,38 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateNoteContent(NoteContent content) {
+    public R updateNoteContent(NoteContent content) {
         NoteContent local = contentMapper.selectById(content.getId());
 
-        boolean saveHistory = false;
+        boolean saveDb = false;
         // 更改了标题
-        if (saveHistory == false && StringUtils.isNotBlank(content.getTitle()) &&
+        if (saveDb == false && StringUtils.isNotBlank(content.getTitle()) &&
                 !StringUtils.equalsIgnoreCase(content.getTitle(), local.getTitle())) {
-            saveHistory = true;
+            saveDb = true;
         }
         // 更改了目录
-        if (saveHistory == false && content.getCatalogId() != null && content.getCatalogId() != local.getCatalogId()) {
-            saveHistory = true;
+        if (saveDb == false && content.getCatalogId() != null && content.getCatalogId() != local.getCatalogId()) {
+            saveDb = true;
         }
         // 更改了正文
-        if (saveHistory == false &&
+        if (saveDb == false &&
                 StringUtils.isNotBlank(content.getContent()) && StringUtils.isNotBlank(local.getContent()) &&
                 !StringUtils.equals(Md5Utils.hash(content.getContent()), Md5Utils.hash(local.getContent()))) {
-            saveHistory = true;
+            saveDb = true;
         }
 
-        if (saveHistory) {
-            NoteHistory history = new NoteHistory();
-            BeanUtils.copyBeanProp(history, local);
-            history.setContentId(local.getId());
-            historyService.insertNoteHistory(history);
+        if (!saveDb) {
+            return R.ok();
         }
 
-        // 更新传入数据到内容表
-        return contentMapper.updateById(content);
+        // 保存笔记历史
+        NoteHistory history = new NoteHistory();
+        BeanUtils.copyBeanProp(history, local);
+        history.setContentId(local.getId());
+        historyService.insertNoteHistory(history);
+
+        // 更新笔记数据
+        return R.of(contentMapper.updateById(content));
     }
 
     /**

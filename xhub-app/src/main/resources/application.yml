@@ -97,7 +97,15 @@ mybatis-plus:
   typeAliasesPackage: cn.devzyh.xhub.**.domain
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+  global-config:
+    db-config:
+      insert-strategy: not_empty
+      update-strategy: not_empty
+      where-strategy: not_empty
+      logic-delete-field: "delFlag"
+      logic-delete-value: "2"
+      logic-not-delete-value: "0"
+      
 # 防止XSS攻击
 xss:
   # 过滤开关

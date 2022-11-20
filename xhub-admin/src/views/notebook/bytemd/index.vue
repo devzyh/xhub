@@ -45,7 +45,6 @@ const plugins = [
 // 笔记内容
 const form = ref({
   id: 0,
-  title: "",
   content: ""
 });
 // 笔记缓存前缀
@@ -68,7 +67,9 @@ onMounted(() => {
     // 本地不存在从远程获取
     if (!localContent) {
       getContent(id).then(response => {
-        form.value = response.data;
+        const data = response.data;
+        form.value.id = data.id;
+        form.value.content = data.content;
         if (form.value.content) {
           proxy.$cache.local.set(contentKey, form.value.content);
         } else {

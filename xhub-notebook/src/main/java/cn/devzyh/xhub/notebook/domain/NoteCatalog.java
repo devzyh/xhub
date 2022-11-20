@@ -46,7 +46,6 @@ public class NoteCatalog extends TreeEntity {
      * 删除标记
      */
     @Excel(name = "删除标记")
-    @TableLogic(value = "0", delval = "2")
-    private Integer deleteFlag;
+    private Integer delFlag;
 
 }
