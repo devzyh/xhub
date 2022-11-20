@@ -37,9 +37,9 @@
                 @keyup.enter="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="手机号码" prop="phonenumber">
+          <el-form-item label="手机号码" prop="phone">
             <el-input
-                v-model="queryParams.phonenumber"
+                v-model="queryParams.phone"
                 placeholder="请输入手机号码"
                 clearable
                 style="width: 240px"
@@ -142,7 +142,7 @@
                            :show-overflow-tooltip="true"/>
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible"
                            :show-overflow-tooltip="true"/>
-          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible"
+          <el-table-column label="手机号码" align="center" key="phone" prop="phone" v-if="columns[4].visible"
                            width="120"/>
           <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
             <template #default="scope">
@@ -230,8 +230,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11"/>
+            <el-form-item label="手机号码" prop="phone">
+              <el-input v-model="form.phone" placeholder="请输入手机号码" maxlength="11"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -419,7 +419,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     userName: undefined,
-    phonenumber: undefined,
+    phone: undefined,
     status: undefined,
     deptId: undefined
   },
@@ -438,7 +438,7 @@ const data = reactive({
       trigger: "blur"
     }],
     email: [{type: "email", message: "请输入正确的邮箱地址", trigger: ["blur", "change"]}],
-    phonenumber: [{pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur"}]
+    phone: [{pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur"}]
   }
 });
 
@@ -600,7 +600,7 @@ function reset() {
     userName: undefined,
     nickName: undefined,
     password: undefined,
-    phonenumber: undefined,
+    phone: undefined,
     email: undefined,
     sex: undefined,
     status: "0",
