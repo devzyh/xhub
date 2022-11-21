@@ -89,8 +89,7 @@ public class NoteContentServiceImpl implements INoteContentService {
             saveDb = true;
         }
         // 更改了正文
-        if (saveDb == false &&
-                StringUtils.isNotBlank(content.getContent()) && StringUtils.isNotBlank(local.getContent()) &&
+        if (saveDb == false && StringUtils.isNotBlank(content.getContent()) &&
                 !StringUtils.equals(Md5Utils.hash(content.getContent()), Md5Utils.hash(local.getContent()))) {
             saveDb = true;
         }
