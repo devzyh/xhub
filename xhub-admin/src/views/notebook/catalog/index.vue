@@ -146,8 +146,7 @@ const refreshTable = ref(true);
 const queryParams = ref({
   parentId: null,
   name: null,
-  rank: null,
-  deleteFlag: 0
+  rank: null
 });
 // 表单参数
 const form = ref({});

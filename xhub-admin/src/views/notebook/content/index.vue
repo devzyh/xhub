@@ -297,8 +297,7 @@ const queryParams = ref({
   catalogId: null,
   title: null,
   content: null,
-  rank: null,
-  deleteFlag: 0
+  rank: null
 });
 // 表单校验
 const rules = {

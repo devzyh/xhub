@@ -29,16 +29,14 @@
                update_time,
                remark
         from note_catalog
+        where del_flag = '0'
     </sql>
 
     <select id="selectNoteCatalogList" parameterType="NoteCatalog" resultMap="NoteCatalogResult">
         <include refid="selectNoteCatalogVo"/>
-        <where>
-            <if test="parentId != null ">and parent_id = #{parentId}</if>
-            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
-            <if test="rank != null ">and rank = #{rank}</if>
-            <if test="delFlag != null ">and del_flag = #{delFlag}</if>
-        </where>
+        <if test="parentId != null ">and parent_id = #{parentId}</if>
+        <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+        <if test="rank != null ">and rank = #{rank}</if>
         order by rank asc
     </select>
 

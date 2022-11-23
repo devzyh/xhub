@@ -31,20 +31,19 @@
                update_time,
                remark
         from note_content
+        where del_flag = '0'
     </sql>
 
     <select id="selectNoteContentList" resultMap="NoteContentResult">
         <include refid="selectNoteContentVo"/>
-        <where>
-            <if test="data.searchValue != null and data.searchValue != ''">and (title like concat('%', #{data.searchValue}, '%') or
-                content like concat('%', #{data.searchValue}, '%'))
-            </if>
-            <if test="data.catalogId != null ">and catalog_id = #{data.catalogId}</if>
-            <if test="data.title != null  and data.title != ''">and title = #{data.title}</if>
-            <if test="data.content != null  and data.content != ''">and content = #{data.content}</if>
-            <if test="data.rank != null ">and rank = #{data.rank}</if>
-            <if test="data.delFlag != null ">and del_flag = #{data.delFlag}</if>
-        </where>
+        <if test="data.searchValue != null and data.searchValue != ''">and (title like concat('%', #{data.searchValue},
+            '%') or
+            content like concat('%', #{data.searchValue}, '%'))
+        </if>
+        <if test="data.catalogId != null ">and catalog_id = #{data.catalogId}</if>
+        <if test="data.title != null  and data.title != ''">and title = #{data.title}</if>
+        <if test="data.content != null  and data.content != ''">and content = #{data.content}</if>
+        <if test="data.rank != null ">and rank = #{data.rank}</if>
         order by id desc
     </select>
 
