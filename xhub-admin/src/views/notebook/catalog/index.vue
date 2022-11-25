@@ -49,7 +49,7 @@
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column label="目录名称" align="left" prop="name"/>
-      <el-table-column label="排序" align="center" prop="rank"/>
+      <el-table-column label="排序" align="center" prop="orderNum"/>
       <el-table-column label="创建时间" align="center" prop="createTime"/>
       <el-table-column label="更新时间" align="center" prop="updateTime"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -101,8 +101,8 @@
         <el-form-item label="目录名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名称"/>
         </el-form-item>
-        <el-form-item label="排序" prop="rank">
-          <el-input-number v-model="form.rank" controls-position="right" :min="0"/>
+        <el-form-item label="排序" prop="orderNum">
+          <el-input-number v-model="form.orderNum" controls-position="right" :min="0"/>
         </el-form-item>
         <el-form-item label="创建时间" prop="createTime">
           <el-input v-model="form.createTime" :readonly="true" :disabled="true"/>
@@ -146,7 +146,7 @@ const refreshTable = ref(true);
 const queryParams = ref({
   parentId: null,
   name: null,
-  rank: null
+  orderNum: null
 });
 // 表单参数
 const form = ref({});
@@ -200,7 +200,7 @@ function reset() {
     id: null,
     parentId: null,
     name: null,
-    rank: null,
+    orderNum: null,
     createBy: null,
     createTime: null,
     updateBy: null,

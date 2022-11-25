@@ -440,18 +440,19 @@ CREATE TABLE `gen_table_column`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `note_catalog`;
 CREATE TABLE `note_catalog`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '父级ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
-  `rank` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标记',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记目录表' ROW_FORMAT = Dynamic;
+ `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+ `parent_id` int(11) NULL DEFAULT 0 COMMENT '父级ID',
+ `ancestors` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '祖级列表',
+ `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
+ `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
+ `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除标记',
+ `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
+ `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+ `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
+ `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+ `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+ PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记目录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for note_content
@@ -471,7 +472,7 @@ CREATE TABLE `note_content`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_catalog_idx`(`catalog_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记内容表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记内容表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for note_history
@@ -491,7 +492,7 @@ CREATE TABLE `note_history`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_content_id`(`content_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 235 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记历史表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记历史表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for note_share

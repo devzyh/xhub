@@ -8,7 +8,7 @@
         <result property="id" column="id"/>
         <result property="parentId" column="parent_id"/>
         <result property="name" column="name"/>
-        <result property="rank" column="rank"/>
+        <result property="orderNum" column="order_num"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -21,7 +21,7 @@
         select id,
                parent_id,
                name,
-               rank,
+               order_num,
                del_flag,
                create_by,
                create_time,
@@ -36,8 +36,8 @@
         <include refid="selectNoteCatalogVo"/>
         <if test="parentId != null ">and parent_id = #{parentId}</if>
         <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
-        <if test="rank != null ">and rank = #{rank}</if>
-        order by rank asc
+        <if test="orderNum != null ">and order_num = #{orderNum}</if>
+        order by order_num asc
     </select>
 
 </mapper>

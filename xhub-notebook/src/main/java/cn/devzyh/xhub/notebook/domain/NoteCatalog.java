@@ -35,13 +35,7 @@ public class NoteCatalog extends TreeEntity {
      */
     @Excel(name = "名称")
     private String name;
-
-    /**
-     * 排序
-     */
-    @Excel(name = "排序")
-    private Long rank;
-
+    
     /**
      * 删除标记
      */
