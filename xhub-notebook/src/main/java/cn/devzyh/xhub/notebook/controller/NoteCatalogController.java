@@ -2,7 +2,7 @@ package cn.devzyh.xhub.notebook.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
@@ -31,9 +31,9 @@ public class NoteCatalogController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:list')")
     @GetMapping("/list")
-    public AjaxResult list(NoteCatalog noteCatalog) {
+    public Result list(NoteCatalog noteCatalog) {
         List<NoteCatalog> list = noteCatalogService.selectNoteCatalogList(noteCatalog);
-        return AjaxResult.success(list);
+        return Result.success(list);
     }
 
     /**
@@ -53,8 +53,8 @@ public class NoteCatalogController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:catalog:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(noteCatalogService.selectNoteCatalogById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(noteCatalogService.selectNoteCatalogById(id));
     }
 
     /**
@@ -63,8 +63,8 @@ public class NoteCatalogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:catalog:add')")
     @Log(title = "笔记目录", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody NoteCatalog noteCatalog) {
-        return toAjax(noteCatalogService.insertNoteCatalog(noteCatalog));
+    public Result add(@RequestBody NoteCatalog noteCatalog) {
+        return toResult(noteCatalogService.insertNoteCatalog(noteCatalog));
     }
 
     /**
@@ -73,8 +73,8 @@ public class NoteCatalogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:catalog:edit')")
     @Log(title = "笔记目录", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody NoteCatalog noteCatalog) {
-        return toAjax(noteCatalogService.updateNoteCatalog(noteCatalog));
+    public Result edit(@RequestBody NoteCatalog noteCatalog) {
+        return toResult(noteCatalogService.updateNoteCatalog(noteCatalog));
     }
 
     /**
@@ -83,17 +83,17 @@ public class NoteCatalogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:catalog:remove')")
     @Log(title = "笔记目录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(noteCatalogService.deleteNoteCatalogByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return noteCatalogService.deleteNoteCatalogByIds(ids);
     }
 
     /**
      * 获取部门下拉树列表
      */
     @GetMapping("/treeSelect")
-    public AjaxResult treeselect(NoteCatalog catalog) {
+    public Result treeselect(NoteCatalog catalog) {
         catalog.setDelFlag(0);
         List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);
-        return AjaxResult.success(noteCatalogService.buildCatalogTree(catalogs));
+        return Result.success(noteCatalogService.buildCatalogTree(catalogs));
     }
 }

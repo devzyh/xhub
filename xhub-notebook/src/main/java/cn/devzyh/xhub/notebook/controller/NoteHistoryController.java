@@ -2,7 +2,7 @@ package cn.devzyh.xhub.notebook.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -55,8 +55,8 @@ public class NoteHistoryController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(noteHistoryService.selectNoteHistoryById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(noteHistoryService.selectNoteHistoryById(id));
     }
 
     /**
@@ -65,8 +65,8 @@ public class NoteHistoryController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:history:add')")
     @Log(title = "笔记历史", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody NoteHistory noteHistory) {
-        return toAjax(noteHistoryService.insertNoteHistory(noteHistory));
+    public Result add(@RequestBody NoteHistory noteHistory) {
+        return toResult(noteHistoryService.insertNoteHistory(noteHistory));
     }
 
     /**
@@ -75,8 +75,8 @@ public class NoteHistoryController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:history:edit')")
     @Log(title = "笔记历史", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody NoteHistory noteHistory) {
-        return toAjax(noteHistoryService.updateNoteHistory(noteHistory));
+    public Result edit(@RequestBody NoteHistory noteHistory) {
+        return toResult(noteHistoryService.updateNoteHistory(noteHistory));
     }
 
     /**
@@ -85,7 +85,7 @@ public class NoteHistoryController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:history:remove')")
     @Log(title = "笔记历史", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(noteHistoryService.deleteNoteHistoryByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return toResult(noteHistoryService.deleteNoteHistoryByIds(ids));
     }
 }

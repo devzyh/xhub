@@ -2,7 +2,7 @@ package cn.devzyh.xhub.favorite.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -56,8 +56,8 @@ public class FavArticleController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('fav:article:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(favArticleService.selectFavArticleById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(favArticleService.selectFavArticleById(id));
     }
 
     /**
@@ -66,8 +66,8 @@ public class FavArticleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:article:add')")
     @Log(title = "文章", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FavArticle favArticle) {
-        return toAjax(favArticleService.insertFavArticle(favArticle));
+    public Result add(@RequestBody FavArticle favArticle) {
+        return toResult(favArticleService.insertFavArticle(favArticle));
     }
 
     /**
@@ -76,8 +76,8 @@ public class FavArticleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:article:edit')")
     @Log(title = "文章", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody FavArticle favArticle) {
-        return toAjax(favArticleService.updateFavArticle(favArticle));
+    public Result edit(@RequestBody FavArticle favArticle) {
+        return toResult(favArticleService.updateFavArticle(favArticle));
     }
 
     /**
@@ -86,7 +86,7 @@ public class FavArticleController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:article:remove')")
     @Log(title = "文章", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(favArticleService.deleteFavArticleByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return toResult(favArticleService.deleteFavArticleByIds(ids));
     }
 }

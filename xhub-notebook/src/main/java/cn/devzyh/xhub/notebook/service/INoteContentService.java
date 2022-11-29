@@ -1,6 +1,6 @@
 package cn.devzyh.xhub.notebook.service;
 
-import cn.devzyh.xhub.common.core.domain.R;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.notebook.domain.NoteContent;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
@@ -44,7 +44,7 @@ public interface INoteContentService {
      * @param noteContent 笔记内容
      * @return 结果
      */
-    R updateNoteContent(NoteContent noteContent);
+    Result updateNoteContent(NoteContent noteContent);
 
     /**
      * 批量删除笔记内容

@@ -1,8 +1,7 @@
 package cn.devzyh.xhub.common.core.controller;
 
 import cn.devzyh.xhub.common.constant.HttpStatus;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
-import cn.devzyh.xhub.common.core.domain.R;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.core.page.PageDomain;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
@@ -87,29 +86,29 @@ public class BaseController {
     /**
      * 返回成功
      */
-    public AjaxResult success() {
-        return AjaxResult.success();
+    public Result success() {
+        return Result.success();
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error() {
-        return AjaxResult.error();
+    public Result error() {
+        return Result.error();
     }
 
     /**
      * 返回成功消息
      */
-    public AjaxResult success(String message) {
-        return AjaxResult.success(message);
+    public Result success(String message) {
+        return Result.success(message);
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message) {
-        return AjaxResult.error(message);
+    public Result error(String message) {
+        return Result.error(message);
     }
 
     /**
@@ -118,30 +117,8 @@ public class BaseController {
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected AjaxResult toAjax(int rows) {
-        return rows > 0 ? AjaxResult.success() : AjaxResult.error();
-    }
-
-    /**
-     * 响应返回结果
-     *
-     * @param r R类型消息
-     * @return 操作结果
-     */
-    protected AjaxResult toAjax(R r) {
-        if (r.getCode() == R.SUCCESS) {
-            if (r.getData() == null) {
-                return AjaxResult.success();
-            } else {
-                return AjaxResult.success(r.getData());
-            }
-        } else {
-            if (StringUtils.isEmpty(r.getMsg())) {
-                return AjaxResult.error();
-            } else {
-                return AjaxResult.error(r.getMsg());
-            }
-        }
+    protected Result toResult(int rows) {
+        return rows > 0 ? Result.success() : Result.error();
     }
 
     /**
@@ -150,7 +127,7 @@ public class BaseController {
      * @param result 结果
      * @return 操作结果
      */
-    protected AjaxResult toAjax(boolean result) {
+    protected Result toResult(boolean result) {
         return result ? success() : error();
     }
 

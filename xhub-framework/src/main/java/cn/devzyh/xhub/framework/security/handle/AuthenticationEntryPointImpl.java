@@ -1,7 +1,7 @@
 package cn.devzyh.xhub.framework.security.handle;
 
 import cn.devzyh.xhub.common.constant.HttpStatus;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.ServletUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -28,6 +28,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
             throws IOException {
         int code = HttpStatus.UNAUTHORIZED;
         String msg = StringUtils.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
-        ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(code, msg)));
+        ServletUtils.renderString(response, JSON.toJSONString(Result.error(code, msg)));
     }
 }

@@ -2,7 +2,7 @@ package cn.devzyh.xhub.scheduler.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -54,8 +54,8 @@ public class SysJobLogController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
     @GetMapping(value = "/{configId}")
-    public AjaxResult getInfo(@PathVariable Long jobLogId) {
-        return AjaxResult.success(jobLogService.selectJobLogById(jobLogId));
+    public Result getInfo(@PathVariable Long jobLogId) {
+        return Result.success(jobLogService.selectJobLogById(jobLogId));
     }
 
 
@@ -65,8 +65,8 @@ public class SysJobLogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "定时任务调度日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{jobLogIds}")
-    public AjaxResult remove(@PathVariable List<Long> jobLogIds) {
-        return toAjax(jobLogService.deleteJobLogByIds(jobLogIds));
+    public Result remove(@PathVariable List<Long> jobLogIds) {
+        return toResult(jobLogService.deleteJobLogByIds(jobLogIds));
     }
 
     /**
@@ -75,8 +75,8 @@ public class SysJobLogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "调度日志", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clean")
-    public AjaxResult clean() {
+    public Result clean() {
         jobLogService.cleanJobLog();
-        return AjaxResult.success();
+        return Result.success();
     }
 }

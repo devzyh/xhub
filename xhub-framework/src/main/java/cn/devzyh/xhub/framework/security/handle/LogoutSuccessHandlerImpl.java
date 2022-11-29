@@ -2,7 +2,7 @@ package cn.devzyh.xhub.framework.security.handle;
 
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.constant.HttpStatus;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.utils.ServletUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -46,6 +46,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(userName, Constants.LOGOUT, "退出成功"));
         }
-        ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(HttpStatus.SUCCESS, "退出成功")));
+        ServletUtils.renderString(response, JSON.toJSONString(Result.error(HttpStatus.SUCCESS, "退出成功")));
     }
 }

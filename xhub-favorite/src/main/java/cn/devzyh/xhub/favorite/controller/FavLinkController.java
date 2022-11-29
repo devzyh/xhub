@@ -2,7 +2,7 @@ package cn.devzyh.xhub.favorite.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -56,8 +56,8 @@ public class FavLinkController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('fav:link:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(favLinkService.selectFavLinkById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(favLinkService.selectFavLinkById(id));
     }
 
     /**
@@ -66,8 +66,8 @@ public class FavLinkController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:link:add')")
     @Log(title = "主页链接", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FavLink favLink) {
-        return toAjax(favLinkService.insertFavLink(favLink));
+    public Result add(@RequestBody FavLink favLink) {
+        return toResult(favLinkService.insertFavLink(favLink));
     }
 
     /**
@@ -76,8 +76,8 @@ public class FavLinkController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:link:edit')")
     @Log(title = "主页链接", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody FavLink favLink) {
-        return toAjax(favLinkService.updateFavLink(favLink));
+    public Result edit(@RequestBody FavLink favLink) {
+        return toResult(favLinkService.updateFavLink(favLink));
     }
 
     /**
@@ -86,7 +86,7 @@ public class FavLinkController extends BaseController {
     @PreAuthorize("@ss.hasPermi('fav:link:remove')")
     @Log(title = "主页链接", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(favLinkService.deleteFavLinkByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return toResult(favLinkService.deleteFavLinkByIds(ids));
     }
 }

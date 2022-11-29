@@ -2,7 +2,7 @@ package cn.devzyh.xhub.framework.controller.system;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -47,15 +47,15 @@ public class SysOperLogController extends BaseController {
     @Log(title = "操作日志", businessType = BusinessType.DELETE)
     @PreAuthorize("@ss.hasPermi('system:log:oper:remove')")
     @DeleteMapping("/{operIds}")
-    public AjaxResult remove(@PathVariable List<Long> operIds) {
-        return toAjax(operLogService.deleteOperLogByIds(operIds));
+    public Result remove(@PathVariable List<Long> operIds) {
+        return toResult(operLogService.deleteOperLogByIds(operIds));
     }
 
     @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @PreAuthorize("@ss.hasPermi('system:log:oper:remove')")
     @DeleteMapping("/clean")
-    public AjaxResult clean() {
+    public Result clean() {
         operLogService.cleanOperLog();
-        return AjaxResult.success();
+        return Result.success();
     }
 }

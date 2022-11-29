@@ -1,7 +1,7 @@
 package cn.devzyh.xhub.framework.controller.system;
 
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.model.RegisterBody;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.framework.service.ISysConfigService;
@@ -27,7 +27,7 @@ public class SysRegisterController extends BaseController {
     private ISysConfigService configService;
 
     @PostMapping("/api/register")
-    public AjaxResult register(@RequestBody RegisterBody user) {
+    public Result register(@RequestBody RegisterBody user) {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             return error("当前系统没有开启注册功能！");
         }

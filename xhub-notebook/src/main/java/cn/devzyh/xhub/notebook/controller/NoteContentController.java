@@ -3,7 +3,7 @@ package cn.devzyh.xhub.notebook.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.constant.WebConstants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.enums.BusinessType;
@@ -63,8 +63,8 @@ public class NoteContentController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(contentService.selectNoteContentById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(contentService.selectNoteContentById(id));
     }
 
     /**
@@ -73,8 +73,8 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:add')")
     @Log(title = "笔记内容", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody NoteContent noteContent) {
-        return toAjax(contentService.insertNoteContent(noteContent));
+    public Result add(@RequestBody NoteContent noteContent) {
+        return toResult(contentService.insertNoteContent(noteContent));
     }
 
     /**
@@ -83,8 +83,8 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:edit')")
     @Log(title = "笔记内容", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody NoteContent noteContent) {
-        return toAjax(contentService.updateNoteContent(noteContent));
+    public Result edit(@RequestBody NoteContent noteContent) {
+        return contentService.updateNoteContent(noteContent);
     }
 
     /**
@@ -93,8 +93,8 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:remove')")
     @Log(title = "笔记内容", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(contentService.deleteNoteContentByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return toResult(contentService.deleteNoteContentByIds(ids));
     }
 
     /**
@@ -103,11 +103,11 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:token')")
     @Log(title = "笔记内容", businessType = BusinessType.OTHER)
     @GetMapping("/generateToken")
-    public AjaxResult generateToken() {
+    public Result generateToken() {
         String token = UUID.randomUUID().toString();
         redisCache.setCacheObject(WebConstants.Note.TOKEN_PREFIX + token, token,
                 WebConstants.Note.TOKEN_EXPIRE, TimeUnit.MINUTES);
-        return AjaxResult.success(null, token);
+        return Result.success(null, token);
     }
 
     /**
@@ -116,7 +116,7 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:import')")
     @Log(title = "笔记内容", businessType = BusinessType.IMPORT)
     @PostMapping("/import/{catalogId}")
-    public AjaxResult importContent(@PathVariable Long catalogId, @RequestParam(required = true) MultipartFile file) {
+    public Result importContent(@PathVariable Long catalogId, @RequestParam(required = true) MultipartFile file) {
         try {
             NoteContent content = new NoteContent();
             content.setCatalogId(catalogId);
@@ -124,9 +124,9 @@ public class NoteContentController extends BaseController {
             title = title.replace(title.substring(title.lastIndexOf(".")), "");
             content.setTitle(title);
             content.setContent(new String(file.getBytes()));
-            return toAjax(contentService.insertNoteContent(content));
+            return toResult(contentService.insertNoteContent(content));
         } catch (Exception e) {
-            return AjaxResult.error(e.getMessage());
+            return Result.error(e.getMessage());
         }
     }
 }

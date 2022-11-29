@@ -2,7 +2,7 @@ package cn.devzyh.xhub.framework.controller.common;
 
 import cn.devzyh.xhub.common.config.ProjectConfig;
 import cn.devzyh.xhub.common.constant.Constants;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.sign.Base64;
 import cn.devzyh.xhub.common.utils.uuid.IdUtils;
@@ -45,8 +45,8 @@ public class CaptchaController {
      * 生成验证码
      */
     @GetMapping("/api/captchaImage")
-    public AjaxResult getCode(HttpServletResponse response) throws IOException {
-        AjaxResult ajax = AjaxResult.success();
+    public Result getCode(HttpServletResponse response) throws IOException {
+        Result ajax = Result.success();
         boolean captchaOnOff = configService.selectCaptchaOnOff();
         ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff) {
@@ -78,7 +78,7 @@ public class CaptchaController {
         try {
             ImageIO.write(image, "jpg", os);
         } catch (IOException e) {
-            return AjaxResult.error(e.getMessage());
+            return Result.error(e.getMessage());
         }
 
         ajax.put("uuid", uuid);

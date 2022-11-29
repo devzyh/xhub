@@ -2,7 +2,7 @@ package cn.devzyh.xhub.framework.controller.common;
 
 import cn.devzyh.xhub.common.config.ProjectConfig;
 import cn.devzyh.xhub.common.constant.Constants;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.file.FileUploadUtils;
 import cn.devzyh.xhub.common.utils.file.FileUtils;
@@ -67,21 +67,21 @@ public class CommonController {
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception {
+    public Result uploadFile(MultipartFile file) throws Exception {
         try {
             // 上传文件路径
             String filePath = ProjectConfig.getUploadPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
-            AjaxResult ajax = AjaxResult.success();
+            Result ajax = Result.success();
             ajax.put("url", url);
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));
             ajax.put("originalFilename", file.getOriginalFilename());
             return ajax;
         } catch (Exception e) {
-            return AjaxResult.error(e.getMessage());
+            return Result.error(e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class CommonController {
      * 通用上传请求（多个）
      */
     @PostMapping("/uploads")
-    public AjaxResult uploadFiles(List<MultipartFile> files) throws Exception {
+    public Result uploadFiles(List<MultipartFile> files) throws Exception {
         try {
             // 上传文件路径
             String filePath = ProjectConfig.getUploadPath();
@@ -106,14 +106,14 @@ public class CommonController {
                 newFileNames.add(FileUtils.getName(fileName));
                 originalFilenames.add(file.getOriginalFilename());
             }
-            AjaxResult ajax = AjaxResult.success();
+            Result ajax = Result.success();
             ajax.put("urls", StringUtils.join(urls, FILE_DELIMETER));
             ajax.put("fileNames", StringUtils.join(fileNames, FILE_DELIMETER));
             ajax.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMETER));
             ajax.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMETER));
             return ajax;
         } catch (Exception e) {
-            return AjaxResult.error(e.getMessage());
+            return Result.error(e.getMessage());
         }
     }
 

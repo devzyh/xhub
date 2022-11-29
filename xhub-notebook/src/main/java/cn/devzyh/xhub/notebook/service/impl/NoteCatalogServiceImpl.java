@@ -1,6 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
-import cn.devzyh.xhub.common.core.domain.R;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 import cn.devzyh.xhub.notebook.mapper.NoteCatalogMapper;
@@ -79,14 +79,14 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      * @return 结果
      */
     @Override
-    public R deleteNoteCatalogByIds(List<Long> ids) {
+    public Result deleteNoteCatalogByIds(List<Long> ids) {
         // 检查目录下是否有文章
         if (contentService.selectCountByCatalogIds(ids) > 0) {
-            return R.fail("所选目录下存在关联文章");
+            return Result.error("所选目录下存在关联文章");
         }
 
         catalogMapper.deleteBatchIds(ids);
-        return R.ok();
+        return Result.success();
     }
 
     /**

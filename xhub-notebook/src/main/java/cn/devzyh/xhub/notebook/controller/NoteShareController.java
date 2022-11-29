@@ -2,7 +2,7 @@ package cn.devzyh.xhub.notebook.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -56,8 +56,8 @@ public class NoteShareController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:query')")
     @GetMapping(value = "/{contentId}")
-    public AjaxResult getInfo(@PathVariable("contentId") Long contentId) {
-        return AjaxResult.success(noteShareService.selectNoteShareByContentId(contentId));
+    public Result getInfo(@PathVariable("contentId") Long contentId) {
+        return Result.success(noteShareService.selectNoteShareByContentId(contentId));
     }
 
     /**
@@ -66,8 +66,8 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:add')")
     @Log(title = "笔记分享", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult save(@RequestBody NoteShare noteShare) {
-        return toAjax(noteShareService.saveNoteShare(noteShare));
+    public Result save(@RequestBody NoteShare noteShare) {
+        return toResult(noteShareService.saveNoteShare(noteShare));
     }
 
     /**
@@ -76,8 +76,8 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:edit')")
     @Log(title = "笔记分享", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody NoteShare noteShare) {
-        return toAjax(noteShareService.updateNoteShare(noteShare));
+    public Result edit(@RequestBody NoteShare noteShare) {
+        return toResult(noteShareService.updateNoteShare(noteShare));
     }
 
     /**
@@ -86,7 +86,7 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:remove')")
     @Log(title = "笔记分享", businessType = BusinessType.DELETE)
     @DeleteMapping("/{contentIds}")
-    public AjaxResult remove(@PathVariable List<Long> contentIds) {
+    public Result remove(@PathVariable List<Long> contentIds) {
         noteShareService.deleteNoteShareByContentIds(contentIds);
         return success();
     }

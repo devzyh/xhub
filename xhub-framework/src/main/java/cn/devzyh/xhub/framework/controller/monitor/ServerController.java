@@ -1,6 +1,6 @@
 package cn.devzyh.xhub.framework.controller.monitor;
 
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.framework.web.domain.Server;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServerController {
     @PreAuthorize("@ss.hasPermi('monitor:server:list')")
     @GetMapping()
-    public AjaxResult getInfo() throws Exception {
+    public Result getInfo() throws Exception {
         Server server = new Server();
         server.copyTo();
-        return AjaxResult.success(server);
+        return Result.success(server);
     }
 }

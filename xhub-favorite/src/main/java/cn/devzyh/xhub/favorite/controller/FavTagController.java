@@ -2,7 +2,7 @@ package cn.devzyh.xhub.favorite.controller;
 
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.TableDataInfo;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -65,8 +65,8 @@ public class FavTagController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('favorite:tag:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(favTagService.selectFavTagById(id));
+    public Result getInfo(@PathVariable("id") Long id) {
+        return Result.success(favTagService.selectFavTagById(id));
     }
 
     /**
@@ -75,8 +75,8 @@ public class FavTagController extends BaseController {
     @PreAuthorize("@ss.hasPermi('favorite:tag:add')")
     @Log(title = "文章标签", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FavTag favTag) {
-        return toAjax(favTagService.insertFavTag(favTag));
+    public Result add(@RequestBody FavTag favTag) {
+        return toResult(favTagService.insertFavTag(favTag));
     }
 
     /**
@@ -85,8 +85,8 @@ public class FavTagController extends BaseController {
     @PreAuthorize("@ss.hasPermi('favorite:tag:edit')")
     @Log(title = "文章标签", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody FavTag favTag) {
-        return toAjax(favTagService.updateFavTag(favTag));
+    public Result edit(@RequestBody FavTag favTag) {
+        return toResult(favTagService.updateFavTag(favTag));
     }
 
     /**
@@ -95,7 +95,7 @@ public class FavTagController extends BaseController {
     @PreAuthorize("@ss.hasPermi('favorite:tag:remove')")
     @Log(title = "文章标签", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable List<Long> ids) {
-        return toAjax(favTagService.deleteFavTagByIds(ids));
+    public Result remove(@PathVariable List<Long> ids) {
+        return toResult(favTagService.deleteFavTagByIds(ids));
     }
 }

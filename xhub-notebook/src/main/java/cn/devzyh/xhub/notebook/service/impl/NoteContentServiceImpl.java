@@ -1,6 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
-import cn.devzyh.xhub.common.core.domain.R;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -75,7 +75,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R updateNoteContent(NoteContent content) {
+    public Result updateNoteContent(NoteContent content) {
         NoteContent local = contentMapper.selectById(content.getId());
 
         boolean saveDb = false;
@@ -95,7 +95,7 @@ public class NoteContentServiceImpl implements INoteContentService {
         }
 
         if (!saveDb) {
-            return R.ok();
+            return Result.success();
         }
 
         // 保存笔记历史
@@ -105,7 +105,7 @@ public class NoteContentServiceImpl implements INoteContentService {
         historyService.insertNoteHistory(history);
 
         // 更新笔记数据
-        return R.of(contentMapper.updateById(content));
+        return Result.of(contentMapper.updateById(content));
     }
 
     /**

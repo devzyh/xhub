@@ -19,7 +19,7 @@ import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.devzyh.oms.common.core.web.controller.BaseController;
-import cn.devzyh.oms.common.core.web.domain.AjaxResult;
+import cn.devzyh.oms.common.core.domain.Result;
 import cn.devzyh.oms.common.core.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)
 import cn.devzyh.oms.common.core.web.page.TableDataInfo;
@@ -50,7 +50,7 @@ public class ${ClassName}Controller extends BaseController {
         return getDataTable(page, ${className}Service.select${ClassName}List(page, ${className}));
     }
     #elseif($table.tree)
-        public AjaxResult list(${ClassName} ${className}) {
+        public Result list(${ClassName} ${className}) {
             List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
             return success(list);
         }
@@ -73,7 +73,7 @@ public class ${ClassName}Controller extends BaseController {
      */
     @RequiresPermissions("${permissionPrefix}:query")
     @GetMapping(value = "/{${pkColumn.javaField}}")
-    public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
+    public Result getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
         return success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
@@ -83,8 +83,8 @@ public class ${ClassName}Controller extends BaseController {
     @RequiresPermissions("${permissionPrefix}:add")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ${ClassName} ${className}) {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+    public Result add(@RequestBody ${ClassName} ${className}) {
+        return toResult(${className}Service.insert${ClassName}(${className}));
     }
 
     /**
@@ -93,8 +93,8 @@ public class ${ClassName}Controller extends BaseController {
     @RequiresPermissions("${permissionPrefix}:edit")
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ${ClassName} ${className}) {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+    public Result edit(@RequestBody ${ClassName} ${className}) {
+        return toResult(${className}Service.update${ClassName}(${className}));
     }
 
     /**
@@ -103,7 +103,7 @@ public class ${ClassName}Controller extends BaseController {
     @RequiresPermissions("${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
     @DeleteMapping("/{${pkColumn.javaField}s}")
-    public AjaxResult remove(@PathVariable List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
-        return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+    public Result remove(@PathVariable List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
+        return toResult(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
     }
 }

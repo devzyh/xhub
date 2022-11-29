@@ -1,7 +1,7 @@
 package cn.devzyh.xhub.framework.interceptor;
 
 import cn.devzyh.xhub.common.annotation.RepeatSubmit;
-import cn.devzyh.xhub.common.core.domain.AjaxResult;
+import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.ServletUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
@@ -27,8 +27,8 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
             if (annotation != null) {
                 if (this.isRepeatSubmit(request, annotation)) {
-                    AjaxResult ajaxResult = AjaxResult.error(annotation.message());
-                    ServletUtils.renderString(response, JSONObject.toJSONString(ajaxResult));
+                    Result result = Result.error(annotation.message());
+                    ServletUtils.renderString(response, JSONObject.toJSONString(result));
                     return false;
                 }
             }
