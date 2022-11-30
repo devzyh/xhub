@@ -19,32 +19,39 @@
     </resultMap>
 
     <sql id="selectNoteContentVo">
-        select id,
-               catalog_id,
-               title,
-               content,
-               rank,
-               del_flag,
-               create_by,
-               create_time,
-               update_by,
-               update_time,
-               remark
-        from note_content
-        where del_flag = '0'
+        select co.id,
+               co.catalog_id,
+               co.title,
+               co.content,
+               co.rank,
+               co.del_flag,
+               co.create_by,
+               co.create_time,
+               co.update_by,
+               co.update_time,
+               co.remark
+        from note_content co
+               left join note_catalog ca on co.catalog_id = ca.id
+        where co.del_flag = '0'
     </sql>
 
     <select id="selectNoteContentList" resultMap="NoteContentResult">
         <include refid="selectNoteContentVo"/>
-        <if test="data.searchValue != null and data.searchValue != ''">and (title like concat('%', #{data.searchValue},
-            '%') or
-            content like concat('%', #{data.searchValue}, '%'))
+        <if test="data.catalogId != null ">
+            and (
+                co.catalog_id = #{data.catalogId}
+                or
+                find_in_set(#{data.catalogId}, ca.ancestors)
+            )
         </if>
-        <if test="data.catalogId != null ">and catalog_id = #{data.catalogId}</if>
-        <if test="data.title != null  and data.title != ''">and title = #{data.title}</if>
-        <if test="data.content != null  and data.content != ''">and content = #{data.content}</if>
-        <if test="data.rank != null ">and rank = #{data.rank}</if>
-        order by id desc
+        <if test="data.searchValue != null and data.searchValue != ''">
+            and (
+                co.title like concat('%', #{data.searchValue},'%') 
+                or
+                co.content like concat('%', #{data.searchValue}, '%')
+            )
+        </if>
+        order by co.id desc
     </select>
 
 </mapper>

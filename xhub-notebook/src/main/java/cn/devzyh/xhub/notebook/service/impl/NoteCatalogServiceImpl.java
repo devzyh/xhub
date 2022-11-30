@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
@@ -9,9 +10,7 @@ import cn.devzyh.xhub.notebook.service.INoteContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 笔记目录Service业务层处理
@@ -58,6 +57,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int insertNoteCatalog(NoteCatalog catalog) {
+        catalog.setAncestors(getAncestors(catalog.getParentId()));
         return catalogMapper.insert(catalog);
     }
 
@@ -69,6 +69,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int updateNoteCatalog(NoteCatalog catalog) {
+        catalog.setAncestors(getAncestors(catalog.getParentId()));
         return catalogMapper.updateById(catalog);
     }
 
@@ -161,4 +162,27 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
     private boolean hasChild(List<NoteCatalog> list, NoteCatalog t) {
         return getChildList(list, t).size() > 0;
     }
+
+    @Override
+    public String getAncestors(Long parentId) {
+        // 构建目录Map
+        Map<Long, Long> ancestorMap = new HashMap<>();
+        catalogMapper.selectList(null).forEach(catalog -> {
+            ancestorMap.put(catalog.getId(), catalog.getParentId());
+        });
+        if (ancestorMap.isEmpty()) {
+            return null;
+        }
+
+        // 获取祖级信息
+        Long cur = parentId;
+        List<String> ancestorList = new LinkedList<>();
+        while (cur > 0) {
+            ancestorList.add(cur.toString());
+            cur = ancestorMap.get(cur);
+        }
+
+        return String.join(Constants.GROUP_CONCAT_SPLIT, ancestorList);
+    }
+
 }

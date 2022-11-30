@@ -20,7 +20,7 @@ public interface INoteCatalogService {
      * @return 笔记目录集合
      */
     List<NoteCatalog> selectNoteCatalogList(NoteCatalog noteCatalog);
-    
+
     /**
      * 查询笔记目录
      *
@@ -68,4 +68,13 @@ public interface INoteCatalogService {
      * @return 树结构列表
      */
     List<NoteCatalog> buildCatalogTree(List<NoteCatalog> catalogs);
+
+    /**
+     * 获取指定目录的祖级目录
+     *
+     * @param ids
+     * @return
+     */
+    String getAncestors(Long ids);
+
 }
