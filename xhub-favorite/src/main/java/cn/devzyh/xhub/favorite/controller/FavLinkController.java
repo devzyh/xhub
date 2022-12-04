@@ -3,7 +3,7 @@ package cn.devzyh.xhub.favorite.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.favorite.domain.FavLink;
@@ -34,9 +34,9 @@ public class FavLinkController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('fav:link:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FavLink favLink) {
+    public PageResult list(FavLink favLink) {
         IPage<FavLink> page = getPage();
-        return getDataTable(page, favLinkService.selectFavLinkList(page, favLink));
+        return getPageResult(page, favLinkService.selectFavLinkList(page, favLink));
     }
 
     /**

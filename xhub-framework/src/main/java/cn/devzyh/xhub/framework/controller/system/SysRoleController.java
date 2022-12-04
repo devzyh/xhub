@@ -7,7 +7,7 @@ import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.entity.SysRole;
 import cn.devzyh.xhub.common.core.domain.entity.SysUser;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -47,9 +47,9 @@ public class SysRoleController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysRole role) {
+    public PageResult list(SysRole role) {
         IPage<SysRole> page = getPage();
-        return getDataTable(page, roleService.selectRoleList(page, role));
+        return getPageResult(page, roleService.selectRoleList(page, role));
     }
 
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
@@ -166,9 +166,9 @@ public class SysRoleController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/allocatedList")
-    public TableDataInfo allocatedList(SysUser user) {
+    public PageResult allocatedList(SysUser user) {
         IPage<SysUser> page = getPage();
-        return getDataTable(page, userService.selectAllocatedList(page, user));
+        return getPageResult(page, userService.selectAllocatedList(page, user));
     }
 
     /**
@@ -176,9 +176,9 @@ public class SysRoleController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/unallocatedList")
-    public TableDataInfo unallocatedList(SysUser user) {
+    public PageResult unallocatedList(SysUser user) {
         IPage<SysUser> page = getPage();
-        return getDataTable(page, userService.selectUnallocatedList(page, user));
+        return getPageResult(page, userService.selectUnallocatedList(page, user));
     }
 
     /**

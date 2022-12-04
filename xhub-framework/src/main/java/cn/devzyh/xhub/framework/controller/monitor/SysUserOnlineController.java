@@ -5,7 +5,7 @@ import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -38,7 +38,7 @@ public class SysUserOnlineController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")
-    public TableDataInfo list(String ipaddr, String userName) {
+    public PageResult list(String ipaddr, String userName) {
         Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
@@ -62,7 +62,7 @@ public class SysUserOnlineController extends BaseController {
         Collections.reverse(userOnlineList);
         userOnlineList.removeAll(Collections.singleton(null));
         IPage<SysUserOnline> page = getPage();
-        return getDataTable(page, userOnlineList.stream()
+        return getPageResult(page, userOnlineList.stream()
                 .skip((page.getCurrent() - 1) * page.getSize())
                 .limit(page.getSize())
                 .collect(Collectors.toList()));

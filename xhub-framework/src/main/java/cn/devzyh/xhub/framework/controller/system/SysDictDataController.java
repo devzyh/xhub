@@ -4,7 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -36,9 +36,9 @@ public class SysDictDataController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysDictData dictData) {
+    public PageResult list(SysDictData dictData) {
         IPage<SysDictData> page = getPage();
-        return getDataTable(page, dictDataService.selectDictDataList(page, dictData));
+        return getPageResult(page, dictDataService.selectDictDataList(page, dictData));
     }
 
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)

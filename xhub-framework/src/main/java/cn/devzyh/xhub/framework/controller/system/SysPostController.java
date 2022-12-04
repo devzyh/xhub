@@ -4,7 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.constant.UserConstants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysPost;
@@ -34,9 +34,9 @@ public class SysPostController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:post:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysPost post) {
+    public PageResult list(SysPost post) {
         IPage<SysPost> page = getPage();
-        return getDataTable(page, postService.selectPostList(page, post));
+        return getPageResult(page, postService.selectPostList(page, post));
     }
 
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)

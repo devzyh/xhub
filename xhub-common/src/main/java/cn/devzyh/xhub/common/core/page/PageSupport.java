@@ -8,7 +8,7 @@ import cn.devzyh.xhub.common.utils.ServletUtils;
  *
  * @author ruoyi
  */
-public class TableSupport {
+public class PageSupport {
     /**
      * 当前记录起始索引
      */

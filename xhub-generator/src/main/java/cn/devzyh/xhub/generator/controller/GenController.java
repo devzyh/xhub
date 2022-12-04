@@ -3,7 +3,7 @@ package cn.devzyh.xhub.generator.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.core.text.Convert;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.generator.domain.GenTable;
@@ -42,9 +42,9 @@ public class GenController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:list')")
     @GetMapping("/list")
-    public TableDataInfo genList(GenTable genTable) {
+    public PageResult genList(GenTable genTable) {
         IPage<GenTable> page = getPage();
-        return getDataTable(page, genTableService.selectGenTableList(page, genTable));
+        return getPageResult(page, genTableService.selectGenTableList(page, genTable));
     }
 
     /**
@@ -68,9 +68,9 @@ public class GenController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:list')")
     @GetMapping("/db/list")
-    public TableDataInfo dataList(GenTable genTable) {
+    public PageResult dataList(GenTable genTable) {
         IPage<GenTable> page = getPage();
-        return getDataTable(page, genTableService.selectDbTableList(page, genTable));
+        return getPageResult(page, genTableService.selectDbTableList(page, genTable));
     }
 
     /**
@@ -78,8 +78,8 @@ public class GenController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:list')")
     @GetMapping(value = "/column/{tableId}")
-    public TableDataInfo columnList(Long tableId) {
-        TableDataInfo dataInfo = new TableDataInfo();
+    public PageResult columnList(Long tableId) {
+        PageResult dataInfo = new PageResult();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
         dataInfo.setRows(list);
         dataInfo.setTotal(list.size());

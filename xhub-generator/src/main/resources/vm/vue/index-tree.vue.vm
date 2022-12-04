@@ -368,11 +368,11 @@
 
   /** 查询${functionName}下拉树结构 */
   function getTreeselect() {
-    list${BusinessName}().then(response => {
+    list${BusinessName}().then(({data}) => {
             ${businessName}Options.value = [];
-      const data = {${treeCode}: 0, ${treeName}: '顶级节点', children: []};
-      data.children = proxy.handleTree(response.data, "${treeCode}", "${treeParentCode}");
-            ${businessName}Options.value.push(data);
+      const node = {${treeCode}: 0, ${treeName}: '顶级节点', children: []};
+      node.children = proxy.handleTree(data, "${treeCode}", "${treeParentCode}");
+            ${businessName}Options.value.push(node);
     });
   }
 

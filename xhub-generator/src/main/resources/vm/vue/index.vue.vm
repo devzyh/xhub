@@ -440,9 +440,9 @@
             }
           #end
       #end
-    list${BusinessName}(queryParams.value).then(response => {
-            ${businessName}List.value = response.rows;
-      total.value = response.total;
+    list${BusinessName}(queryParams.value).then(res => {
+            ${businessName}List.value = res.rows;
+      total.value = res.total;
       loading.value = false;
     });
   }
@@ -509,15 +509,15 @@
   function handleUpdate(row) {
     reset();
     const _${pkColumn.javaField} = row.${pkColumn.javaField} || ids.value
-    get${BusinessName}(_${pkColumn.javaField}).then(response => {
-      form.value = response.data;
+    get${BusinessName}(_${pkColumn.javaField}).then(({data}) => {
+      form.value = data;
         #foreach ($column in $columns)
             #if($column.htmlType == "checkbox")
               form.value.$column.javaField = form.value.${column.javaField}.split(",");
             #end
         #end
         #if($table.sub)
-                ${subclassName}List.value = response.data.${subclassName}List;
+                ${subclassName}List.value = data.${subclassName}List;
         #end
       open.value = true;
       title.value = "修改${functionName}";

@@ -107,9 +107,9 @@ const loginRules = {
 };
 
 function getCode() {
-  getCodeImg().then(res => {
-    codeUrl.value = "data:image/gif;base64," + res.img;
-    loginForm.value.uuid = res.uuid;
+  getCodeImg().then(({data}) => {
+    codeUrl.value = "data:image/gif;base64," + data.img;
+    loginForm.value.uuid = data.uuid;
   });
 }
 

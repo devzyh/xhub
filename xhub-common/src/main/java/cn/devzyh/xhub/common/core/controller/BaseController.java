@@ -4,8 +4,8 @@ import cn.devzyh.xhub.common.constant.HttpStatus;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.core.page.PageDomain;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
-import cn.devzyh.xhub.common.core.page.TableSupport;
+import cn.devzyh.xhub.common.core.page.PageResult;
+import cn.devzyh.xhub.common.core.page.PageSupport;
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -49,7 +49,7 @@ public class BaseController {
      * @return
      */
     protected <T> Page<T> getPage() {
-        PageDomain pageDomain = TableSupport.buildPageRequest();
+        PageDomain pageDomain = PageSupport.buildPageRequest();
         Page<T> page = new Page<>();
         page.setCurrent(pageDomain.getPageNum());
         page.setSize(pageDomain.getPageSize());
@@ -63,24 +63,24 @@ public class BaseController {
     /**
      * 响应请求分页数据
      */
-    protected TableDataInfo getDataTable(IPage<?> page) {
-        return getDataTable(page, null);
+    protected PageResult getPageResult(IPage<?> page) {
+        return getPageResult(page, null);
     }
 
     /**
      * 响应请求分页数据
      */
-    protected TableDataInfo getDataTable(IPage<?> page, List<?> records) {
-        TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(HttpStatus.SUCCESS);
+    protected PageResult getPageResult(IPage<?> page, List<?> records) {
+        PageResult result = new PageResult();
+        result.setCode(HttpStatus.SUCCESS);
         if (records == null) {
-            rspData.setRows(page.getRecords());
+            result.setRows(page.getRecords());
         } else {
-            rspData.setRows(records);
+            result.setRows(records);
         }
-        rspData.setMsg("查询成功");
-        rspData.setTotal(page.getTotal());
-        return rspData;
+        result.setMsg("查询成功");
+        result.setTotal(page.getTotal());
+        return result;
     }
 
     /**

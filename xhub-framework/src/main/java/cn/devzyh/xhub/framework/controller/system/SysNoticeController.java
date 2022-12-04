@@ -3,7 +3,7 @@ package cn.devzyh.xhub.framework.controller.system;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.framework.domain.SysNotice;
 import cn.devzyh.xhub.framework.service.ISysNoticeService;
@@ -31,9 +31,9 @@ public class SysNoticeController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:notice:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysNotice notice) {
+    public PageResult list(SysNotice notice) {
         IPage<SysNotice> page = getPage();
-        return getDataTable(page, noticeService.selectNoticeList(page, notice));
+        return getPageResult(page, noticeService.selectNoticeList(page, notice));
     }
 
     /**

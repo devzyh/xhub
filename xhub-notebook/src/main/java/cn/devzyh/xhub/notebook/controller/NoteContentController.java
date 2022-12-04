@@ -4,7 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.constant.WebConstants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
@@ -41,9 +41,9 @@ public class NoteContentController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:list')")
     @GetMapping("/list")
-    public TableDataInfo list(NoteContent noteContent) {
+    public PageResult list(NoteContent noteContent) {
         IPage<NoteContent> page = getPage();
-        return getDataTable(page, contentService.selectNoteContentList(page, noteContent));
+        return getPageResult(page, contentService.selectNoteContentList(page, noteContent));
     }
 
     /**

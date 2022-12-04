@@ -3,7 +3,7 @@ package cn.devzyh.xhub.scheduler.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.scheduler.domain.SysJobLog;
@@ -32,9 +32,9 @@ public class SysJobLogController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysJobLog sysJobLog) {
+    public PageResult list(SysJobLog sysJobLog) {
         IPage<SysJobLog> page = getPage();
-        return getDataTable(page, jobLogService.selectJobLogList(page, sysJobLog));
+        return getPageResult(page, jobLogService.selectJobLogList(page, sysJobLog));
     }
 
     /**

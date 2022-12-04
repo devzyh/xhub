@@ -6,7 +6,7 @@ import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.entity.SysRole;
 import cn.devzyh.xhub.common.core.domain.entity.SysUser;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -47,9 +47,9 @@ public class SysUserController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysUser user) {
+    public PageResult list(SysUser user) {
         IPage<SysUser> page = getPage();
-        return getDataTable(page, userService.selectUserList(page, user));
+        return getPageResult(page, userService.selectUserList(page, user));
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
@@ -91,7 +91,7 @@ public class SysUserController extends BaseController {
         ajax.put("posts", postService.selectPostAll());
         if (StringUtils.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
-            ajax.put(Result.DATA_TAG, sysUser);
+            ajax.put("user", sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));
             ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
         }

@@ -3,7 +3,7 @@ package cn.devzyh.xhub.framework.controller.system;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysOperLog;
@@ -30,9 +30,9 @@ public class SysOperLogController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('system:log:oper:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysOperLog operLog) {
+    public PageResult list(SysOperLog operLog) {
         IPage<SysOperLog> page = getPage();
-        return getDataTable(page, operLogService.selectOperLogList(page, operLog));
+        return getPageResult(page, operLogService.selectOperLogList(page, operLog));
     }
 
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)

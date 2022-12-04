@@ -327,9 +327,9 @@ const {queryParams, form, rules} = toRefs(data);
 /** 查询角色列表 */
 function getList() {
   loading.value = true;
-  listRole(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    roleList.value = response.rows;
-    total.value = response.total;
+  listRole(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
+    roleList.value = res.rows;
+    total.value = res.total;
     loading.value = false;
   });
 }
@@ -406,8 +406,8 @@ function handleAuthUser(row) {
 
 /** 查询菜单树结构 */
 function getMenuTreeSelect() {
-  menuTreeSelect().then(response => {
-    menuOptions.value = response.data;
+  menuTreeSelect().then(({data}) => {
+    menuOptions.value = data;
   });
 }
 
@@ -458,13 +458,13 @@ function handleUpdate(row) {
   reset();
   const roleId = row.roleId || ids.value;
   const roleMenu = getRoleMenuTreeSelect(roleId);
-  getRole(roleId).then(response => {
-    form.value = response.data;
+  getRole(roleId).then(({data}) => {
+    form.value = data;
     form.value.roleSort = Number(form.value.roleSort);
     open.value = true;
     nextTick(() => {
       roleMenu.then((res) => {
-        let checkedKeys = res.checkedKeys;
+        let checkedKeys = res.data.checkedKeys;
         checkedKeys.forEach((v) => {
           nextTick(() => {
             menuRef.value.setChecked(v, true, false);
@@ -478,17 +478,17 @@ function handleUpdate(row) {
 
 /** 根据角色ID查询菜单树结构 */
 function getRoleMenuTreeSelect(roleId) {
-  return roleMenuTreeSelect(roleId).then(response => {
-    menuOptions.value = response.menus;
-    return response;
+  return roleMenuTreeSelect(roleId).then(res => {
+    menuOptions.value = res.data.menus;
+    return res;
   });
 }
 
 /** 根据角色ID查询部门树结构 */
 function getDeptTree(roleId) {
-  return roleDeptTreeSelect(roleId).then(response => {
-    deptOptions.value = response.depts;
-    return response;
+  return roleDeptTreeSelect(roleId).then(res => {
+    deptOptions.value = res.data.depts;
+    return res;
   });
 }
 
@@ -566,7 +566,7 @@ function cancel() {
 
 /** 选择角色权限范围触发 */
 function dataScopeSelectChange(value) {
-  if (value !== "2") {
+  if (value !== 2) {
     deptRef.value.setCheckedKeys([]);
   }
 }
@@ -575,14 +575,14 @@ function dataScopeSelectChange(value) {
 function handleDataScope(row) {
   reset();
   const deptTreeSelect = getDeptTree(row.roleId);
-  getRole(row.roleId).then(response => {
-    form.value = response.data;
+  getRole(row.roleId).then(({data}) => {
+    form.value = data;
     openDataScope.value = true;
     nextTick(() => {
       deptTreeSelect.then(res => {
         nextTick(() => {
           if (deptRef.value) {
-            deptRef.value.setCheckedKeys(res.checkedKeys);
+            deptRef.value.setCheckedKeys(res.data.checkedKeys);
           }
         });
       });

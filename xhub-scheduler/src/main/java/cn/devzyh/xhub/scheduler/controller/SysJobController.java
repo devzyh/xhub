@@ -4,7 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.exception.job.TaskException;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -38,9 +38,9 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysJob sysJob) {
+    public PageResult list(SysJob sysJob) {
         IPage<SysJob> page = getPage();
-        return getDataTable(page, jobService.selectJobList(page, sysJob));
+        return getPageResult(page, jobService.selectJobList(page, sysJob));
     }
 
     /**

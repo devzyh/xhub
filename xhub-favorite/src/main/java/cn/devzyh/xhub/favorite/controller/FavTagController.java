@@ -3,7 +3,7 @@ package cn.devzyh.xhub.favorite.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.favorite.domain.FavTag;
@@ -34,9 +34,9 @@ public class FavTagController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('favorite:tag:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FavTag favTag) {
+    public PageResult list(FavTag favTag) {
         IPage<FavTag> page = getPage();
-        return getDataTable(page, favTagService.selectFavTagList(page, favTag));
+        return getPageResult(page, favTagService.selectFavTagList(page, favTag));
     }
 
     /**

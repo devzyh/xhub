@@ -365,7 +365,7 @@
 
 <script setup name="User">
 import {getToken} from "@/utils/auth";
-import {changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser} from "@/api/system/user";
+import {addUser, changeUserStatus, delUser, getUser, listUser, resetUserPwd, updateUser} from "@/api/system/user";
 import {treeSelect as deptTreeSelect} from "@/api/system/dept";
 
 const router = useRouter();
@@ -633,12 +633,12 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const userId = row.userId || ids.value;
-  getUser(userId).then(response => {
-    form.value = response.data;
-    postOptions.value = response.posts;
-    roleOptions.value = response.roles;
-    form.value.postIds = response.postIds;
-    form.value.roleIds = response.roleIds;
+  getUser(userId).then(({data}) => {
+    form.value = data.user;
+    postOptions.value = data.posts;
+    roleOptions.value = data.roles;
+    form.value.postIds = data.postIds;
+    form.value.roleIds = data.roleIds;
     open.value = true;
     title.value = "修改用户";
     form.password = "";

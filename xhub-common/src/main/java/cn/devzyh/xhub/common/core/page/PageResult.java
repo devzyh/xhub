@@ -9,7 +9,7 @@ import java.util.List;
  * 表格分页数据对象
  */
 @Data
-public class TableDataInfo implements Serializable {
+public class PageResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class TableDataInfo implements Serializable {
     /**
      * 表格数据对象
      */
-    public TableDataInfo() {
+    public PageResult() {
     }
 
     /**
@@ -45,7 +45,7 @@ public class TableDataInfo implements Serializable {
      * @param list  列表数据
      * @param total 总记录数
      */
-    public TableDataInfo(List<?> list, int total) {
+    public PageResult(List<?> list, int total) {
         this.rows = list;
         this.total = total;
     }

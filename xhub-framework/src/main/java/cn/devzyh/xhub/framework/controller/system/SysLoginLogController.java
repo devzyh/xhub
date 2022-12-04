@@ -3,7 +3,7 @@ package cn.devzyh.xhub.framework.controller.system;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysLoginLog;
@@ -30,9 +30,9 @@ public class SysLoginLogController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('system:log:login:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysLoginLog loginLog) {
+    public PageResult list(SysLoginLog loginLog) {
         IPage<SysLoginLog> page = getPage();
-        return getDataTable(page, loginLogService.selectLoginLogList(page, loginLog));
+        return getPageResult(page, loginLogService.selectLoginLogList(page, loginLog));
     }
 
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)

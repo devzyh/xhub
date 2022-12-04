@@ -76,10 +76,10 @@ const state = reactive({
 });
 
 function getUser() {
-  getUserProfile().then(response => {
-    state.user = response.data;
-    state.roleGroup = response.roleGroup;
-    state.postGroup = response.postGroup;
+  getUserProfile().then(({data}) => {
+    state.user = data.user;
+    state.roleGroup = data.roleGroup;
+    state.postGroup = data.postGroup;
   });
 };
 

@@ -5,7 +5,7 @@ import cn.devzyh.xhub.common.constant.UserConstants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.domain.entity.SysDictType;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.service.ISysDictTypeService;
@@ -31,9 +31,9 @@ public class SysDictTypeController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysDictType dictType) {
+    public PageResult list(SysDictType dictType) {
         IPage<SysDictType> page = getPage();
-        return getDataTable(page, dictTypeService.selectDictTypeList(page, dictType));
+        return getPageResult(page, dictTypeService.selectDictTypeList(page, dictType));
     }
 
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)

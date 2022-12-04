@@ -3,7 +3,7 @@ package cn.devzyh.xhub.notebook.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
@@ -33,9 +33,9 @@ public class NoteHistoryController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:history:list')")
     @GetMapping("/list")
-    public TableDataInfo list(NoteHistory noteHistory) {
+    public PageResult list(NoteHistory noteHistory) {
         IPage<NoteHistory> page = getPage();
-        return getDataTable(page, noteHistoryService.selectNoteHistoryList(page, noteHistory));
+        return getPageResult(page, noteHistoryService.selectNoteHistoryList(page, noteHistory));
     }
 
     /**

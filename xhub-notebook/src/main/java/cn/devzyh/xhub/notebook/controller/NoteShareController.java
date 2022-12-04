@@ -3,7 +3,7 @@ package cn.devzyh.xhub.notebook.controller;
 import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
@@ -34,9 +34,9 @@ public class NoteShareController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('notebook:share:list')")
     @GetMapping("/list")
-    public TableDataInfo list(NoteShare noteShare) {
+    public PageResult list(NoteShare noteShare) {
         IPage<NoteShare> page = getPage();
-        return getDataTable(page, noteShareService.selectNoteShareList(page, noteShare));
+        return getPageResult(page, noteShareService.selectNoteShareList(page, noteShare));
     }
 
     /**

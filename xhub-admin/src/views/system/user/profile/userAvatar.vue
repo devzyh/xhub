@@ -124,9 +124,9 @@ function uploadImg() {
   proxy.$refs.cropper.getCropBlob(data => {
     let formData = new FormData();
     formData.append("avatarfile", data);
-    uploadAvatar(formData).then(response => {
+    uploadAvatar(formData).then(res => {
       open.value = false;
-      options.img = response.imgUrl;
+      options.img = res.data.imgUrl;
       userStore.avatar = options.img;
       proxy.$modal.msgSuccess("修改成功");
       visible.value = false;

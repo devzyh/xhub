@@ -4,7 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.constant.UserConstants;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.page.TableDataInfo;
+import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.framework.domain.SysConfig;
@@ -34,9 +34,9 @@ public class SysConfigController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:config:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SysConfig config) {
+    public PageResult list(SysConfig config) {
         IPage<SysConfig> page = getPage();
-        return getDataTable(page, configService.selectConfigList(page, config));
+        return getPageResult(page, configService.selectConfigList(page, config));
     }
 
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
