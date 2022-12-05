@@ -19,21 +19,6 @@ public class Result<T> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 成功常量
-     */
-    public static final int SUCCESS = HttpStatus.SUCCESS;
-
-    /**
-     * 失败常量
-     */
-    public static final int ERROR = HttpStatus.ERROR;
-
-    /**
-     * 警告常量
-     */
-    public static final int WARN = HttpStatus.WARN;
-
-    /**
      * 状态码
      */
     private int code;
@@ -47,11 +32,6 @@ public class Result<T> {
      * 数据对象
      */
     private T data;
-
-    /**
-     * 额外数据
-     */
-    private Map<String, Object> ext;
 
     /**
      * 初始化一个新创建的 Result 对象，使其表示一个空消息。
@@ -81,7 +61,6 @@ public class Result<T> {
         this.code = code;
         this.msg = msg;
         this.data = data;
-        this.ext = new LinkedHashMap<>();
     }
 
     /**
@@ -120,7 +99,7 @@ public class Result<T> {
      * @return 成功消息
      */
     public static <T> Result<T> success(String msg, T data) {
-        return new Result<>(SUCCESS, msg, data);
+        return new Result<>(HttpStatus.SUCCESS, msg, data);
     }
 
     /**
@@ -141,7 +120,7 @@ public class Result<T> {
      * @return 警告消息
      */
     public static <T> Result<T> warn(String msg, T data) {
-        return new Result<>(WARN, msg, data);
+        return new Result<>(HttpStatus.WARN, msg, data);
     }
 
     /**
@@ -190,8 +169,8 @@ public class Result<T> {
      *
      * @return 结果
      */
-    public boolean isSuccess() {
-        return Objects.equals(SUCCESS, this.code);
+    public boolean ok() {
+        return Objects.equals(HttpStatus.SUCCESS, this.code);
     }
 
     /**
@@ -199,8 +178,8 @@ public class Result<T> {
      *
      * @return 结果
      */
-    public boolean isError() {
-        return !isSuccess();
+    public boolean no() {
+        return Objects.equals(HttpStatus.ERROR, this.code);
     }
 
     /**

@@ -96,9 +96,9 @@ function handleChange(v) {
 async function uploadImage(files) {
   console.log('files', files)
   let fileList = []
-  await uploads(files).then(resp => {
-    let fileNames = resp.originalFilenames.split(",");
-    let urls = resp.urls.split(",");
+  await uploads(files).then(({data}) => {
+    let fileNames = data.originalFilenames.split(",");
+    let urls = data.urls.split(",");
     for (let i = 0; i < fileNames.length; i++) {
       fileList.push({
         title: fileNames[i],
