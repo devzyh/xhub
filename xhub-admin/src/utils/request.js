@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ElLoading, ElMessage, ElMessageBox, ElNotification} from 'element-plus'
+import {ElLoading, ElMessageBox, ElNotification} from 'element-plus'
 import {getToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import {blobValidate, tansParams} from '@/utils/common'
@@ -94,10 +94,7 @@ service.interceptors.response.use(res => {
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 500) {
-            ElMessage({
-                message: msg,
-                type: 'error'
-            })
+            ElNotification.error(msg)
             return Promise.reject(new Error(msg))
         } else if (code !== 200) {
             ElNotification.error({
@@ -118,7 +115,7 @@ service.interceptors.response.use(res => {
         } else if (message.includes("Request failed with status code")) {
             message = "系统接口" + message.substr(message.length - 3) + "异常";
         }
-        ElMessage({
+        ElNotification({
             message: message,
             type: 'error',
             duration: 5 * 1000
@@ -146,12 +143,12 @@ export function download(url, params, filename, config) {
             const resText = await data.text();
             const rspObj = JSON.parse(resText);
             const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default']
-            ElMessage.error(errMsg);
+            ElNotification.error(errMsg);
         }
         downloadLoadingInstance.close();
     }).catch((r) => {
         console.error(r)
-        ElMessage.error('下载文件出现错误，请联系管理员！')
+        ElNotification.error('下载文件出现错误，请联系管理员！')
         downloadLoadingInstance.close();
     })
 }

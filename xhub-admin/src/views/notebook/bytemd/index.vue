@@ -167,7 +167,7 @@ function save() {
   }
 }
 
-.el-message {
+.el-notification {
   z-index: 99999 !important;
 }
 </style>
