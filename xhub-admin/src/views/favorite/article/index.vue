@@ -81,9 +81,9 @@
           <dict-tag :options="fav_article_source" :value="scope.row.source"/>
         </template>
       </el-table-column>
-      <el-table-column label="发布日期" align="center" prop="created" width="120">
+      <el-table-column label="发布日期" align="center" prop="releaseDate" width="120">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.created, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.releaseDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -148,10 +148,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="发布日期" prop="created">
+        <el-form-item label="发布日期" prop="releaseDate">
           <el-date-picker
               clearable
-              v-model="form.created"
+              v-model="form.releaseDate"
               type="date"
               value-format="YYYY-MM-DD"
               placeholder="请选择发布日期"
@@ -202,7 +202,7 @@ const queryParams = ref({
   url: null,
   digest: null,
   source: null,
-  created: null,
+  releaseDate: null,
   tags: null
 });
 // 表单参数
@@ -218,7 +218,7 @@ const rules = {
   source: [
     {required: true, message: "来源平台不能为空", trigger: "blur"}
   ],
-  created: [
+  releaseDate: [
     {required: true, message: "发布日期不能为空", trigger: "blur"}
   ]
 };
@@ -254,7 +254,7 @@ function reset() {
     url: null,
     digest: null,
     source: null,
-    created: null
+    releaseDate: null
   };
   proxy.resetForm("formRef");
 }

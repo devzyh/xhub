@@ -1,13 +1,11 @@
-# 项目相关配置
+# 项目配置
 project:
   # 名称
   name: X-Hub
   # 版本
-  version: 1.0.0
+  version: 1.4.0
   # 版权年份
   copyrightYear: 2022
-  # 实例演示开关
-  demoEnabled: true
   # 文件路径 示例（ Windows配置D:/uploadPath，Linux配置 /home/uploadPath）
   profile: data
   # 获取ip地址开关
@@ -105,7 +103,7 @@ mybatis-plus:
       logic-delete-field: "delFlag"
       logic-delete-value: "2"
       logic-not-delete-value: "0"
-      
+
 # 防止XSS攻击
 xss:
   # 过滤开关
@@ -114,3 +112,11 @@ xss:
   excludes: /rest/system/notice
   # 匹配链接
   urlPatterns: /rest/system/*,/rest/monitor/*,/rest/tool/*
+
+# 七牛存储
+qiniu:
+  url:
+  accessKey:
+  secretKey:
+  zone:
+  bucketName:

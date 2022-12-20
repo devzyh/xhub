@@ -100,6 +100,12 @@ public class FileUploadUtils {
 
         String fileName = extractFilename(file);
 
+        // 七牛云上传
+        if (QiniuUtils.useQiniu()) {
+            return QiniuUtils.upload(baseDir, file);
+        }
+                
+        // 普通上传
         String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
         file.transferTo(Paths.get(absPath));
         return getPathFileName(baseDir, fileName);

@@ -4,14 +4,13 @@ import Cookies from 'js-cookie'
 
 import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
+import 'element-plus/theme-chalk/display.css'
 
 import '@/assets/styles/index.scss' // global css
-
 import App from './App'
 import store from './store'
 import router from './router'
 import directive from './directive' // directive
-
 // 注册指令
 import plugins from './plugins' // plugins
 import {download} from '@/utils/request'
@@ -22,9 +21,8 @@ import SvgIcon from '@/components/icon'
 import elementIcons from '@/components/icon/svgIcon'
 
 import './permission' // permission control
-
 import {useDict} from '@/utils/dict'
-import {parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels} from '@/utils/common'
+import {addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels} from '@/utils/common'
 
 // 分页组件
 import Pagination from '@/components/pagination'

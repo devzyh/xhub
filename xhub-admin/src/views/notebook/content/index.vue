@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <!--目录数据-->
       <el-col :span="5" :xs="24">
-        <div class="head-container">
+        <div class="head-container hidden-xs-only">
           <el-input
               v-model="catalogNameKey"
               placeholder="请输入目录名称"
@@ -12,7 +12,7 @@
               style="margin-bottom: 20px"
           />
         </div>
-        <div class="head-container">
+        <div class="head-container hidden-xs-only">
           <el-tree
               ref="treeRef"
               node-key="id"
@@ -23,6 +23,21 @@
               :filter-node-method="filterCatalogNode"
               @node-click="handleNodeClick"
           />
+        </div>
+        <div class="head-container hidden-sm-and-up">
+          <el-tree-select
+              v-model="queryParams.catalogId"
+              :data="catalogOptions"
+              :props="catalogProps"
+              value-key="id"
+              :filter-node-method="filterCatalogNode"
+              filterable
+              placeholder="请选择笔记目录"
+              class="catalogSelect"
+              check-strictly
+              @node-click="handleNodeClick"
+          />
+          <p/>
         </div>
       </el-col>
       <!--笔记数据-->
