@@ -34,8 +34,8 @@ server:
 # 日志配置
 logging:
   level:
-    cn.devzyh: debug
-    org.springframework: warn
+    cn.devzyh: error
+    org.springframework: error
 
 # Spring配置
 spring:
