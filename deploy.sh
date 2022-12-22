@@ -2,7 +2,7 @@
 
 # download
 echo "Download"
-wget http://cdn.devzyh.cn/xhub/xhub.jar -O xhub.latest.jar
+wget https://file.devzyh.cn/xhub.jar -O xhub.latest.jar
 
 # stop
 echo "Stop App"

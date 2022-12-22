@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.common.utils.file;
 
 import cn.devzyh.xhub.common.config.ProjectConfig;
+import cn.devzyh.xhub.common.config.UpyunConfig;
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.exception.file.FileNameLengthLimitExceededException;
 import cn.devzyh.xhub.common.exception.file.FileSizeLimitExceededException;
@@ -8,6 +9,7 @@ import cn.devzyh.xhub.common.exception.file.InvalidExtensionException;
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.uuid.Seq;
+import com.upyun.UpException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,7 +92,7 @@ public class FileUploadUtils {
      */
     public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
             throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
-            InvalidExtensionException {
+            InvalidExtensionException, UpException {
         int fileNamelength = Objects.requireNonNull(file.getOriginalFilename()).length();
         if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
             throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
@@ -100,9 +102,9 @@ public class FileUploadUtils {
 
         String fileName = extractFilename(file);
 
-        // 七牛云上传
-        if (QiniuUtils.useQiniu()) {
-            return QiniuUtils.upload(baseDir, file);
+        // 又拍云上传
+        if (UpyunConfig.isEnable()) {
+            return UpyunUtils.upload(baseDir, file);
         }
                 
         // 普通上传

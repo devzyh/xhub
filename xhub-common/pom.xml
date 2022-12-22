@@ -100,11 +100,11 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
-
-        <!-- Qiniu -->
+        
+        <!-- Upyun -->
         <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
+            <groupId>com.upyun</groupId>
+            <artifactId>java-sdk</artifactId>
         </dependency>
 
         <!-- Jaxb -->
