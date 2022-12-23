@@ -333,6 +333,8 @@ const share = ref({
 const headers = ref({
   Authorization: "Bearer " + getToken(),
 });
+// 笔记缓存前缀
+const cachePrefix = ref("mcache:");
 
 /** 查询笔记列表 */
 function getList() {
@@ -576,6 +578,7 @@ function handleReset() {
       return updateContent(content);
     }).then(() => {
       getList();
+      proxy.$cache.local.remove(cachePrefix.value + history.contentId);
       proxy.$modal.msgSuccess("恢复成功");
     });
   } else {

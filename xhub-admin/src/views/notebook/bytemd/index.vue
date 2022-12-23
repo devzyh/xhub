@@ -48,7 +48,7 @@ const form = ref({
   content: ""
 });
 // 笔记缓存前缀
-const cachePrefix = ref("mdcache:");
+const cachePrefix = ref("mcache:");
 
 
 /** 页面初始化 */
