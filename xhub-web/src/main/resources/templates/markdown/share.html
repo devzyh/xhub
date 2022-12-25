@@ -1,53 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <meta name="renderer" content="webkit"/>
+    <meta charset="utf-8">
+    <title th:text="${note.title+'-'+title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${note.title}"></title>
     <link rel="icon" href="/favicon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.preview.min.css"/>
+    <link rel="stylesheet" th:href="${public_cdn + '/layui/2.6.13/css/layui.min.css'}">
+    <link rel="stylesheet" th:href="${public_cdn + '/vditor/3.8.18/index.min.css'}"/>
     <link rel="stylesheet" href="/static/share/share.css"/>
 </head>
 <body>
-<div>
-    <div id="sidebar">
-        <h1>Markdown大纲</h1>
-        <div class="markdown-body editormd-preview-container" id="share-toc-container">#share-toc-container</div>
+<div class="left">
+    <div class="outline">
+        <div class="layui-layer-title title">
+            <span>Markdown内容大纲</span>
+        </div>
+        <div id="outline"></div>
     </div>
-    <div id="share-editormd-view"></div>
-    <textarea id="append-text" style="display:none;" th:text="${note.content}"></textarea>
+</div>
+<div class="right">
+    <div class="header">
+        <h1 th:text="${note.title}"></h1>
+    </div>
+    <div class="preview">
+        <div id="preview"></div>
+        <div class="meta">
+            <span>
+                <i class="layui-icon layui-icon-username"></i>&nbsp;
+                <span th:text="${note.createBy}"></span>
+            </span>
+            <span>
+                <i class="layui-icon layui-icon-time"></i>&nbsp;
+                <span th:text="${#dates.format(note.updateTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+            </span>
+        </div>
+    </div>
 </div>
 
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/examples/js/jquery.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/marked.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/prettify.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/raphael.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/underscore.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/sequence-diagram.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/flowchart.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/jquery.flowchart.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.js"></script>
-<script type="text/javascript">
-    $(function () {
-        editormd.markdownToHTML("share-editormd-view", {
-            markdown: $("#append-text").text(),
-            htmlDecode: "style,script,iframe",
-            tocm: true,
-            tocContainer: "#share-toc-container",
-            emoji: true,
-            taskList: true,
-            tex: true,
-            flowChart: true,
-            sequenceDiagram: true
-        });
-        if (window.innerWidth <= 768) {
-            $("#sidebar").hide();
-            $("#share-editormd-view").css("padding-right", "20px");
-        }
-    });
+<script th:inline="javascript">
+    var cdnUrl = [[${public_cdn}]];
+    var markdown = [[${note.content}]];
 </script>
+<script th:src="${public_cdn + '/layui/2.6.13/layui.min.js'}"></script>
+<script src="/static/share/method.min.js"></script>
+<script src="/static/share/share.js"></script>
 </body>
 </html>

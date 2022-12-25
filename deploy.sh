@@ -2,7 +2,8 @@
 
 # download
 echo "Download"
-wget https://file.devzyh.cn/xhub.jar -O xhub.latest.jar
+timestamp=`date '+%s'`
+wget https://file.devzyh.cn/xhub.jar?v=$timestamp -O xhub.latest.jar
 
 # stop
 echo "Stop App"

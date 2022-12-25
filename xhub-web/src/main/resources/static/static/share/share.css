@@ -1,91 +1,83 @@
-/* 分享预览 */
-* {
-    padding: 0;
-    margin: 0;
-}
-
-*, *:before, *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-    margin: 0;
-    padding: 0;
-}
-
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
-    display: block;
-}
-
-audio, canvas, video {
-    display: inline-block;
-}
-
-img {
-    border: none;
-    vertical-align: middle;
-}
-
-ul, ol {
-    /*list-style: none;*/
-}
-
-.clear {
-    *zoom: 1; /* for IE 6/7 */
-}
-
-.clear:before, .clear:after {
-    height: 0;
-    content: "";
-    font-size: 0;
-    display: table;
-    line-height: 0; /* for Opera */
-    visibility: hidden;
-}
-
-.clear:after {
-    clear: both;
-}
-
-body {
-    font-size: 14px;
-    color: #666;
-    font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
-    background: #fff;
-    text-align: center;
-    padding: 40px;
-}
-
-#sidebar {
-    width: 350px;
-    height: 100%;
+/*左侧大纲*/
+.left {
     position: fixed;
-    top: 0;
-    right: 0;
-    overflow: hidden;
-    background: #fff;
-    z-index: 100;
-    padding: 18px;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-bottom: none;
+    width: 300px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    border-right: 1px solid #eaecef;
 }
 
-#sidebar:hover {
-    overflow: auto;
+.left .outline .title {
+    padding: 0 20px 0 20px;
 }
 
-#sidebar h1 {
-    font-size: 16px;
+.left .outline #outline {
+    margin-top: 10px;
 }
 
-#share-toc-container {
-    padding-left: 0;
+/*右侧内容*/
+.right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 301px;
 }
 
-#share-editormd-view {
-    padding-right: 370px;
-    margin: 0;
+/*标题*/
+.right .header {
+    position: fixed;
+    top: 0px;
+    height: 50px;
+    width: calc(100% - 301px);
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaecef;
+    z-index: 999;
 }
+
+.right .header h1 {
+    line-height: 50px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/*内容*/
+.right .preview {
+    margin-top: 50px;
+    padding: 0px 30px 20px 30px;
+}
+
+.right .preview .meta {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/*Markdown预览*/
+.right .preview ul li {
+    list-style: inherit !important;
+}
+
+.right .preview pre code {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.right .preview pre code::-webkit-scrollbar {
+    width: 4px;
+    height: 4px
+}
+
+.right .preview pre code::-webkit-scrollbar-thumb {
+    background-color: #586069;
+    outline: none;
+    border-radius: 2px;
+}
+
+.right .preview pre code::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 2px;
+}
+
+.right .preview img

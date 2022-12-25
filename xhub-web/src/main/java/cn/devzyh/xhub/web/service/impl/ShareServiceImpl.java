@@ -30,22 +30,7 @@ public class ShareServiceImpl implements IShareService {
         NoteContent content = contentService.selectNoteContentById(id);
         if (content == null) {
             return ShareDto.error("您访问的笔记不存在！");
-        } else {
-            // 内容头增加标题与时间
-            StringBuilder builder = new StringBuilder();
-            builder.append("# ");
-            builder.append(content.getTitle());
-            builder.append("\r\n");
-            builder.append("最后更新时间：");
-            Date updateTime = content.getUpdateTime();
-            if (updateTime == null) {
-                updateTime = content.getCreateTime();
-            }
-            builder.append(DateUtils.parseDateToStr("yyyy年MM月dd日 HH时mm分ss秒", updateTime));
-            builder.append("\r\n\r\n");
-            builder.append(content.getContent());
-            content.setContent(builder.toString());
-        }
+        } 
 
         // 后台授权码访问
         if (StringUtils.isNotBlank(token)) {
