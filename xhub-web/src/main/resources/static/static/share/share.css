@@ -59,6 +59,10 @@
     margin-left: 0px !important;
 }
 
+.right .preview .vditor-task {
+    list-style: none !important;
+}
+
 .right .preview pre code {
     overflow-y: auto;
     overflow-x: hidden;
