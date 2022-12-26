@@ -134,7 +134,7 @@ layui.use(['jquery'], function () {
         let input = $("#baseInput").val();
         let output;
         try {
-            output = Base64.encode(input);
+            output = btoa(input);
         } catch (err) {
             output = "错误信息：" + err.message;
         }
@@ -146,7 +146,7 @@ layui.use(['jquery'], function () {
         let input = $("#baseInput").val();
         let output;
         try {
-            output = Base64.decode(input);
+            output = atob(input);
         } catch (err) {
             output = "错误信息：" + err.message;
         }
@@ -205,7 +205,6 @@ layui.use(['jquery'], function () {
     });
 
     /******** Unicode编码 ********/
-    // 参考：http://www.jsons.cn/unicode
     function ascii(str) {
         var value = '';
         for (var i = 0; i < str.length; i++) {
