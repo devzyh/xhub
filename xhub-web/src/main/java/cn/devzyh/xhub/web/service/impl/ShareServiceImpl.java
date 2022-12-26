@@ -1,9 +1,11 @@
 package cn.devzyh.xhub.web.service.impl;
 
 import cn.devzyh.xhub.common.constant.WebConstants;
+import cn.devzyh.xhub.common.core.domain.entity.SysUser;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
+import cn.devzyh.xhub.framework.service.ISysUserService;
 import cn.devzyh.xhub.notebook.domain.NoteContent;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.service.INoteContentService;
@@ -13,8 +15,6 @@ import cn.devzyh.xhub.web.service.IShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
 public class ShareServiceImpl implements IShareService {
 
@@ -23,6 +23,8 @@ public class ShareServiceImpl implements IShareService {
     @Autowired
     private INoteContentService contentService;
     @Autowired
+    private ISysUserService userService;
+    @Autowired
     private RedisCache redisCache;
 
     @Override
@@ -30,7 +32,7 @@ public class ShareServiceImpl implements IShareService {
         NoteContent content = contentService.selectNoteContentById(id);
         if (content == null) {
             return ShareDto.error("您访问的笔记不存在！");
-        } 
+        }
 
         // 后台授权码访问
         if (StringUtils.isNotBlank(token)) {
@@ -62,6 +64,12 @@ public class ShareServiceImpl implements IShareService {
             if (!StringUtils.equalsIgnoreCase(share.getShareSecret(), secret)) {
                 return ShareDto.errorWithInput("输入的访问密码错误！", secret);
             }
+        }
+
+        // 数据转换
+        SysUser user = userService.selectUserByUserName(content.getCreateBy());
+        if (user != null) {
+            content.setCreateBy(user.getNickName());
         }
 
         // 直接返回数据

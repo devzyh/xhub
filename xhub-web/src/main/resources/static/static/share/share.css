@@ -1,4 +1,4 @@
-/*左侧大纲*/
+/* 左侧大纲 */
 .left {
     position: fixed;
     width: 300px;
@@ -16,7 +16,7 @@
     margin-top: 10px;
 }
 
-/*右侧内容*/
+/* 右侧内容 */
 .right {
     position: absolute;
     top: 0px;
@@ -25,7 +25,7 @@
     left: 301px;
 }
 
-/*标题*/
+/* 标题 */
 .right .header {
     position: fixed;
     top: 0px;
@@ -42,7 +42,7 @@
     text-align: center;
 }
 
-/*内容*/
+/* 内容 */
 .right .preview {
     margin-top: 50px;
     padding: 0px 30px 20px 30px;
@@ -53,9 +53,10 @@
     text-align: center;
 }
 
-/*Markdown预览*/
+/* Markdown预览 */
 .right .preview ul li {
     list-style: inherit !important;
+    margin-left: 0px !important;
 }
 
 .right .preview pre code {

@@ -43,6 +43,12 @@
             <artifactId>xhub-favorite</artifactId>
         </dependency>
 
+        <!-- 框架模块 -->
+        <dependency>
+            <groupId>cn.devzyh</groupId>
+            <artifactId>xhub-framework</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
