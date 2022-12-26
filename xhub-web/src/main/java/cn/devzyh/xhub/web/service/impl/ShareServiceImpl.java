@@ -33,6 +33,12 @@ public class ShareServiceImpl implements IShareService {
         if (content == null) {
             return ShareDto.error("您访问的笔记不存在！");
         }
+        
+        // 数据转换
+        SysUser user = userService.selectUserByUserName(content.getCreateBy());
+        if (user != null) {
+            content.setCreateBy(user.getNickName());
+        }
 
         // 后台授权码访问
         if (StringUtils.isNotBlank(token)) {
@@ -64,12 +70,6 @@ public class ShareServiceImpl implements IShareService {
             if (!StringUtils.equalsIgnoreCase(share.getShareSecret(), secret)) {
                 return ShareDto.errorWithInput("输入的访问密码错误！", secret);
             }
-        }
-
-        // 数据转换
-        SysUser user = userService.selectUserByUserName(content.getCreateBy());
-        if (user != null) {
-            content.setCreateBy(user.getNickName());
         }
 
         // 直接返回数据

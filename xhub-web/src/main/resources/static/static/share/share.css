@@ -54,6 +54,10 @@
 }
 
 /* Markdown预览 */
+.right .preview #preview {
+    padding-top: 10px;
+}
+
 .right .preview ul li {
     list-style: inherit !important;
     margin-left: 0px !important;
@@ -61,6 +65,14 @@
 
 .right .preview .vditor-task {
     list-style: none !important;
+}
+
+.right .preview .vditor-reset h2,
+.right .preview .vditor-reset h3,
+.right .preview .vditor-reset h4,
+.right .preview .vditor-reset h5,
+.right .preview .vditor-reset h6 {
+    margin: 0.6em;
 }
 
 .right .preview pre code {
