@@ -1,0 +1,40 @@
+body {
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+input[type=number] {
+    height: 25px;
+    width: 60px;
+}
+
+.zhiding .block {
+    width: 50px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+input.col {
+    width: 95px !important;
+    margin: 2px;
+    text-align: center;
+}
+
+.cron-val {
+    margin: 10px 1px 0px 1px;
+    width: 100% !important;
+}
+
+.cron-btn {
+    padding-top: 10px;
+}
+
+#runTime {
+    padding: 10px 2px 0px 2px;
+}
+
+#runTime dl {
+    margin-bottom: 0px;
+}
