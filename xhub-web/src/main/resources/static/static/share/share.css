@@ -67,6 +67,10 @@
     list-style: none !important;
 }
 
+.right .preview .vditor-reset {
+    line-height: unset;
+}
+
 .right .preview .vditor-reset h2,
 .right .preview .vditor-reset h3,
 .right .preview .vditor-reset h4,
@@ -77,7 +81,7 @@
 
 .right .preview pre code {
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 .right .preview pre code::-webkit-scrollbar {
