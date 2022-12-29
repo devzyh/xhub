@@ -200,7 +200,7 @@ function reset() {
     id: null,
     parentId: null,
     name: null,
-    orderNum: null,
+    orderNum: 0,
     createBy: null,
     createTime: null,
     updateBy: null,

@@ -442,7 +442,6 @@ function submitForm() {
   proxy.$refs["formRef"].validate(valid => {
     if (valid) {
       if (form.value.id != null) {
-        form.value.content = null;
         updateContent(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
