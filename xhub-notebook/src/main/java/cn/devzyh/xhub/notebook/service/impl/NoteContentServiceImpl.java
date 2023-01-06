@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
 import cn.devzyh.xhub.common.core.domain.Result;
+import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -11,6 +12,7 @@ import cn.devzyh.xhub.notebook.service.INoteContentService;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +77,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result updateNoteContent(NoteContent content) {
+    public Result updateNoteContent(NoteContent content, boolean allowContentNull) {
         NoteContent local = contentMapper.selectById(content.getId());
 
         boolean saveDb = false;
@@ -104,6 +106,14 @@ public class NoteContentServiceImpl implements INoteContentService {
             BeanUtils.copyBeanProp(history, local);
             history.setContentId(local.getId());
             historyService.insertNoteHistory(history);
+        }
+
+        // 允许笔记内容为空值
+        if (allowContentNull && StringUtils.isBlank(content.getContent())) {
+            UpdateWrapper<NoteContent> uw = new UpdateWrapper<>();
+            uw.set("content", content.getContent());
+            uw.eq("id", content.getId());
+            contentMapper.update(null, uw);
         }
 
         // 更新笔记数据

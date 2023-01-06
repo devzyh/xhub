@@ -46,7 +46,6 @@ public class NoteContent extends BaseEntity {
      * 内容
      */
     @Excel(name = "内容")
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String content;
 
     /**

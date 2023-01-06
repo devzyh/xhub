@@ -101,4 +101,6 @@
     border-radius: 2px;
 }
 
-.right .preview img
+.right .preview .vditor-reset > table {
+    border: 0px;
+}

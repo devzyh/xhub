@@ -78,13 +78,23 @@ public class NoteContentController extends BaseController {
     }
 
     /**
+     * 修改基本信息
+     */
+    @PreAuthorize("@ss.hasPermi('notebook:content:edit')")
+    @Log(title = "笔记基本信息", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public Result edit(@RequestBody NoteContent noteContent) {
+        return contentService.updateNoteContent(noteContent, false);
+    }
+
+    /**
      * 修改笔记内容
      */
     @PreAuthorize("@ss.hasPermi('notebook:content:edit')")
-    @Log(title = "笔记内容", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public Result edit(@RequestBody NoteContent noteContent) {
-        return contentService.updateNoteContent(noteContent);
+    @Log(title = "笔记编辑内容", businessType = BusinessType.UPDATE)
+    @PutMapping("/editor")
+    public Result editContent(@RequestBody NoteContent noteContent) {
+        return contentService.updateNoteContent(noteContent, true);
     }
 
     /**

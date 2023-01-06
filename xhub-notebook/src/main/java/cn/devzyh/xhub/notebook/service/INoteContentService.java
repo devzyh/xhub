@@ -44,7 +44,7 @@ public interface INoteContentService {
      * @param noteContent 笔记内容
      * @return 结果
      */
-    Result updateNoteContent(NoteContent noteContent);
+    Result updateNoteContent(NoteContent noteContent, boolean allowContentNull);
 
     /**
      * 批量删除笔记内容

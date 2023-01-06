@@ -442,7 +442,11 @@ function submitForm() {
   proxy.$refs["formRef"].validate(valid => {
     if (valid) {
       if (form.value.id != null) {
-        updateContent(form.value).then(response => {
+        updateContent({
+          id: form.value.id,
+          catalogId: form.value.catalogId,
+          title: form.value.title
+        }).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
@@ -502,11 +506,13 @@ function handleEdit(row) {
 function handleSetting(row) {
   reset();
   const select = row.id || ids.value
+  // 基本信息
   getContent(select).then(response => {
     form.value = response.data;
     open.value = true;
     title.value = "修改笔记基本信息";
   });
+  // 分享信息
   getShare(select).then(response => {
     if (response.data) {
       share.value.isShare = 'Y';

@@ -26,7 +26,7 @@ import mermaid from '@bytemd/plugin-mermaid'
 import zhHansMermaid from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
 import useTagsViewStore from '@/store/modules/tagsView'
 import {uploads} from '@/api/common/upload'
-import {getContent, updateContent} from "@/api/notebook/content";
+import {getContent, updateEditor} from "@/api/notebook/content";
 
 
 const route = useRoute();
@@ -111,7 +111,7 @@ async function uploadImage(files) {
 
 /** 保存笔记内容 */
 function save() {
-  updateContent(form.value).then(response => {
+  updateEditor(form.value).then(response => {
     proxy.$modal.msgSuccess("保存成功");
   });
 }

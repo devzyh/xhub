@@ -26,10 +26,19 @@ export function addContent(data) {
   })
 }
 
-// 修改笔记内容
+// 修改基本信息
 export function updateContent(data) {
   return request({
     url: '/notebook/content',
+    method: 'put',
+    data: data
+  })
+}
+
+// 修改编辑内容
+export function updateEditor(data) {
+  return request({
+    url: '/notebook/content/editor',
     method: 'put',
     data: data
   })

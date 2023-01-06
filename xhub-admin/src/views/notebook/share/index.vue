@@ -223,6 +223,8 @@ function getLink(row) {
   }
   if (env.DEV) {
     url = env.VITE_APP_API + url;
+  } else {
+    url = location.origin + url;
   }
   return url;
 }
