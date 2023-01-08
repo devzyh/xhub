@@ -1,7 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
 import cn.devzyh.xhub.common.core.domain.Result;
-import cn.devzyh.xhub.common.core.domain.entity.SysDictData;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -77,7 +76,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result updateNoteContent(NoteContent content, boolean allowContentNull) {
+    public Result updateNoteContent(NoteContent content, boolean allowBlankContent) {
         NoteContent local = contentMapper.selectById(content.getId());
 
         boolean saveDb = false;
@@ -91,8 +90,8 @@ public class NoteContentServiceImpl implements INoteContentService {
             saveDb = true;
         }
         // 更改了正文
-        if (saveDb == false && !StringUtils.equals(Md5Utils.hash(content.getContent()),
-                Md5Utils.hash(local.getContent()))) {
+        if (saveDb == false && (allowBlankContent || StringUtils.isNotBlank(content.getContent())) &&
+                !StringUtils.equals(Md5Utils.hash(content.getContent()), Md5Utils.hash(local.getContent()))) {
             saveDb = true;
         }
 
@@ -109,7 +108,7 @@ public class NoteContentServiceImpl implements INoteContentService {
         }
 
         // 允许笔记内容为空值
-        if (allowContentNull && StringUtils.isBlank(content.getContent())) {
+        if (allowBlankContent && StringUtils.isBlank(content.getContent())) {
             UpdateWrapper<NoteContent> uw = new UpdateWrapper<>();
             uw.set("content", content.getContent());
             uw.eq("id", content.getId());
