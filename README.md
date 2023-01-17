@@ -39,3 +39,13 @@
 
 * 前端登录：admin/123456
 * 数据库连接池：druid/druid
+
+## 功能展示
+* 前台模块
+![home.png](https://file.devzyh.cn/upload/2023/01/17/20230117193317A008.png "home.png")
+
+* 云笔记模块
+![note.png](https://file.devzyh.cn/upload/2023/01/17/20230117193223A006.png "note.png")
+
+* 收藏夹模块
+![fav.png](https://file.devzyh.cn/upload/2023/01/17/20230117193223A004.png "fav.png")
