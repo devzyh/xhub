@@ -16,7 +16,7 @@ function keyDown() {
     const path = route.path;
 
     // Ctrl+S 组合按键
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
       // 编辑器界面
       if (path.indexOf('/notebook/editor') >= 0) {
         document.getElementById("saveMarkdown").click();
