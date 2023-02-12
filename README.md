@@ -1,7 +1,6 @@
 ## 平台简介
 
-基于[若依管理系统](http://ruoyi.vip)二次开发，为建立多模块单体应用提供脚手架。
-
+* 基于 [RuoYi-Vue](https://doc.ruoyi.vip/ruoyi-vue) 框架开发的软件工具箱。
 * 前端采用Vue3、Element Plus、Vite。
 * 后端采用Spring Boot、Spring Security、Redis 、MySQL。
 * 权限认证使用JWT，支持多终端认证系统。
@@ -10,11 +9,13 @@
 
 ## 代码运行
 
-1. app模块为代码运行的入口，主要配置文件均放置在app项目下。
+1. xhub-app模块为代码运行的入口，主要配置文件均放置在xhub-app项目下。
 2. Maven完成依赖的刷新后，复制app下的配置`application-example.yml`建立自己的配置文件，并在运行时指定`profile`参数。
 3. 后端默认运行端口8888，前端默认运行端口80。
 4. 数据库初始文件在app模块下的db资源文件夹内。
 5. xhub-admin文件夹下为前端代码。
+6. xhub-web为系统前端界面的模板渲染模块。
+7. xhub-scheduler为定时任务执行系统功能的入口。
 
 ## 内置功能
 
@@ -40,7 +41,7 @@
 * 前端登录：admin/123456
 * 数据库连接池：druid/druid
 
-## 功能展示
+## 系统功能
 * 前台模块
 ![home.png](https://file.devzyh.cn/upload/2023/01/17/20230117193317A008.png "home.png")
 
