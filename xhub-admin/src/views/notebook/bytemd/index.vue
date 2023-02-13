@@ -14,7 +14,7 @@
 <script setup name="ByteMD">
 import {Editor} from '@bytemd/vue-next'
 import 'bytemd/dist/index.min.css'
-import 'juejin-markdown-themes/dist/vuepress.min.css'
+import 'juejin-markdown-themes/dist/juejin.min.css'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import breaks from '@bytemd/plugin-breaks'
 import frontmatter from '@bytemd/plugin-frontmatter'
@@ -164,6 +164,24 @@ function save() {
       box-shadow: none;
       border-radius: 2px;
     }
+
+    .bytemd-preview pre code::-webkit-scrollbar {
+      width: 4px;
+      height: 4px
+    }
+
+    .bytemd-preview pre code::-webkit-scrollbar-thumb {
+      background-color: #c9cdd4;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    .bytemd-preview pre code::-webkit-scrollbar-track {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      border-radius: 2px;
+    }
+
   }
 }
 
