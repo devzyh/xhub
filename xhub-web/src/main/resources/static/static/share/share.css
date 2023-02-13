@@ -91,7 +91,7 @@
 }
 
 .right .preview pre code::-webkit-scrollbar-thumb {
-    background-color: #586069;
+    background-color: #9f9f9f;
     outline: none;
     border-radius: 2px;
 }
