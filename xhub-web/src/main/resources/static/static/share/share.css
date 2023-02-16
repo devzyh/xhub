@@ -58,7 +58,8 @@
     padding-top: 10px;
 }
 
-.right .preview ul li {
+.right .preview ul li,
+.right .preview ol li{
     list-style: inherit !important;
     margin-left: 0px !important;
 }
