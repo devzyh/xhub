@@ -3,7 +3,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 17/01/2023 19:26:45
+ Date: 20/02/2023 18:25:28
 */
 
 SET NAMES utf8mb4;
@@ -472,7 +472,7 @@ CREATE TABLE `note_catalog`  (
   `ancestors` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '祖级列表',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除标记',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
@@ -484,8 +484,8 @@ CREATE TABLE `note_catalog`  (
 -- ----------------------------
 -- Records of note_catalog
 -- ----------------------------
-INSERT INTO `note_catalog` VALUES (1, 0, NULL, '一级目录', 0, 0, 'admin', '2023-01-17 15:51:06', 'admin', '2023-01-17 15:51:06', NULL);
-INSERT INTO `note_catalog` VALUES (2, 1, '1', '二级目录', 0, 0, 'admin', '2023-01-17 15:51:11', 'admin', '2023-01-17 15:51:11', NULL);
+INSERT INTO `note_catalog` VALUES (1, 0, NULL, '一级目录', 0, '0', 'admin', '2023-01-17 15:51:06', 'admin', '2023-01-17 15:51:06', NULL);
+INSERT INTO `note_catalog` VALUES (2, 1, '1', '二级目录', 0, '0', 'admin', '2023-01-17 15:51:11', 'admin', '2023-01-17 15:51:11', NULL);
 
 -- ----------------------------
 -- Table structure for note_content
@@ -497,7 +497,7 @@ CREATE TABLE `note_content`  (
   `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '标题',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '内容',
   `rank` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标记',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
@@ -510,7 +510,7 @@ CREATE TABLE `note_content`  (
 -- ----------------------------
 -- Records of note_content
 -- ----------------------------
-INSERT INTO `note_content` VALUES (1, 2, '测试笔记', '\n## 1 Markdown.com.cn 简介\n\n- 支持自定义样式的 Markdown 编辑器\n- 支持微信公众号、知乎和稀土掘金\n- 点击右上方对应图标，一键复制到各平台\n\n## 2 Markdown语法教程\n\n### 2.1 标题\n\n不同数量的`#`可以完成不同的标题，如下：\n\n# 一级标题\n\n## 二级标题\n\n### 三级标题\n\n### 2.2 字体\n\n粗体、斜体、粗体和斜体，删除线，需要在文字前后加不同的标记符号。如下：\n\n**这个是粗体**\n\n*这个是斜体*\n\n***这个是粗体加斜体***\n\n~这里想用删除线~~\n\n注：如果想给字体换颜色、字体或者居中显示，需要使用内嵌HTML来实现。\n\n### 2.3 无序列表\n\n无序列表的使用，在符号`-`后加空格使用。如下：\n\n- 无序列表 1\n- 无序列表 2\n- 无序列表 3\n\n如果要控制列表的层级，则需要在符号`-`前使用空格。如下：\n\n- 无序列表 1\n- 无序列表 2\n  - 无序列表 2.1\n  - 无序列表 2.2\n\n### 2.4 有序列表\n\n有序列表的使用，在数字及符号`.`后加空格后输入内容，如下：\n\n1. 有序列表 1\n2. 有序列表 2\n3. 有序列表 3\n\n### 2.5 引用\n\n引用的格式是在符号`>`后面书写文字。如下：\n\n> 读一本好书，就是在和高尚的人谈话。 ——歌德\n\n> 雇用制度对工人不利，但工人根本无力摆脱这个制度。 ——阮一峰\n\n### 2.7 链接\n\n微信公众号仅支持公众号文章链接，即域名为`https://mp.weixin.qq.com/`的合法链接。使用方法如下所示：\n\n\n### 2.8 图片\n\n插入图片，格式如下：\n![这里写图片描述](https://refactoringguru.cn/images/content-public/logos/logo-new-winter.png?id=85470d71f9cbeab1161d5cabc2e8296a)\n\n\n### 2.9 分割线\n\n可以在一行中用三个以上的减号来建立一个分隔线，同时需要在分隔线的上面空一行。如下：\n\n---\n\n### 2.10 表格\n\n可以使用冒号来定义表格的对齐方式，如下：\n\n| 姓名   | 年龄 |     工作 |\n| :----- | :--: | -------: |\n| 小可爱 |  18  | 吃可爱多 |\n| 小小勇敢 |  20  | 爬棵勇敢树 |\n| 小小小机智 |  22  | 看一本机智书 |\n\n\n\n## 3. 特殊语法\n\n### 3.1 脚注\n\n> 支持平台：微信公众号、知乎。\n\n脚注与链接的区别如下所示：\n\n```markdown\n链接：[文字](链接)\n脚注：[文字](脚注解释 \"脚注名字\")\n```\n\n有人认为在[大前端时代](https://en.wikipedia.org/wiki/Front-end_web_development \"Front-end web development\")的背景下，移动端开发（Android、IOS）将逐步退出历史舞台。\n\n[全栈工程师](是指掌握多种技能，并能利用多种技能独立完成产品的人。 \"什么是全栈工程师\")在业务开发流程中起到了至关重要的作用。\n\n脚注内容请拉到最下面观看。\n\n### 3.2 代码块\n\n> 支持平台：微信代码主题仅支持微信公众号！其他主题无限制。\n\n如果在一个行内需要引用代码，只要用反引号引起来就好，如下：\n\nUse the `printf()` function.\n\n在需要高亮的代码块的前一行及后一行使用三个反引号，同时**第一行反引号后面表示代码块所使用的语言**，如下：\n\n```java\n// FileName: HelloWorld.java\npublic class HelloWorld {\n  // Java 入口程序，程序从此入口\n  public static void main(String[] args) {\n    System.out.println(\"Hello,World!\"); // 向控制台打印一条语句\n  }\n}\n```\n\n支持以下语言种类：\n\n```\nbash\nclojure，cpp，cs，css\ndart，dockerfile, diff\nerlang\ngo，gradle，groovy\nhaskell\njava，javascript，json，julia\nkotlin\nlisp，lua\nmakefile，markdown，matlab\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nxml\nyaml\n```', NULL, 0, 'admin', '2023-01-17 15:51:21', 'admin', '2023-01-17 15:53:43', NULL);
+INSERT INTO `note_content` VALUES (1, 2, '测试笔记', '\n## Markdown.com.cn 简介\n\n- 支持自定义样式的 Markdown 编辑器\n- 支持微信公众号、知乎和稀土掘金\n- 点击右上方对应图标，一键复制到各平台\n\n## Markdown语法教程\n\n### 标题\n\n不同数量的`#`可以完成不同的标题，如下：\n\n# 一级标题\n\n## 二级标题\n\n### 三级标题\n\n### 字体\n\n粗体、斜体、粗体和斜体，删除线，需要在文字前后加不同的标记符号。如下：\n\n**这个是粗体**\n\n*这个是斜体*\n\n***这个是粗体加斜体***\n\n~这里想用删除线~~\n\n注：如果想给字体换颜色、字体或者居中显示，需要使用内嵌HTML来实现。\n\n### 无序列表\n\n无序列表的使用，在符号`-`后加空格使用。如下：\n\n- 无序列表 1\n- 无序列表 2\n- 无序列表 3\n\n如果要控制列表的层级，则需要在符号`-`前使用空格。如下：\n\n- 无序列表 1\n- 无序列表 2\n  - 无序列表 2.1\n  - 无序列表 2.2\n\n### 有序列表\n\n有序列表的使用，在数字及符号`.`后加空格后输入内容，如下：\n\n1. 有序列表 1\n2. 有序列表 2\n3. 有序列表 3\n\n### 引用\n\n引用的格式是在符号`>`后面书写文字。如下：\n\n> 读一本好书，就是在和高尚的人谈话。 ——歌德\n\n> 雇用制度对工人不利，但工人根本无力摆脱这个制度。 ——阮一峰\n\n### 链接\n\n微信公众号仅支持公众号文章链接，即域名为`https://mp.weixin.qq.com/`的合法链接。使用方法如下所示：\n\n\n### 图片\n\n插入图片，格式如下：\n![这里写图片描述](https://refactoringguru.cn/images/content-public/logos/logo-new-winter.png?id=85470d71f9cbeab1161d5cabc2e8296a)\n\n\n### 分割线\n\n可以在一行中用三个以上的减号来建立一个分隔线，同时需要在分隔线的上面空一行。如下：\n\n---\n\n### 表格\n\n可以使用冒号来定义表格的对齐方式，如下：\n\n| 姓名   | 年龄 |     工作 |\n| :----- | :--: | -------: |\n| 小可爱 |  18  | 吃可爱多 |\n| 小小勇敢 |  20  | 爬棵勇敢树 |\n| 小小小机智 |  22  | 看一本机智书 |\n\n\n\n## 特殊语法\n\n### 脚注\n\n> 支持平台：微信公众号、知乎。\n\n脚注与链接的区别如下所示：\n\n```markdown\n链接：[文字](链接)\n脚注：[文字](脚注解释 \"脚注名字\")\n```\n\n有人认为在[大前端时代](https://en.wikipedia.org/wiki/Front-end_web_development \"Front-end web development\")的背景下，移动端开发（Android、IOS）将逐步退出历史舞台。\n\n[全栈工程师](是指掌握多种技能，并能利用多种技能独立完成产品的人。 \"什么是全栈工程师\")在业务开发流程中起到了至关重要的作用。\n\n脚注内容请拉到最下面观看。\n\n### 代码块\n\n> 支持平台：微信代码主题仅支持微信公众号！其他主题无限制。\n\n如果在一个行内需要引用代码，只要用反引号引起来就好，如下：\n\nUse the `printf()` function.\n\n在需要高亮的代码块的前一行及后一行使用三个反引号，同时**第一行反引号后面表示代码块所使用的语言**，如下：\n\n```java\n// FileName: HelloWorld.java\npublic class HelloWorld {\n  // Java 入口程序，程序从此入口\n  public static void main(String[] args) {\n    System.out.println(\"Hello,World!\"); // 向控制台打印一条语句\n  }\n}\n```\n\n支持以下语言种类：\n\n```\nbash\nclojure，cpp，cs，css\ndart，dockerfile, diff\nerlang\ngo，gradle，groovy\nhaskell\njava，javascript，json，julia\nkotlin\nlisp，lua\nmakefile，markdown，matlab makefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlab\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nxml\nyaml\n```', NULL, '0', 'admin', '2023-01-17 15:51:21', 'admin', '2023-02-20 12:52:59', NULL);
 
 -- ----------------------------
 -- Table structure for note_history
@@ -556,6 +556,7 @@ CREATE TABLE `note_share`  (
 -- ----------------------------
 -- Records of note_share
 -- ----------------------------
+INSERT INTO `note_share` VALUES (1, NULL, 0, 'admin', '2023-02-13 14:28:23', 'admin', '2023-02-13 14:28:23', NULL);
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -598,7 +599,7 @@ CREATE TABLE `sys_dept`  (
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
@@ -1029,7 +1030,7 @@ CREATE TABLE `sys_role`  (
   `menu_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '菜单树选择项是否关联显示',
   `dept_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '部门树选择项是否关联显示',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
@@ -1170,7 +1171,7 @@ CREATE TABLE `sys_user`  (
   `avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '头像地址',
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '密码',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '帐号状态（0正常 1停用）',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `login_ip` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '最后登录IP',
   `login_date` datetime NULL DEFAULT NULL COMMENT '最后登录时间',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
@@ -1184,7 +1185,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 101, 'admin', 'DEVZYH', '00', 'devzyh@foxmail.com', '18888888888', '0', '/file/avatar/2023/01/17/20230117185831A001.jpeg', '$2a$10$FRNHb6d/MUClYZJXhYXerO0zKVMk0p73AIA0EBEFz648KQKfwLNrq', '0', '0', '127.0.0.1', '2023-01-17 18:58:17', 'admin', '2022-04-22 09:21:16', 'system', '2023-01-17 18:58:17', '系统管理');
+INSERT INTO `sys_user` VALUES (1, 101, 'admin', 'DEVZYH', '00', 'devzyh@foxmail.com', '18888888888', '0', '/file/avatar/2023/01/17/20230117185831A001.jpeg', '$2a$10$FRNHb6d/MUClYZJXhYXerO0zKVMk0p73AIA0EBEFz648KQKfwLNrq', '0', '0', '127.0.0.1', '2023-02-20 12:51:46', 'admin', '2022-04-22 09:21:16', 'system', '2023-02-20 12:51:46', '系统管理');
 
 -- ----------------------------
 -- Table structure for sys_user_post
