@@ -25,9 +25,8 @@ public class MarkdownController {
 
     @GetMapping("share/{id}.html")
     public String html(Model model, @PathVariable Long id,
-                       @RequestParam(required = false, defaultValue = "") String secret,
-                       @RequestParam(required = false, defaultValue = "") String token) {
-        ShareDto dto = shareService.html(id, secret, token);
+                       @RequestParam(required = false, defaultValue = "") String secret) {
+        ShareDto dto = shareService.html(id, secret);
         model.addAttribute(WebConstants.Note.DATA, dto);
         if (dto.isSuccess()) {
             model.addAttribute(WebConstants.Note.NOTE, dto.getNote());
@@ -40,8 +39,7 @@ public class MarkdownController {
     @ResponseBody()
     @GetMapping(value = "share/{id}.md", produces = MediaType.TEXT_MARKDOWN_VALUE)
     public String markdown(@PathVariable Long id,
-                           @RequestParam(required = false, defaultValue = "") String secret,
-                           @RequestParam(required = false, defaultValue = "") String token) {
-        return shareService.markdown(id, secret, token);
+                           @RequestParam(required = false, defaultValue = "") String secret) {
+        return shareService.markdown(id, secret);
     }
 }

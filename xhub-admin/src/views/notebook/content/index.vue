@@ -525,7 +525,7 @@ function handleSetting(row) {
 /** 预览按钮操作 */
 function handlePreview(row) {
   generateToken().then(response => {
-    let url = "/share/" + row.id + ".html?token=" + response.data
+    let url = "/share/" + row.id + ".html?secret=" + response.data
     const env = import.meta.env
     if ((env.DEV)) {
       url = env.VITE_APP_API + url

@@ -28,26 +28,22 @@ public class ShareServiceImpl implements IShareService {
     private RedisCache redisCache;
 
     @Override
-    public ShareDto html(Long id, String secret, String token) {
+    public ShareDto html(Long id, String secret) {
         NoteContent content = contentService.selectNoteContentById(id);
         if (content == null) {
             return ShareDto.error("您访问的笔记不存在！");
         }
-        
+
         // 数据转换
         SysUser user = userService.selectUserByUserName(content.getCreateBy());
         if (user != null) {
             content.setCreateBy(user.getNickName());
         }
 
-        // 后台授权码访问
-        if (StringUtils.isNotBlank(token)) {
-            // 授权码验证
-            if (redisCache.getCacheObject(WebConstants.Note.TOKEN_PREFIX + token) == null) {
-                return ShareDto.error("授权码已过期！");
-            } else {
-                return ShareDto.success(content);
-            }
+        // 授权码访问验证
+        if (StringUtils.isNotBlank(secret) &&
+                redisCache.getCacheObject(WebConstants.Note.TOKEN_PREFIX + secret) != null) {
+            return ShareDto.success(content);
         }
 
         // 前台分享访问
@@ -77,8 +73,8 @@ public class ShareServiceImpl implements IShareService {
     }
 
     @Override
-    public String markdown(Long id, String secret, String token) {
-        ShareDto dto = html(id, secret, token);
+    public String markdown(Long id, String secret) {
+        ShareDto dto = html(id, secret);
         if (dto.isSuccess()) {
             return dto.getNote().getContent();
         } else {

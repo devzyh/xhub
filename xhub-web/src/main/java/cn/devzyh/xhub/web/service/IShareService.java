@@ -13,17 +13,19 @@ public interface IShareService {
     /**
      * 查询笔记HTML
      *
-     * @param id 文章主键
+     * @param id  文章主键
+     * @param secret 访问密钥
      * @return 文章
      */
-    public ShareDto html(Long id, String secret, String token);
+    ShareDto html(Long id, String secret);
 
     /**
      * 查询笔记Markdown
      *
-     * @param id 文章主键
+     * @param id  文章主键
+     * @param secret 访问密钥
      * @return 文章
      */
-    public String markdown(Long id, String secret, String token);
+    String markdown(Long id, String secret);
 
 }
