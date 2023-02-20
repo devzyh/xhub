@@ -51,7 +51,7 @@
                 co.content like concat('%', #{data.searchValue}, '%')
             )
         </if>
-        order by co.id desc
+        order by co.update_time desc
     </select>
 
 </mapper>

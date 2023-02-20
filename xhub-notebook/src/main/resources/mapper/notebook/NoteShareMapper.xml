@@ -37,6 +37,7 @@
             <if test="data.shareSecret != null  and data.shareSecret != ''">and s.share_secret = #{data.shareSecret}</if>
             <if test="data.shareDays != null ">and s.share_days = #{data.shareDays}</if>
         </where>
+        order by s.update_time desc
     </select>
 
     <select id="selectNoteShareByContentId" parameterType="Long" resultMap="NoteShareResult">
