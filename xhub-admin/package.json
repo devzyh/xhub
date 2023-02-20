@@ -15,12 +15,12 @@
     "url": "https://gitee.com/devzyh/xhub.git"
   },
   "dependencies": {
-    "@bytemd/plugin-breaks": "1.17.2",
-    "@bytemd/plugin-frontmatter": "1.17.2",
-    "@bytemd/plugin-gemoji": "1.17.2",
+    "@bytemd/plugin-breaks": "1.17.4",
+    "@bytemd/plugin-frontmatter": "1.17.4",
+    "@bytemd/plugin-gemoji": "1.17.4",
     "@bytemd/plugin-gfm": "1.17.4",
-    "@bytemd/plugin-medium-zoom": "1.17.2",
-    "@bytemd/plugin-mermaid": "1.17.2",
+    "@bytemd/plugin-medium-zoom": "1.17.4",
+    "@bytemd/plugin-mermaid": "1.17.4",
     "@bytemd/vue-next": "1.17.4",
     "@element-plus/icons-vue": "1.1.4",
     "@vueuse/core": "8.5.0",
