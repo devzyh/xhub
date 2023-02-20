@@ -59,7 +59,7 @@
 }
 
 .right .preview ul li,
-.right .preview ol li{
+.right .preview ol li {
     list-style: inherit !important;
     margin-left: 0px !important;
 }
@@ -84,6 +84,11 @@
 .right .preview pre code {
     overflow-y: auto;
     overflow-x: auto;
+    line-height: 1.75 !important;
+}
+
+.right .preview .vditor-linenumber {
+    padding-left: 3em !important;
 }
 
 .right .preview pre code::-webkit-scrollbar {
