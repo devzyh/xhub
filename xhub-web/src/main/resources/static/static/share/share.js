@@ -36,7 +36,7 @@ layui.use(['jquery', 'util'], function () {
         },
         hljs: {
             enable: true,
-            style: "github",
+            style: "vs",
             lineNumber: true
         },
         speech: {

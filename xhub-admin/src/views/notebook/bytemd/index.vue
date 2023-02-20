@@ -15,12 +15,14 @@
 import {Editor} from '@bytemd/vue-next'
 import 'bytemd/dist/index.min.css'
 import 'juejin-markdown-themes/dist/juejin.min.css'
+import 'highlight.js/styles/vs.css'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import breaks from '@bytemd/plugin-breaks'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import gemoji from '@bytemd/plugin-gemoji'
 import gfm from '@bytemd/plugin-gfm'
 import zhHansGfm from '@bytemd/plugin-gfm/locales/zh_Hans.json'
+import highlight from '@bytemd/plugin-highlight'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 import zhHansMermaid from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
@@ -39,6 +41,7 @@ const plugins = [
   frontmatter(),
   gemoji(),
   gfm({locale: zhHansGfm}),
+  highlight(),
   mediumZoom(),
   mermaid({locale: zhHansMermaid})
 ]
