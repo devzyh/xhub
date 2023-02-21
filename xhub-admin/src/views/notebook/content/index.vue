@@ -508,6 +508,7 @@ function handleCleanCache(row) {
     for (let i = 0; i < select.length; i++) {
       proxy.$cache.local.remove(cachePrefix.value + select[i]);
     }
+    getList();
     proxy.$modal.msgSuccess("清理成功");
   });
 }
