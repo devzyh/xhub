@@ -96,6 +96,16 @@
             >删除
             </el-button>
           </el-col>
+          <el-col :span="1.5">
+            <el-button
+                type="warning"
+                plain
+                icon="Brush"
+                :disabled="multiple"
+                @click="handleCleanCache"
+            >清除缓存
+            </el-button>
+          </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -488,6 +498,17 @@ function handleDelete(row) {
     getList();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {
+  });
+}
+
+/** 清理缓存按钮操作 */
+function handleCleanCache(row) {
+  const select = row.id || ids.value;
+  proxy.$modal.confirm('是否确认清理笔记编号为"' + select + '"的缓存？').then(function () {
+    for (let i = 0; i < select.length; i++) {
+      proxy.$cache.local.remove(cachePrefix.value + select[i]);
+    }
+    proxy.$modal.msgSuccess("清理成功");
   });
 }
 
