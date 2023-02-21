@@ -92,7 +92,6 @@ public class NoteCatalogController extends BaseController {
      */
     @GetMapping("/treeSelect")
     public Result treeselect(NoteCatalog catalog) {
-        catalog.setDelFlag(0);
         List<NoteCatalog> catalogs = noteCatalogService.selectNoteCatalogList(catalog);
         return Result.success(noteCatalogService.buildCatalogTree(catalogs));
     }

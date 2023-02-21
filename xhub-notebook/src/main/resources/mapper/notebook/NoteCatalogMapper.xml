@@ -18,26 +18,29 @@
     </resultMap>
 
     <sql id="selectNoteCatalogVo">
-        select id,
-               parent_id,
-               name,
-               order_num,
-               del_flag,
-               create_by,
-               create_time,
-               update_by,
-               update_time,
-               remark
-        from note_catalog
-        where del_flag = '0'
+        select nc.id,
+               nc.parent_id,
+               nc.name,
+               nc.order_num,
+               nc.del_flag,
+               nc.create_by,
+               nc.create_time,
+               nc.update_by,
+               nc.update_time,
+               nc.remark
+        from note_catalog nc
+        left join sys_user u on nc.create_by = u.user_name
+        left join sys_dept d on u.dept_id = d.dept_id
+        where nc.del_flag = '0'
     </sql>
 
     <select id="selectNoteCatalogList" parameterType="NoteCatalog" resultMap="NoteCatalogResult">
         <include refid="selectNoteCatalogVo"/>
-        <if test="parentId != null ">and parent_id = #{parentId}</if>
-        <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
-        <if test="orderNum != null ">and order_num = #{orderNum}</if>
-        order by order_num asc
+        <if test="parentId != null ">and nc.parent_id = #{parentId}</if>
+        <if test="name != null  and name != ''">and nc.name like concat('%', #{name}, '%')</if>
+        <if test="orderNum != null ">and nc.order_num = #{orderNum}</if>
+        ${dataScope}
+        order by nc.order_num asc
     </select>
 
 </mapper>

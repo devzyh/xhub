@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
@@ -42,6 +43,7 @@ public class NoteContentServiceImpl implements INoteContentService {
      * @return 笔记内容
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteContent> selectNoteContentList(IPage<NoteContent> page, NoteContent noteContent) {
         return contentMapper.selectNoteContentList(page, noteContent);
     }

@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.utils.StringUtils;
@@ -34,6 +35,7 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      * @return 笔记目录
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteCatalog> selectNoteCatalogList(NoteCatalog catalog) {
         return catalogMapper.selectNoteCatalogList(catalog);
     }

@@ -3,7 +3,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 20/02/2023 18:25:28
+ Date: 21/02/2023 14:42:33
 */
 
 SET NAMES utf8mb4;
@@ -479,13 +479,15 @@ CREATE TABLE `note_catalog`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记目录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记目录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of note_catalog
 -- ----------------------------
 INSERT INTO `note_catalog` VALUES (1, 0, NULL, '一级目录', 0, '0', 'admin', '2023-01-17 15:51:06', 'admin', '2023-01-17 15:51:06', NULL);
 INSERT INTO `note_catalog` VALUES (2, 1, '1', '二级目录', 0, '0', 'admin', '2023-01-17 15:51:11', 'admin', '2023-01-17 15:51:11', NULL);
+INSERT INTO `note_catalog` VALUES (3, 0, '', '测试目录', 0, '0', 'test', '2023-02-21 13:43:50', 'test', '2023-02-21 14:14:26', NULL);
+INSERT INTO `note_catalog` VALUES (4, 3, '3', '测试1', 0, '1', 'test', '2023-02-21 14:14:31', 'test', '2023-02-21 14:14:31', NULL);
 
 -- ----------------------------
 -- Table structure for note_content
@@ -505,12 +507,15 @@ CREATE TABLE `note_content`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_catalog_idx`(`catalog_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记内容表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '笔记内容表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of note_content
 -- ----------------------------
-INSERT INTO `note_content` VALUES (1, 2, '测试笔记', '\n## Markdown.com.cn 简介\n\n- 支持自定义样式的 Markdown 编辑器\n- 支持微信公众号、知乎和稀土掘金\n- 点击右上方对应图标，一键复制到各平台\n\n## Markdown语法教程\n\n### 标题\n\n不同数量的`#`可以完成不同的标题，如下：\n\n# 一级标题\n\n## 二级标题\n\n### 三级标题\n\n### 字体\n\n粗体、斜体、粗体和斜体，删除线，需要在文字前后加不同的标记符号。如下：\n\n**这个是粗体**\n\n*这个是斜体*\n\n***这个是粗体加斜体***\n\n~这里想用删除线~~\n\n注：如果想给字体换颜色、字体或者居中显示，需要使用内嵌HTML来实现。\n\n### 无序列表\n\n无序列表的使用，在符号`-`后加空格使用。如下：\n\n- 无序列表 1\n- 无序列表 2\n- 无序列表 3\n\n如果要控制列表的层级，则需要在符号`-`前使用空格。如下：\n\n- 无序列表 1\n- 无序列表 2\n  - 无序列表 2.1\n  - 无序列表 2.2\n\n### 有序列表\n\n有序列表的使用，在数字及符号`.`后加空格后输入内容，如下：\n\n1. 有序列表 1\n2. 有序列表 2\n3. 有序列表 3\n\n### 引用\n\n引用的格式是在符号`>`后面书写文字。如下：\n\n> 读一本好书，就是在和高尚的人谈话。 ——歌德\n\n> 雇用制度对工人不利，但工人根本无力摆脱这个制度。 ——阮一峰\n\n### 链接\n\n微信公众号仅支持公众号文章链接，即域名为`https://mp.weixin.qq.com/`的合法链接。使用方法如下所示：\n\n\n### 图片\n\n插入图片，格式如下：\n![这里写图片描述](https://refactoringguru.cn/images/content-public/logos/logo-new-winter.png?id=85470d71f9cbeab1161d5cabc2e8296a)\n\n\n### 分割线\n\n可以在一行中用三个以上的减号来建立一个分隔线，同时需要在分隔线的上面空一行。如下：\n\n---\n\n### 表格\n\n可以使用冒号来定义表格的对齐方式，如下：\n\n| 姓名   | 年龄 |     工作 |\n| :----- | :--: | -------: |\n| 小可爱 |  18  | 吃可爱多 |\n| 小小勇敢 |  20  | 爬棵勇敢树 |\n| 小小小机智 |  22  | 看一本机智书 |\n\n\n\n## 特殊语法\n\n### 脚注\n\n> 支持平台：微信公众号、知乎。\n\n脚注与链接的区别如下所示：\n\n```markdown\n链接：[文字](链接)\n脚注：[文字](脚注解释 \"脚注名字\")\n```\n\n有人认为在[大前端时代](https://en.wikipedia.org/wiki/Front-end_web_development \"Front-end web development\")的背景下，移动端开发（Android、IOS）将逐步退出历史舞台。\n\n[全栈工程师](是指掌握多种技能，并能利用多种技能独立完成产品的人。 \"什么是全栈工程师\")在业务开发流程中起到了至关重要的作用。\n\n脚注内容请拉到最下面观看。\n\n### 代码块\n\n> 支持平台：微信代码主题仅支持微信公众号！其他主题无限制。\n\n如果在一个行内需要引用代码，只要用反引号引起来就好，如下：\n\nUse the `printf()` function.\n\n在需要高亮的代码块的前一行及后一行使用三个反引号，同时**第一行反引号后面表示代码块所使用的语言**，如下：\n\n```java\n// FileName: HelloWorld.java\npublic class HelloWorld {\n  // Java 入口程序，程序从此入口\n  public static void main(String[] args) {\n    System.out.println(\"Hello,World!\"); // 向控制台打印一条语句\n  }\n}\n```\n\n支持以下语言种类：\n\n```\nbash\nclojure，cpp，cs，css\ndart，dockerfile, diff\nerlang\ngo，gradle，groovy\nhaskell\njava，javascript，json，julia\nkotlin\nlisp，lua\nmakefile，markdown，matlab makefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlab\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nxml\nyaml\n```', NULL, '0', 'admin', '2023-01-17 15:51:21', 'admin', '2023-02-20 12:52:59', NULL);
+INSERT INTO `note_content` VALUES (1, 2, '测试笔记', '\n## Markdown.com.cn 简介\n\n- 支持自定义样式的 Markdown 编辑器\n- 支持微信公众号、知乎和稀土掘金\n- 点击右上方对应图标，一键复制到各平台\n\n## Markdown语法教程\n\n### 标题\n\n不同数量的`#`可以完成不同的标题，如下：\n\n# 一级标题\n\n## 二级标题\n\n### 三级标题\n\n### 字体\n\n粗体、斜体、粗体和斜体，删除线，需要在文字前后加不同的标记符号。如下：\n\n**这个是粗体**\n\n*这个是斜体*\n\n***这个是粗体加斜体***\n\n~这里想用删除线~~\n\n注：如果想给字体换颜色、字体或者居中显示，需要使用内嵌HTML来实现。\n\n### 无序列表\n\n无序列表的使用，在符号`-`后加空格使用。如下：\n\n- 无序列表 1\n- 无序列表 2\n- 无序列表 3\n\n如果要控制列表的层级，则需要在符号`-`前使用空格。如下：\n\n- 无序列表 1\n- 无序列表 2\n  - 无序列表 2.1\n  - 无序列表 2.2\n\n### 有序列表\n\n有序列表的使用，在数字及符号`.`后加空格后输入内容，如下：\n\n1. 有序列表 1\n2. 有序列表 2\n3. 有序列表 3\n\n### 引用\n\n引用的格式是在符号`>`后面书写文字。如下：\n\n> 读一本好书，就是在和高尚的人谈话。 ——歌德\n\n> 雇用制度对工人不利，但工人根本无力摆脱这个制度。 ——阮一峰\n\n### 链接\n\n微信公众号仅支持公众号文章链接，即域名为`https://mp.weixin.qq.com/`的合法链接。使用方法如下所示：\n\n\n### 图片\n\n插入图片，格式如下：\n![这里写图片描述](https://refactoringguru.cn/images/content-public/logos/logo-new-winter.png?id=85470d71f9cbeab1161d5cabc2e8296a)\n\n\n### 分割线\n\n可以在一行中用三个以上的减号来建立一个分隔线，同时需要在分隔线的上面空一行。如下：\n\n---\n\n### 表格\n\n可以使用冒号来定义表格的对齐方式，如下：\n\n| 姓名   | 年龄 |     工作 |\n| :----- | :--: | -------: |\n| 小可爱 |  18  | 吃可爱多 |\n| 小小勇敢 |  20  | 爬棵勇敢树 |\n| 小小小机智 |  22  | 看一本机智书 |\n\n\n\n## 特殊语法\n\n### 脚注\n\n> 支持平台：微信公众号、知乎。\n\n脚注与链接的区别如下所示：\n\n```markdown\n链接：[文字](链接)\n脚注：[文字](脚注解释 \"脚注名字\")\n```\n\n有人认为在[大前端时代](https://en.wikipedia.org/wiki/Front-end_web_development \"Front-end web development\")的背景下，移动端开发（Android、IOS）将逐步退出历史舞台。\n\n[全栈工程师](是指掌握多种技能，并能利用多种技能独立完成产品的人。 \"什么是全栈工程师\")在业务开发流程中起到了至关重要的作用。\n\n脚注内容请拉到最下面观看。\n\n### 代码块\n\n> 支持平台：微信代码主题仅支持微信公众号！其他主题无限制。\n\n如果在一个行内需要引用代码，只要用反引号引起来就好，如下：\n\nUse the `printf()` function.\n\n在需要高亮的代码块的前一行及后一行使用三个反引号，同时**第一行反引号后面表示代码块所使用的语言**，如下：\n\n```java\n// FileName: HelloWorld.java\npublic class HelloWorld {\n  // Java 入口程序，程序从此入口\n  public static void main(String[] args) {\n    System.out.println(\"Hello,World!\"); // 向控制台打印一条语句\n  }\n}\n```\n\n支持以下语言种类：\n\n```\nbash\nclojure，cpp，cs，css\ndart，dockerfile, diff\nerlang\ngo，gradle，groovy\nhaskell\njava，javascript，json，julia\nkotlin\nlisp，lua\nmakefile，markdown，matlab makefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlabmakefile，markdown，matlab\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdlobjectivec\nperl，php，python\nr，ruby，rust\nscala，shell，sql，swift\ntex，typescript\nverilog，vhdl\nxml\nyaml\n```', NULL, '0', 'admin', '2023-01-17 15:51:21', 'admin', '2023-02-21 10:33:08', NULL);
+INSERT INTO `note_content` VALUES (2, 1, '删除笔记', NULL, NULL, '1', 'admin', '2023-02-20 18:28:47', 'admin', '2023-02-20 18:28:47', NULL);
+INSERT INTO `note_content` VALUES (3, 1, '测试笔记2', NULL, NULL, '0', 'admin', '2023-02-20 21:39:22', 'admin', '2023-02-20 21:39:22', NULL);
+INSERT INTO `note_content` VALUES (4, 3, 'ces', 'dsd', NULL, '0', 'test', '2023-02-21 14:13:41', 'test', '2023-02-21 14:36:24', NULL);
 
 -- ----------------------------
 -- Table structure for note_history
@@ -556,7 +561,8 @@ CREATE TABLE `note_share`  (
 -- ----------------------------
 -- Records of note_share
 -- ----------------------------
-INSERT INTO `note_share` VALUES (1, NULL, 0, 'admin', '2023-02-13 14:28:23', 'admin', '2023-02-13 14:28:23', NULL);
+INSERT INTO `note_share` VALUES (1, '111', 0, 'admin', '2023-02-20 21:42:23', 'admin', '2023-02-20 21:50:26', NULL);
+INSERT INTO `note_share` VALUES (4, NULL, 0, 'test', '2023-02-21 14:39:31', 'test', '2023-02-21 14:39:31', NULL);
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -823,7 +829,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2041 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2045 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -929,19 +935,23 @@ INSERT INTO `sys_menu` VALUES (2017, '笔记目录删除', 2013, 4, '#', '', NUL
 INSERT INTO `sys_menu` VALUES (2018, '笔记目录导出', 2013, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'notebook:catalog:export', '#', 'admin', '2022-05-18 12:42:09', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2019, '我的笔记', 0, 5, 'notebook', NULL, NULL, 1, 0, 'M', '0', '0', '', 'notebook', 'admin', '2022-05-18 12:45:37', 'admin', '2022-08-12 16:22:42', '');
 INSERT INTO `sys_menu` VALUES (2020, '笔记列表', 2019, 1, 'content', 'notebook/content/index', NULL, 1, 0, 'C', '0', '0', 'notebook:content:list', 'guide', 'admin', '2022-05-19 12:55:38', 'admin', '2022-08-12 16:22:50', '');
-INSERT INTO `sys_menu` VALUES (2021, '分享记录', 2019, 4, 'share', 'notebook/share/index', NULL, 1, 0, 'C', '0', '0', '', 'link', 'admin', '2022-05-20 10:00:24', 'admin', '2022-05-22 23:05:55', '');
+INSERT INTO `sys_menu` VALUES (2021, '分享记录', 2019, 4, 'share', 'notebook/share/index', NULL, 1, 0, 'C', '0', '0', 'notebook:share:list', 'link', 'admin', '2022-05-20 10:00:24', 'admin', '2023-02-21 13:59:33', '');
 INSERT INTO `sys_menu` VALUES (2022, '编辑内容', 2019, 2, 'editor/:id', 'notebook/bytemd/index', NULL, 1, 0, 'C', '1', '0', 'notebook:editor', 'edit', 'admin', '2022-05-21 19:15:11', 'admin', '2022-10-09 09:47:54', '');
 INSERT INTO `sys_menu` VALUES (2023, '笔记内容查询', 2020, 0, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:query', '#', 'admin', '2022-05-22 23:07:51', 'admin', '2022-05-25 20:16:29', '');
-INSERT INTO `sys_menu` VALUES (2024, '笔记内容编辑', 2020, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:edit', '#', 'admin', '2022-05-22 23:08:11', 'admin', '2022-05-25 20:16:35', '');
+INSERT INTO `sys_menu` VALUES (2024, '笔记内容新增', 2020, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:add', '#', 'admin', '2022-05-22 23:08:11', 'admin', '2023-02-21 14:01:42', '');
 INSERT INTO `sys_menu` VALUES (2025, '笔记内容设置', 2020, 2, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:setting', '#', 'admin', '2022-05-22 23:08:33', 'admin', '2022-05-25 20:16:42', '');
 INSERT INTO `sys_menu` VALUES (2026, '笔记内容导入', 2020, 6, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:import', '#', 'admin', '2022-05-22 23:08:56', 'admin', '2022-05-28 22:44:25', '');
-INSERT INTO `sys_menu` VALUES (2027, '分享记录查询', 2021, 0, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:query', '#', 'admin', '2022-05-22 23:09:21', 'admin', '2022-05-22 23:15:11', '');
+INSERT INTO `sys_menu` VALUES (2027, '分享记录查询', 2021, 0, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:query', '#', 'admin', '2022-05-22 23:09:21', 'admin', '2023-02-21 13:59:15', '');
 INSERT INTO `sys_menu` VALUES (2028, '分享记录删除', 2021, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:remove', '#', 'admin', '2022-05-22 23:09:38', 'admin', '2022-05-22 23:15:20', '');
 INSERT INTO `sys_menu` VALUES (2029, '分享记录导出', 2021, 2, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:export', '#', 'admin', '2022-05-22 23:14:34', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2030, '笔记文件下载', 2020, 4, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:download', '#', 'admin', '2022-05-25 20:17:14', 'admin', '2022-05-30 14:53:19', '');
 INSERT INTO `sys_menu` VALUES (2031, '笔记内容删除', 2020, 3, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:remove', '#', 'admin', '2022-05-25 21:09:35', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2032, '笔记内容历史', 2020, 5, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:history', '#', 'admin', '2022-05-25 21:10:33', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2040, '文章标签', 2000, 3, 'tag', 'favorite/tag/index', NULL, 1, 0, 'C', '0', '0', 'fav:tag:list', 'example', 'admin', '2022-10-08 22:24:20', 'admin', '2022-10-09 12:05:31', '');
+INSERT INTO `sys_menu` VALUES (2041, '笔记内容编辑', 2020, 7, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:edit', '#', 'admin', '2023-02-21 14:01:25', 'admin', '2023-02-21 14:01:50', '');
+INSERT INTO `sys_menu` VALUES (2042, '笔记访问Token获取', 2020, 8, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:content:token', '#', 'admin', '2023-02-21 14:05:03', 'admin', '2023-02-21 14:05:03', '');
+INSERT INTO `sys_menu` VALUES (2043, '分享记录新增', 2021, 3, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:add', '#', 'admin', '2023-02-21 14:37:37', 'admin', '2023-02-21 14:37:37', '');
+INSERT INTO `sys_menu` VALUES (2044, '分享记录编辑', 2021, 4, '', NULL, NULL, 1, 0, 'F', '0', '0', 'notebook:share:edit', '#', 'admin', '2023-02-21 14:38:23', 'admin', '2023-02-21 14:38:23', '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1043,7 +1053,7 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '系统管理', 'admin', 1, '1', 1, 1, '0', '0', 'admin', '2022-04-22 09:21:16', '', NULL, '系统管理');
-INSERT INTO `sys_role` VALUES (2, '普通用户', 'common', 2, '2', 1, 1, '0', '0', 'admin', '2022-04-22 09:21:16', 'admin', '2022-10-30 23:29:09', '普通角色');
+INSERT INTO `sys_role` VALUES (2, '普通用户', 'common', 2, '5', 1, 1, '0', '0', 'admin', '2022-04-22 09:21:16', 'admin', '2023-02-21 14:38:31', '普通角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1058,8 +1068,6 @@ CREATE TABLE `sys_role_dept`  (
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES (2, 100);
-INSERT INTO `sys_role_dept` VALUES (2, 101);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -1074,86 +1082,44 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (2, 1);
-INSERT INTO `sys_role_menu` VALUES (2, 2);
-INSERT INTO `sys_role_menu` VALUES (2, 3);
-INSERT INTO `sys_role_menu` VALUES (2, 100);
-INSERT INTO `sys_role_menu` VALUES (2, 101);
-INSERT INTO `sys_role_menu` VALUES (2, 102);
-INSERT INTO `sys_role_menu` VALUES (2, 103);
-INSERT INTO `sys_role_menu` VALUES (2, 104);
-INSERT INTO `sys_role_menu` VALUES (2, 105);
-INSERT INTO `sys_role_menu` VALUES (2, 106);
-INSERT INTO `sys_role_menu` VALUES (2, 107);
-INSERT INTO `sys_role_menu` VALUES (2, 108);
-INSERT INTO `sys_role_menu` VALUES (2, 109);
-INSERT INTO `sys_role_menu` VALUES (2, 110);
-INSERT INTO `sys_role_menu` VALUES (2, 111);
-INSERT INTO `sys_role_menu` VALUES (2, 112);
-INSERT INTO `sys_role_menu` VALUES (2, 113);
-INSERT INTO `sys_role_menu` VALUES (2, 115);
-INSERT INTO `sys_role_menu` VALUES (2, 500);
-INSERT INTO `sys_role_menu` VALUES (2, 501);
-INSERT INTO `sys_role_menu` VALUES (2, 1001);
-INSERT INTO `sys_role_menu` VALUES (2, 1002);
-INSERT INTO `sys_role_menu` VALUES (2, 1003);
-INSERT INTO `sys_role_menu` VALUES (2, 1004);
-INSERT INTO `sys_role_menu` VALUES (2, 1005);
-INSERT INTO `sys_role_menu` VALUES (2, 1006);
-INSERT INTO `sys_role_menu` VALUES (2, 1007);
-INSERT INTO `sys_role_menu` VALUES (2, 1008);
-INSERT INTO `sys_role_menu` VALUES (2, 1009);
-INSERT INTO `sys_role_menu` VALUES (2, 1010);
-INSERT INTO `sys_role_menu` VALUES (2, 1011);
-INSERT INTO `sys_role_menu` VALUES (2, 1012);
-INSERT INTO `sys_role_menu` VALUES (2, 1013);
-INSERT INTO `sys_role_menu` VALUES (2, 1014);
-INSERT INTO `sys_role_menu` VALUES (2, 1015);
-INSERT INTO `sys_role_menu` VALUES (2, 1016);
-INSERT INTO `sys_role_menu` VALUES (2, 1017);
-INSERT INTO `sys_role_menu` VALUES (2, 1018);
-INSERT INTO `sys_role_menu` VALUES (2, 1019);
-INSERT INTO `sys_role_menu` VALUES (2, 1020);
-INSERT INTO `sys_role_menu` VALUES (2, 1021);
-INSERT INTO `sys_role_menu` VALUES (2, 1022);
-INSERT INTO `sys_role_menu` VALUES (2, 1023);
-INSERT INTO `sys_role_menu` VALUES (2, 1024);
-INSERT INTO `sys_role_menu` VALUES (2, 1025);
-INSERT INTO `sys_role_menu` VALUES (2, 1026);
-INSERT INTO `sys_role_menu` VALUES (2, 1027);
-INSERT INTO `sys_role_menu` VALUES (2, 1028);
-INSERT INTO `sys_role_menu` VALUES (2, 1029);
-INSERT INTO `sys_role_menu` VALUES (2, 1030);
-INSERT INTO `sys_role_menu` VALUES (2, 1031);
-INSERT INTO `sys_role_menu` VALUES (2, 1032);
-INSERT INTO `sys_role_menu` VALUES (2, 1033);
-INSERT INTO `sys_role_menu` VALUES (2, 1034);
-INSERT INTO `sys_role_menu` VALUES (2, 1035);
-INSERT INTO `sys_role_menu` VALUES (2, 1036);
-INSERT INTO `sys_role_menu` VALUES (2, 1037);
-INSERT INTO `sys_role_menu` VALUES (2, 1038);
-INSERT INTO `sys_role_menu` VALUES (2, 1039);
-INSERT INTO `sys_role_menu` VALUES (2, 1040);
-INSERT INTO `sys_role_menu` VALUES (2, 1041);
-INSERT INTO `sys_role_menu` VALUES (2, 1042);
-INSERT INTO `sys_role_menu` VALUES (2, 1043);
-INSERT INTO `sys_role_menu` VALUES (2, 1044);
-INSERT INTO `sys_role_menu` VALUES (2, 1045);
-INSERT INTO `sys_role_menu` VALUES (2, 1046);
-INSERT INTO `sys_role_menu` VALUES (2, 1047);
-INSERT INTO `sys_role_menu` VALUES (2, 1048);
-INSERT INTO `sys_role_menu` VALUES (2, 1049);
-INSERT INTO `sys_role_menu` VALUES (2, 1050);
-INSERT INTO `sys_role_menu` VALUES (2, 1051);
-INSERT INTO `sys_role_menu` VALUES (2, 1052);
-INSERT INTO `sys_role_menu` VALUES (2, 1053);
-INSERT INTO `sys_role_menu` VALUES (2, 1054);
-INSERT INTO `sys_role_menu` VALUES (2, 1055);
-INSERT INTO `sys_role_menu` VALUES (2, 1056);
-INSERT INTO `sys_role_menu` VALUES (2, 1057);
-INSERT INTO `sys_role_menu` VALUES (2, 1058);
-INSERT INTO `sys_role_menu` VALUES (2, 1059);
-INSERT INTO `sys_role_menu` VALUES (2, 1060);
+INSERT INTO `sys_role_menu` VALUES (2, 2000);
+INSERT INTO `sys_role_menu` VALUES (2, 2001);
+INSERT INTO `sys_role_menu` VALUES (2, 2002);
+INSERT INTO `sys_role_menu` VALUES (2, 2003);
+INSERT INTO `sys_role_menu` VALUES (2, 2004);
+INSERT INTO `sys_role_menu` VALUES (2, 2005);
+INSERT INTO `sys_role_menu` VALUES (2, 2006);
+INSERT INTO `sys_role_menu` VALUES (2, 2007);
+INSERT INTO `sys_role_menu` VALUES (2, 2008);
+INSERT INTO `sys_role_menu` VALUES (2, 2009);
+INSERT INTO `sys_role_menu` VALUES (2, 2010);
+INSERT INTO `sys_role_menu` VALUES (2, 2011);
+INSERT INTO `sys_role_menu` VALUES (2, 2012);
+INSERT INTO `sys_role_menu` VALUES (2, 2013);
+INSERT INTO `sys_role_menu` VALUES (2, 2014);
+INSERT INTO `sys_role_menu` VALUES (2, 2015);
+INSERT INTO `sys_role_menu` VALUES (2, 2016);
+INSERT INTO `sys_role_menu` VALUES (2, 2017);
+INSERT INTO `sys_role_menu` VALUES (2, 2018);
+INSERT INTO `sys_role_menu` VALUES (2, 2019);
+INSERT INTO `sys_role_menu` VALUES (2, 2020);
+INSERT INTO `sys_role_menu` VALUES (2, 2021);
+INSERT INTO `sys_role_menu` VALUES (2, 2022);
+INSERT INTO `sys_role_menu` VALUES (2, 2023);
+INSERT INTO `sys_role_menu` VALUES (2, 2024);
+INSERT INTO `sys_role_menu` VALUES (2, 2025);
+INSERT INTO `sys_role_menu` VALUES (2, 2026);
+INSERT INTO `sys_role_menu` VALUES (2, 2027);
+INSERT INTO `sys_role_menu` VALUES (2, 2028);
+INSERT INTO `sys_role_menu` VALUES (2, 2029);
+INSERT INTO `sys_role_menu` VALUES (2, 2030);
+INSERT INTO `sys_role_menu` VALUES (2, 2031);
+INSERT INTO `sys_role_menu` VALUES (2, 2032);
+INSERT INTO `sys_role_menu` VALUES (2, 2040);
+INSERT INTO `sys_role_menu` VALUES (2, 2041);
+INSERT INTO `sys_role_menu` VALUES (2, 2042);
+INSERT INTO `sys_role_menu` VALUES (2, 2043);
+INSERT INTO `sys_role_menu` VALUES (2, 2044);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1180,12 +1146,13 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 101, 'admin', 'DEVZYH', '00', 'devzyh@foxmail.com', '18888888888', '0', '/file/avatar/2023/01/17/20230117185831A001.jpeg', '$2a$10$FRNHb6d/MUClYZJXhYXerO0zKVMk0p73AIA0EBEFz648KQKfwLNrq', '0', '0', '127.0.0.1', '2023-02-20 12:51:46', 'admin', '2022-04-22 09:21:16', 'system', '2023-02-20 12:51:46', '系统管理');
+INSERT INTO `sys_user` VALUES (1, 101, 'admin', 'DEVZYH', '00', 'devzyh@foxmail.com', '18888888888', '0', '/file/avatar/2023/01/17/20230117185831A001.jpeg', '$2a$10$FRNHb6d/MUClYZJXhYXerO0zKVMk0p73AIA0EBEFz648KQKfwLNrq', '0', '0', '127.0.0.1', '2023-02-21 14:39:50', 'admin', '2022-04-22 09:21:16', 'system', '2023-02-21 14:39:50', '系统管理');
+INSERT INTO `sys_user` VALUES (2, 101, 'test', 'test', '00', '', '', '0', '', '$2a$10$eBU/pvhY1WgluWLex5NVZem7oGkpVlUrSSsdACgvq9A8Gq1BuoJr6', '0', '0', '127.0.0.1', '2023-02-21 14:40:04', 'admin', '2023-02-21 12:29:13', 'system', '2023-02-21 14:40:04', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -1201,6 +1168,7 @@ CREATE TABLE `sys_user_post`  (
 -- Records of sys_user_post
 -- ----------------------------
 INSERT INTO `sys_user_post` VALUES (1, 1);
+INSERT INTO `sys_user_post` VALUES (2, 2);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -1216,5 +1184,6 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1);
+INSERT INTO `sys_user_role` VALUES (2, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

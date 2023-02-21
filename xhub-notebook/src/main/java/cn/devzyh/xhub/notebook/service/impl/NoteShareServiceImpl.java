@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.mapper.NoteShareMapper;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Service
 public class NoteShareServiceImpl implements INoteShareService {
-    
+
     @Autowired
     private NoteShareMapper noteShareMapper;
 
@@ -28,6 +29,7 @@ public class NoteShareServiceImpl implements INoteShareService {
      * @return 笔记分享
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteShare> selectNoteShareList(IPage<NoteShare> page, NoteShare noteShare) {
         return noteShareMapper.selectNoteShareList(page, noteShare);
     }

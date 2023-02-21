@@ -32,6 +32,8 @@
                co.remark
         from note_content co
                left join note_catalog ca on co.catalog_id = ca.id
+               left join sys_user u on co.create_by = u.user_name
+               left join sys_dept d on u.dept_id = d.dept_id
         where co.del_flag = '0'
     </sql>
 
@@ -51,6 +53,7 @@
                 co.content like concat('%', #{data.searchValue}, '%')
             )
         </if>
+        ${data.dataScope}
         order by co.update_time desc
     </select>
 

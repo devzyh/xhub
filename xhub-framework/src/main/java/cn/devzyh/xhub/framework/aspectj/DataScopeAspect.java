@@ -100,7 +100,8 @@ public class DataScopeAspect {
         }
 
         if (StringUtils.isNotBlank(sqlString.toString())) {
-            Object params = joinPoint.getArgs()[0];
+            Object[] args = joinPoint.getArgs();
+            Object params = args[args.length - 1];
             if (StringUtils.isNotNull(params) && params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
                 baseEntity.setDataScope(" AND (" + sqlString.substring(4) + ")");
