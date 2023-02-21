@@ -116,6 +116,7 @@ async function uploadImage(files) {
 function save() {
   updateEditor(form.value).then(response => {
     proxy.$modal.msgSuccess("保存成功");
+    proxy.$cache.local.remove(cachePrefix.value + form.value.id);
   });
 }
 </script>
