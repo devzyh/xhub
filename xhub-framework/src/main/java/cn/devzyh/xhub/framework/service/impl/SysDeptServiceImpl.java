@@ -13,6 +13,7 @@ import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.spring.SpringUtils;
 import cn.devzyh.xhub.framework.mapper.SysDeptMapper;
 import cn.devzyh.xhub.framework.mapper.SysRoleMapper;
+import cn.devzyh.xhub.framework.mapper.SysUserMapper;
 import cn.devzyh.xhub.framework.service.ISysDeptService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -35,6 +36,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
 
     @Autowired
     private SysRoleMapper roleMapper;
+
+    @Autowired
+    private SysUserMapper userMapper;
 
     /**
      * 查询部门管理数据
@@ -151,7 +155,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public boolean checkDeptExistUser(Long deptId) {
-        return deptMapper.exists(new QueryWrapper<SysDept>().eq("dept_id", deptId));
+        return userMapper.exists(new QueryWrapper<SysUser>().eq("dept_id", deptId));
     }
 
     /**
