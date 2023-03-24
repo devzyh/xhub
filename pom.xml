@@ -22,7 +22,7 @@
         <druid.version>1.2.11</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <jackson.version>2.12.7</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
         <fastjson.version>2.0.16</fastjson.version>
         <oshi.version>6.3.0</oshi.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -47,7 +47,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- 修复CVE-2022-42003-->
+            <!-- 修复CVE-2022-42004-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
