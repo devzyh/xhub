@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.svg" type="image/x-icon">
     <link rel="stylesheet" th:href="${public_cdn + '/layui/2.6.13/css/layui.min.css'}">
     <link rel="stylesheet" th:href="${public_cdn + '/vditor/3.8.18/index.min.css'}"/>
-    <link rel="stylesheet" href="/static/share/share.css"/>
+    <link rel="stylesheet" href="/static/markdown/share.css"/>
 </head>
 <body>
 <div class="left">
@@ -43,7 +43,7 @@
     var markdown = [[${note.content}]];
 </script>
 <script th:src="${public_cdn + '/layui/2.6.13/layui.min.js'}"></script>
-<script src="/static/share/method.min.js"></script>
-<script src="/static/share/share.js"></script>
+<script src="/static/markdown/method.min.js"></script>
+<script src="/static/markdown/share.js"></script>
 </body>
 </html>
