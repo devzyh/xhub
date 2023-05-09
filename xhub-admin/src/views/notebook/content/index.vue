@@ -269,7 +269,7 @@
 </template>
 
 <script setup name="Content">
-import {addContent, delContent, generateToken, getContent, listContent, updateContent} from "@/api/notebook/content";
+import {addContent, delContent, getContent, listContent, updateContent} from "@/api/notebook/content";
 import {delShare, getShare, saveShare} from "@/api/notebook/share";
 import {treeSelect} from "@/api/notebook/catalog";
 import {listHistory} from "@/api/notebook/history";
@@ -519,7 +519,8 @@ function handleEdit(row) {
     name: "Editor/:id",
     params: {
       id: row.id,
-      title: row.title
+      title: row.title,
+      view: "edit"
     }
   });
 }
@@ -546,13 +547,13 @@ function handleSetting(row) {
 
 /** 预览按钮操作 */
 function handlePreview(row) {
-  generateToken().then(response => {
-    let url = "/share/" + row.id + ".html?secret=" + response.data
-    const env = import.meta.env
-    if ((env.DEV)) {
-      url = env.VITE_APP_API + url
+  router.push({
+    name: "Editor/:id",
+    params: {
+      id: row.id,
+      title: row.title,
+    view: "read"
     }
-    window.open(url)
   });
 }
 

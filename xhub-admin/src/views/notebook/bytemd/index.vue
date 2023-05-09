@@ -30,7 +30,6 @@ import useTagsViewStore from '@/store/modules/tagsView'
 import {uploads} from '@/api/common/upload'
 import {getContent, updateEditor} from "@/api/notebook/content";
 
-
 const route = useRoute();
 const {proxy} = getCurrentInstance();
 const tagsViewStore = useTagsViewStore();
@@ -58,6 +57,7 @@ const cachePrefix = ref("mcache:");
 onMounted(() => {
   const id = route.params.id;
   const title = route.params.title;
+  const view = route.params.view;
   const contentKey = cachePrefix.value + id;
   if (id && !isNaN(id)) {
     // 优先取本地缓存
@@ -85,6 +85,11 @@ onMounted(() => {
     if (title) {
       const obj = Object.assign({}, route, {title: title})
       proxy.$tab.updatePage(obj);
+    }
+
+    clickRight();
+    if (view === "read") {
+      clickRight(3);
     }
   }
 });
@@ -119,6 +124,12 @@ function save() {
     proxy.$cache.local.remove(cachePrefix.value + form.value.id);
   });
 }
+
+/** 点击右侧工具栏按钮 */
+function clickRight(index = 0) {
+  document.getElementsByClassName('bytemd-toolbar-right')[0].children[index].click();
+}
+
 </script>
 
 <style lang="scss">
