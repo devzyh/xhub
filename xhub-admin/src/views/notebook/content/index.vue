@@ -96,16 +96,6 @@
             >删除
             </el-button>
           </el-col>
-          <el-col :span="1.5">
-            <el-button
-                type="warning"
-                plain
-                icon="Brush"
-                :disabled="multiple"
-                @click="handleCleanCache"
-            >清除缓存
-            </el-button>
-          </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -343,8 +333,6 @@ const share = ref({
 const headers = ref({
   Authorization: "Bearer " + getToken(),
 });
-// 笔记缓存前缀
-const cachePrefix = ref("mcache:");
 
 /** 查询笔记列表 */
 function getList() {
@@ -501,25 +489,12 @@ function handleDelete(row) {
   });
 }
 
-/** 清理缓存按钮操作 */
-function handleCleanCache(row) {
-  const select = row.id || ids.value;
-  proxy.$modal.confirm('是否确认清理笔记编号为"' + select + '"的缓存？').then(function () {
-    for (let i = 0; i < select.length; i++) {
-      proxy.$cache.local.remove(cachePrefix.value + select[i]);
-    }
-    getList();
-    proxy.$modal.msgSuccess("清理成功");
-  });
-}
-
 /** Markdown编辑按钮操作 */
 function handleEdit(row) {
   router.push({
     name: "Editor/:id",
     params: {
       id: row.id,
-      title: row.title,
       view: "edit"
     }
   });
@@ -551,8 +526,7 @@ function handlePreview(row) {
     name: "Editor/:id",
     params: {
       id: row.id,
-      title: row.title,
-    view: "read"
+      view: "read"
     }
   });
 }
@@ -606,7 +580,6 @@ function handleReset() {
       return updateContent(content);
     }).then(() => {
       getList();
-      proxy.$cache.local.remove(cachePrefix.value + history.contentId);
       proxy.$modal.msgSuccess("恢复成功");
     });
   } else {

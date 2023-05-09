@@ -26,13 +26,11 @@ import highlight from '@bytemd/plugin-highlight'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 import zhHansMermaid from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
-import useTagsViewStore from '@/store/modules/tagsView'
 import {uploads} from '@/api/common/upload'
 import {getContent, updateEditor} from "@/api/notebook/content";
 
 const route = useRoute();
 const {proxy} = getCurrentInstance();
-const tagsViewStore = useTagsViewStore();
 
 // 编辑器插件
 const plugins = [
@@ -49,55 +47,46 @@ const form = ref({
   id: 0,
   content: ""
 });
-// 笔记缓存前缀
-const cachePrefix = ref("mcache:");
-
+// 编辑控制
+const ctrl = ref({
+  changed: false,
+  inited: false
+});
 
 /** 页面初始化 */
 onMounted(() => {
+  // 获取笔记内容
   const id = route.params.id;
-  const title = route.params.title;
-  const view = route.params.view;
-  const contentKey = cachePrefix.value + id;
   if (id && !isNaN(id)) {
-    // 优先取本地缓存
-    let localContent = proxy.$cache.local.get(contentKey);
-    if (localContent) {
-      form.value.id = id;
-      form.value.content = localContent;
-    }
+    getContent(id).then(response => {
+      // 权限错误
 
-    // 本地不存在从远程获取
-    if (!localContent) {
-      getContent(id).then(response => {
-        const data = response.data;
-        form.value.id = data.id;
-        form.value.content = data.content;
-        if (form.value.content) {
-          proxy.$cache.local.set(contentKey, form.value.content);
-        } else {
-          form.value.content = "";
-        }
-      });
-    }
+      // 编辑数据
+      const data = response.data;
+      form.value.id = data.id;
+      form.value.content = data.content;
 
-    // 页面标题重写
-    if (title) {
-      const obj = Object.assign({}, route, {title: title})
+      // 页面标题
+      const obj = Object.assign({}, route, {title: data.title})
       proxy.$tab.updatePage(obj);
-    }
+    });
+  }
 
+  // 控制预览
+  if (route.params.view === "read") {
     clickRight();
-    if (view === "read") {
-      clickRight(3);
-    }
+    clickRight(3);
   }
 });
 
 /** 内容更新事件 */
 function handleChange(v) {
   form.value.content = v
-  proxy.$cache.local.set(cachePrefix.value + form.value.id, v);
+  if (ctrl.value.inited) {
+    ctrl.value.changed = true
+  } else {
+    ctrl.value.inited = true
+  }
 }
 
 /** 批量上传图片 */
@@ -121,7 +110,6 @@ async function uploadImage(files) {
 function save() {
   updateEditor(form.value).then(response => {
     proxy.$modal.msgSuccess("保存成功");
-    proxy.$cache.local.remove(cachePrefix.value + form.value.id);
   });
 }
 
