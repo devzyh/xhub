@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <input type="hidden" id="saveMarkdown" @click="save"/>
-    <div class="mde">
+    <div class="mde" tabindex="0" :onkeydown="handleKeydown">
       <Editor :value="form.content"
               :plugins="plugins"
               :locale="zhHans"
@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup name="ByteMD">
+<script setup name="Editor/:id">
 import {Editor} from '@bytemd/vue-next'
 import 'bytemd/dist/index.min.css'
 import 'juejin-markdown-themes/dist/juejin.min.css'
@@ -55,37 +55,51 @@ const ctrl = ref({
 
 /** 页面初始化 */
 onMounted(() => {
-  // 获取笔记内容
-  const id = route.params.id;
-  if (id && !isNaN(id)) {
-    getContent(id).then(response => {
-      // 权限错误
-
-      // 编辑数据
-      const data = response.data;
-      form.value.id = data.id;
-      form.value.content = data.content;
-
-      // 页面标题
-      const obj = Object.assign({}, route, {title: data.title})
-      proxy.$tab.updatePage(obj);
-    });
-  }
+  // 加载内容
+  loadContent();
 
   // 控制预览
   if (route.params.view === "read") {
     clickRight();
     clickRight(3);
   }
+
+  // 退出提醒
+  window.addEventListener('beforeunload', handleBeforeUnload);
 });
+
+onBeforeUnmount(() => {
+  alert("xxx");
+})
+
+/** 加载笔记内容 */
+function loadContent() {
+  const id = route.params.id;
+  if (!id || isNaN(id)) {
+    return
+  }
+
+  getContent(id).then(response => {
+    // 权限错误
+
+    // 编辑数据
+    const data = response.data;
+    form.value.id = data.id;
+    form.value.content = data.content;
+
+    // 页面标题
+    const obj = Object.assign({}, route, {title: data.title})
+    proxy.$tab.updatePage(obj);
+  });
+}
 
 /** 内容更新事件 */
 function handleChange(v) {
   form.value.content = v
   if (ctrl.value.inited) {
-    ctrl.value.changed = true
+    ctrl.value.changed = true;
   } else {
-    ctrl.value.inited = true
+    ctrl.value.inited = true;
   }
 }
 
@@ -109,13 +123,55 @@ async function uploadImage(files) {
 /** 保存笔记内容 */
 function save() {
   updateEditor(form.value).then(response => {
+    ctrl.value.changed = false;
     proxy.$modal.msgSuccess("保存成功");
   });
+}
+
+/** 响应编辑器按键事件 */
+function handleKeydown(e) {
+  if (!e.ctrlKey && !e.metaKey) {
+    return
+  }
+
+  switch (e.key.toLowerCase()) {
+    case 's':  // 保存
+      save();
+      e.preventDefault();
+      break;
+    case 'o': // 目录
+      clickRight(0);
+      break;
+    case 'h': // 帮助
+      clickRight(1);
+      break;
+    case 'e': // 编辑
+      clickRight(2);
+      break;
+    case 'p':  // 预览
+      clickRight(3);
+      e.preventDefault();
+      break;
+    case 'm':  // 全屏
+      clickRight(4);
+      e.preventDefault();
+      break;
+    default :
+      console.log(e)
+      break;
+  }
 }
 
 /** 点击右侧工具栏按钮 */
 function clickRight(index = 0) {
   document.getElementsByClassName('bytemd-toolbar-right')[0].children[index].click();
+}
+
+/** 页面退出事件 */
+function handleBeforeUnload(e) {
+  if (ctrl && ctrl.value && ctrl.value.changed) {
+    e.returnValue = ("确定离开当前页面吗？");
+  }
 }
 
 </script>
