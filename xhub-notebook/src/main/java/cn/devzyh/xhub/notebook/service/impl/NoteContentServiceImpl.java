@@ -1,7 +1,9 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
 import cn.devzyh.xhub.common.annotation.DataScope;
+import cn.devzyh.xhub.common.constant.NoteConstants;
 import cn.devzyh.xhub.common.core.domain.Result;
+import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,6 +38,8 @@ public class NoteContentServiceImpl implements INoteContentService {
     private INoteHistoryService historyService;
     @Autowired
     private INoteShareService shareService;
+    @Autowired
+    RedisCache redisCache;
 
     /**
      * 查询笔记内容列表
@@ -56,7 +61,25 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public NoteContent selectNoteContentById(Long id) {
-        return contentMapper.selectById(id);
+        String key = NoteConstants.CONTEN_KEY + id;
+        NoteContent note = redisCache.getCacheObject(key);
+        if (note != null) {
+            return note;
+        }
+
+        synchronized (key) {
+            note = redisCache.getCacheObject(key);
+            if (note != null) {
+                return note;
+            }
+
+            synchronized (key) {
+                note = contentMapper.selectById(id);
+                redisCache.setCacheObject(key, note);
+            }
+        }
+
+        return note;
     }
 
     /**
@@ -109,6 +132,9 @@ public class NoteContentServiceImpl implements INoteContentService {
             historyService.insertNoteHistory(history);
         }
 
+        // 更新缓存
+        redisCache.deleteObject(NoteConstants.CONTEN_KEY + content.getId());
+
         // 允许笔记内容为空值
         if (allowBlankContent && StringUtils.isBlank(content.getContent())) {
             UpdateWrapper<NoteContent> uw = new UpdateWrapper<>();
@@ -130,8 +156,12 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteNoteContentByIds(List<Long> ids) {
-        shareService.deleteNoteShareByContentIds(ids);
-        return contentMapper.deleteBatchIds(ids);
+        int i = 0;
+        for (Long id : ids) {
+            i += deleteNoteContentById(id);
+        }
+
+        return i;
     }
 
     /**
@@ -142,6 +172,8 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int deleteNoteContentById(Long id) {
+        redisCache.deleteObject(NoteConstants.CONTEN_KEY + id);
+        shareService.deleteNoteShareByContentIds(Arrays.asList(id));
         return contentMapper.deleteById(id);
     }
 
