@@ -6,6 +6,7 @@ import {blobValidate, tansParams} from '@/utils/common'
 import cache from '@/plugins/cache'
 import {saveAs} from 'file-saver'
 import useUserStore from '@/store/modules/user'
+import md5 from 'js-md5'
 
 let downloadLoadingInstance;
 // 是否显示重新登录
@@ -41,6 +42,9 @@ service.interceptors.request.use(config => {
             url: config.url,
             data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
             time: new Date().getTime()
+        }
+        if (requestObj.data) {
+            requestObj.data = md5(requestObj.data)
         }
         const sessionObj = cache.session.getJSON('sessionObj')
         if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
