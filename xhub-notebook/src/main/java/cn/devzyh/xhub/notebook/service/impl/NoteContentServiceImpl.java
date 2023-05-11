@@ -4,6 +4,8 @@ import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.common.constant.NoteConstants;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
+import cn.devzyh.xhub.common.utils.DateUtils;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -20,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,24 +66,24 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     public NoteContent selectNoteContentById(Long id) {
         String key = NoteConstants.CONTEN_KEY + id;
-        NoteContent note = redisCache.getCacheObject(key);
-        if (note != null) {
-            return note;
+        NoteContent content = redisCache.getCacheObject(key);
+        if (content != null) {
+            return content;
         }
 
         synchronized (key) {
-            note = redisCache.getCacheObject(key);
-            if (note != null) {
-                return note;
+            content = redisCache.getCacheObject(key);
+            if (content != null) {
+                return content;
             }
 
             synchronized (key) {
-                note = contentMapper.selectById(id);
-                redisCache.setCacheObject(key, note);
+                content = contentMapper.selectById(id);
+                redisCache.setCacheObject(key, content);
             }
         }
 
-        return note;
+        return content;
     }
 
     /**
@@ -148,6 +152,27 @@ public class NoteContentServiceImpl implements INoteContentService {
     }
 
     /**
+     * 修改笔记缓存
+     *
+     * @param content 笔记内容
+     * @return 结果
+     */
+    @Override
+    public Result updateNoteCache(NoteContent content) {
+        NoteContent local = selectNoteContentById(content.getId());
+        if (local == null) {
+            return Result.error("笔记不存在");
+        }
+        if (!local.getCreateBy().equals(SecurityUtils.getUserName())) {
+            return Result.error("权限错误");
+        }
+
+        redisCache.setCacheMapValue(NoteConstants.CONTEN_KEY + content.getId(),
+                "content", content.getContent());
+        return Result.success();
+    }
+
+    /**
      * 批量删除笔记内容
      *
      * @param ids 需要删除的笔记内容主键
@@ -182,5 +207,14 @@ public class NoteContentServiceImpl implements INoteContentService {
         QueryWrapper<NoteContent> qw = new QueryWrapper<>();
         qw.in("catalog_id", ids);
         return contentMapper.selectCount(qw);
+    }
+
+    @Override
+    public List<NoteContent> selectYesterdayContents() {
+        QueryWrapper<NoteContent> qw = new QueryWrapper<>();
+        LocalDate yesterday = LocalDate.now().plusDays(-1);
+        String date = yesterday.format(DateUtils.DTF_DATE);
+        qw.between("update_time", date + " 00:00:00", date + " 23:59:59");
+        return contentMapper.selectList(qw);
     }
 }

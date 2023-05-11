@@ -7,6 +7,7 @@ import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.enums.BusinessType;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteContent;
 import cn.devzyh.xhub.notebook.service.INoteContentService;
@@ -64,7 +65,12 @@ public class NoteContentController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:content:query')")
     @GetMapping(value = "/{id}")
     public Result getInfo(@PathVariable("id") Long id) {
-        return Result.success(contentService.selectNoteContentById(id));
+        NoteContent content = contentService.selectNoteContentById(id);
+        if (content==null||!content.getCreateBy().equals(SecurityUtils.getUserName())) {
+            return Result.error("权限错误");
+        }
+
+        return Result.success(content);
     }
 
     /**
@@ -95,6 +101,16 @@ public class NoteContentController extends BaseController {
     @PutMapping("/editor")
     public Result editContent(@RequestBody NoteContent noteContent) {
         return contentService.updateNoteContent(noteContent, true);
+    }
+
+    /**
+     * 更新内容缓存
+     */
+    @PreAuthorize("@ss.hasPermi('notebook:content:edit')")
+    @Log(title = "笔记编辑内容", businessType = BusinessType.UPDATE)
+    @PutMapping("/cache")
+    public Result cache(@RequestBody NoteContent noteContent) {
+        return contentService.updateNoteCache(noteContent);
     }
 
     /**

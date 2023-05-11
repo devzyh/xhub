@@ -44,6 +44,15 @@ export function updateEditor(data) {
   })
 }
 
+// 修改内容缓存
+export function updateCache(data) {
+  return request({
+    url: '/notebook/content/cache',
+    method: 'put',
+    data: data
+  })
+}
+
 // 删除笔记内容
 export function delContent(id) {
   return request({

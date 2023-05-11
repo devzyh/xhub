@@ -26,8 +26,8 @@ import highlight from '@bytemd/plugin-highlight'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 import zhHansMermaid from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
+import {getContent, updateEditor, updateCache} from "@/api/notebook/content";
 import {uploads} from '@/api/common/upload'
-import {getContent, updateEditor} from "@/api/notebook/content";
 
 const route = useRoute();
 const {proxy} = getCurrentInstance();
@@ -49,8 +49,8 @@ const form = ref({
 });
 // 编辑控制
 const ctrl = ref({
-  changed: false,
-  inited: false
+  inited: false,
+  changed: false
 });
 
 /** 页面初始化 */
@@ -64,13 +64,11 @@ onMounted(() => {
     clickRight(3);
   }
 
-  // 退出提醒
-  window.addEventListener('beforeunload', handleBeforeUnload);
+  // 自动保存
+  setInterval(function () {
+    saveCache();
+  }, 30000);
 });
-
-onBeforeUnmount(() => {
-  alert("xxx");
-})
 
 /** 加载笔记内容 */
 function loadContent() {
@@ -81,6 +79,10 @@ function loadContent() {
 
   getContent(id).then(response => {
     // 权限错误
+    if (response.code != 200) {
+      proxy.$modal.msgError(response.msg);
+      return
+    }
 
     // 编辑数据
     const data = response.data;
@@ -88,15 +90,16 @@ function loadContent() {
     form.value.content = data.content;
 
     // 页面标题
-    const obj = Object.assign({}, route, {title: data.title})
+    const obj = Object.assign({}, route, {title: data.title});
     proxy.$tab.updatePage(obj);
   });
 }
 
 /** 内容更新事件 */
 function handleChange(v) {
-  form.value.content = v
+  form.value.content = v;
   if (ctrl.value.inited) {
+    // 保存
     ctrl.value.changed = true;
   } else {
     ctrl.value.inited = true;
@@ -123,6 +126,18 @@ async function uploadImage(files) {
 /** 保存笔记内容 */
 function save() {
   updateEditor(form.value).then(response => {
+    ctrl.value.changed = false;
+    proxy.$modal.msgSuccess("保存成功");
+  });
+}
+
+/** 保存笔记缓存 */
+function saveCache() {
+  if (!ctrl.value.changed) {
+    return
+  }
+
+  updateCache(form.value).then(response => {
     ctrl.value.changed = false;
     proxy.$modal.msgSuccess("保存成功");
   });
@@ -165,13 +180,6 @@ function handleKeydown(e) {
 /** 点击右侧工具栏按钮 */
 function clickRight(index = 0) {
   document.getElementsByClassName('bytemd-toolbar-right')[0].children[index].click();
-}
-
-/** 页面退出事件 */
-function handleBeforeUnload(e) {
-  if (ctrl && ctrl.value && ctrl.value.changed) {
-    e.returnValue = ("确定离开当前页面吗？");
-  }
 }
 
 </script>

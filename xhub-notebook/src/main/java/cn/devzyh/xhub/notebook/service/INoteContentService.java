@@ -47,6 +47,14 @@ public interface INoteContentService {
     Result updateNoteContent(NoteContent noteContent, boolean allowContentNull);
 
     /**
+     * 更新内容缓存
+     *
+     * @param noteContent 笔记内容
+     * @return 结果
+     */
+    Result updateNoteCache(NoteContent noteContent);
+
+    /**
      * 批量删除笔记内容
      *
      * @param ids 需要删除的笔记内容主键集合
@@ -69,4 +77,12 @@ public interface INoteContentService {
      * @return
      */
     long selectCountByCatalogIds(List<Long> ids);
+
+    /**
+     * 查询昨天更新的笔记
+     *
+     * @return
+     */
+    List<NoteContent> selectYesterdayContents();
+
 }

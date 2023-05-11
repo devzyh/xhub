@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Web模块任务
  *
- * @author ruoyi
+ * @author devzyh
  */
 @Component("webTask")
 public class WebTask {
