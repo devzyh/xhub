@@ -1,6 +1,7 @@
 package cn.devzyh.xhub.common.utils;
 
 import cn.devzyh.xhub.common.constant.HttpStatus;
+import cn.devzyh.xhub.common.core.domain.BaseEntity;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.exception.ServiceException;
 import org.springframework.security.core.Authentication;
@@ -96,4 +97,26 @@ public class SecurityUtils {
     public static boolean isAdmin(Long userId) {
         return userId != null && 1L == userId;
     }
+
+    /**
+     * 是否是数据所有者
+     * @param entity
+     * @return
+     */
+    public static boolean isOwner(BaseEntity entity) {
+        if (entity == null) {
+            return false;
+        }
+
+        if (isAdmin(getUserId())) {
+            return true;
+        }
+
+        if (getUserName().equals(entity.getCreateBy())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

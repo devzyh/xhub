@@ -66,7 +66,7 @@ public class NoteContentController extends BaseController {
     @GetMapping(value = "/{id}")
     public Result getInfo(@PathVariable("id") Long id) {
         NoteContent content = contentService.selectNoteContentById(id);
-        if (content==null||!content.getCreateBy().equals(SecurityUtils.getUserName())) {
+        if (!SecurityUtils.isOwner(content)) {
             return Result.error("权限错误");
         }
 

@@ -138,8 +138,9 @@ function saveCache() {
   }
 
   updateCache(form.value).then(response => {
-    ctrl.value.changed = false;
-    proxy.$modal.msgSuccess("保存成功");
+    if (response.code === 200) {
+      ctrl.value.changed = false;
+    }
   });
 }
 
@@ -156,12 +157,15 @@ function handleKeydown(e) {
       break;
     case 'o': // 目录
       clickRight(0);
+      e.preventDefault();
       break;
     case 'h': // 帮助
       clickRight(1);
+      e.preventDefault();
       break;
     case 'e': // 编辑
       clickRight(2);
+      e.preventDefault();
       break;
     case 'p':  // 预览
       clickRight(3);
@@ -172,7 +176,6 @@ function handleKeydown(e) {
       e.preventDefault();
       break;
     default :
-      console.log(e)
       break;
   }
 }

@@ -6,6 +6,7 @@ import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
+import cn.devzyh.xhub.common.utils.ServletUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -163,13 +164,13 @@ public class NoteContentServiceImpl implements INoteContentService {
         if (local == null) {
             return Result.error("笔记不存在");
         }
-        if (!local.getCreateBy().equals(SecurityUtils.getUserName())) {
+        if (!SecurityUtils.isOwner(local)) {
             return Result.error("权限错误");
         }
 
-        redisCache.setCacheMapValue(NoteConstants.CONTEN_KEY + content.getId(),
-                "content", content.getContent());
-        return Result.success();
+        local.setContent(content.getContent());
+        redisCache.setCacheObject(NoteConstants.CONTEN_KEY + content.getId(), local);
+        return Result.error();
     }
 
     /**

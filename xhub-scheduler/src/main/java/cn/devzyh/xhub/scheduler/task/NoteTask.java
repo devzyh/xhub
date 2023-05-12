@@ -19,12 +19,12 @@ public class NoteTask {
     INoteContentService contentService;
 
     /**
-     * 保存昨天更新的笔记内容
+     * 保存昨天更新的笔记历史
      */
     public void saveYesterdayContents() {
         List<NoteContent> contentList = contentService.selectYesterdayContents();
         for (NoteContent content : contentList) {
-            contentService.updateNoteContent(content, false);
+            contentService.updateNoteContent(content, true);
         }
     }
 }
