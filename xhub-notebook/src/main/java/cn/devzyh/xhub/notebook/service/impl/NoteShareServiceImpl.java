@@ -1,12 +1,15 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
 import cn.devzyh.xhub.common.annotation.DataScope;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.mapper.NoteShareMapper;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class NoteShareServiceImpl implements INoteShareService {
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteShare> selectNoteShareList(IPage<NoteShare> page, NoteShare noteShare) {
+        if (page.orders().isEmpty()) {
+            page.orders().add(new OrderItem("s.update_time", false));
+        }
         return noteShareMapper.selectNoteShareList(page, noteShare);
     }
 
@@ -57,6 +63,9 @@ public class NoteShareServiceImpl implements INoteShareService {
         if (localShare == null) {
             return noteShareMapper.insert(noteShare);
         } else {
+            if (!SecurityUtils.isOwner(noteShare)) {
+                return 0;
+            }
             return noteShareMapper.updateById(noteShare);
         }
     }
@@ -69,6 +78,9 @@ public class NoteShareServiceImpl implements INoteShareService {
      */
     @Override
     public int updateNoteShare(NoteShare noteShare) {
+        if (!SecurityUtils.isOwner(selectNoteShareByContentId(noteShare.getContentId()))) {
+            return 0;
+        }
         return noteShareMapper.updateById(noteShare);
     }
 
@@ -79,8 +91,17 @@ public class NoteShareServiceImpl implements INoteShareService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteNoteShareByContentIds(List<Long> contentIds) {
-        return noteShareMapper.deleteBatchIds(contentIds);
+        int i = 0;
+        for (Long contentId : contentIds) {
+            if (!SecurityUtils.isOwner(selectNoteShareByContentId(contentId))) {
+                continue;
+            }
+
+            i += noteShareMapper.deleteById(contentId);
+        }
+        return i;
     }
 
     /**

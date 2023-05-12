@@ -165,6 +165,17 @@ public class Result<T> {
     }
 
     /**
+     * 返回错误消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static <T> Result<T> unauthorized() {
+        return new Result<>(HttpStatus.UNAUTHORIZED, "权限错误");
+    }
+
+
+    /**
      * 是否为成功消息
      *
      * @return 结果

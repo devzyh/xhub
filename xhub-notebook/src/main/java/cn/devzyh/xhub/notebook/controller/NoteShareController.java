@@ -5,6 +5,7 @@ import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.PageResult;
 import cn.devzyh.xhub.common.enums.BusinessType;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteShare;
 import cn.devzyh.xhub.notebook.service.INoteShareService;
@@ -57,7 +58,11 @@ public class NoteShareController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:share:query')")
     @GetMapping(value = "/{contentId}")
     public Result getInfo(@PathVariable("contentId") Long contentId) {
-        return Result.success(noteShareService.selectNoteShareByContentId(contentId));
+        NoteShare share = noteShareService.selectNoteShareByContentId(contentId);
+        if (!SecurityUtils.isOwner(share)) {
+            return Result.unauthorized();
+        }
+        return Result.success(share);
     }
 
     /**

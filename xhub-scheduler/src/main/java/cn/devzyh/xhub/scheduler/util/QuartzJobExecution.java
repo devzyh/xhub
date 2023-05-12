@@ -1,5 +1,6 @@
 package cn.devzyh.xhub.scheduler.util;
 
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.scheduler.domain.SysJob;
 import org.quartz.JobExecutionContext;
 
@@ -11,6 +12,7 @@ import org.quartz.JobExecutionContext;
 public class QuartzJobExecution extends AbstractQuartzJob {
     @Override
     protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
+        SecurityUtils.schedulerUser();
         JobInvokeUtil.invokeMethod(sysJob);
     }
 }

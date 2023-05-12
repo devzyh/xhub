@@ -1,9 +1,11 @@
 package cn.devzyh.xhub.notebook.service.impl;
 
+import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.mapper.NoteHistoryMapper;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,11 @@ public class NoteHistoryServiceImpl implements INoteHistoryService {
      * @return 笔记历史
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteHistory> selectNoteHistoryList(IPage<NoteHistory> page, NoteHistory noteHistory) {
+        if (page.orders().isEmpty()) {
+            page.orders().add(new OrderItem("create_time", false));
+        }
         return historyMapper.selectNoteHistoryList(page, noteHistory);
     }
 

@@ -4,6 +4,7 @@ import cn.devzyh.xhub.common.annotation.Log;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.enums.BusinessType;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.poi.ExcelUtil;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 import cn.devzyh.xhub.notebook.service.INoteCatalogService;
@@ -54,7 +55,12 @@ public class NoteCatalogController extends BaseController {
     @PreAuthorize("@ss.hasPermi('notebook:catalog:query')")
     @GetMapping(value = "/{id}")
     public Result getInfo(@PathVariable("id") Long id) {
-        return Result.success(noteCatalogService.selectNoteCatalogById(id));
+        NoteCatalog catalog = noteCatalogService.selectNoteCatalogById(id);
+        if (!SecurityUtils.isOwner(catalog)) {
+            return Result.unauthorized();
+        }
+
+        return Result.success(catalog);
     }
 
     /**

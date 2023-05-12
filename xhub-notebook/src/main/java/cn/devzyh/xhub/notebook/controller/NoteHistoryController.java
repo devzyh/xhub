@@ -3,6 +3,7 @@ package cn.devzyh.xhub.notebook.controller;
 import cn.devzyh.xhub.common.core.controller.BaseController;
 import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.page.PageResult;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.notebook.domain.NoteHistory;
 import cn.devzyh.xhub.notebook.service.INoteHistoryService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -39,7 +40,12 @@ public class NoteHistoryController extends BaseController {
      */
     @GetMapping(value = "/{id}")
     public Result getInfo(@PathVariable("id") Long id) {
-        return Result.success(noteHistoryService.selectNoteHistoryById(id));
+        NoteHistory history = noteHistoryService.selectNoteHistoryById(id);
+        if (!SecurityUtils.isOwner(history)) {
+            return Result.unauthorized();
+        }
+
+        return Result.success(history);
     }
 
 }

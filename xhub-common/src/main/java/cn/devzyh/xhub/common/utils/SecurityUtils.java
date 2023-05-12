@@ -2,8 +2,10 @@ package cn.devzyh.xhub.common.utils;
 
 import cn.devzyh.xhub.common.constant.HttpStatus;
 import cn.devzyh.xhub.common.core.domain.BaseEntity;
+import cn.devzyh.xhub.common.core.domain.entity.SysUser;
 import cn.devzyh.xhub.common.core.domain.model.LoginUser;
 import cn.devzyh.xhub.common.exception.ServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -100,6 +102,7 @@ public class SecurityUtils {
 
     /**
      * 是否是数据所有者
+     *
      * @param entity
      * @return
      */
@@ -117,6 +120,20 @@ public class SecurityUtils {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 使用定时任务用户执行
+     */
+    public static void schedulerUser() {
+        LoginUser login = new LoginUser();
+        SysUser user = new SysUser();
+        user.setUserId(1L);
+        user.setUserName("scheduler");
+        login.setUser(user);
+        login.setUserId(1L);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(login, ""));
     }
 
 }

@@ -19,30 +19,31 @@
     </resultMap>
 
     <sql id="selectNoteHistoryVo">
-        select id,
-               content_id,
-               catalog_id,
-               title,
-               content,
-               rank,
-               create_by,
-               create_time,
-               update_by,
-               update_time,
-               remark
-        from note_history
+        select h.id,
+               h.content_id,
+               h.catalog_id,
+               h.title,
+               h.content,
+               h.rank,
+               h.create_by,
+               h.create_time,
+               h.update_by,
+               h.update_time,
+               h.remark
+        from note_history h
+            left join sys_user u on h.create_by = u.user_name
+            left join sys_dept d on u.dept_id = d.dept_id
     </sql>
 
     <select id="selectNoteHistoryList" resultMap="NoteHistoryResult">
         <include refid="selectNoteHistoryVo"/>
         <where>
-            <if test="data.contentId != null ">and content_id = #{data.contentId}</if>
-            <if test="data.catalogId != null ">and catalog_id = #{data.catalogId}</if>
-            <if test="data.title != null ">and title = #{data.title}</if>
-            <if test="data.content != null and data.content != ''">and content = #{data.content}</if>
-            <if test="data.rank != null ">and rank = #{data.rank}</if>
+            <if test="data.contentId != null ">and h.content_id = #{data.contentId}</if>
+            <if test="data.catalogId != null ">and h.catalog_id = #{data.catalogId}</if>
+            <if test="data.title != null ">and h.title = #{data.title}</if>
+            <if test="data.rank != null ">and h.rank = #{data.rank}</if>
         </where>
-        order by create_time desc
+        ${data.dataScope}
     </select>
 
 </mapper>

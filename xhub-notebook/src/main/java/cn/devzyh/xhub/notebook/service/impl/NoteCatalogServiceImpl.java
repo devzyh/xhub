@@ -3,6 +3,7 @@ package cn.devzyh.xhub.notebook.service.impl;
 import cn.devzyh.xhub.common.annotation.DataScope;
 import cn.devzyh.xhub.common.constant.Constants;
 import cn.devzyh.xhub.common.core.domain.Result;
+import cn.devzyh.xhub.common.utils.SecurityUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.notebook.domain.NoteCatalog;
 import cn.devzyh.xhub.notebook.mapper.NoteCatalogMapper;
@@ -71,6 +72,10 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
      */
     @Override
     public int updateNoteCatalog(NoteCatalog catalog) {
+        if (!SecurityUtils.isOwner(selectNoteCatalogById(catalog.getId()))) {
+            return 0;
+        }
+
         catalog.setAncestors(getAncestors(catalog.getParentId()));
         return catalogMapper.updateById(catalog);
     }
@@ -88,8 +93,16 @@ public class NoteCatalogServiceImpl implements INoteCatalogService {
             return Result.error("所选目录下存在关联文章");
         }
 
-        catalogMapper.deleteBatchIds(ids);
-        return Result.success();
+        int i = 0;
+        for (Long id : ids) {
+            if (!SecurityUtils.isOwner(selectNoteCatalogById(id))) {
+                continue;
+            }
+
+            i += catalogMapper.deleteById(id);
+        }
+
+        return Result.of(i);
     }
 
     /**

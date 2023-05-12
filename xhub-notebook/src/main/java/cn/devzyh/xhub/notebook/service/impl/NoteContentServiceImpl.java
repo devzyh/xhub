@@ -113,6 +113,10 @@ public class NoteContentServiceImpl implements INoteContentService {
     public Result updateNoteContent(NoteContent content, boolean allowBlankContent) {
         NoteContent local = contentMapper.selectById(content.getId());
 
+        if (!SecurityUtils.isOwner(local)) {
+            return Result.unauthorized();
+        }
+
         boolean saveDb = false;
         // 更改了标题
         if (saveDb == false && StringUtils.isNotBlank(content.getTitle()) &&
@@ -165,11 +169,8 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     public Result updateNoteCache(NoteContent content) {
         NoteContent local = selectNoteContentById(content.getId());
-        if (local == null) {
-            return Result.error("笔记不存在");
-        }
         if (!SecurityUtils.isOwner(local)) {
-            return Result.error("权限错误");
+            return Result.unauthorized();
         }
 
         local.setContent(content.getContent());
@@ -202,6 +203,9 @@ public class NoteContentServiceImpl implements INoteContentService {
      */
     @Override
     public int deleteNoteContentById(Long id) {
+        if (!SecurityUtils.isOwner(selectNoteContentById(id))) {
+            return 0;
+        }
         redisCache.deleteObject(NoteConstants.CONTEN_KEY + id);
         shareService.deleteNoteShareByContentIds(Arrays.asList(id));
         return contentMapper.deleteById(id);
