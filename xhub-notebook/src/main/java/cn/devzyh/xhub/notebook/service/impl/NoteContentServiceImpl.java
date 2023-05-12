@@ -170,7 +170,7 @@ public class NoteContentServiceImpl implements INoteContentService {
 
         local.setContent(content.getContent());
         redisCache.setCacheObject(NoteConstants.CONTEN_KEY + content.getId(), local);
-        return Result.error();
+        return Result.success();
     }
 
     /**
