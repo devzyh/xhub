@@ -72,7 +72,9 @@
           </el-col>
           <el-col :span="1.5">
             <el-upload
-                accept=".md,.txt"
+                accept=".md,.markdown,.mdown,.mkdn,.mkd,.txt"
+                multiple="multiple"
+                limit="30"
                 :show-file-list="false"
                 :headers="headers"
                 :action="getImportAction()"
