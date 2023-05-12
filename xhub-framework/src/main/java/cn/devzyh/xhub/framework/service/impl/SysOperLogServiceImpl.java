@@ -4,6 +4,7 @@ import cn.devzyh.xhub.framework.domain.SysOperLog;
 import cn.devzyh.xhub.framework.mapper.SysOperLogMapper;
 import cn.devzyh.xhub.framework.service.ISysOperLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
      */
     @Override
     public List<SysOperLog> selectOperLogList(IPage<SysOperLog> page, SysOperLog operLog) {
+        if (page.orders().isEmpty()) {
+            page.orders().add(new OrderItem("oper_id", true));
+        }
         return operLogMapper.selectOperLogList(page, operLog);
     }
 

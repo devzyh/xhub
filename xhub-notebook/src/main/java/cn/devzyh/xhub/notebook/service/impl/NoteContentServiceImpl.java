@@ -19,6 +19,7 @@ import cn.devzyh.xhub.notebook.service.INoteShareService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,9 @@ public class NoteContentServiceImpl implements INoteContentService {
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
     public List<NoteContent> selectNoteContentList(IPage<NoteContent> page, NoteContent noteContent) {
+        if (page.orders().isEmpty()) {
+            page.orders().add(new OrderItem("update_time", false));
+        }
         return contentMapper.selectNoteContentList(page, noteContent);
     }
 

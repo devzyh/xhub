@@ -4,6 +4,7 @@ import cn.devzyh.xhub.framework.domain.SysLoginLog;
 import cn.devzyh.xhub.framework.mapper.SysLoginLogMapper;
 import cn.devzyh.xhub.framework.service.ISysLoginLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,9 @@ public class SysLoginLogServiceImpl implements ISysLoginLogService {
      */
     @Override
     public List<SysLoginLog> selectLoginLogList(IPage<SysLoginLog> page, SysLoginLog loginLog) {
+        if (page.orders().isEmpty()) {
+            page.orders().add(new OrderItem("info_id", true));
+        }
         return loginLogMapper.selectLoginLogList(page, loginLog);
     }
 

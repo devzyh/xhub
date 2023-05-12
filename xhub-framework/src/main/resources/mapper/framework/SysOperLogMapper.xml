@@ -69,7 +69,6 @@
                 and date_format(oper_time,'%y%m%d') &lt;= date_format(#{log.endTime},'%y%m%d')
             </if>
         </where>
-        order by oper_id desc
     </select>
 
     <update id="cleanOperLog">

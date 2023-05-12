@@ -32,7 +32,6 @@
                 and date_format(login_time,'%y%m%d') &lt;= date_format(#{log.endTime},'%y%m%d')
             </if>
         </where>
-        order by info_id desc
     </select>
 
     <update id="cleanLoginLog">

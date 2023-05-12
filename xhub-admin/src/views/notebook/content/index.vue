@@ -101,20 +101,22 @@
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="contentList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="contentList"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange">
           <el-table-column type="selection" width="60" align="center"/>
-          <el-table-column label="ID" align="center" prop="id" width="60"/>
-          <el-table-column label="标题" align="left" prop="title">
+          <el-table-column label="ID" align="center" prop="id" width="80" sortable="custom"/>
+          <el-table-column label="标题" align="left" prop="title" sortable="custom">
             <template #default="scope">
               <el-link type="primary" @click="handlePreview(scope.row)">{{ scope.row.title }}</el-link>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createTime" width="160">
+          <el-table-column label="创建时间" align="center" prop="createTime" width="160" sortable="custom">
             <template #default="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="更新时间" align="center" prop="updateTime" width="160">
+          <el-table-column label="更新时间" align="center" prop="updateTime" width="160" sortable="custom">
             <template #default="scope">
               <span>{{ parseTime(scope.row.updateTime) }}</span>
             </template>
@@ -312,9 +314,8 @@ const queryParams = ref({
   pageSize: 10,
   searchValue: null,
   catalogId: null,
-  title: null,
-  content: null,
-  rank: null
+  orderByColumn: null,
+  isAsc: null
 });
 // 表单校验
 const rules = {
@@ -435,6 +436,13 @@ function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.id)
   single.value = selection.length !== 1
   multiple.value = !selection.length
+}
+
+/** 排序改变事件 */
+function handleSortChange(column, prop, order) {
+  queryParams.value.orderByColumn = column.prop;
+  queryParams.value.isAsc = column.order;
+  getList();
 }
 
 /** 提交按钮 */

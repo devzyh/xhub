@@ -54,7 +54,6 @@
             )
         </if>
         ${data.dataScope}
-        order by co.update_time desc
     </select>
 
 </mapper>
