@@ -165,13 +165,13 @@ public class Result<T> {
     }
 
     /**
-     * 返回错误消息
+     * 非法访问数据
      *
      * @param msg 返回内容
      * @return 警告消息
      */
-    public static <T> Result<T> unauthorized() {
-        return new Result<>(HttpStatus.UNAUTHORIZED, "权限错误");
+    public static <T> Result<T> forbidden() {
+        return new Result<>(HttpStatus.FORBIDDEN, "权限错误");
     }
 
 

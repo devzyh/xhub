@@ -57,7 +57,7 @@ public class NoteCatalogController extends BaseController {
     public Result getInfo(@PathVariable("id") Long id) {
         NoteCatalog catalog = noteCatalogService.selectNoteCatalogById(id);
         if (!SecurityUtils.isOwner(catalog)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
 
         return Result.success(catalog);

@@ -42,7 +42,7 @@ public class NoteHistoryController extends BaseController {
     public Result getInfo(@PathVariable("id") Long id) {
         NoteHistory history = noteHistoryService.selectNoteHistoryById(id);
         if (!SecurityUtils.isOwner(history)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
 
         return Result.success(history);

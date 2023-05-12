@@ -6,7 +6,6 @@ import cn.devzyh.xhub.common.core.domain.Result;
 import cn.devzyh.xhub.common.core.redis.RedisCache;
 import cn.devzyh.xhub.common.utils.DateUtils;
 import cn.devzyh.xhub.common.utils.SecurityUtils;
-import cn.devzyh.xhub.common.utils.ServletUtils;
 import cn.devzyh.xhub.common.utils.StringUtils;
 import cn.devzyh.xhub.common.utils.bean.BeanUtils;
 import cn.devzyh.xhub.common.utils.sign.Md5Utils;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -114,7 +112,7 @@ public class NoteContentServiceImpl implements INoteContentService {
         NoteContent local = contentMapper.selectById(content.getId());
 
         if (!SecurityUtils.isOwner(local)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
 
         boolean saveDb = false;
@@ -170,7 +168,7 @@ public class NoteContentServiceImpl implements INoteContentService {
     public Result updateNoteCache(NoteContent content) {
         NoteContent local = selectNoteContentById(content.getId());
         if (!SecurityUtils.isOwner(local)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
 
         local.setContent(content.getContent());

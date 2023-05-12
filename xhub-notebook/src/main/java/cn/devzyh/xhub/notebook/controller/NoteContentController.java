@@ -67,7 +67,7 @@ public class NoteContentController extends BaseController {
     public Result getInfo(@PathVariable("id") Long id) {
         NoteContent content = contentService.selectNoteContentById(id);
         if (!SecurityUtils.isOwner(content)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
 
         return Result.success(content);

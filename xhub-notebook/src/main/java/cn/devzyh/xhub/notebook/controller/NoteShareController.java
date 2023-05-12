@@ -59,8 +59,11 @@ public class NoteShareController extends BaseController {
     @GetMapping(value = "/{contentId}")
     public Result getInfo(@PathVariable("contentId") Long contentId) {
         NoteShare share = noteShareService.selectNoteShareByContentId(contentId);
+        if (share == null) {
+            return Result.success();
+        }
         if (!SecurityUtils.isOwner(share)) {
-            return Result.unauthorized();
+            return Result.forbidden();
         }
         return Result.success(share);
     }
